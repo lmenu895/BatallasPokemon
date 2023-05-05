@@ -1,9 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import ar.edu.unlam.tallerweb1.modelo.DatosLogin;
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.modelo.*;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -61,6 +59,20 @@ public class ControladorLogin {
 		}
 		return new ModelAndView("login", model);
 	}
+	
+	@RequestMapping("/registrar-usuario") //RECIBE EL LLAMADO DEL ACTION 
+	public ModelAndView irARegistrar() { // CREAS EL METODO MODEL AND VIEW
+		ModelMap modelo = new ModelMap(); // CREAS EL MODEL MAP
+		modelo.put("usuario", new Usuario());// LE METIMOS USUARIO VACIO - MODEL ATTRIBUTE
+		return new ModelAndView("registro-usuario", modelo); // DEVOLVEMOS LA VISTA NUEVA CON EL MODELO DE DATOS
+	}
+	
+	@RequestMapping(path = "/registrarme", method = RequestMethod.POST)
+	public ModelAndView confirmarRegistro(@ModelAttribute("usuario") Usuario datosUsuario, HttpServletRequest request) {
+		ModelMap modelo = new ModelMap();
+		modelo.put("email", datosUsuario.getEmail());
+		return new ModelAndView("confirmacion-registro", modelo);
+	}
 
 	// Escucha la URL /home por GET, y redirige a una vista.
 	@RequestMapping(path = "/home", method = RequestMethod.GET)
@@ -73,4 +85,6 @@ public class ControladorLogin {
 	public ModelAndView inicio() {
 		return new ModelAndView("redirect:/login");
 	}
+	
+	
 }

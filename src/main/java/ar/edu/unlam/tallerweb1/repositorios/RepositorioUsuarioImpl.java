@@ -1,7 +1,6 @@
-package ar.edu.unlam.tallerweb1.infrastructure;
+package ar.edu.unlam.tallerweb1.repositorios;
 
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
-import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
