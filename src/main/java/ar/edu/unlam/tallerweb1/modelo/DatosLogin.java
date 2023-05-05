@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.delivery;
+package ar.edu.unlam.tallerweb1.modelo;
 
 public class DatosLogin {
     private String email;
