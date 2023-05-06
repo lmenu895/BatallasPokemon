@@ -24,7 +24,7 @@
 				<form:input path="vida" id="vida" class="form-control" />
 
 				<button id="btn-registrarme"
-					class="btn btn-lg btn-primary btn-block" Type="Submit">Registrarme</button>
+					class="btn btn-lg btn-primary btn-block" Type="Submit">Guardar</button>
 			</form:form>
 
 			<c:if test="${not empty error}">
