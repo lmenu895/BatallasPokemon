@@ -1,11 +1,9 @@
-package cosas;
+package ar.edu.unlam.tallerweb1.modelo;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import ar.edu.unlam.tallerweb1.modelo.TipoPokemon;
 
 @Entity
 public class Ataque {
@@ -45,11 +43,11 @@ public class Ataque {
 	public void setPotencia(Double potencia) {
 		this.potencia = potencia;
 	}
-	public Double getPrecision() {
+	public Double getPrecataque() {
 		return precataque;
 	}
-	public void setPrecision(Double precision) {
-		this.precataque = precision;
+	public void setPrecataque(Double precataque) {
+		this.precataque = precataque;
 	}
 	public Double getPp() {
 		return pp;
@@ -63,5 +61,5 @@ public class Ataque {
 	public void setEfecto(Boolean efecto) {
 		this.efecto = efecto;
 	}
-	
+
 }

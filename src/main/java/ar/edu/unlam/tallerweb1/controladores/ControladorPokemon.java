@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
-import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
+import ar.edu.unlam.tallerweb1.servicios.ServicioAtaque;
 
 @Controller
 public class ControladorPokemon {
 	
-	private ServicioPokemon servicioPokemon;
+	private ServicioAtaque servicioPokemon;
 
 	@Autowired
-	public ControladorPokemon(ServicioPokemon servicioPokemon){
+	public ControladorPokemon(ServicioAtaque servicioPokemon){
 		this.servicioPokemon = servicioPokemon;
 	}
 	
