@@ -1,9 +1,11 @@
-package ar.edu.unlam.tallerweb1.modelo;
+package cosas;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import ar.edu.unlam.tallerweb1.modelo.TipoPokemon;
 
 @Entity
 public class Ataque {

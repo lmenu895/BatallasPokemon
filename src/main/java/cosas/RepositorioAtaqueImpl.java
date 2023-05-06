@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.repositorios;
+package cosas;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,5 +15,4 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 	    public RepositorioAtaqueImpl(SessionFactory sessionFactory){
 	        this.sessionFactory = sessionFactory;
 	    }
-	
 }
