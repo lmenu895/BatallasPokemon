@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.delivery;
+package ar.edu.unlam.tallerweb1.controladores;
 
 import ar.edu.unlam.tallerweb1.controladores.ControladorLogin;
 import ar.edu.unlam.tallerweb1.modelo.DatosLogin;

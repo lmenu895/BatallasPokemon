@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.infrastructure;
+package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
