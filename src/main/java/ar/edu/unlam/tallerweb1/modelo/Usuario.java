@@ -22,6 +22,7 @@ public class Usuario {
 	private String rol;
 	private Boolean activo = false;
 	
+	
 	public Long getId() {
 		return id;
 	}
@@ -60,4 +61,6 @@ public class Usuario {
     public void activar() {
 		activo = true;
     }
+	
+    
 }
