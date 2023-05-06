@@ -7,9 +7,8 @@ import org.springframework.stereotype.Service;
 
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioAtaque;
 
-@Service("servicioPokemon")
+@Service("servicioAtaque")
 @Transactional
-
 public class ServicioAtaqueImpl implements ServicioAtaque {
 	
 	private RepositorioAtaque repositorioAtaque;

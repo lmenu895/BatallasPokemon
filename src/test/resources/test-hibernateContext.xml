@@ -42,7 +42,7 @@
 		<!--clases persistibles-->
 		<property name="packagesToScan">
 			<list>
-				<value>ar.edu.unlam.tallerweb1.domain</value>
+				<value>ar.edu.unlam.tallerweb1.modelo</value>
 			</list>
 		</property>
 	</bean>
