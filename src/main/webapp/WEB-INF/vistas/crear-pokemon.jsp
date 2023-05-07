@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <title>Crear Pokemon</title>
 </head>
 <body>
@@ -16,13 +17,21 @@
 				modelAttribute="pokemon">
 				<h3 class="form-signin-heading">Nuevo Pokemon</h3>
 				<hr class="colorgraph">
-				<br>
-				<form:input path="nombre" id="nombre" class="form-control" />
-				<form:select path="tipo">
-					<form:options />
-				</form:select>
-				<form:input path="vida" id="vida" class="form-control" />
-
+				<div class="form-group">
+					<form:input path="nombre" id="nombre" class="form-control" />
+				</div>
+				<div class="form-group">
+					<form:select path="tipo">
+						<form:options />
+					</form:select>
+				</div>
+				<div class="form-check">
+					<form:checkboxes path="cv" items="${listaAtaques}"
+						itemLabel="nombre" itemValue="id" />
+				</div>
+				<div class="form-group">
+					<form:input class="form-control" path="vida" id="vida" />
+				</div>
 				<button id="btn-registrarme"
 					class="btn btn-lg btn-primary btn-block" Type="Submit">Guardar</button>
 			</form:form>
