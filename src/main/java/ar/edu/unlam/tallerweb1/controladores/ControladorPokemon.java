@@ -9,14 +9,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioAtaque;
+import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
 
 @Controller
 public class ControladorPokemon {
 	
-	private ServicioAtaque servicioPokemon;
+	private ServicioPokemon servicioPokemon;
 
 	@Autowired
-	public ControladorPokemon(ServicioAtaque servicioPokemon){
+	public ControladorPokemon(ServicioPokemon servicioPokemon){
 		this.servicioPokemon = servicioPokemon;
 	}
 	

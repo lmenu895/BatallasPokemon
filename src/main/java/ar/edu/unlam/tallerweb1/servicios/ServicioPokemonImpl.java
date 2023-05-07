@@ -8,7 +8,7 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioPokemon;
 
 @Service("servicioPokemon")
 @Transactional
-public class ServicioPokemonImpl implements ServicioAtaque {
+public class ServicioPokemonImpl implements ServicioPokemon {
 
 	private RepositorioPokemon repositorioPokemon;
 

@@ -1,0 +1,15 @@
+@charset "ISO-8859-1";
+
+.form{
+	background-color: white;
+    margin: 0 auto;
+    border-radius: 2rem;
+    box-shadow: 1px 1px 5px black;
+    padding: 5rem;
+}
+
+.fondo{
+	background-image:url("../images/Ataques.png");
+	background-size: cover;
+   
+}
