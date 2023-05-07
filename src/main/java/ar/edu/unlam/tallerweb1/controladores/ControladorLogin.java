@@ -69,12 +69,13 @@ public class ControladorLogin {
 	
 	@RequestMapping(path = "/registrarme", method = RequestMethod.POST)
 	public ModelAndView confirmarRegistro(@ModelAttribute("usuario") Usuario datosUsuario, HttpServletRequest request) {
+		ModelMap modelo = new ModelMap();
 		try {
 			this.servicioLogin.guardarCliente(datosUsuario);
 		} catch(Exception e){
-			e.getMessage();
+			modelo.put("error", e.getMessage());
+			return new ModelAndView("registro-usuario", modelo);
 		}
-			ModelMap modelo = new ModelMap();
 			modelo.put("email", datosUsuario.getEmail());
 			return new ModelAndView("confirmacion-registro", modelo);
 	}

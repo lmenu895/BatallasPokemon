@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.edu.unlam.tallerweb1.excepciones.UsuarioExistenteException;
+import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 
@@ -22,12 +22,12 @@ public class ServicioLoginImpl implements ServicioLogin {
 	private RepositorioUsuario servicioLoginDao;
 
 	@Autowired
-	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao){
+	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao) {
 		this.servicioLoginDao = servicioLoginDao;
 	}
 
 	@Override
-	public Usuario consultarUsuario (String email, String password) {
+	public Usuario consultarUsuario(String email, String password) {
 		return this.servicioLoginDao.buscarUsuario(email, password);
 	}
 
@@ -39,17 +39,18 @@ public class ServicioLoginImpl implements ServicioLogin {
 
 	@Override
 	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException {
-		if(verificarUsuarioExistente(usuarioNuevo)) {
-		this.servicioLoginDao.guardar(usuarioNuevo);
+		if (verificarUsuarioExistente(usuarioNuevo)) {
+			this.servicioLoginDao.guardar(usuarioNuevo);
 		} else {
 			throw new UsuarioExistenteException("Ya existe un usuario con ese mail");
 		}
 	}
-	
-	//si da true no existe un usuario con ese email
+
+	// si da true no existe un usuario con ese email
 	@Override
 	public Boolean verificarUsuarioExistente(Usuario usuario) {
-		if(this.servicioLoginDao.buscar(usuario.getEmail()).getEmail() != null && this.servicioLoginDao.buscar(usuario.getEmail()).getEmail() != usuario.getEmail()) {
+		Usuario resultado = this.servicioLoginDao.buscar(usuario.getEmail());
+		if (resultado != null) {
 			return false;
 		}
 		return true;
