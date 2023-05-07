@@ -28,4 +28,9 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 		return this.sessionFactory.getCurrentSession().get(Ataque.class, id);
 	}
 
+	@Override
+	public void guardarAtaque(Ataque datosAtaque) {
+		this.sessionFactory.getCurrentSession().save(datosAtaque);
+	}
+
 }

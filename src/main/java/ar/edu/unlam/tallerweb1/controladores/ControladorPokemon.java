@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
 import ar.edu.unlam.tallerweb1.modelo.*;
 import ar.edu.unlam.tallerweb1.servicios.*;
 
@@ -20,7 +19,7 @@ public class ControladorPokemon {
 
 	private ServicioPokemon servicioPokemon;
 	private ServicioAtaque servicioAtaque;
-
+	
 	@Autowired
 	public ControladorPokemon(ServicioPokemon servicioPokemon, ServicioAtaque servicioAtaque) {
 		this.servicioPokemon = servicioPokemon;
