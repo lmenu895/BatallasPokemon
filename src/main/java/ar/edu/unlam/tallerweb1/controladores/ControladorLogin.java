@@ -69,9 +69,14 @@ public class ControladorLogin {
 	
 	@RequestMapping(path = "/registrarme", method = RequestMethod.POST)
 	public ModelAndView confirmarRegistro(@ModelAttribute("usuario") Usuario datosUsuario, HttpServletRequest request) {
-		ModelMap modelo = new ModelMap();
-		modelo.put("email", datosUsuario.getEmail());
-		return new ModelAndView("confirmacion-registro", modelo);
+		try {
+			servicioLogin.guardarCliente(datosUsuario);
+		} catch(Exception e){
+			e.getMessage();
+		}
+			ModelMap modelo = new ModelMap();
+			modelo.put("email", datosUsuario.getEmail());
+			return new ModelAndView("confirmacion-registro", modelo);
 	}
 
 	// Escucha la URL /home por GET, y redirige a una vista.

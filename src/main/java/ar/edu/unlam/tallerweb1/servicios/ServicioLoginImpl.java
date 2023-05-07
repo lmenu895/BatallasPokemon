@@ -1,9 +1,11 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.edu.unlam.tallerweb1.excepciones.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 
@@ -27,6 +29,30 @@ public class ServicioLoginImpl implements ServicioLogin {
 	@Override
 	public Usuario consultarUsuario (String email, String password) {
 		return servicioLoginDao.buscarUsuario(email, password);
+	}
+
+	@Override
+	public Usuario consultarMail(String email) {
+		// TODO Auto-generated method stub
+		return servicioLoginDao.buscar(email);
+	}
+
+	@Override
+	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException {
+		if(verificarUsuarioExistente(usuarioNuevo)) {
+		servicioLoginDao.guardar(usuarioNuevo);
+		} else {
+			throw new UsuarioExistenteException("Ya existe un usuario con ese mail");
+		}
+	}
+	
+	//si da true no existe un usuario con ese email
+	@Override
+	public Boolean verificarUsuarioExistente(Usuario usuario) {
+		if(servicioLoginDao.buscar(usuario.getEmail()).getEmail() != usuario.getEmail()) {
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -15,7 +15,7 @@
             <h3 class="form-signin-heading">Nuevo Usuario</h3>
             <hr class="colorgraph"><br>
 
-            <form:input path="email" id="email" class="form-control" />
+            <form:input path="email" type="email" id="email" class="form-control" />
             <form:input path="password" type="password" id="password" class="form-control"/>
 
             <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Registrarme</button>
