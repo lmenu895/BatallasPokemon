@@ -7,13 +7,14 @@
 <head>
 <meta charset="ISO-8859-1">
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
 <title>Crear Pokemon</title>
 </head>
-<body>
+<body class="fondo pokemon">
 	<div class="container">
 		<div id="loginbox" style="margin-top: 50px;"
 			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-			<form:form action="guardar-pokemon" method="POST"
+			<form:form action="guardar-pokemon" method="POST" class="form"
 				modelAttribute="pokemon">
 				<h3 class="form-signin-heading">Nuevo Pokemon</h3>
 				<hr class="colorgraph">

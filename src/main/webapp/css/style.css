@@ -11,5 +11,8 @@
 .fondo{
 	background-image:url("../images/Ataques.png");
 	background-size: cover;
-   
+}
+
+.pokemon{
+	background-image:url("../images/PokeAtaque.jpg");
 }

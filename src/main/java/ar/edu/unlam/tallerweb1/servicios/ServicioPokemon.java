@@ -9,5 +9,5 @@ public interface ServicioPokemon {
 	Boolean guardarPokemon(Pokemon pokemon);
 
 	Pokemon buscarPokemon(Long id);
-	
+
 }
