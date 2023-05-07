@@ -28,19 +28,19 @@ public class ServicioLoginImpl implements ServicioLogin {
 
 	@Override
 	public Usuario consultarUsuario (String email, String password) {
-		return servicioLoginDao.buscarUsuario(email, password);
+		return this.servicioLoginDao.buscarUsuario(email, password);
 	}
 
 	@Override
 	public Usuario consultarMail(String email) {
 		// TODO Auto-generated method stub
-		return servicioLoginDao.buscar(email);
+		return this.servicioLoginDao.buscar(email);
 	}
 
 	@Override
 	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException {
 		if(verificarUsuarioExistente(usuarioNuevo)) {
-		servicioLoginDao.guardar(usuarioNuevo);
+		this.servicioLoginDao.guardar(usuarioNuevo);
 		} else {
 			throw new UsuarioExistenteException("Ya existe un usuario con ese mail");
 		}
@@ -49,7 +49,7 @@ public class ServicioLoginImpl implements ServicioLogin {
 	//si da true no existe un usuario con ese email
 	@Override
 	public Boolean verificarUsuarioExistente(Usuario usuario) {
-		if(servicioLoginDao.buscar(usuario.getEmail()).getEmail() != usuario.getEmail()) {
+		if(this.servicioLoginDao.buscar(usuario.getEmail()).getEmail() != null && this.servicioLoginDao.buscar(usuario.getEmail()).getEmail() != usuario.getEmail()) {
 			return false;
 		}
 		return true;

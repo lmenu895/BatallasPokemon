@@ -70,7 +70,7 @@ public class ControladorLogin {
 	@RequestMapping(path = "/registrarme", method = RequestMethod.POST)
 	public ModelAndView confirmarRegistro(@ModelAttribute("usuario") Usuario datosUsuario, HttpServletRequest request) {
 		try {
-			servicioLogin.guardarCliente(datosUsuario);
+			this.servicioLogin.guardarCliente(datosUsuario);
 		} catch(Exception e){
 			e.getMessage();
 		}
