@@ -13,6 +13,26 @@ body {
     justify-content: space-between;
 }
 
+/* Parte de pokemon */
+.pokemon{
+    position:relative;
+    width:20%;
+    height:100%;
+    cursor:pointer;
+}
+
+.fondo-pokemon{
+    position:relative;
+    background-color: #C6C6C6 ;
+    opacity: 55%;
+    width:22%;
+    height:100%;
+    top:-105%;
+    left:-0.5%;
+    border-radius: 15px;
+    z-index:-1;
+}
+
 /* Pärte del usuario */
 
 .parte-usuario{
@@ -46,8 +66,12 @@ body {
     margin:0px 2.2%;
     margin-top: 1.1%;
     font-size:1rem;
-
-    cursor:pointer;
+	background: none;
+	color: inherit;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
 }
 
 
@@ -58,79 +82,72 @@ body {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    margin-top:2.2rem;
 }
 
 
-.menu-batalla{
-    padding: 0px 8%;
-}
-
-.menu-gacha{
-    padding: 0px 6.2%;
-}
-
-.menu-pokedex {
-    padding: 0px 7.5%;
-}
-
-.menu-pase{
-    padding: 0px 2.3%;
-}
 /* 926 width */
 
 .glaceon {
     position:relative;
     width:10%;
-    bottom:28.3em;
+    bottom:33em;
     left:25rem;
 }
 
 .togepi {
     position:relative;
     width:11%;
-    bottom:30rem;
+    bottom:34rem;
     left:46rem;
 }
 
 .pokedex {
     position:relative;
     width:11%;
-    bottom:30rem;
+    bottom:34rem;
     left:26rem;
 }
 
 .fortnite{
     position:relative;
     width:7%;
-    bottom:28.8rem;
-    left:48.5rem;
-}
-
-.menu {
-    position:relative;
-    top:2.8rem;
-    margin:2.1% 0%;
-    background: rgba(198, 198, 198, 0.55);
-    border-radius:15px;
-    font-size:32px;
-    box-sizing: border-box;
-    
+    bottom:33.2rem;
+    left:45rem;
 }
 
 button{
 	background: none;
 	color: inherit;
 	border: none;
-	padding: 7.2% 0px;
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
+    background: rgba(198, 198, 198,0.55);
+    font-size:1.8rem;
+    margin:1.5rem 0px;
+    border-radius:15px;
 }
 
+.batalla-texto {
+    padding: 1.5rem 7rem;
+}
+
+.gacha {
+    padding: 1.5rem 6rem;
+}
+
+.pokedex-texto {
+    padding: 1.5rem 7rem;
+}
+
+.pase {
+    padding: 1.5rem 3.5rem;
+}
 
 .admin{
     position:relative;
-    bottom:27rem;
+    bottom:35rem;
     left:91%;
     font-size:1.3rem;
     background: rgba(198, 198, 198,0.55);
@@ -138,23 +155,3 @@ button{
     border-radius:15px;
 }
 
-
-/* Parte de pokemon */
-.pokemon{
-    position:relative;
-    width:20%;
-    height:100%;
-    cursor:pointer;
-}
-
-.fondo-pokemon{
-    position:relative;
-    background-color: #C6C6C6 ;
-    opacity: 55%;
-    width:22%;
-    height:100%;
-    top:-105%;
-    left:-0.5%;
-    border-radius: 15px;
-    z-index:-1;
-}

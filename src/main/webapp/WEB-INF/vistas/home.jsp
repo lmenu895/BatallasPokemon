@@ -10,7 +10,7 @@
 	    <meta charset="UTF-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <link rel="stylesheet" href="css/homeStyles.css"  type="text/css"></link>
+	    <link rel="stylesheet" href="css/homeStyles.css"></link>
 	    <title>Home</title>
 	</head>
 	<body>
@@ -24,8 +24,8 @@
 	        <div>
 	            <div class="parte-usuario">
 	                <img class="pokeball" src="images/pokeballU.png" alt="pokeball">
-	                <h3 class="textUser">1000</h3>
-	                <h3 class="textUser">USER</h3>
+	                <button class="textUser">1000</button>
+	                <button class="textUser">USER</button>
 	            </div>
 	            <div class="fondo-usuario"></div>
 	        </div>
@@ -34,30 +34,14 @@
    
     <div class="menus">
 
+            <button class="batalla-texto">BATALLA</button>
 
-        <div class="menu menu-batalla">
+            <button class="gacha">GACHAPON</button>
 
-            <button >BATALLA</button>
+            <button class="pokedex-texto">POKEDEX</button>
 
-        </div>
+            <button class="pase">PASE DE BATALLA</button>
 
-        <div class="menu menu-gacha">
-
-            <button>GACHAPON</button>
-
-        </div>
-
-        <div class="menu menu-pokedex">
-
-            <button>POKEDEX</button>
-
-        </div>
-
-        <div class="menu menu-pase">
-
-            <button>PASE DE BATALLA</button>
-
-        </div>
     </div>
     <div class="gla"> <img class="glaceon" src="images/glaceon.png" alt="glaceon"></div>
     <div class="tog"><img class="togepi" src="images/togepi.png" alt="togepi"></div>    
