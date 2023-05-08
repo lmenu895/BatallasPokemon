@@ -13,26 +13,6 @@ body {
     justify-content: space-between;
 }
 
-/* Parte de Gengar */
-.gengar{
-    position:relative;
-    width:30%;
-    height:100%;
-    cursor:pointer;
-}
-
-.fondo-gengar{
-    position:relative;
-    background-color: #C6C6C6 ;
-    opacity: 55%;
-    width:30%;
-    height:100%;
-    top:-105%;
-    left:1%;
-    border-radius: 15%;
-    z-index:-1;
-}
-
 /* Pärte del usuario */
 
 .parte-usuario{
@@ -46,17 +26,17 @@ body {
    position:relative;
    background-color: #C6C6C6 ;
    opacity: 55%;
-   width:22%;
-   height:33%;
-   left:78%;
-   top:-30%;
+   width:35%;
+   height:50%;
+   left:72%;
+   top:-48%;
    z-index:-1;
    border-radius: 10px ;
 }
 
 .pokeball{
     height:3%;
-    width:3%;
+    width:4%;
     margin-right:2%;
     margin-top: 1%;
     cursor:pointer;
@@ -80,6 +60,7 @@ body {
     align-items: center;
 }
 
+
 .menu-batalla{
     padding: 0px 8%;
 }
@@ -100,34 +81,34 @@ body {
 .glaceon {
     position:relative;
     width:10%;
-    bottom:32rem;
+    bottom:28.3em;
     left:25rem;
 }
 
 .togepi {
     position:relative;
     width:11%;
-    bottom:33.5rem;
+    bottom:30rem;
     left:46rem;
 }
 
 .pokedex {
     position:relative;
     width:11%;
-    bottom:34rem;
+    bottom:30rem;
     left:26rem;
 }
 
 .fortnite{
     position:relative;
     width:7%;
-    bottom:32.6rem;
+    bottom:28.8rem;
     left:48.5rem;
 }
 
 .menu {
     position:relative;
-    top:-17px;
+    top:2.8rem;
     margin:2.1% 0%;
     background: rgba(198, 198, 198, 0.55);
     border-radius:15px;
@@ -149,7 +130,7 @@ button{
 
 .admin{
     position:relative;
-    bottom:30rem;
+    bottom:27rem;
     left:91%;
     font-size:1.3rem;
     background: rgba(198, 198, 198,0.55);
@@ -157,3 +138,23 @@ button{
     border-radius:15px;
 }
 
+
+/* Parte de pokemon */
+.pokemon{
+    position:relative;
+    width:20%;
+    height:100%;
+    cursor:pointer;
+}
+
+.fondo-pokemon{
+    position:relative;
+    background-color: #C6C6C6 ;
+    opacity: 55%;
+    width:22%;
+    height:100%;
+    top:-105%;
+    left:-0.5%;
+    border-radius: 15px;
+    z-index:-1;
+}

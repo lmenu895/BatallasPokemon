@@ -10,15 +10,15 @@
 	    <meta charset="UTF-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <link rel="stylesheet" href="<c:url value ="css/home.css"/>"></link>
+	    <link rel="stylesheet" href="css/homeStyles.css"  type="text/css"></link>
 	    <title>Home</title>
 	</head>
 	<body>
 		<div class="barra">
 	        <div>
-	            <img class="gengar" alt="gengar"  src="<c:url value="images/gengar.png"/>">
+	            <img class="pokemon" alt="pokemon"  src="images/pokemonLogo.png">
 	            
-	            <div class="fondo-gengar"></div>
+	            <div class="fondo-pokemon"></div>
 	        </div>
 	
 	        <div>
@@ -33,9 +33,11 @@
     	</div>
    
     <div class="menus">
+
+
         <div class="menu menu-batalla">
 
-            <button>BATALLA</button>
+            <button >BATALLA</button>
 
         </div>
 
