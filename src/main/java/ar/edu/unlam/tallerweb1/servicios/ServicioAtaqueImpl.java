@@ -53,4 +53,15 @@ public class ServicioAtaqueImpl implements ServicioAtaque {
 		
 	}
 
+	@Override
+	public void borrarAtaque(Long id) {
+		this.repositorioAtaque.borrarAtaque(id);
+	}
+
+	@Override
+	public void modificarAtaque(Ataque ataque) {
+		this.repositorioAtaque.modificarAtaque(ataque);
+		
+	}
+
 }

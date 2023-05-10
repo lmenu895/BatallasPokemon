@@ -12,4 +12,8 @@ public interface ServicioAtaque {
 
 	void guardarAtaque(Ataque datosAtaque) throws CampoVacioException;
 
+	void borrarAtaque(Long id);
+
+	void modificarAtaque(Ataque ataque);
+
 }

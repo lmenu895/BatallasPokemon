@@ -20,7 +20,9 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 
 	@Override
 	public List<Ataque> obtenerTodosLosAtaques() {
-		return this.sessionFactory.getCurrentSession().createQuery("from Ataque").list();
+		List<Ataque> a = this.sessionFactory.getCurrentSession().createQuery("from Ataque").list();
+		System.out.println(a);
+		return a;
 	}
 
 	@Override
@@ -31,6 +33,19 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 	@Override
 	public void guardarAtaque(Ataque datosAtaque) {
 		this.sessionFactory.getCurrentSession().save(datosAtaque);
+	}
+
+	@Override
+	public void borrarAtaque(Long id) {
+		Ataque ataque = this.sessionFactory.getCurrentSession().get(Ataque.class, id);
+		this.sessionFactory.getCurrentSession().delete(ataque);
+	}
+
+	@Override
+	public void modificarAtaque(Ataque ataque) {
+		System.out.println(ataque.getId());
+		this.sessionFactory.getCurrentSession().update(ataque);
+		
 	}
 
 }

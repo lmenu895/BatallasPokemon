@@ -30,3 +30,14 @@
     width: 9rem;
     text-align: left;
 }
+
+.tableForm{
+	background-color: white;
+    margin: 4rem auto;
+    border-radius: 2rem !important;
+    box-shadow: 1px 1px 5px black;
+    padding: 4rem;
+    max-width: 600px;
+}
+
+
