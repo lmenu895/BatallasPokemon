@@ -1,109 +1,154 @@
-/**
- * 
- */
 $(document).ready(function() {
 
-	var endGame = 0
-	var usrEnvenenado = 0
-	var cpuEnvenenado = 0
-	var continuar = 0
-	var primero = 0
+	$.ajax({
+		type: 'POST',
+		url: "./obtener-pokemons-ajax",
+		async: false,
+		//contentType: false,
+		//processData: false,
+		/*/beforeSend: function() {
+		},*/
+		success: function(resultado) {
+			pokemonUsuario = resultado.pokemonUsuario
+			pokemonCpu = resultado.pokemonCpu
+		}
+		/*error: function(error){
+		}*/
+	})
+
+	var pokemonUsuario
+	var pokemonCpu
+	var endGame = false
+	var estadosUsr = { envenenado: false, paralizado: false }
+	var estadosCpu = { envenenado: false, paralizado: false }
+	var primero
+	var vidaPkmnCpu = pokemonCpu.vida
+	var vidaPkmnUsr = pokemonUsuario.vida
+	$("#vidaPkmnUsr").html(vidaPkmnUsr)
+	$("#vidaPkmnCpu").html(vidaPkmnCpu)
+	$("#vidaMaximaPkmnUsr").html(" / " + vidaPkmnUsr)
+	$("#vidaMaximaPkmnCpu").html(" / " + vidaPkmnCpu)
+
 
 	$("#ataques").on("click", "button", function() {
-		console.log(continuar)
-		var vidaPkmnCpu = $("#vidaPkmnCpu").html()
-		var vidaPkmnUsr = $("#vidaPkmnUsr").html()
 		var widthUsrBar = vidaPkmnUsr * 100 / pokemonUsuario.vida;
 		var widthCpuBar = vidaPkmnCpu * 100 / pokemonCpu.vida;
-		var ataque = this
+		const atacaUsuario = (x, y) => { ataqueUsuario(widthCpuBar, this.id, x, y) }
+		const atacaCpu = (x, y) => { ataqueCpu(widthUsrBar, x, y) }
 
 		$(".ataques").prop('disabled', true)
 		var velocidad = Math.floor(Math.random() * 2)
 
 		if (velocidad == 1) {
-			vidaPkmnCpu = ataqueUsuario(vidaPkmnCpu, widthCpuBar, ataque)
-			if (endGame != 1) {
-				vidaPkmnUsr = esperandoAtaque(vidaPkmnUsr, widthUsrBar, "user")
-			}
+			atacaUsuario(atacaCpu, efectosDeEstado)
 		}
 		else {
-			vidaPkmnUsr = ataqueCpu(vidaPkmnUsr, widthUsrBar)
-			if (endGame != 1) {
-				vidaPkmnCpu = esperandoAtaque(vidaPkmnCpu, widthCpuBar, "cpu", ataque)
-			}
+			atacaCpu(atacaUsuario, efectosDeEstado)
 		}
-		if (endGame != 1) {
-			efectosDeEstado(vidaPkmnCpu, vidaPkmnUsr)
-		}
-		enableButtons()
 	})
 
-	function ataqueUsuario(vidaPkmnCpu, widthCpuBar, ataque) {
-		var tipo = pokemonUsuario.ataques[ataque.id].tipo
-		vidaPkmnCpu -= pokemonUsuario.ataques[ataque.id].potencia
-		if (vidaPkmnCpu > 0) {
-			$("#vidaPkmnCpu").html(vidaPkmnCpu)
+	const ataqueUsuario = (widthCpuBar, ataque, siguiente, subsiguiente) => {
+		if (!endGame) {
+			var potencia = pokemonUsuario.ataques[ataque].potencia
+			var tipo = pokemonUsuario.ataques[ataque].tipo
+			if (tipo == pokemonUsuario.tipo)
+				potencia *= 1.5
+			var porcentajeDeVida
+			var porcentajeARestar = pokemonCpu.vida * 0.003
+			vidaPkmnCpu -= potencia
+			porcentajeDeVida = vidaPkmnCpu * 100 / pokemonCpu.vida
+			moveProgressBar(porcentajeDeVida, porcentajeARestar, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", widthCpuBar, siguiente, subsiguiente)
+			$("#ataqueUsuario").html("Utilizaste: " + pokemonUsuario.ataques[ataque].nombre)
+			$("#ataqueUsuario").css('visibility', 'visible')
+			if (!estadosCpu.envenenado && tipo == "VENENO") {
+				envenenado("cpu")
+			}
 		}
-		else {
-			$("#vidaPkmnCpu").html("Ganaste C:")
-			endGame = 1;
-		}
-		if (cpuEnvenenado != 1 && tipo == "VENENO") {
-			envenenado("cpu")
-		}
-		move(vidaPkmnCpu * 100 / pokemonCpu.vida, "#progressBarCpu", widthCpuBar)
-		return vidaPkmnCpu
-
+		else
+			$("#vidaPkmnCpu").html("Perdiste :C")
 	}
 
-	function ataqueCpu(vidaPkmnUsr, widthUsrBar) {
-		var random = Math.floor(Math.random() * pokemonCpu.ataques.length)
-		var tipo = pokemonCpu.ataques[random].tipo
-		vidaPkmnUsr -= pokemonCpu.ataques[random].potencia
-		if (vidaPkmnUsr > 0) {
-			$("#vidaPkmnUsr").html(vidaPkmnUsr)
-			$("#ataqueCpu").html("Ataque enemigo: " + pokemonCpu.ataques[random].nombre)
+	const ataqueCpu = (widthUsrBar, siguiente, subsiguiente) => {
+		if (!endGame) {
+			var ataque = Math.floor(Math.random() * pokemonCpu.ataques.length)
+			var tipo = pokemonCpu.ataques[ataque].tipo
+			var potencia = pokemonCpu.ataques[ataque].potencia
+			if (tipo == pokemonCpu.tipo)
+				potencia *= 1.5
+			var porcentajeDeVida
+			var porcentajeARestar = pokemonUsuario.vida * 0.003
+			vidaPkmnUsr -= potencia
+			porcentajeDeVida = vidaPkmnUsr * 100 / pokemonUsuario.vida
+			moveProgressBar(porcentajeDeVida, porcentajeARestar, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", widthUsrBar, siguiente, subsiguiente)
+			$("#ataqueCpu").html("Ataque enemigo: " + pokemonCpu.ataques[ataque].nombre)
+			$("#ataqueCpu").css('visibility', 'visible')
+			if (!estadosUsr.envenenado && tipo == "VENENO") {
+				envenenado("user")
+			}
 		}
-		else {
-			$("#vidaPkmnUsr").html("Perdiste :C")
-			endGame = 1;
-		}
-		if (usrEnvenenado != 1 && tipo == "VENENO") {
-			envenenado("user")
-		}
-		move(vidaPkmnUsr * 100 / pokemonUsuario.vida, "#progressBarUsr", widthUsrBar)
-		return vidaPkmnUsr
+		else
+			$("#vidaPkmnUsr").html("Ganaste C:")
 	}
 
-	function efectosDeEstado(vidaCpu, vidaUsr) {
-		var widthBarCpu = vidaCpu * 100 / pokemonCpu.vida;
-		var widthBarUsr = vidaUsr * 100 / pokemonUsuario.vida;
-		if (primero == 0) {
-			if (cpuEnvenenado == 1)
-				danioPorVeneno(widthBarCpu, vidaCpu, pokemonCpu.vida, "#progressBarCpu", "#vidaPkmnCpu", "Ganaste C:")
-			if (usrEnvenenado == 1)
-				danioPorVeneno(widthBarUsr, vidaUsr, pokemonUsuario.vida, "#progressBarUsr", "#vidaPkmnUsr", "Perdiste :C")
+	const efectosDeEstado = () => {
+		var widthBarCpu = vidaPkmnCpu * 100 / pokemonCpu.vida;
+		var widthBarUsr = vidaPkmnUsr * 100 / pokemonUsuario.vida;
+		var danioUsr = pokemonUsuario.vida * 8 / 100
+		var danioCpu = pokemonCpu.vida * 8 / 100
+		var daniarUsr = (x, y) => { danioPorEstado("user", widthBarUsr, danioUsr, x, y) }
+		var daniarCpu = (x, y) => { danioPorEstado("cpu", widthBarCpu, danioCpu, x, y) }
+		if (primero) {
+			if (estadosCpu.envenenado && estadosUsr.envenenado)
+				daniarCpu(daniarUsr, enableButtons)
+			else if (estadosCpu.envenenado)
+				daniarCpu(enableButtons)
+			else enableButtons()
 		}
-		else {
-			if (usrEnvenenado == 1)
-				danioPorVeneno(widthBarUsr, vidaUsr, pokemonUsuario.vida, "#progressBarUsr", "#vidaPkmnUsr", "Perdiste :C")
-			if (cpuEnvenenado == 1)
-				danioPorVeneno(widthBarCpu, vidaCpu, pokemonCpu.vida, "#progressBarCpu", "#vidaPkmnCpu", "Ganaste C:")
+		else if (!primero) {
+			if (estadosCpu.envenenado && estadosUsr.envenenado)
+				daniarUsr(daniarCpu, enableButtons)
+			else if (estadosUsr.envenenado)
+				daniarUsr(enableButtons)
+			else enableButtons()
 		}
 	}
 
-	function envenenado(name) {
+	const danioPorEstado = (objetivo, width, potencia, siguiente, subsiguiente) => {
+		if (!endGame) {
+			var porcentajeDeVida
+			var porcentajeARestar
+			if (objetivo == "cpu") {
+				vidaPkmnCpu -= potencia
+				porcentajeDeVida = vidaPkmnCpu * 100 / pokemonCpu.vida
+				porcentajeARestar = pokemonCpu.vida * 0.003
+				moveProgressBar(porcentajeDeVida, porcentajeARestar, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", width, siguiente, subsiguiente)
+			}
+			else {
+				vidaPkmnUsr -= potencia
+				porcentajeDeVida = vidaPkmnUsr * 100 / pokemonUsuario.vida
+				porcentajeARestar = pokemonUsuario.vida * 0.003
+				moveProgressBar(porcentajeDeVida, porcentajeARestar, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", width, siguiente, subsiguiente)
+			}
+		}
+		else if (vidaPkmnCpu <= 0) $("#vidaPkmnUsr").html("Ganaste C:")
+		else $("#vidaPkmnCpu").html("Perdiste :C")
+	}
+
+	const envenenado = (name) => {
 		var random;
-		random = Math.floor(Math.random() * 10)
-		if (random >= 6) {
+		random = Math.floor(Math.random() * 10) + 1
+		if (random > 7) {
 			if (name == "cpu") {
-				cpuEnvenenado = 1
+				estadosCpu.envenenado = true
 				$("#estadoCpu").html("Poisoned")
+				if (primero == undefined)
+					primero = true
 			}
 			else if (name == "user") {
-				usrEnvenenado = 1
+				estadosUsr.envenenado = true
 				$("#estadoUsuario").html("Poisoned")
-				primeto = 1
+				if (primero == undefined)
+					primero = false
 			}
 
 		}
@@ -111,55 +156,61 @@ $(document).ready(function() {
 			return 0
 	}
 
-	function danioPorVeneno(widthBar, vida, vidaMaxima, progressBar, vidaPkmnHtml, mensaje) {
-		vida -= vidaMaxima * 8 / 100
-		if (vida > 0) {
-			$(vidaPkmnHtml).html(vida)
-		}
-		else {
-			$(vidaPkmnHtml).html(mensaje)
-			endGame = 1;
-		}
-		move(vida * 100 / vidaMaxima, progressBar, widthBar)
-		return vida
-	}
-
-	function move(valor, id, width) {
-		var elem = $(id);
-		var interval = setInterval(frame, 10);
-		function frame() {
-			if (width < valor) {
-				clearInterval(interval)
-				continuar = 1
-			} else {
-				width -= 0.3;
-				elem.width(width + "%")
+	const moveProgressBar = (porcentajeDeVida, porcentajeARestar, vidaActual, idProgressBar, idVida, width, siguiente, subsiguiente) => {
+		setTimeout(() => {
+			var elem = $(idProgressBar);
+			var interval = setInterval(frame, 10);
+			var vidaAnterior = $(idVida).html()
+			function frame() {
+				if (vidaAnterior <= vidaActual) {
+					clearInterval(interval)
+					if (siguiente && subsiguiente) siguiente(subsiguiente)
+					else if (siguiente) siguiente()
+				} else {
+					width -= 0.3;
+					elem.width(width + "%")
+					vidaAnterior -= porcentajeARestar
+					if (vidaAnterior > vidaActual && vidaAnterior > 0)
+						$(idVida).html(parseInt(vidaAnterior))
+					else if (vidaActual > 0)
+						$(idVida).html(parseInt(vidaActual))
+					else {
+						$(idVida).html(0)
+						endGame = true
+					}
+				}
 			}
-		}
+		}, 500)
 	}
 
-	function enableButtons() {
-		if (endGame != 1)
-			$(".ataques").prop('disabled', false)
+	const enableButtons = () => {
+		setTimeout(() => {
+			if (!endGame) {
+				$(".ataques").prop('disabled', false)
+				$("#ataqueUsuario").css('visibility', 'hidden')
+				$("#ataqueCpu").css('visibility', 'hidden')
+			}
+			else {
+				if (vidaPkmnCpu <= 0) $("#vidaPkmnUsr").html("Ganaste C:")
+				else $("#vidaPkmnCpu").html("Perdiste :C")
+			}
+		}, 500)
 	}
 
-	function esperandoAtaque(vida, width, objetivo, ataque) {
-		var vidaPkmn
-		var interval = setInterval(function() {
-			if (continuar == 0) return
-			clearInterval(interval)
-			continuar = 0
-			if (objetivo == "user")
-				vidaPkmn = ataqueCpu(vida, width)
-			else
-				vidaPkmn = ataqueUsuario(vida, width, ataque)
-			interval = setInterval(function() {
-				if (continuar == 0) return
-				continuar = 0
-			}, 10)
-			return vidaPkmn
-		}, 10)
-	}
+	//	const esperando = (funcion, esSegundo) => {
+	//		var interval = setInterval(function() {
+	//			if (waiting) return
+	//			clearInterval(interval)
+	//			if (esSegundo) segundoMove = true
+	//			waiting = true
+	//			funcion()
+	//			interval = setInterval(function() {
+	//				if (waiting) return
+	//				clearInterval(interval)
+	//				waiting = true
+	//			}, 10)
+	//		}, 10)
+	//	}
 
 	//	function loading() {
 	//		var interval = setInterval(function() {
@@ -187,4 +238,4 @@ $(document).ready(function() {
 	//                    $(campo).html(resultado);
 	//            }
 	//        });
-});
+})
