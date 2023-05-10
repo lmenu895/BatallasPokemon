@@ -38,14 +38,16 @@
 				</div>
 				<button id="btn-registrarme"
 					class="btn btn-lg btn-primary btn-block" Type="Submit">Guardar</button>
-			</form:form>
-
-			<c:if test="${not empty error}">
+					
+					<c:if test="${not empty error}">
 				<h4>
 					<span>${error}</span>
 				</h4> 
 				<br>
 			</c:if>
+			</form:form>
+
+			
 		</div>
 	</div>
 <script src="js/bootstrap.min.js"></script>	

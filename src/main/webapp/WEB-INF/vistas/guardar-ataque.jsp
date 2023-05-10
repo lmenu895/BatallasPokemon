@@ -8,7 +8,7 @@
 </head>
 <body>
  
- 	<h1 style= 'Font-family: Verdana'>Ataque creado</h1>
+ 	<h1 style= 'Font-family: Verdana'>Se creó el ataque ${nombre}</h1>
 
 </body>
 </html>

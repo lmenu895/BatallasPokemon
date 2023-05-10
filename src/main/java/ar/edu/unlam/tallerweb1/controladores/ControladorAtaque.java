@@ -1,5 +1,8 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,7 @@ public class ControladorAtaque {
 		
 		try {
 			this.servicioAtaque.guardarAtaque(datosAtaque);
+			modelo.put("nombre", datosAtaque.getNombre());
 			
 		} catch (CampoVacioException e) {
 			modelo.put("error", e.getMessage());
@@ -48,5 +52,31 @@ public class ControladorAtaque {
 		modelo.put("ataque", datosAtaque.getNombre());
 		return new ModelAndView("guardar-ataque", modelo);
 	}
+	
+	@RequestMapping("/elminar-ataque")
+	public ModelAndView eliminarAtaque(@ModelAttribute("ataque") Ataque datosAtaque) {
+		ModelMap model = new ModelMap();
+		model.put("ataque", datosAtaque.getId());
+		return new ModelAndView("eliminar-ataque", model);
+	}
+	
+	@RequestMapping("/lista-ataques")
+	public ModelAndView listarAtaques() {
+		ModelMap model = new ModelMap();
+		List<Ataque> listaAtaques = this.servicioAtaque.obtenerTodosLosAtaques();
+		model.put("listaAtaques", listaAtaques);
+		return new ModelAndView("lista-ataques", model);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

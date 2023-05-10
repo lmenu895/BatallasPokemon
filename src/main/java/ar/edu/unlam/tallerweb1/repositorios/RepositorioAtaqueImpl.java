@@ -25,7 +25,7 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 
 	@Override
 	public Ataque buscarAtaque(Long id) {
-		return this.sessionFactory.getCurrentSession().get(Ataque.class, id);
+		return this.sessionFactory.getCurrentSession().get(Ataque.class, id); // aca se le pide para buscar QUE CLASE es y por que PARAMETRO BUSCAR
 	}
 
 	@Override
