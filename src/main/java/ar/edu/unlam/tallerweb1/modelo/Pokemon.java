@@ -14,13 +14,11 @@ public class Pokemon {
 	@Column(unique = true)
 	private String nombre;
 	private TipoPokemon tipo;
-
 	private Double vida;
-	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Ataque> ataques;
-
+	private String imagenFrente;
+	private String imagenDorso;
 	@Transient
-	private String[] cv;
+	private List<Ataque> ataques;
 
 	public Long getId() {
 		return id;
@@ -53,6 +51,22 @@ public class Pokemon {
 	public void setVida(Double vida) {
 		this.vida = vida;
 	}
+	
+	public String getImagenFrente() {
+		return imagenFrente;
+	}
+
+	public void setImagenFrente(String imagenFrente) {
+		this.imagenFrente = imagenFrente;
+	}
+
+	public String getImagenDorso() {
+		return imagenDorso;
+	}
+
+	public void setImagenDorso(String imagenDorso) {
+		this.imagenDorso = imagenDorso;
+	}
 
 	public List<Ataque> getAtaques() {
 		return ataques;
@@ -61,13 +75,4 @@ public class Pokemon {
 	public void setAtaques(List<Ataque> ataques) {
 		this.ataques = ataques;
 	}
-
-	public String[] getCv() {
-		return cv;
-	}
-
-	public void setCv(String[] cv) {
-		this.cv = cv;
-	}
-	
 }

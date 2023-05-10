@@ -2,14 +2,31 @@
 
 .form{
 	background-color: white;
-    margin: 0 auto;
+    margin: 4rem auto;
     border-radius: 2rem;
     box-shadow: 1px 1px 5px black;
-    padding: 5rem;
+    padding: 4rem;
+    max-width: 600px;
 }
 
 .fondo{
 	background-image:url("../images/Ataques.png");
 	background-size: cover;
-   
+}
+
+.pokemon{
+	background-image:url("../images/PokeAtaque.jpg");
+}
+
+.validation{
+	color: red;
+}
+
+.lista-ataques{
+	text-align: center;
+}
+
+.ataques-label{
+    width: 9rem;
+    text-align: left;
 }
