@@ -5,6 +5,9 @@ import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
 
 import org.junit.Before;
+import org.junit.Test;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,7 +28,7 @@ public class ControladorLoginTest {
         controladorLogin = new ControladorLogin(this.servicioLogin);
     }
 
-    /*@Test
+    @Test
     public void dadoUnUsuarioExistenteQueSePuedaIniciarSesion() {
 
         String ROL = "admin";
@@ -38,7 +41,7 @@ public class ControladorLoginTest {
         entoncesMeDevuelveLaVistaCorrecta(vista);
 
         entoncesInicioSesion(ROL);
-    }*/
+    }
 
     //Cuando
 
@@ -46,11 +49,11 @@ public class ControladorLoginTest {
         return new DatosLogin();
     }
 
-    /*private Usuario dadoQueTengoUnUsuarioConRol(String rol) {
+    private Usuario dadoQueTengoUnUsuarioConRol(String rol) {
         Usuario usuario = new Usuario();
         usuario.setRol(rol);
         return usuario;
-    }*/
+    }
 
     //Dado
     private ModelAndView cuandoQuieroValidarElLogin(DatosLogin datosLogin, Usuario usuarioEsperado,String rol) {

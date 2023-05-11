@@ -16,9 +16,6 @@
 <title>Home</title>
 </head>
 <body>
-	<div class="container">
-		<h1>Bienvenido a Taller Web 1 ${usuario}</h1>
-	</div>
 	<div class="barra">
 		<div>
 			<img class="pokemon" alt="pokemon" src="images/pokemonLogo.png">

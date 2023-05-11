@@ -21,6 +21,7 @@ public class Usuario {
 	private String email;
 	private String password;
 	private Boolean esAdmin= false;
+	private String rol;
 	
 	
 	public Long getId() {
@@ -53,5 +54,11 @@ public class Usuario {
 	}
 	public void setEsAdmin(Boolean esAdmin) {
 		this.esAdmin = esAdmin;
+	}
+	public String getRol() {
+		return rol;
+	}
+	public void setRol(String rol) {
+		this.rol = rol;
 	}
 }

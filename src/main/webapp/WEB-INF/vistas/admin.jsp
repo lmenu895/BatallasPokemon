@@ -21,11 +21,10 @@
     </div>
 
     <div class="container">
-        <button class="button button-pokemon">AÑADIR POKEMON</button>
+        <a href="./lista-pokemons"><button class="button button-pokemon">VER LISTA DE POKEMONS</button></a>
     
     
-        <button class="button button-ataque">AÑADIR ATAQUE</button>
-
+        <a href="./lista-ataques"><button class="button button-ataque">VER LISTA DE ATAQUES</button></a>
     </div>
     
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" ></script>

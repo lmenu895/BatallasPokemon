@@ -95,12 +95,6 @@ public class ControladorPokemon {
 		this.servicioPokemon.borrarPokemon(Long.parseLong(id));
 	}
 
-//	@RequestMapping(path = "/imagen", method = RequestMethod.POST)
-//	@ResponseBody
-//	public String imagen(@RequestParam("imagen") MultipartFile imagen) {
-//		return StringUtils.cleanPath(imagen.getOriginalFilename());
-//	}
-
 	public List<Ataque> obtenerListaDeAtaques() {
 		return this.servicioAtaque.obtenerTodosLosAtaques();
 	}

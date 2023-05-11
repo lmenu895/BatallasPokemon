@@ -27,7 +27,6 @@ public class ControladorUsuario {
 		List<Objeto> objetos = this.servicioObjeto.listarObjetos();
 		modelo.put("objetos", objetos);
 		return new ModelAndView("lista-objetos", modelo);
-
 	}
 
 }

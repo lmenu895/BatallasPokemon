@@ -15,14 +15,10 @@ import ar.edu.unlam.tallerweb1.servicios.*;
 public class ControladorBatalla {
 	
 	private ServicioPokemon servicioPokemon;
-	private ServicioAtaquePokemon servicioAtaquePokemon;
-	private ServicioAtaque servicioAtaque;
-
+	
 	@Autowired
-	public ControladorBatalla(ServicioPokemon servicioPokemon, ServicioAtaquePokemon servicioAtaquePokemon, ServicioAtaque servicioAtaque) {
+	public ControladorBatalla(ServicioPokemon servicioPokemon) {
 		this.servicioPokemon = servicioPokemon;
-		this.servicioAtaquePokemon = servicioAtaquePokemon;
-		this.servicioAtaque = servicioAtaque;
 	}
 
 	@RequestMapping("/batalla")

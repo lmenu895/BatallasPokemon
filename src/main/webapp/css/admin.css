@@ -59,3 +59,7 @@ html, body, .container {
 .button-pokemon {
     padding:1.3rem 2rem;
 }
+
+a{
+	color: #202020;
+}
