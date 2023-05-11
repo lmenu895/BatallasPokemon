@@ -1,9 +1,8 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.List;
+
+import javax.persistence.*;
 
 @Entity
 public class Pokemon {
@@ -11,10 +10,16 @@ public class Pokemon {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	@Column(unique = true)
 	private String nombre;
 	private TipoPokemon tipo;
 	private Double vida;
+	private Double velocidad;
+	private String imagenFrente;
+	private String imagenDorso;
+	@Transient
+	private List<Ataque> ataques;
 
 	public Long getId() {
 		return id;
@@ -47,5 +52,36 @@ public class Pokemon {
 	public void setVida(Double vida) {
 		this.vida = vida;
 	}
+	
+	public String getImagenFrente() {
+		return imagenFrente;
+	}
 
+	public void setImagenFrente(String imagenFrente) {
+		this.imagenFrente = imagenFrente;
+	}
+
+	public String getImagenDorso() {
+		return imagenDorso;
+	}
+
+	public void setImagenDorso(String imagenDorso) {
+		this.imagenDorso = imagenDorso;
+	}
+
+	public List<Ataque> getAtaques() {
+		return ataques;
+	}
+
+	public void setAtaques(List<Ataque> ataques) {
+		this.ataques = ataques;
+	}
+
+	public Double getVelocidad() {
+		return velocidad;
+	}
+
+	public void setVelocidad(Double velocidad) {
+		this.velocidad = velocidad;
+	}
 }

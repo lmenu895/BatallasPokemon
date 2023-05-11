@@ -8,13 +8,13 @@
 <meta charset="ISO-8859-1">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
-<title>Crear Pokemon</title>
+<title>Modificar Pokemon</title>
 </head>
-<body class="pokemon">
+<body class="fondo pokemon">
 	<div class="container d-flex justify-content-center align-items-center">
-		<form:form action="guardar-pokemon" method="POST" class="form"
+		<form:form action="guardar-pokemon-modificado" method="POST" class="form"
 			modelAttribute="pokemon" enctype="multipart/form-data">
-			<h3 class="form-signin-heading">Nuevo Pokemon</h3>
+			<h3 class="form-signin-heading">${pokemon.nombre}</h3>
 			<hr class="colorgraph">
 			<div class="form-group mb-3">
 				<form:label path="nombre">¿Cuál será el nombre del pokemon?</form:label>
@@ -48,8 +48,10 @@
 				<c:forEach items="${listaAtaques}" var="ataque">
 					<div class="form-check form-check-inline">
 						<label class="form-check-label ataques-label">${ataque.nombre}</label>
-						<input type="checkbox" class="form-check-input ataques"
-							name="ataquesLista" value="${ataque.id}" />
+						<input type="checkbox"
+							<c:forEach items="${pokemon.ataques}" var="aprendido"><c:if test="${ataque.id == aprendido.id}">checked="ckecked"</c:if></c:forEach>
+							class="form-check-input ataques" name="ataquesLista"
+							value="${ataque.id}" />
 					</div>
 				</c:forEach>
 			</div>
@@ -64,11 +66,13 @@
 			<div class="form-group mb-3">
 				<form:label path="velocidad">¿Qué velocidad tendrá su pokemon?</form:label>
 				<form:input class="form-control" path="velocidad" id="velocidad" />
-				<div class="valida-velocidad-vacia validation" style="display: none;">Especifique
-					cuánta velocidad tendrá su pokemon</div>
+				<div class="valida-velocidad-vacia validation"
+					style="display: none;">Especifique cuánta velocidad tendrá su
+					pokemon</div>
 			</div>
+			<form:hidden path="id" />
 			<button id="btn-registrarme"
-				class="btn btn-lg btn-primary btn-block mb-2" Type="Submit">Guardar</button>
+				class="btn btn-lg btn-primary btn-block mb-2" Type="Submit">Modificar</button>
 			<c:if test="${not empty error}">
 				<h4>
 					<span>${error}</span>
