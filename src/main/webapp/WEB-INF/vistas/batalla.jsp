@@ -42,10 +42,6 @@
 			</div>
 			<div id="ataqueCpu" style="visibility: hidden;">Ataque</div>
 		</div>
-		<br>
-		<button class='btn btn-danger' id="traerAPikachu">Traer a
-			Pikachu</button>
-		<div class="objeto-pikachu"></div>
 	</div>
 	<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
 	<script src="js/batalla.js" type="text/javascript"></script>

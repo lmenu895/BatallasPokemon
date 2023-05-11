@@ -16,22 +16,22 @@ public class ControladorBatalla {
 	
 	private ServicioPokemon servicioPokemon;
 	private ServicioAtaquePokemon servicioAtaquePokemon;
+	private ServicioAtaque servicioAtaque;
 
 	@Autowired
-	public ControladorBatalla(ServicioPokemon servicioPokemon, ServicioAtaquePokemon servicioAtaquePokemon) {
+	public ControladorBatalla(ServicioPokemon servicioPokemon, ServicioAtaquePokemon servicioAtaquePokemon, ServicioAtaque servicioAtaque) {
 		this.servicioPokemon = servicioPokemon;
 		this.servicioAtaquePokemon = servicioAtaquePokemon;
+		this.servicioAtaque = servicioAtaque;
 	}
 
 	@RequestMapping("/batalla")
 	public ModelAndView iniciarBatalla() {
 		ModelMap model = new ModelMap();
-		Pokemon pokemonUsuarioObj = this.servicioPokemon.buscarPokemon(2l);
-		Pokemon pokemonCpuObj = this.servicioPokemon.buscarPokemon(1l);
-		pokemonUsuarioObj.setAtaques(this.servicioAtaquePokemon.buscarAtaques(pokemonUsuarioObj.getId()));
-		pokemonCpuObj.setAtaques(this.servicioAtaquePokemon.buscarAtaques(pokemonCpuObj.getId()));
-		model.put("pokemonUsuario", pokemonUsuarioObj);
-		model.put("pokemonCpu", pokemonCpuObj);
+		Pokemon pokemonUsuario = this.servicioPokemon.buscarPokemon(2l);
+		Pokemon pokemonCpu = this.servicioPokemon.buscarPokemon(1l);
+		model.put("pokemonUsuario", pokemonUsuario);
+		model.put("pokemonCpu", pokemonCpu);
 		return new ModelAndView("batalla", model);
 	}
 	
@@ -41,8 +41,6 @@ public class ControladorBatalla {
 		ModelMap modelo = new ModelMap();
 		Pokemon pokemonUsuario = this.servicioPokemon.buscarPokemon(2l);
 		Pokemon pokemonCpu = this.servicioPokemon.buscarPokemon(1l);
-		pokemonUsuario.setAtaques(this.servicioAtaquePokemon.buscarAtaques(pokemonUsuario.getId()));
-		pokemonCpu.setAtaques(this.servicioAtaquePokemon.buscarAtaques(pokemonCpu.getId()));
 		modelo.put("pokemonUsuario", pokemonUsuario);
 		modelo.put("pokemonCpu", pokemonCpu);
 		return modelo;

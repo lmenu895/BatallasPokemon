@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
+import ar.edu.unlam.tallerweb1.exceptions.NombreExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Ataque;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -34,13 +34,13 @@ public class ControladorAtaque {
 	}
 	
 	@RequestMapping(path = "/guardar-ataque", method = RequestMethod.POST)
-	public ModelAndView confirmarRegistro(@ModelAttribute("ataque") Ataque datosAtaque, HttpServletRequest request) throws CampoVacioException {
+	public ModelAndView confirmarRegistro(@ModelAttribute("ataque") Ataque datosAtaque, HttpServletRequest request) throws NombreExistenteException {
 		ModelMap modelo = new ModelMap();
 		
 		try {
 			this.servicioAtaque.guardarAtaque(datosAtaque);
 			
-		} catch (CampoVacioException e) {
+		} catch (NombreExistenteException e) {
 			modelo.put("error", e.getMessage());
 			return new ModelAndView("crear-ataque", modelo);
 		}

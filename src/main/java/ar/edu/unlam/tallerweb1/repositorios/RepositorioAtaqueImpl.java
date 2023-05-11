@@ -20,7 +20,8 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 
 	@Override
 	public List<Ataque> obtenerTodosLosAtaques() {
-		return this.sessionFactory.getCurrentSession().createQuery("from Ataque").list();
+		return this.sessionFactory.getCurrentSession()
+				.createCriteria(Ataque.class).list();
 	}
 
 	@Override

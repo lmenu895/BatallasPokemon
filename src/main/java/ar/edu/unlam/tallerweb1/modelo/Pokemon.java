@@ -15,6 +15,7 @@ public class Pokemon {
 	private String nombre;
 	private TipoPokemon tipo;
 	private Double vida;
+	private Double velocidad;
 	private String imagenFrente;
 	private String imagenDorso;
 	@Transient
@@ -74,5 +75,13 @@ public class Pokemon {
 
 	public void setAtaques(List<Ataque> ataques) {
 		this.ataques = ataques;
+	}
+
+	public Double getVelocidad() {
+		return velocidad;
+	}
+
+	public void setVelocidad(Double velocidad) {
+		this.velocidad = velocidad;
 	}
 }
