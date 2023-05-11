@@ -9,19 +9,19 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 
-<title>Crear Ataque</title>
+<title>Modificar Ataque</title>
 </head>
 <body class="fondo">
 	<div class="container d-flex justify-content-center align-items-center">
 		<div id="loginbox"
 			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-			<form:form action="guardar-ataque" method="POST"
+			<form:form action="guardar-ataque-modificado" method="POST"
 				modelAttribute="ataque" class="form">
-				<h3 class="form-signin-heading">Nuevo Ataque</h3>
+				<h3 class="form-signin-heading">Modificar Ataque</h3>
 				<hr class="colorgraph">
 				<br>
 				<label>Nombre</label>
-				<form:input path="nombre" id="nombre" class="form-control" />
+				<form:input path="nombre" id="nombre" class="form-control"/>
 				<br>
 				<label>Tipo</label>
 				<form:select path="tipo">
@@ -42,8 +42,9 @@
 					<form:checkbox class="form-check-input" path="efecto" id="efecto" />
 					<br>
 				</div>
+				<form:hidden path="id"/>
 				<button id="btn-registrarme"
-					class="btn btn-lg btn-primary btn-block" Type="Submit">Guardar</button>
+					class="btn btn-lg btn-primary btn-block" Type="Submit">Modificar</button>
 					
 					<c:if test="${not empty error}">
 				<h4>

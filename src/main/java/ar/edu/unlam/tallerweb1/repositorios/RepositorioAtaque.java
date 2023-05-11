@@ -8,5 +8,7 @@ public interface RepositorioAtaque {
 	List<Ataque> obtenerTodosLosAtaques();
 	Ataque buscarAtaque(Long id);
 	void guardarAtaque(Ataque datosAtaque);
+	void borrarAtaque(Long id);
+	void modificarAtaque(Ataque ataque);
 
 }
