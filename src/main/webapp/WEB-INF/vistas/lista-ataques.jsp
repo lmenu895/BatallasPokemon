@@ -11,17 +11,16 @@
 </head>
 <body class="fondo">
 
-	
-
 	<div class="container">
-	
-		<table id="tablaNoticias" class='table table-hover table-striped mb-5 tableForm'>
-		
+
+		<table id="tablaAtaques"
+			class='table table-hover table-striped mb-5 tableForm'>
+
 			<thead>
 				<tr class='text-center table-dark align-middle '>
 					<th scope='col'>Nombre Ataque</th>
 					<th scope='col'>Acciones</th>
-					
+
 				</tr>
 			</thead>
 			<tbody>
@@ -30,8 +29,10 @@
 						<!-- items LO QUE RECORRE , var COMO SE VA A LLAMAR CADA ITEM -->
 						<td>${ataque.nombre}</td>
 						<!-- ${VAR.atributo} -->
-						<td><button class="borrar btn btn-danger" value="${ataque.id}">Borrar</button> <button class="modificar btn btn-info" value="${ataque.id}">Modificar</button></td>
-						
+						<td><button class="borrar btn btn-danger"
+								value="${ataque.id}">Borrar</button>
+							<button class="modificar btn btn-info" value="${ataque.id}">Modificar</button></td>
+
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -16,6 +16,7 @@
 
 .pokemon{
 	background-image:url("../images/PokeAtaque.jpg");
+	background-size: cover;
 }
 
 .validation{

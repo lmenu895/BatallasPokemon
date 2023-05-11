@@ -10,7 +10,7 @@
 <link href="css/style.css" rel="stylesheet">
 <title>Crear Pokemon</title>
 </head>
-<body class="fondo pokemon">
+<body class="pokemon">
 	<div class="container d-flex justify-content-center align-items-center">
 		<form:form action="guardar-pokemon" method="POST" class="form"
 			modelAttribute="pokemon" enctype="multipart/form-data">
