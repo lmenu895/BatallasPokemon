@@ -24,9 +24,11 @@ $(document).ready(function() { //Funcion principal de jquery
 	});
 	
 	$(".modificar").click(function(){
-		
-		window.location.href="./modificar-ataque?id=" + $(this).val(); //redirecciona
-		
+		window.location.href="modificar-ataque?id=" + $(this).val();	
+	});
+	
+	$(".boton-nuevo").click(function(){
+		window.location.href = "crear-ataque";
 	});
 		
 	

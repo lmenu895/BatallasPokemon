@@ -1,0 +1,65 @@
+*{
+    padding:0px;
+    margin:0px;
+    box-sizing: border-box;
+    
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    color:#202020; 
+    background-image: url(../images/background-admin.jpg);
+    background-repeat: none;
+    background-size: cover;
+}
+
+
+button{
+	background: none;
+	color: inherit;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+html, body, .container {
+    height: 85%;
+}
+
+.pokemon{
+    position:relative;
+    width:20%;
+    height:100%;
+    cursor:pointer;
+    background-color: rgba(198, 198, 198, 0.55);
+    margin:1rem;
+    padding:3px;
+    border-radius:15px;
+}
+
+.container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    background-color: rgba(198, 198, 198, 0.55);
+    margin:2rem;
+    font-size:2rem;
+    border-radius:15px;
+}
+
+.button-ataque{
+    padding:1.3rem 2.9rem;
+
+}
+
+.button-pokemon {
+    padding:1.3rem 2rem;
+}
+
+a{
+	color: #202020;
+}

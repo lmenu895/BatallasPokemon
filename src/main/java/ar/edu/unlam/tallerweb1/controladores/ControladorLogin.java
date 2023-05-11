@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.*;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,9 @@ public class ControladorLogin {
 		// hace una llamada a otro action a traves de la URL correspondiente a esta
 		Usuario usuarioBuscado = servicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
 		if (usuarioBuscado != null) {
-			request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
-			return new ModelAndView("redirect:/home");
+			request.getSession().setAttribute("ROL", usuarioBuscado.getEsAdmin());
+			model.put("usuario", usuarioBuscado.getUsuario());
+			return new ModelAndView("home", model);
 		} else {
 			// si el usuario no existe agrega un mensaje de error en el modelo.
 			model.put("error", "Usuario o clave incorrecta");
@@ -68,10 +70,16 @@ public class ControladorLogin {
 	}
 	
 	@RequestMapping(path = "/registrarme", method = RequestMethod.POST)
-	public ModelAndView confirmarRegistro(@ModelAttribute("usuario") Usuario datosUsuario, HttpServletRequest request) {
+	public ModelAndView confirmarRegistro(@ModelAttribute("usuario") Usuario datosUsuario, HttpServletRequest request) throws UsuarioExistenteException {
 		ModelMap modelo = new ModelMap();
-		modelo.put("email", datosUsuario.getEmail());
-		return new ModelAndView("confirmacion-registro", modelo);
+		try {
+			this.servicioLogin.guardarCliente(datosUsuario);
+			
+		} catch(Exception e){
+			modelo.put("error", e.getMessage());
+			return new ModelAndView("registro-usuario", modelo);
+		}
+			return new ModelAndView("redirect:/login");
 	}
 
 	// Escucha la URL /home por GET, y redirige a una vista.

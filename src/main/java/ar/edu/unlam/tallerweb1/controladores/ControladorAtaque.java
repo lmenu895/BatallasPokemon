@@ -1,8 +1,5 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
+import ar.edu.unlam.tallerweb1.exceptions.NombreExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Ataque;
-import ar.edu.unlam.tallerweb1.modelo.Pokemon;
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioAtaque;
 
 @Controller
@@ -39,14 +35,14 @@ public class ControladorAtaque {
 	}
 	
 	@RequestMapping(path = "/guardar-ataque", method = RequestMethod.POST)
-	public ModelAndView confirmarRegistro(@ModelAttribute("ataque") Ataque datosAtaque, HttpServletRequest request) throws CampoVacioException {
+	public ModelAndView confirmarRegistro(@ModelAttribute("ataque") Ataque datosAtaque, HttpServletRequest request) throws NombreExistenteException {
 		ModelMap modelo = new ModelMap();
 		
 		try {
 			this.servicioAtaque.guardarAtaque(datosAtaque);
 			modelo.put("nombre", datosAtaque.getNombre());
 			
-		} catch (CampoVacioException e) {
+		} catch (NombreExistenteException e) {
 			modelo.put("error", e.getMessage());
 			return new ModelAndView("crear-ataque", modelo);
 		}

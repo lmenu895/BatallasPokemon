@@ -1,9 +1,11 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 
@@ -20,13 +22,49 @@ public class ServicioLoginImpl implements ServicioLogin {
 	private RepositorioUsuario servicioLoginDao;
 
 	@Autowired
-	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao){
+	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao) {
 		this.servicioLoginDao = servicioLoginDao;
 	}
 
 	@Override
-	public Usuario consultarUsuario (String email, String password) {
-		return servicioLoginDao.buscarUsuario(email, password);
+	public Usuario consultarUsuario(String email, String password) {
+		return this.servicioLoginDao.buscarUsuario(email, password);
 	}
+
+	@Override
+	public Usuario consultarMail(String email) {
+		// TODO Auto-generated method stub
+		return this.servicioLoginDao.buscar(email);
+	}
+
+	@Override
+	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException {
+		if (verificarUsuarioExistente(usuarioNuevo) && verificarUsuarioExistentePorNick(usuarioNuevo)) {
+			this.servicioLoginDao.guardar(usuarioNuevo);
+		}else {
+			throw new UsuarioExistenteException("Ya existe un usuario con ese email o nombre de usuario");
+
+		}
+	}
+
+	// si da true no existe un usuario con ese email
+	@Override
+	public Boolean verificarUsuarioExistente(Usuario usuario) {
+		Usuario resultado = this.servicioLoginDao.buscar(usuario.getEmail());
+		if (resultado != null) {
+			return false;
+		}
+		return true;
+	}
+	// si da true no existe un usuario con ese nick
+		@Override
+		public Boolean verificarUsuarioExistentePorNick(Usuario usuario)  {
+			Usuario resultado = this.servicioLoginDao.buscar(usuario.getEmail());
+			if (resultado != null && resultado.getUsuario() != usuario.getUsuario() ) {
+				return false;
+				
+			}
+			return true;
+		}
 
 }

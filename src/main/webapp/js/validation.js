@@ -43,7 +43,7 @@ $(document).ready(function() {
 
 	$("#frente").change(function() {
 		var formData = new FormData();
-		formData.append('imagen', $(this)[0].files[0])
+		formData.append('imagen', this.files[0])
 		console.log(formData)
 
 		$.ajax({

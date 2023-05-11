@@ -25,17 +25,17 @@ public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 	}
 
 	@Override
-	public void guardarAtaques(AtaquePokemon ataquePokemon) {
-		this.repositorioAtaquePokemon.guardarAtaques(ataquePokemon);
+	public void guardarAtaque(AtaquePokemon ataquePokemon) {
+		this.repositorioAtaquePokemon.guardarAtaque(ataquePokemon);
 	}
 
 	@Override
-	public List<Ataque> buscarAtaques(Long id) {
-		List<Ataque> ataques = new ArrayList<>();
-		List<AtaquePokemon> busqueda = this.repositorioAtaquePokemon.buscarAtaques(id);
-		for (AtaquePokemon ataquePokemon : busqueda) {
-			ataques.add(this.servicioAtaque.buscarAtaque(ataquePokemon.getAtaque().getId()));
-		}
-		return ataques;
+	public List<AtaquePokemon> obtenerListaDeAtaquePokemon(Long idPokemon) {
+		return this.repositorioAtaquePokemon.buscarAtaques(idPokemon);
+	}
+
+	@Override
+	public void borrarAtaquesDeUnPokemon(Long idPokemon) {
+		this.repositorioAtaquePokemon.borrarAtaquesDeUnPokemon(idPokemon);
 	}
 }
