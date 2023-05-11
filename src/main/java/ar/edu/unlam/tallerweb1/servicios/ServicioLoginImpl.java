@@ -39,10 +39,11 @@ public class ServicioLoginImpl implements ServicioLogin {
 
 	@Override
 	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException {
-		if (verificarUsuarioExistente(usuarioNuevo)) {
+		if (verificarUsuarioExistente(usuarioNuevo) && verificarUsuarioExistentePorNick(usuarioNuevo)) {
 			this.servicioLoginDao.guardar(usuarioNuevo);
-		} else {
-			throw new UsuarioExistenteException("Ya existe un usuario con ese mail");
+		}else {
+			throw new UsuarioExistenteException("Ya existe un usuario con ese email o nombre de usuario");
+
 		}
 	}
 
@@ -55,5 +56,15 @@ public class ServicioLoginImpl implements ServicioLogin {
 		}
 		return true;
 	}
+	// si da true no existe un usuario con ese nick
+		@Override
+		public Boolean verificarUsuarioExistentePorNick(Usuario usuario)  {
+			Usuario resultado = this.servicioLoginDao.buscar(usuario.getEmail());
+			if (resultado != null && resultado.getUsuario() != usuario.getUsuario() ) {
+				return false;
+				
+			}
+			return true;
+		}
 
 }

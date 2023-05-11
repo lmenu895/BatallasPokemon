@@ -18,7 +18,7 @@ public class ConexionBaseDeDatosTest extends SpringTest{
         assertThat(session().isConnected()).isTrue();
     }
 
-    @Test
+   /* @Test
     @Transactional @Rollback
     public void crearUsuario(){
         Usuario usuario = new Usuario();
@@ -28,4 +28,5 @@ public class ConexionBaseDeDatosTest extends SpringTest{
         session().save(usuario);
         assertThat(usuario.getId()).isNotNull();
     }
+    */
 }

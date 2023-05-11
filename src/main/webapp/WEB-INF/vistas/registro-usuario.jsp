@@ -14,8 +14,11 @@
         <form:form action="registrarme" method="POST" modelAttribute="usuario">
             <h3 class="form-signin-heading">Nuevo Usuario</h3>
             <hr class="colorgraph"><br>
-
+            <label for="usuario">Nombre de Usuario</label>
+			<form:input path="usuario" type="text" id="email" class="form-control" />
+			<label for="usuario">Direccion de correo electronico</label>
             <form:input path="email" type="email" id="email" class="form-control" />
+            <label for="usuario">Contraseña</label>
             <form:input path="password" type="password" id="password" class="form-control"/>
 
             <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Registrarme</button>

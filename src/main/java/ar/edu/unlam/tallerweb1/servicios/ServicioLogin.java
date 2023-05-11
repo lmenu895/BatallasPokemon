@@ -12,5 +12,7 @@ public interface ServicioLogin {
 	
 	void guardarCliente(Usuario usuario) throws UsuarioExistenteException;
 	
-	Boolean verificarUsuarioExistente(Usuario usuario);
+	Boolean verificarUsuarioExistente(Usuario usuario) throws UsuarioExistenteException;
+
+	Boolean verificarUsuarioExistentePorNick(Usuario usuario);
 }
