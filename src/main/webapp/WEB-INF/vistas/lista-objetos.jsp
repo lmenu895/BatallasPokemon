@@ -12,6 +12,7 @@
 	integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
 	crossorigin="anonymous">
 <title>Lista de Objetos</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body>
 	<table class="table table-hover">

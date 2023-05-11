@@ -14,6 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/homeStyles.css"></link>
 <title>Home</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body>
 	<div class="barra">
@@ -57,7 +58,7 @@
 	<div class="pase">
 		<img class="fortnite" src="images/fortnite.png" alt="pase de batalla">
 	</div>
-	<button class="textUser admin">Admin</button>
+	<a href="admin"><button class="textUser admin">Admin</button></a>
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

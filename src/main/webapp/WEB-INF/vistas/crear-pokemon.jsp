@@ -9,6 +9,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 <title>Crear Pokemon</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body class="pokemon">
 	<div class="container d-flex justify-content-center align-items-center">
@@ -64,8 +65,9 @@
 			<div class="form-group mb-3">
 				<form:label path="velocidad">¿Qué velocidad tendrá su pokemon?</form:label>
 				<form:input class="form-control" path="velocidad" id="velocidad" />
-				<div class="valida-velocidad-vacia validation" style="display: none;">Especifique
-					cuánta velocidad tendrá su pokemon</div>
+				<div class="valida-velocidad-vacia validation"
+					style="display: none;">Especifique cuánta velocidad tendrá su
+					pokemon</div>
 			</div>
 			<button id="btn-registrarme"
 				class="btn btn-lg btn-primary btn-block mb-2" Type="Submit">Guardar</button>

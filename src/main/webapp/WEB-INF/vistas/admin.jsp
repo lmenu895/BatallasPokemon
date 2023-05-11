@@ -13,18 +13,21 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <link rel="stylesheet" href="css/admin.css"></link>
 	    <title>Admin</title>
+	    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 	</head>
 <body>
-    
     <div>
-        <img class="pokemon" alt="pokemon"  src="images/pokemonLogo.png">
+        <a href="home"><img class="pokemon" alt="pokemon"  src="images/pokemonLogo.png"></a>
     </div>
 
     <div class="container">
-        <a href="./lista-pokemons"><button class="button button-pokemon">VER LISTA DE POKEMONS</button></a>
+        <a href="lista-pokemons"><button class="button button-pokemon">VER LISTA DE POKEMONS</button></a>
     
     
-        <a href="./lista-ataques"><button class="button button-ataque">VER LISTA DE ATAQUES</button></a>
+        <a href="lista-ataques"><button class="button button-ataque">VER LISTA DE ATAQUES</button></a>
+        
+        
+        <a href="lista-objetos"><button class="button button-ataque">VER LISTA DE OBJETOS</button></a>
     </div>
     
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" ></script>

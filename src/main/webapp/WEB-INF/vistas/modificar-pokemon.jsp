@@ -9,6 +9,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 <title>Modificar Pokemon</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body class="fondo pokemon">
 	<div class="container d-flex justify-content-center align-items-center">

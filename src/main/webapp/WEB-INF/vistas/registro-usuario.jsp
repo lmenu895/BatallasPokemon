@@ -7,6 +7,8 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <!-- Bootstrap theme -->
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+<title>Registro de usuario</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body>
 	<div class="container">

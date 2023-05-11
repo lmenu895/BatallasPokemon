@@ -8,14 +8,14 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 <title>Lista de Pokemons</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body class="pokemon">
-
 	<div class="container">
-
+		<button class="boton-nuevo btn btn-success mt-5">Nuevo
+			Pokemon</button>
 		<table id="tablaPokemons"
 			class='table table-hover table-striped mb-5 tableForm'>
-
 			<thead>
 				<tr class='text-center table-dark align-middle '>
 					<th scope='col'>Nombre Pokemon</th>
@@ -31,7 +31,7 @@
 						<!-- ${VAR.atributo} -->
 						<td><button class="borrar btn btn-danger"
 								value="${pokemon.id}">Borrar</button>
-							<button class="modificar btn btn-info" value="${pokemon.id}">Modificar</button></td>
+							<button class="modificar btn btn-info text-light" value="${pokemon.id}">Modificar</button></td>
 
 					</tr>
 				</c:forEach>

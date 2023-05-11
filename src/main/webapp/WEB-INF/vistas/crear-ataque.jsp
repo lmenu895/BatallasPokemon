@@ -8,8 +8,8 @@
 <meta charset="ISO-8859-1">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
-
 <title>Crear Ataque</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body class="fondo">
 	<div class="container d-flex justify-content-center align-items-center">

@@ -10,6 +10,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/progress-bar.css" rel="stylesheet">
 <title>Pocket Monster Online Battle!</title>
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body>
 	<div class="container mt-5">

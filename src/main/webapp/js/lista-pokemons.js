@@ -1,7 +1,11 @@
 $(document).ready(function() {
 
 	$(".modificar").click(function() {
-		window.location.href = "./modificar-pokemon?id=" + this.value;
+		window.location.href = "modificar-pokemon?id=" + this.value;
+	});
+	
+	$(".boton-nuevo").click(function(){
+		window.location.href = "crear-pokemon";
 	});
 
 	$(".borrar").click(function() {
