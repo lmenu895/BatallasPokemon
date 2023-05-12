@@ -57,12 +57,16 @@ public class ControladorUsuario {
 		return new ModelAndView("elegir-equipo", model);
 	}
 	
+//	@RequestMapping(path = "/guardar-equipo", method = RequestMethod.POST)
+//	public ModelAndView guardarPokemon(@ModelAttribute("pokemon") Pokemon pokemon,
+//			@RequestParam("pokemonsLista") String[] pokemons,  HttpServletRequest request) {
+//			Long id = (Long)request.getSession().getAttribute("id");
+//			this.servicioUsuario.guardarEquipo(pokemons, id);
+//			return new ModelAndView("ver-equipos");
+//	}
+	
 	@RequestMapping(path = "/guardar-equipo", method = RequestMethod.POST)
-	public ModelAndView guardarPokemon(@ModelAttribute("pokemon") Pokemon pokemon,
-			@RequestParam("pokemonsLista") String[] pokemons,  HttpServletRequest request) {
-			Long id = (Long)request.getSession().getAttribute("id");
-			this.servicioUsuario.guardarEquipo(pokemons, id);
-			
+	public ModelAndView guardarPokemon() {
 			return new ModelAndView("ver-equipos");
 	}
 	
