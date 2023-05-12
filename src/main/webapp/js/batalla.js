@@ -47,6 +47,8 @@ $(document).ready(function() {
 		}
 	})
 
+
+	//Siguiente es el ataque del cpu/nuestro y subsiguiente es el efecto
 	const ataqueUsuario = (widthCpuBar, ataque, siguiente, subsiguiente) => {
 		if (!endGame) {
 			var potencia = pokemonUsuario.ataques[ataque].potencia;

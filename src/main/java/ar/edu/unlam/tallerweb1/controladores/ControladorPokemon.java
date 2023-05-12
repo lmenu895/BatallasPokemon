@@ -65,6 +65,7 @@ public class ControladorPokemon {
 		return new ModelAndView("lista-pokemons", model);
 	}
 
+
 	@RequestMapping("modificar-pokemon")
 	public ModelAndView modificarPokemon(@RequestParam("id") Long id) {
 		ModelMap model = new ModelMap();
