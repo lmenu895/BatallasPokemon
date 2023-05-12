@@ -23,19 +23,20 @@ import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 import ar.edu.unlam.tallerweb1.exceptions.NombreExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
+import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 
 @Controller
 public class ControladorUsuario {
 
 	private ServicioObjeto servicioObjeto;
-	private ServicioPokemon servicioPokemon;
-	public ServicioUsuario servicioUsuario;
+	private ServicioUsuario servicioUsuario;
+	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 
 	@Autowired
-	public ControladorUsuario(ServicioObjeto servicioObjeto, ServicioPokemon servicioPokemon, ServicioUsuario servicioUsuario) {
+	public ControladorUsuario(ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) {
 		this.servicioObjeto = servicioObjeto;
-		this.servicioPokemon = servicioPokemon;
 		this.servicioUsuario = servicioUsuario;
+		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
 	}
 
 	@RequestMapping("/lista-objetos")
@@ -47,9 +48,12 @@ public class ControladorUsuario {
 	}
 
 	@RequestMapping("elegir-equipo")
-	public ModelAndView elegirEquipo() {
+	public ModelAndView elegirEquipo(HttpServletRequest request) {
 		ModelMap model = new ModelMap();
-		model.put("listaPokemon", this.servicioPokemon.obtenerTodosLosPokemons());
+		Long id = (Long)request.getSession().getAttribute("id");
+		List <UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
+		List <Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemon(lista);
+		model.put("listaPokemon", pokemons);
 		return new ModelAndView("elegir-equipo", model);
 	}
 	
@@ -61,4 +65,5 @@ public class ControladorUsuario {
 			
 			return new ModelAndView("ver-equipos");
 	}
+	
 }
