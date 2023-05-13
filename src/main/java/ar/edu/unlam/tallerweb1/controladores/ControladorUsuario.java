@@ -57,6 +57,21 @@ public class ControladorUsuario {
 		return new ModelAndView("elegir-equipo", model);
 	}
 	
+	
+	@RequestMapping(path = "/guardar-equipo", method = RequestMethod.POST)
+	public ModelAndView guardarPokemon(@RequestParam("pokemonsLista") String[] pokemonsTraidos, HttpServletRequest request) {
+		ModelMap model = new ModelMap();
+		Long id = (Long)request.getSession().getAttribute("id");
+		List <UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
+		List <Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemon(lista);
+		if(pokemonsTraidos.length == 3) {
+			return new ModelAndView("ver-equipos");
+		}
+		model.put("error", "Debe seleccionar 3 pokemons");
+		model.put("listaPokemon", pokemons);
+		return new ModelAndView("elegir-equipo", model);
+	}
+
 //	@RequestMapping(path = "/guardar-equipo", method = RequestMethod.POST)
 //	public ModelAndView guardarPokemon(@ModelAttribute("pokemon") Pokemon pokemon,
 //			@RequestParam("pokemonsLista") String[] pokemons,  HttpServletRequest request) {
@@ -64,10 +79,5 @@ public class ControladorUsuario {
 //			this.servicioUsuario.guardarEquipo(pokemons, id);
 //			return new ModelAndView("ver-equipos");
 //	}
-	
-	@RequestMapping(path = "/guardar-equipo", method = RequestMethod.POST)
-	public ModelAndView guardarPokemon() {
-			return new ModelAndView("ver-equipos");
-	}
 	
 }
