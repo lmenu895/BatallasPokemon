@@ -31,12 +31,14 @@ public class ControladorUsuario {
 	private ServicioObjeto servicioObjeto;
 	private ServicioUsuario servicioUsuario;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
+	private ServicioPokemon servicioPokemon;
 
 	@Autowired
-	public ControladorUsuario(ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) {
+	public ControladorUsuario(ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon, ServicioPokemon servicioPokemon) {
 		this.servicioObjeto = servicioObjeto;
 		this.servicioUsuario = servicioUsuario;
 		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
+		this.servicioPokemon = servicioPokemon;
 	}
 
 	@RequestMapping("/lista-objetos")
@@ -65,7 +67,9 @@ public class ControladorUsuario {
 		List <UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
 		List <Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemon(lista);
 		if(pokemonsTraidos.length == 3) {
-			return new ModelAndView("ver-equipos");
+			pokemons = this.servicioPokemon.buscarPokemonPorGrupo(pokemonsTraidos);
+			model.put("equipo", pokemons);
+			return new ModelAndView("ver-equipos", model);
 		}
 		model.put("error", "Debe seleccionar 3 pokemons");
 		model.put("listaPokemon", pokemons);

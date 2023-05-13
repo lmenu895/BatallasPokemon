@@ -110,4 +110,16 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		this.repositorioPokemon.borrarPokemon(id);
 	}
 
+	@Override
+	public List<Pokemon> buscarPokemonPorGrupo(String[] pokemonsTraidos) {
+		
+		List<Pokemon> pokemons = new ArrayList<Pokemon>();
+		
+		for (String pokemon : pokemonsTraidos) {
+					pokemons.add(this.repositorioPokemon.buscarPokemon(Long.parseLong(pokemon)));
+		}
+		return pokemons;
+		
+	}
+
 }

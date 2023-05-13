@@ -24,4 +24,6 @@ public interface ServicioPokemon {
 
 	void borrarPokemon(Long id);
 
+	List<Pokemon> buscarPokemonPorGrupo(String[] pokemonsTraidos);
+
 }
