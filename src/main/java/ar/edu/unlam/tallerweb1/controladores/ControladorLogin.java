@@ -52,9 +52,8 @@ public class ControladorLogin {
 		// hace una llamada a otro action a traves de la URL correspondiente a esta
 		Usuario usuarioBuscado = servicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
 		if (usuarioBuscado != null) {
-			request.getSession().setAttribute("ROL", usuarioBuscado.getEsAdmin());
+			request.getSession().setAttribute("ES_ADMIN", usuarioBuscado.getEsAdmin());
 			model.put("usuario", usuarioBuscado.getUsuario());
-			request.getSession(true).setAttribute("id", usuarioBuscado.getId());
 			return new ModelAndView("home", model);
 		} else {
 			// si el usuario no existe agrega un mensaje de error en el modelo.

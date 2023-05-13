@@ -49,17 +49,8 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	}
 
 	@Override
-	public Usuario buscarUsuario(Long id) {
-		return (Usuario) this.sessionFactory.getCurrentSession().createCriteria(Usuario.class)
-				.add(Restrictions.eq("id", id))
-				.uniqueResult();
-	}
-	
-	@Override
 	public void modificar(Usuario usuario) {
 		this.sessionFactory.getCurrentSession().update(usuario);
 	}
-
-	
 
 }

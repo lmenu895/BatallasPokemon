@@ -1,46 +1,50 @@
 @charset "ISO-8859-1";
 
-.form{
+.form {
 	background-color: white;
-    margin: 4rem auto;
-    border-radius: 2rem;
-    box-shadow: 1px 1px 5px black;
-    padding: 4rem;
-    max-width: 600px;
+	margin: 4rem auto;
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
+	padding: 4rem;
+	max-width: 600px;
 }
 
-.fondo{
-	background-image:url("../images/Ataques.png");
+.fondo {
+	background-image: url("../images/Ataques.png");
 	background-size: cover;
 }
 
-.pokemon{
-	background-image:url("../images/PokeAtaque.jpg");
+.pokemon {
+	background-image: url("../images/PokeAtaque.jpg");
 	background-size: cover;
 }
 
-.validation{
+.validation {
 	color: red;
 }
 
-.lista-ataques{
+.lista-ataques {
 	text-align: center;
 }
 
-.ataques-label{
-    width: 9rem;
-    text-align: left;
+.ataques-label {
+	width: 9rem;
+	text-align: left;
 }
 
-.tableForm{
+.tableForm {
 	background-color: white;
-    margin: 2rem auto;
-    border-radius: 2rem !important;
-    box-shadow: 1px 1px 5px black;
-    padding: 4rem;
-    max-width: 600px;
+	margin: 2rem auto;
+	border-radius: 2rem !important;
+	box-shadow: 1px 1px 5px black;
+	padding: 4rem;
+	max-width: 600px;
 }
 
-.boton-nuevo{
+.boton-nuevo {
 	margin-left: 75%;
+}
+
+.sprite {
+	width: 35%;
 }

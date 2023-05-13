@@ -2,12 +2,16 @@ package ar.edu.unlam.tallerweb1.repositorios;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 
 @Repository("repositorioPokemon")
@@ -27,10 +31,13 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 
 	@Override
 	public Pokemon buscarPokemonPorNombre(String nombre) {
-		return (Pokemon) this.sessionFactory.getCurrentSession()
-				.createCriteria(Pokemon.class)
-				.add(Restrictions.eq("nombre", nombre))
-				.uniqueResult();
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);
+		Root<Pokemon> root = cr.from(Pokemon.class);
+		cr.select(root).where(cb.like(root.get("nombre"), nombre));
+		
+		return session.createQuery(cr).getSingleResult();
 	}
 
 	@Override

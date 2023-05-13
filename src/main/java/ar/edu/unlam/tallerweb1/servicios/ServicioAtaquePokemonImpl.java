@@ -30,12 +30,20 @@ public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 	}
 
 	@Override
-	public List<AtaquePokemon> obtenerListaDeAtaquePokemon(Long idPokemon) {
-		return this.repositorioAtaquePokemon.buscarAtaques(idPokemon);
+	public List<Ataque> obtenerListaDeAtaquePokemon(Long idPokemon) {
+		List<Ataque> ataques = new ArrayList<>();
+		this.repositorioAtaquePokemon.buscarAtaques(idPokemon)
+				.forEach(x -> ataques.add(this.servicioAtaque.buscarAtaque(x.getAtaque().getId())));
+		return ataques;
 	}
 
 	@Override
-	public void borrarAtaquesDeUnPokemon(Long idPokemon) {
-		this.repositorioAtaquePokemon.borrarAtaquesDeUnPokemon(idPokemon);
+	public void borrarAtaquePokemon(AtaquePokemon ataquePokemon) {
+		this.repositorioAtaquePokemon.borrarAtaquePokemon(ataquePokemon);
+	}
+
+	@Override
+	public void borrarAtaquePokemon(Long idAtaque, Long idPokemon) {
+		this.repositorioAtaquePokemon.borrarAtaquePokemon(idAtaque, idPokemon);
 	}
 }
