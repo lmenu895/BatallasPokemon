@@ -37,7 +37,7 @@
 
 	<div class="menus">
 
-		<a href="elegir-equipo"><button class="batalla-texto">BATALLA</button></a>
+		<button class="batalla-texto">BATALLA</button>
 
 		<button class="gacha">GACHAPON</button>
 

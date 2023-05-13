@@ -17,7 +17,7 @@
 		<form:form action="guardar-equipo" method="POST" class="form"
 			modelAttribute="pokemon" enctype="multipart/form-data">
 			<h3 class="form-signin-heading">Nuevo Equipo</h3>
-			<h3 class="fs-5 text">Seleccione qué Pokemons va a tener</h3>
+			<h3 class="fs-5 text">Seleccione qu Pokemons va a tener</h3>
 			<div class="form-group lista-ataques">
 			
 				<c:forEach items="${listaPokemon}" var="pokemon">

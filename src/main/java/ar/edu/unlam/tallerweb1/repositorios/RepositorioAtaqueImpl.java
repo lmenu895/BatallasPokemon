@@ -2,7 +2,9 @@ package ar.edu.unlam.tallerweb1.repositorios;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.criteria.*;
+
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,20 +15,26 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 
 	private SessionFactory sessionFactory;
 
-    @Autowired
-	public RepositorioAtaqueImpl(SessionFactory sessionFactory){
+	@Autowired
+	public RepositorioAtaqueImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
 	@Override
 	public List<Ataque> obtenerTodosLosAtaques() {
-		return this.sessionFactory.getCurrentSession()
-				.createCriteria(Ataque.class).list();
+		Session session = this.sessionFactory.getCurrentSession();
+		CriteriaQuery<Ataque> query = session.getCriteriaBuilder().createQuery(Ataque.class);
+		query.select(query.from(Ataque.class));
+		return session.createQuery(query).getResultList();
+		/*
+		 * return this.sessionFactory.getCurrentSession()
+		 * .createCriteria(Ataque.class).list();
+		 */
 	}
 
 	@Override
 	public Ataque buscarAtaque(Long id) {
-		return this.sessionFactory.getCurrentSession().get(Ataque.class, id); // aca se le pide para buscar QUE CLASE es y por que PARAMETRO BUSCAR
+		return this.sessionFactory.getCurrentSession().get(Ataque.class, id); // aca se le pide para buscar QUE CLASE es																		// y por que PARAMETRO BUSCAR
 	}
 
 	@Override
@@ -44,7 +52,7 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 	public void modificarAtaque(Ataque ataque) {
 		System.out.println(ataque.getId());
 		this.sessionFactory.getCurrentSession().update(ataque);
-		
+
 	}
 
 }

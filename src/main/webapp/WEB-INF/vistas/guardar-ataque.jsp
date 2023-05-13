@@ -1,14 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="utf-8">
 <title>Ataque guardado</title>
 </head>
 <body>
  
- 	<h1 style= 'Font-family: Verdana'>Se creó el ataque ${nombre}</h1>
+ 	<h1 style= 'Font-family: Verdana'>Se creÃ³ el ataque ${nombre}</h1>
 
 </body>
 </html>

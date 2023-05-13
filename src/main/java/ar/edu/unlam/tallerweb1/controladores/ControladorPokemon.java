@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unlam.tallerweb1.exceptions.NombreExistenteException;
+import ar.edu.unlam.tallerweb1.exceptions.SpriteNoIngresadoException;
 import ar.edu.unlam.tallerweb1.modelo.*;
 import ar.edu.unlam.tallerweb1.servicios.*;
 
@@ -25,13 +27,14 @@ public class ControladorPokemon {
 
 	private ServicioPokemon servicioPokemon;
 	private ServicioAtaque servicioAtaque;
+	
 	@Autowired
 	public ControladorPokemon(ServicioPokemon servicioPokemon, ServicioAtaque servicioAtaque) {
 		this.servicioPokemon = servicioPokemon;
 		this.servicioAtaque = servicioAtaque;
 	}
 
-	@RequestMapping("/crear-pokemon")
+	@RequestMapping("crear-pokemon")
 	public ModelAndView crearPokemon() {
 		ModelMap model = new ModelMap();
 		model.put("pokemon", new Pokemon());
@@ -39,15 +42,17 @@ public class ControladorPokemon {
 		return new ModelAndView("crear-pokemon", model);
 	}
 
-	@RequestMapping(path = "/guardar-pokemon", method = RequestMethod.POST)
-	public ModelAndView guardarPokemon(@ModelAttribute("pokemon") Pokemon pokemon,
-			@RequestParam("ataquesLista") String[] ataques, @RequestParam("frente") MultipartFile frente,
-			@RequestParam("dorso") MultipartFile dorso, HttpServletRequest request) {
+	@RequestMapping(path = "crear-pokemon", method = RequestMethod.POST)
+	public ModelAndView crearPokemon(@ModelAttribute Pokemon pokemon, @RequestParam("ataquesLista") List<Long> ataques,
+			@RequestParam MultipartFile frente, @RequestParam MultipartFile dorso, HttpServletRequest request) {
 		try {
 			this.servicioPokemon.guardarPokemon(pokemon, ataques, frente, dorso);
 			return new ModelAndView("redirect:/lista-pokemons");
-		} catch (IOException | NombreExistenteException ex) {
+		} catch (IOException | NombreExistenteException | SpriteNoIngresadoException ex) {
 			ModelMap model = new ModelMap();
+			List<Ataque> ataquesSeleccionados = new ArrayList<>();
+			ataques.forEach(x -> ataquesSeleccionados.add(this.servicioAtaque.buscarAtaque(x)));
+			pokemon.setAtaques(ataquesSeleccionados);
 			model.put("error", ex.getMessage());
 			model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
 			return new ModelAndView("crear-pokemon", model);
@@ -61,9 +66,8 @@ public class ControladorPokemon {
 		return new ModelAndView("lista-pokemons", model);
 	}
 
-
 	@RequestMapping("modificar-pokemon")
-	public ModelAndView modificarPokemon(@RequestParam("id") Long id) {
+	public ModelAndView modificarPokemon(@RequestParam Long id) {
 		ModelMap model = new ModelMap();
 		Pokemon pokemon = this.servicioPokemon.buscarPokemon(id);
 		model.put("pokemon", pokemon);
@@ -71,15 +75,22 @@ public class ControladorPokemon {
 		return new ModelAndView("modificar-pokemon", model);
 	}
 
-	@RequestMapping(path = "/guardar-pokemon-modificado", method = RequestMethod.POST)
-	public ModelAndView guardarPokemonModificado(@ModelAttribute("pokemon") Pokemon pokemon,
-			@RequestParam("ataquesLista") String[] ataques, @RequestParam("frente") MultipartFile frente,
-			@RequestParam("dorso") MultipartFile dorso, HttpServletRequest request) {
+	@RequestMapping(path = "modificar-pokemon", method = RequestMethod.POST)
+	public ModelAndView modificarPokemon(@ModelAttribute Pokemon pokemon, @RequestParam List<Long> ataquesLista,
+			@RequestParam MultipartFile frente, @RequestParam MultipartFile dorso, @RequestParam String nombreAnterior,
+			@RequestParam String frenteAnterior, @RequestParam String dorsoAnterior, HttpServletRequest request) {
+		pokemon.setImagenFrente(frenteAnterior);
+		pokemon.setImagenDorso(dorsoAnterior);
 		try {
-			this.servicioPokemon.modificarPokemon(pokemon, ataques, frente, dorso);
+			this.servicioPokemon.modificarPokemon(pokemon, ataquesLista, frente, dorso, nombreAnterior);
 			return new ModelAndView("redirect:/lista-pokemons");
 		} catch (Exception ex) {
 			ModelMap model = new ModelMap();
+			List<Ataque> ataquesSeleccionados = new ArrayList<>();
+			for (Long ataque : ataquesLista) {
+				ataquesSeleccionados.add(this.servicioAtaque.buscarAtaque(ataque));
+			}
+			pokemon.setAtaques(ataquesSeleccionados);
 			model.put("error", ex.getMessage());
 			model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
 			return new ModelAndView("modificar-pokemon", model);
@@ -88,7 +99,7 @@ public class ControladorPokemon {
 
 	@RequestMapping("borrar-pokemon")
 	@ResponseBody
-	public void borrarPokemon(@RequestParam("id") String id) {
+	public void borrarPokemon(@RequestParam String id) {
 		this.servicioPokemon.borrarPokemon(Long.parseLong(id));
 	}
 

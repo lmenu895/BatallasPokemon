@@ -41,10 +41,4 @@ public class UsuarioPokemon {
 	public void setPokemon(Pokemon pokemon) {
 		this.pokemon = pokemon;
 	}
-	
-	
-	
-	
-	
-	
 }

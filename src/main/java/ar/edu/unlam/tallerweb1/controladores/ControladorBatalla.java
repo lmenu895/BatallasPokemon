@@ -1,10 +1,14 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,7 +25,7 @@ public class ControladorBatalla {
 		this.servicioPokemon = servicioPokemon;
 	}
 
-	@RequestMapping("/batalla")
+	@RequestMapping("batalla")
 	public ModelAndView iniciarBatalla() {
 		ModelMap model = new ModelMap();
 		Pokemon pokemonUsuario = this.servicioPokemon.buscarPokemon(2l);
@@ -31,14 +35,31 @@ public class ControladorBatalla {
 		return new ModelAndView("batalla", model);
 	}
 	
-	@RequestMapping(path = "/obtener-pokemons-ajax", method = RequestMethod.POST)
+	@RequestMapping(path = "obtener-pokemons-ajax", method = RequestMethod.POST)
 	@ResponseBody
 	public ModelMap obtenerPokemonsAjax() {
-		ModelMap modelo = new ModelMap();
+		ModelMap model = new ModelMap();
 		Pokemon pokemonUsuario = this.servicioPokemon.buscarPokemon(2l);
 		Pokemon pokemonCpu = this.servicioPokemon.buscarPokemon(1l);
-		modelo.put("pokemonUsuario", pokemonUsuario);
-		modelo.put("pokemonCpu", pokemonCpu);
-		return modelo;
+		model.put("pokemonUsuario", pokemonUsuario);
+		model.put("pokemonCpu", pokemonCpu);
+		return model;
+	}
+	
+	@RequestMapping("test")
+	public ModelAndView test() {
+		return new ModelAndView("test");
+	}
+	
+	//Testeando botones para seleccionar
+	@RequestMapping(path = "test", params = "pokemonsElegidos")
+	public ModelAndView test(@RequestParam(required = false) List<Long> pokemonsElegidos) {
+		System.out.println(pokemonsElegidos);
+		ModelMap model = new ModelMap();
+		if(pokemonsElegidos.size() < 2) {
+			model.put("error", "EEEEEEEEEEEEE");
+		}
+		model.put("pokemons", pokemonsElegidos);
+		return new ModelAndView("test", model);
 	}
 }

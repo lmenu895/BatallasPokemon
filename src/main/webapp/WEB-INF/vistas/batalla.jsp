@@ -1,16 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/progress-bar.css" rel="stylesheet">
+<%@ include file="partial/header.jsp"%>
 <title>Pocket Monster Online Battle!</title>
-<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body>
 	<div class="container mt-5">
@@ -44,7 +33,6 @@
 			<div id="ataqueCpu" style="visibility: hidden;">Ataque</div>
 		</div>
 	</div>
-	<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
 	<script src="js/batalla.js" type="text/javascript"></script>
 </body>
 </html>
