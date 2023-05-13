@@ -36,7 +36,7 @@ public class ControladorUsuario {
 		this.servicioPokemon = servicioPokemon;
 	}
 
-	@RequestMapping("/lista-objetos")
+	@RequestMapping("lista-objetos")
 	public ModelAndView ObtenerObjetos() {
 		ModelMap modelo = new ModelMap();
 		List<Objeto> objetos = this.servicioObjeto.listarObjetos();
@@ -55,7 +55,7 @@ public class ControladorUsuario {
 	}
 	
 	
-	@RequestMapping(path = "/guardar-equipo", method = RequestMethod.POST)
+	@RequestMapping(path = "guardar-equipo", method = RequestMethod.POST)
 	public ModelAndView guardarPokemon(@RequestParam("pokemonsLista") String[] pokemonsTraidos, HttpServletRequest request) {
 		ModelMap model = new ModelMap();
 		Long id = (Long)request.getSession().getAttribute("id");

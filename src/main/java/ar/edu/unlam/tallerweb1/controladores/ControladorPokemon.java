@@ -35,7 +35,11 @@ public class ControladorPokemon {
 	}
 
 	@RequestMapping("crear-pokemon")
-	public ModelAndView crearPokemon() {
+	public ModelAndView crearPokemon(HttpServletRequest request) {
+		
+		if(request.getSession().getAttribute("logeado") == null || !(Boolean)request.getSession().getAttribute("esAdmin")) {
+			return new ModelAndView("redirect:/home");
+		}
 		ModelMap model = new ModelMap();
 		model.put("pokemon", new Pokemon());
 		model.put("listaAtaques", obtenerListaDeAtaques());

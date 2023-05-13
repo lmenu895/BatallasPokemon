@@ -45,21 +45,4 @@ public class ControladorBatalla {
 		model.put("pokemonCpu", pokemonCpu);
 		return model;
 	}
-	
-	@RequestMapping("test")
-	public ModelAndView test() {
-		return new ModelAndView("test");
-	}
-	
-	//Testeando botones para seleccionar
-	@RequestMapping(path = "test", params = "pokemonsElegidos")
-	public ModelAndView test(@RequestParam(required = false) List<Long> pokemonsElegidos) {
-		System.out.println(pokemonsElegidos);
-		ModelMap model = new ModelMap();
-		if(pokemonsElegidos.size() < 2) {
-			model.put("error", "EEEEEEEEEEEEE");
-		}
-		model.put("pokemons", pokemonsElegidos);
-		return new ModelAndView("test", model);
-	}
 }

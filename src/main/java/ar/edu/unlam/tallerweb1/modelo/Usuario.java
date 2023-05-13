@@ -20,7 +20,7 @@ public class Usuario {
 	private String usuario;
 	private String email;
 	private String password;
-	private Boolean esAdmin= false;
+	private Boolean esAdmin = false;
 	
 	
 	public Long getId() {

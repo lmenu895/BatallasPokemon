@@ -36,8 +36,13 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 		CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);
 		Root<Pokemon> root = cr.from(Pokemon.class);
 		cr.select(root).where(cb.like(root.get("nombre"), nombre));
-		
-		return session.createQuery(cr).getSingleResult();
+		try {
+			return session.createQuery(cr).getSingleResult();
+		}
+		catch (Exception ex) {
+			System.out.println(ex);
+			return null;
+		}
 	}
 
 	@Override

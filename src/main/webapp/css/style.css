@@ -6,7 +6,7 @@
 	border-radius: 2rem;
 	box-shadow: 1px 1px 5px black;
 	padding: 4rem;
-	max-width: 600px;
+	max-width: 900px;
 }
 
 .fondo {
@@ -43,8 +43,4 @@
 
 .boton-nuevo {
 	margin-left: 75%;
-}
-
-.sprite {
-	width: 35%;
 }

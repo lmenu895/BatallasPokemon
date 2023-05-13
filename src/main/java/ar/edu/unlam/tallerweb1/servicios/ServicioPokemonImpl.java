@@ -103,7 +103,6 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		String fileName = imagen.getOriginalFilename();
 		String uploadDir = servletContext.getRealPath("") + "images/sprites/" + nombrePokemon;
 		Path uploadPath = Paths.get(uploadDir);
-		System.out.println(uploadDir);
 		if (!Files.exists(uploadPath)) {
 			Files.createDirectories(uploadPath);
 		}

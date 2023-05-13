@@ -45,14 +45,14 @@ $(document).ready(function() {
 		}
 		else
 			$(".valida-ataques").hide();
-		if($("#frente")[0].files.length == 0 && $("#verFrente").html() == "") {
+		if ($("#frente")[0].files.length == 0 && $("#verFrente").html() == "") {
 			$(".valida-sprite-frente").show();
 			e.preventDefault(e);
 		}
 		else {
 			$(".valida-sprite-frente").hide();
 		}
-		if($("#dorso")[0].files.length == 0 && $("#verDorso").html() == "") {
+		if ($("#dorso")[0].files.length == 0 && $("#verDorso").html() == "") {
 			$(".valida-sprite-dorso").show();
 			e.preventDefault(e);
 		}
@@ -68,6 +68,10 @@ $(document).ready(function() {
 			$("#_frente").src = url;
 		else
 			$("#verFrente").html("<img id='_frente' alt='frente' src=" + url + " class='img-fluid mt-1 sprite'>");
+		$("#_frente").on("load", function() {
+			var width = $(this).prop("width") * 2;
+			$(this).prop("width", width);
+		});
 	});
 	$("#dorso").change(function() {
 		var url = URL.createObjectURL(this.files[0]);
@@ -76,5 +80,16 @@ $(document).ready(function() {
 			$("#_dorso").src = url;
 		else
 			$("#verDorso").html("<img id='_dorso' alt='dorso' src=" + url + " class='img-fluid mt-1 sprite'>");
+		$("#_dorso").on("load", function() {
+			var width = $(this).prop("width") * 2;
+			$(this).prop("width", width);
+		});
+	});
+
+	$(window).on("load", () => {
+		var width = $("#_frente").prop("width") * 2;
+		$("#_frente").prop("width", width);
+		var width = $("#_dorso").prop("width") * 2;
+		$("#_dorso").prop("width", width);
 	});
 });
