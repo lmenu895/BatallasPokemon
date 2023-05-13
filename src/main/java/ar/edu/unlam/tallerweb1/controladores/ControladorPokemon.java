@@ -25,14 +25,10 @@ public class ControladorPokemon {
 
 	private ServicioPokemon servicioPokemon;
 	private ServicioAtaque servicioAtaque;
-	private ServicioAtaquePokemon servicioAtaquePokemon;
-
 	@Autowired
-	public ControladorPokemon(ServicioPokemon servicioPokemon, ServicioAtaque servicioAtaque,
-			ServicioAtaquePokemon servicioAtaquePokemon) {
+	public ControladorPokemon(ServicioPokemon servicioPokemon, ServicioAtaque servicioAtaque) {
 		this.servicioPokemon = servicioPokemon;
 		this.servicioAtaque = servicioAtaque;
-		this.servicioAtaquePokemon = servicioAtaquePokemon;
 	}
 
 	@RequestMapping("/crear-pokemon")
