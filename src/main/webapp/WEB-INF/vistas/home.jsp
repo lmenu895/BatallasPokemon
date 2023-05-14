@@ -23,42 +23,35 @@
 
 			<div class="fondo-pokemon"></div>
 		</div>
-
-		<div>
-			<div class="parte-usuario">
+		<div class="fondo-usuario">
+			<div class="userProfile">
 				<img class="pokeball" src="images/pokeballU.png" alt="pokeball">
 				<button class="textUser">1000</button>
-				<button class="textUser">USER</button>
+				<button id="usuario" class="textUser">${usuario}</button>
 			</div>
-			<div class="fondo-usuario"></div>
+			<div class="logout">
+				<button class="logoutButton">Logout</button>
+			</div>
 		</div>
-
 	</div>
-
 	<div class="menus">
-
-		<button class="batalla-texto">BATALLA</button>
-
-		<button class="gacha">GACHAPON</button>
-
-		<button class="pokedex-texto">POKEDEX</button>
-
-		<button class="pase">PASE DE BATALLA</button>
-
+		<div class="pok">
+			<img class="glaceon" src="images/glaceon.png" alt="glaceon">
+			<button class="batalla-texto">BATALLA</button>
+		</div>
+		<div class="pok">
+			<img class="togepi" src="images/togepi.png" alt="togepi">
+			<button class="gacha">GACHAPON</button>
+		</div>
+		<div class="pok">
+			<img class="pokedex" src="images/pokedex.png" alt="pokedex">
+			<button class="pokedex-texto">POKEDEX</button>
+		</div>
+		<div class="pok">
+			<img class="fortnite" src="images/fortnite.png" alt="pase de batalla">
+			<button class="pase">PASE DE BATALLA</button>
+		</div>
 	</div>
-	<div class="gla">
-		<img class="glaceon" src="images/glaceon.png" alt="glaceon">
-	</div>
-	<div class="tog">
-		<img class="togepi" src="images/togepi.png" alt="togepi">
-	</div>
-	<div class="pok">
-		<img class="pokedex" src="images/pokedex.png" alt="pokedex">
-	</div>
-	<div class="pase">
-		<img class="fortnite" src="images/fortnite.png" alt="pase de batalla">
-	</div>
-	<a href="admin"><button class="textUser admin">Admin</button></a>
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -67,5 +60,6 @@
 				|| document
 						.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
 	</script>
+	<script type="text/javascript" src="js/home.js"></script>
 </body>
 </html>

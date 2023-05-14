@@ -21,6 +21,7 @@ public class Usuario {
 	private String email;
 	private String password;
 	private Boolean esAdmin = false;
+	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contraseñas en la base de datos, no está implementado
 	
 	
 	public Long getId() {
@@ -53,5 +54,11 @@ public class Usuario {
 	}
 	public void setEsAdmin(Boolean esAdmin) {
 		this.esAdmin = esAdmin;
+	}
+	public byte[] getSalt() {
+		return salt;
+	}
+	public void setSalt(byte[] salt) {
+		this.salt = salt;
 	}
 }

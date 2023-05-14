@@ -1,4 +1,5 @@
 <%@ include file="partial/header.jsp"%>
+<link href="css/progress-bar.css" rel="stylesheet">
 <title>Pocket Monster Online Battle!</title>
 </head>
 <body>

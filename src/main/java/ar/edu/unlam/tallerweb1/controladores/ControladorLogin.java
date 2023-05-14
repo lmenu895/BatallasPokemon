@@ -63,11 +63,12 @@ public class ControladorLogin {
 		Usuario usuarioBuscado = servicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
 		if (usuarioBuscado != null) {
 			request.getSession().setAttribute("esAdmin", usuarioBuscado.getEsAdmin());
-			request.getSession().setAttribute("logeado", 1);
 			request.getSession().setAttribute("id", usuarioBuscado.getId());
 			request.getSession().setAttribute("usuario", usuarioBuscado.getUsuario());
-			model.put("usuario", usuarioBuscado.getUsuario());
-			return new ModelAndView("home", model);
+			if(usuarioBuscado.getEsAdmin()) {
+				return new ModelAndView("redirect:/admin");
+			}
+			return new ModelAndView("redirect:/home");
 		} else {
 			// si el usuario no existe agrega un mensaje de error en el modelo.
 			model.put("error", "Usuario o clave incorrecta");
@@ -83,7 +84,7 @@ public class ControladorLogin {
 	}
 
 	@RequestMapping(path = "/registrarme", method = RequestMethod.POST)
-	public ModelAndView confirmarRegistro(@ModelAttribute("usuario") Usuario datosUsuario, HttpServletRequest request)
+	public ModelAndView confirmarRegistro(@ModelAttribute("usuario") Usuario datosUsuario)
 			throws UsuarioExistenteException {
 		ModelMap modelo = new ModelMap();
 		try {
@@ -96,19 +97,27 @@ public class ControladorLogin {
 		return new ModelAndView("redirect:/login");
 	}
 
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpServletRequest request) {
+		request.getSession().invalidate();
+		return new ModelAndView("redirect:/login");
+	}
+
 	// Escucha la URL /home por GET, y redirige a una vista.
 	@RequestMapping(path = "/home", method = RequestMethod.GET)
 	public ModelAndView irAHome(HttpServletRequest request) {
-		if(request.getSession().getAttribute("logeado") == null)
+		if (request.getSession().getAttribute("usuario") == null)
 			return new ModelAndView("redirect:/login");
-		return new ModelAndView("home");
+		ModelMap model = new ModelMap();
+		model.put("usuario", request.getSession().getAttribute("usuario"));
+		return new ModelAndView("home", model);
 	}
 
 	// Escucha la url /, y redirige a la URL /login, es lo mismo que si se invoca la
 	// url /login directamente.
 	@RequestMapping(path = "/", method = RequestMethod.GET)
 	public ModelAndView inicio() {
-		return new ModelAndView("redirect:/login");
+		return new ModelAndView("redirect:/home");
 	}
 
 }

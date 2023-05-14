@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	$.ajax({
 		type: 'POST',
-		url: "./obtener-pokemons-ajax",
+		url: "obtener-pokemons-ajax",
 		async: false,
 		//contentType: false,
 		//processData: false,
@@ -168,7 +168,7 @@ $(document).ready(function() {
 					else if (siguiente) siguiente()
 				} else {
 					width -= 0.3;
-					elem.width(width + "%")
+					elem.width(width + "%");
 					vidaAnterior -= porcentajeARestar
 					if (vidaAnterior > vidaActual && vidaAnterior > 0)
 						$(idVida).html(parseInt(vidaAnterior))

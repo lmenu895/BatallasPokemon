@@ -89,7 +89,7 @@ $(document).ready(function() {
 	$(window).on("load", () => {
 		var width = $("#_frente").prop("width") * 2;
 		$("#_frente").prop("width", width);
-		var width = $("#_dorso").prop("width") * 2;
+		width = $("#_dorso").prop("width") * 2;
 		$("#_dorso").prop("width", width);
 	});
 });

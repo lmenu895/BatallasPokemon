@@ -1,14 +1,10 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,7 +21,7 @@ public class ControladorBatalla {
 		this.servicioPokemon = servicioPokemon;
 	}
 
-	@RequestMapping("batalla")
+	@RequestMapping("/batalla")
 	public ModelAndView iniciarBatalla() {
 		ModelMap model = new ModelMap();
 		Pokemon pokemonUsuario = this.servicioPokemon.buscarPokemon(2l);
@@ -35,7 +31,7 @@ public class ControladorBatalla {
 		return new ModelAndView("batalla", model);
 	}
 	
-	@RequestMapping(path = "obtener-pokemons-ajax", method = RequestMethod.POST)
+	@RequestMapping(path = "/obtener-pokemons-ajax", method = RequestMethod.POST)
 	@ResponseBody
 	public ModelMap obtenerPokemonsAjax() {
 		ModelMap model = new ModelMap();

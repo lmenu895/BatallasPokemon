@@ -34,10 +34,10 @@ public class ControladorPokemon {
 		this.servicioAtaque = servicioAtaque;
 	}
 
-	@RequestMapping("crear-pokemon")
+	@RequestMapping("/crear-pokemon")
 	public ModelAndView crearPokemon(HttpServletRequest request) {
 		
-		if(request.getSession().getAttribute("logeado") == null || !(Boolean)request.getSession().getAttribute("esAdmin")) {
+		if(request.getSession().getAttribute("usuario") == null || !(Boolean)request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
@@ -46,7 +46,7 @@ public class ControladorPokemon {
 		return new ModelAndView("crear-pokemon", model);
 	}
 
-	@RequestMapping(path = "crear-pokemon", method = RequestMethod.POST)
+	@RequestMapping(path = "/crear-pokemon", method = RequestMethod.POST)
 	public ModelAndView crearPokemon(@ModelAttribute Pokemon pokemon, @RequestParam("ataquesLista") List<Long> ataques,
 			@RequestParam MultipartFile frente, @RequestParam MultipartFile dorso, HttpServletRequest request) {
 		try {
@@ -63,14 +63,14 @@ public class ControladorPokemon {
 		}
 	}
 
-	@RequestMapping("lista-pokemons")
+	@RequestMapping("/lista-pokemons")
 	public ModelAndView listaPokemons() {
 		ModelMap model = new ModelMap();
 		model.put("listaPokemons", this.servicioPokemon.obtenerTodosLosPokemons());
 		return new ModelAndView("lista-pokemons", model);
 	}
 
-	@RequestMapping("modificar-pokemon")
+	@RequestMapping("/modificar-pokemon")
 	public ModelAndView modificarPokemon(@RequestParam Long id) {
 		ModelMap model = new ModelMap();
 		Pokemon pokemon = this.servicioPokemon.buscarPokemon(id);
@@ -79,7 +79,7 @@ public class ControladorPokemon {
 		return new ModelAndView("modificar-pokemon", model);
 	}
 
-	@RequestMapping(path = "modificar-pokemon", method = RequestMethod.POST)
+	@RequestMapping(path = "/modificar-pokemon", method = RequestMethod.POST)
 	public ModelAndView modificarPokemon(@ModelAttribute Pokemon pokemon, @RequestParam List<Long> ataquesLista,
 			@RequestParam MultipartFile frente, @RequestParam MultipartFile dorso, @RequestParam String nombreAnterior,
 			@RequestParam String frenteAnterior, @RequestParam String dorsoAnterior, HttpServletRequest request) {
@@ -101,7 +101,7 @@ public class ControladorPokemon {
 		}
 	}
 
-	@RequestMapping("borrar-pokemon")
+	@RequestMapping("/borrar-pokemon")
 	@ResponseBody
 	public void borrarPokemon(@RequestParam String id) {
 		this.servicioPokemon.borrarPokemon(Long.parseLong(id));

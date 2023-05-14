@@ -11,6 +11,12 @@ $(document).ready(function() {
 		}
 	});
 
+	$(".botonPokemon").each(function() {
+		if (!$(this).next().prop("disabled")) {
+			$(this).html("Quitar");
+		}
+	});
+
 	//Seteo el tamaño de los sprites
 	$(window).on("load", () => {
 		var width;

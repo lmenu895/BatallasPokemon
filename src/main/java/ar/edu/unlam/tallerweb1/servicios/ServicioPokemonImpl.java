@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.servlet.ServletContext;
 
@@ -43,7 +42,7 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		if (frente.isEmpty() | dorso.isEmpty()) {
 			throw new SpriteNoIngresadoException("No ha ingresado los dos sprites del pokemon");
 		}
-		validarPokemon(pokemon, frente, dorso, "");
+		this.validarPokemon(pokemon, frente, dorso, "");
 		this.repositorioPokemon.guardarPokemon(pokemon);
 		ataques.forEach(x -> this.servicioAtaquePokemon
 				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
@@ -52,12 +51,12 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 	@Override
 	public void modificarPokemon(Pokemon pokemon, List<Long> ataques, MultipartFile frente, MultipartFile dorso,
 			String nombreAnterior) throws IOException, NombreExistenteException {
-		validarPokemon(pokemon, frente, dorso, nombreAnterior);
+		this.validarPokemon(pokemon, frente, dorso, nombreAnterior);
 		this.repositorioPokemon.modificarPokemon(pokemon);
 		List<Ataque> aprendidos = this.servicioAtaquePokemon.obtenerListaDeAtaquePokemon(pokemon.getId());
 		Long ataque;
 		for (Ataque aprendido : aprendidos) {
-			ataque = verificarAtaqueOlvidado(aprendido, ataques);
+			ataque = this.verificarAtaqueOlvidado(aprendido, ataques);
 			if (ataque == null) {
 				this.servicioAtaquePokemon.borrarAtaquePokemon(aprendido.getId(), pokemon.getId());
 			} else {
@@ -66,49 +65,6 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		}
 		ataques.forEach(x -> this.servicioAtaquePokemon
 				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
-	}
-
-	public Long verificarAtaqueOlvidado(Ataque aprendido, List<Long> ataques) {
-		for (Long ataque : ataques) {
-			if (ataque == aprendido.getId()) {
-				return ataque;
-			}
-		}
-		return null;
-	}
-
-	private void validarPokemon(Pokemon pokemon, MultipartFile frente, MultipartFile dorso, String nombreAnterior)
-			throws IOException, NombreExistenteException {
-		if (nombreAnterior.equals(pokemon.getNombre())
-				|| this.repositorioPokemon.buscarPokemonPorNombre(pokemon.getNombre()) == null) {
-			try {
-				if (!frente.isEmpty()) {
-					guardarImagen(frente, pokemon.getNombre());
-					pokemon.setImagenFrente(frente.getOriginalFilename());
-				}
-				if (!dorso.isEmpty()) {
-					guardarImagen(dorso, pokemon.getNombre());
-					pokemon.setImagenDorso(dorso.getOriginalFilename());
-				}
-			} catch (IOException ex) {
-				throw new IOException("No se pudo guardar los archivos");
-			}
-		} else {
-			pokemon.setNombre(nombreAnterior);
-			throw new NombreExistenteException("El nombre del pokemon ya existe");
-		}
-	}
-
-	public void guardarImagen(MultipartFile imagen, String nombrePokemon) throws IOException {
-		String fileName = imagen.getOriginalFilename();
-		String uploadDir = servletContext.getRealPath("") + "images/sprites/" + nombrePokemon;
-		Path uploadPath = Paths.get(uploadDir);
-		if (!Files.exists(uploadPath)) {
-			Files.createDirectories(uploadPath);
-		}
-		InputStream inputStream = imagen.getInputStream();
-		Path filePath = uploadPath.resolve(fileName);
-		Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	@Override
@@ -135,14 +91,57 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 
 	@Override
 	public List<Pokemon> buscarPokemonPorGrupo(String[] pokemonsTraidos) {
-		
+
 		List<Pokemon> pokemons = new ArrayList<Pokemon>();
-		
+
 		for (String pokemon : pokemonsTraidos) {
-					pokemons.add(this.repositorioPokemon.buscarPokemon(Long.parseLong(pokemon)));
+			pokemons.add(this.repositorioPokemon.buscarPokemon(Long.parseLong(pokemon)));
 		}
 		return pokemons;
-		
+	}
+	
+	//Funciones privadas para utilizar dentro de la clase
+	
+	private Long verificarAtaqueOlvidado(Ataque aprendido, List<Long> ataques) {
+		for (Long ataque : ataques) {
+			if (ataque == aprendido.getId()) {
+				return ataque;
+			}
+		}
+		return null;
 	}
 
+	private void validarPokemon(Pokemon pokemon, MultipartFile frente, MultipartFile dorso, String nombreAnterior)
+			throws IOException, NombreExistenteException {
+		if (nombreAnterior.equals(pokemon.getNombre())
+				|| this.repositorioPokemon.buscarPokemonPorNombre(pokemon.getNombre()) == null) {
+			try {
+				if (!frente.isEmpty()) {
+					this.guardarImagen(frente, pokemon.getNombre());
+					pokemon.setImagenFrente(frente.getOriginalFilename());
+				}
+				if (!dorso.isEmpty()) {
+					this.guardarImagen(dorso, pokemon.getNombre());
+					pokemon.setImagenDorso(dorso.getOriginalFilename());
+				}
+			} catch (IOException ex) {
+				throw new IOException("No se pudo guardar los archivos");
+			}
+		} else {
+			pokemon.setNombre(nombreAnterior);
+			throw new NombreExistenteException("El nombre del pokemon ya existe");
+		}
+	}
+
+	private void guardarImagen(MultipartFile imagen, String nombrePokemon) throws IOException {
+		String fileName = imagen.getOriginalFilename();
+		String uploadDir = servletContext.getRealPath("") + "images/sprites/" + nombrePokemon;
+		Path uploadPath = Paths.get(uploadDir);
+		if (!Files.exists(uploadPath)) {
+			Files.createDirectories(uploadPath);
+		}
+		InputStream inputStream = imagen.getInputStream();
+		Path filePath = uploadPath.resolve(fileName);
+		Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+	}
 }

@@ -2,16 +2,12 @@ package ar.edu.unlam.tallerweb1.repositorios;
 
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
 import org.hibernate.*;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 
 @Repository("repositorioPokemon")
@@ -19,8 +15,8 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 
 	private SessionFactory sessionFactory;
 
-    @Autowired
-	public RepositorioPokemonImpl(SessionFactory sessionFactory){
+	@Autowired
+	public RepositorioPokemonImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
@@ -38,9 +34,8 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 		cr.select(root).where(cb.like(root.get("nombre"), nombre));
 		try {
 			return session.createQuery(cr).getSingleResult();
-		}
-		catch (Exception ex) {
-			System.out.println(ex);
+		} catch (Exception ex) {
+			System.err.println(ex);
 			return null;
 		}
 	}
@@ -52,8 +47,17 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 
 	@Override
 	public List<Pokemon> obtenerTodosLosPokemons() {
-		return this.sessionFactory.getCurrentSession()
-				.createCriteria(Pokemon.class).list();
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);
+		Root<Pokemon> root = cr.from(Pokemon.class);
+		cr.select(root);
+		try {
+			return session.createQuery(cr).getResultList();
+		} catch (Exception ex) {
+			System.err.println(ex);
+			return null;
+		}
 	}
 
 	@Override
@@ -65,6 +69,5 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 	public void borrarPokemon(Long id) {
 		this.sessionFactory.getCurrentSession().delete(this.buscarPokemon(id));
 	}
-	
-	
+
 }
