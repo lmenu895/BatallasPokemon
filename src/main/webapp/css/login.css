@@ -1,0 +1,27 @@
+#loginbox{
+	
+	align-items: center;
+}
+
+
+form {
+	background-color:white;
+	margin: 4rem auto;
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
+	padding: 4rem;
+	max-width: 800px;
+}
+img{
+	
+	width:40rem;
+	padding-bottom: 1rem;
+	padding-left: 1rem;
+}
+
+.fondo{
+	
+	background-image:  url("../images/pokehuevas.png");
+	background-size: cover;
+	
+}

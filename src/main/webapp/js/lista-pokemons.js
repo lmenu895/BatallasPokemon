@@ -9,11 +9,11 @@ $(document).ready(function() {
 	});
 
 	$(".borrar").click(function() {
-		if (confirm("¿Est\u00E1s seguro de borrar el pokemon?")) {
+		if (confirm("¿Estás seguro de borrar el pokemon?")) {
 			var idPokemon = this.value;
 			$.ajax({
 				type: 'GET',
-				url: "./borrar-pokemon?id=" + idPokemon,
+				url: "borrar-pokemon?id=" + idPokemon,
 				async: true,
 				//contentType: false,
 				//processData: false,

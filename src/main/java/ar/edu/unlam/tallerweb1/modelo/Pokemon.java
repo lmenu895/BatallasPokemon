@@ -18,8 +18,8 @@ public class Pokemon {
 	private Double velocidad;
 	private String imagenFrente;
 	private String imagenDorso;
-	@Transient
-	private List<Ataque> ataques;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pokemon" ,cascade = CascadeType.ALL)
+	private List<AtaquePokemon> ataques;
 
 	public Long getId() {
 		return id;
@@ -69,11 +69,11 @@ public class Pokemon {
 		this.imagenDorso = imagenDorso;
 	}
 
-	public List<Ataque> getAtaques() {
+	public List<AtaquePokemon> getAtaques() {
 		return ataques;
 	}
 
-	public void setAtaques(List<Ataque> ataques) {
+	public void setAtaques(List<AtaquePokemon> ataques) {
 		this.ataques = ataques;
 	}
 

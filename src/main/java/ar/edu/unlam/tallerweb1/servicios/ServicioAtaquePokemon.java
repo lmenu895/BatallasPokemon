@@ -10,6 +10,6 @@ public interface ServicioAtaquePokemon {
 
 	List<AtaquePokemon> obtenerListaDeAtaquePokemon(Long idPokemon);
 
-	void borrarAtaquesDeUnPokemon(Long idPokemon);
-
+	void borrarAtaquePokemon(AtaquePokemon ataquePokemon);
+	void borrarAtaquePokemon(Long idAtaque, Long idPokemon);
 }

@@ -2,15 +2,21 @@ $(document).ready(function() {
 
 	$.ajax({
 		type: 'POST',
-		url: "./obtener-pokemons-ajax",
+		url: "obtener-pokemons-ajax",
 		async: false,
 		//contentType: false,
 		//processData: false,
 		/*/beforeSend: function() {
 		},*/
 		success: function(resultado) {
-			pokemonUsuario = resultado.pokemonUsuario
-			pokemonCpu = resultado.pokemonCpu
+			pokemonUsuario = resultado.pokemonUsuario;
+			pokemonCpu = resultado.pokemonCpu;
+			$(resultado.ataquesUsuario).each(function() {
+				pokemonUsuario.ataques.push(this.ataque);
+			});
+			$(resultado.ataquesCpu).each(function() {
+				pokemonCpu.ataques.push(this.ataque);
+			});
 		}
 		/*error: function(error){
 		}*/
@@ -168,7 +174,7 @@ $(document).ready(function() {
 					else if (siguiente) siguiente()
 				} else {
 					width -= 0.3;
-					elem.width(width + "%")
+					elem.width(width + "%");
 					vidaAnterior -= porcentajeARestar
 					if (vidaAnterior > vidaActual && vidaAnterior > 0)
 						$(idVida).html(parseInt(vidaAnterior))

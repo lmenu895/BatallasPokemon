@@ -1,16 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/style.css" rel="stylesheet">
+<%@ include file ="partial/header.jsp" %>>
 <title>Modificar Ataque</title>
-<link rel="icon" type="image/x-icon" href="images/favicon.ico">
-</head>
+
 <body class="fondo">
 	<div class="container d-flex justify-content-center align-items-center">
 		<div id="loginbox"

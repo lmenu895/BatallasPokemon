@@ -41,14 +41,14 @@ public class ControladorAtaque {
 		try {
 			this.servicioAtaque.guardarAtaque(datosAtaque);
 			modelo.put("nombre", datosAtaque.getNombre());
+			return new ModelAndView("redirect:/lista-ataques");
 			
 		} catch (NombreExistenteException e) {
 			modelo.put("error", e.getMessage());
 			return new ModelAndView("crear-ataque", modelo);
 		}
 		
-		modelo.put("ataque", datosAtaque.getNombre());
-		return new ModelAndView("guardar-ataque", modelo);
+	
 	}
 	
 	@RequestMapping("/eliminar-ataque")

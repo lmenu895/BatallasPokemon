@@ -2,23 +2,21 @@ package ar.edu.unlam.tallerweb1.repositorios;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
+import javax.persistence.criteria.*;
+
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ar.edu.unlam.tallerweb1.modelo.Ataque;
 import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
 @Repository("repositorioAtaquePokemon")
 public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
-	
+
 	private SessionFactory sessionFactory;
 
-    @Autowired
-	public RepositorioAtaquePokemonImpl(SessionFactory sessionFactory){
+	@Autowired
+	public RepositorioAtaquePokemonImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
@@ -29,9 +27,18 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 
 	@Override
 	public List<AtaquePokemon> buscarAtaques(Long id) {
-		return (List<AtaquePokemon>) this.sessionFactory.getCurrentSession()
-				.createCriteria(AtaquePokemon.class)
-				.add(Restrictions.eq("pokemon.id", id)).list();
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<AtaquePokemon> cr = cb.createQuery(AtaquePokemon.class);
+		Root<AtaquePokemon> root = cr.from(AtaquePokemon.class);
+		cr.select(root).where(cb.equal(root.get("pokemon"), id));
+
+		return session.createQuery(cr).getResultList();
+		/*
+		 * return
+		 * this.sessionFactory.getCurrentSession().createCriteria(AtaquePokemon.class)
+		 * .add(Restrictions.eq("pokemon.id", id)).list();
+		 */
 	}
 
 	@Override
@@ -40,8 +47,15 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 	}
 
 	@Override
-	public void borrarAtaquesDeUnPokemon(Long idPokemon) {
-		this.buscarAtaques(idPokemon).forEach(x -> this.borrarAtaquePokemon(x));
+	public void borrarAtaquePokemon(Long idAtaque, Long idPokemon) {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaDelete<AtaquePokemon> cd = cb.createCriteriaDelete(AtaquePokemon.class);
+		Root<AtaquePokemon> root = cd.from(AtaquePokemon.class);
+		Predicate[] predicates = new Predicate[] { cb.equal(root.get("ataque"), idAtaque),
+				cb.equal(root.get("pokemon"), idPokemon) };
+		cd.where(predicates);
+
+		session.createQuery(cd).executeUpdate();
 	}
-	
 }

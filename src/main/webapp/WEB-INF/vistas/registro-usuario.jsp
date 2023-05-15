@@ -9,11 +9,11 @@
 <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 <title>Registro de usuario</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<link href="css/login.css" rel="stylesheet">
 </head>
-<body>
+<body class="fondo">
 	<div class="container">
-		<div id="loginbox" style="margin-top: 50px;"
-			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+		<div id="loginbox">
 			<form:form action="registrarme" method="POST"
 				modelAttribute="usuario">
 				<h3 class="form-signin-heading">Nuevo Usuario</h3>
@@ -27,7 +27,7 @@
 					class="form-control" />
 				<label for="usuario">Contraseña</label>
 				<form:input path="password" type="password" id="password"
-					class="form-control" />
+					class="form-control" /><br>
 				<button id="btn-registrarme"
 					class="btn btn-lg btn-primary btn-block" Type="Submit">Registrarme</button>
 			</form:form>

@@ -2,9 +2,9 @@ package ar.edu.unlam.tallerweb1.repositorios;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
+import javax.persistence.criteria.*;
+
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +15,8 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 
 	private SessionFactory sessionFactory;
 
-    @Autowired
-	public RepositorioPokemonImpl(SessionFactory sessionFactory){
+	@Autowired
+	public RepositorioPokemonImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
@@ -27,10 +27,17 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 
 	@Override
 	public Pokemon buscarPokemonPorNombre(String nombre) {
-		return (Pokemon) this.sessionFactory.getCurrentSession()
-				.createCriteria(Pokemon.class)
-				.add(Restrictions.eq("nombre", nombre))
-				.uniqueResult();
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);
+		Root<Pokemon> root = cr.from(Pokemon.class);
+		cr.select(root).where(cb.like(root.get("nombre"), nombre));
+		try {
+			return session.createQuery(cr).getSingleResult();
+		} catch (Exception ex) {
+			System.err.println(ex);
+			return null;
+		}
 	}
 
 	@Override
@@ -40,8 +47,17 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 
 	@Override
 	public List<Pokemon> obtenerTodosLosPokemons() {
-		return this.sessionFactory.getCurrentSession()
-				.createCriteria(Pokemon.class).list();
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);
+		Root<Pokemon> root = cr.from(Pokemon.class);
+		cr.select(root);
+		try {
+			return session.createQuery(cr).getResultList();
+		} catch (Exception ex) {
+			System.err.println(ex);
+			return null;
+		}
 	}
 
 	@Override
@@ -53,6 +69,5 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 	public void borrarPokemon(Long id) {
 		this.sessionFactory.getCurrentSession().delete(this.buscarPokemon(id));
 	}
-	
-	
+
 }

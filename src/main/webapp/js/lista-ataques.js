@@ -1,7 +1,7 @@
 $(document).ready(function() { //Funcion principal de jquery
 
 	$(".borrar").click(function() { //Que pasa cuando le doy click a un objeto en la clase borrar
-		if (confirm("Estas seguro de borrar el ataque?")) { //confirm -> tas seguro?
+		if (confirm("¿Estás seguro de borrar el ataque?")) { //confirm -> tas seguro?
 			var id = $(this).val();
 			$.ajax({
 				data: {id: id}, //info al controlador
@@ -30,9 +30,4 @@ $(document).ready(function() { //Funcion principal de jquery
 	$(".boton-nuevo").click(function(){
 		window.location.href = "crear-ataque";
 	});
-		
-	
-	
-	
-
 });

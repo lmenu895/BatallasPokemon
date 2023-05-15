@@ -3,48 +3,42 @@ package ar.edu.unlam.tallerweb1.modelo;
 import javax.persistence.*;
 
 @Entity
-public class AtaquePokemon {
+public class UsuarioPokemon {
 
-	public AtaquePokemon(Ataque ataque, Pokemon pokemon) {
-		this.ataque = ataque;
+	public UsuarioPokemon(Usuario usuario, Pokemon pokemon) {
+		this.usuario = usuario;
 		this.pokemon = pokemon;
 	}
 
-	public AtaquePokemon() {
-		// Default
-	}
-
+	public UsuarioPokemon() {}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	@ManyToOne
-	private Ataque ataque;
+	private Usuario usuario;
 	@ManyToOne
 	private Pokemon pokemon;
-
+	
+	
+	
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public Ataque getAtaque() {
-		return ataque;
+	public Usuario getUsuario() {
+		return usuario;
 	}
-
-	public void setAtaque(Ataque ataque) {
-		this.ataque = ataque;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
-
 	public Pokemon getPokemon() {
 		return pokemon;
 	}
-
 	public void setPokemon(Pokemon pokemon) {
 		this.pokemon = pokemon;
 	}
-
 }
