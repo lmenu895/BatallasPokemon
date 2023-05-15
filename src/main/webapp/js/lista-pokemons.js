@@ -19,11 +19,11 @@ $(document).ready(function() {
 				//processData: false,
 				/*/beforeSend: function() {
 				},*/
-				success: function(resultado) {
+				success: function(result) {
 					$("#pokemon" + idPokemon).remove();
 					console.log("Pokemon borrado");
 				}
-				/*error: function(error){
+				/*error: function(err){
 				}*/
 			});
 		}

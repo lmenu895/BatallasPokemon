@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unlam.tallerweb1.exceptions.NombreExistenteException;
+import ar.edu.unlam.tallerweb1.exceptions.PermisosInsuficientesException;
 import ar.edu.unlam.tallerweb1.exceptions.SpriteNoIngresadoException;
 import ar.edu.unlam.tallerweb1.modelo.*;
 import ar.edu.unlam.tallerweb1.servicios.*;
@@ -36,6 +37,7 @@ public class ControladorPokemon {
 
 	@RequestMapping("/crear-pokemon")
 	public ModelAndView crearPokemon(HttpServletRequest request) {
+		
 		if (request.getSession().getAttribute("usuario") == null
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
@@ -49,6 +51,11 @@ public class ControladorPokemon {
 	@RequestMapping(path = "/crear-pokemon", method = RequestMethod.POST)
 	public ModelAndView crearPokemon(@ModelAttribute Pokemon pokemon, @RequestParam("ataquesLista") List<Long> ataques,
 			@RequestParam MultipartFile frente, @RequestParam MultipartFile dorso, HttpServletRequest request) {
+		
+		if (request.getSession().getAttribute("usuario") == null
+				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
+			return new ModelAndView("redirect:/home");
+		}
 		try {
 			this.servicioPokemon.guardarPokemon(pokemon, ataques, frente, dorso);
 			return new ModelAndView("redirect:/lista-pokemons");
@@ -65,14 +72,24 @@ public class ControladorPokemon {
 	}
 
 	@RequestMapping("/lista-pokemons")
-	public ModelAndView listaPokemons() {
+	public ModelAndView listaPokemons(HttpServletRequest request) {
+		
+		if (request.getSession().getAttribute("usuario") == null
+				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
+			return new ModelAndView("redirect:/home");
+		}
 		ModelMap model = new ModelMap();
 		model.put("listaPokemons", this.servicioPokemon.obtenerTodosLosPokemons());
 		return new ModelAndView("lista-pokemons", model);
 	}
 
 	@RequestMapping("/modificar-pokemon")
-	public ModelAndView modificarPokemon(@RequestParam Long id) {
+	public ModelAndView modificarPokemon(@RequestParam Long id, HttpServletRequest request) {
+		
+		if (request.getSession().getAttribute("usuario") == null
+				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
+			return new ModelAndView("redirect:/home");
+		}
 		ModelMap model = new ModelMap();
 		Pokemon pokemon = this.servicioPokemon.buscarPokemon(id);
 		model.put("pokemon", pokemon);
@@ -85,6 +102,11 @@ public class ControladorPokemon {
 			@RequestParam MultipartFile frente, @RequestParam MultipartFile dorso, @RequestParam String nombreAnterior,
 			@RequestParam String frenteAnterior, @RequestParam String dorsoAnterior,
 			@RequestParam List<Long> ataquesAprendidos, HttpServletRequest request) {
+		
+		if (request.getSession().getAttribute("usuario") == null
+				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
+			return new ModelAndView("redirect:/home");
+		}
 		pokemon.setImagenFrente(frenteAnterior);
 		pokemon.setImagenDorso(dorsoAnterior);
 		try {
@@ -104,7 +126,12 @@ public class ControladorPokemon {
 
 	@RequestMapping("/borrar-pokemon")
 	@ResponseBody
-	public void borrarPokemon(@RequestParam String id) {
+	public void borrarPokemon(@RequestParam String id, HttpServletRequest request) throws PermisosInsuficientesException {
+		
+		if (request.getSession().getAttribute("usuario") == null
+				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
+			throw new PermisosInsuficientesException();
+		}
 		this.servicioPokemon.borrarPokemon(Long.parseLong(id));
 	}
 

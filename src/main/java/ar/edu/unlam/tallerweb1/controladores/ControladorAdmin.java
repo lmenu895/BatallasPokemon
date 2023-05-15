@@ -11,9 +11,10 @@ public class ControladorAdmin {
 
 	@RequestMapping("/admin")
 	public ModelAndView irAAdmin(HttpServletRequest request) {
-		if(request.getSession().getAttribute("usuario") == null || !(Boolean)request.getSession().getAttribute("esAdmin")) {
+
+		if (request.getSession().getAttribute("usuario") == null
+				|| !(Boolean) request.getSession().getAttribute("esAdmin"))
 			return new ModelAndView("redirect:/home");
-		}
 		return new ModelAndView("admin");
 	}
 }

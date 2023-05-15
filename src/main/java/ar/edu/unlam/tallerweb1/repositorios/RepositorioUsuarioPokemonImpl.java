@@ -26,10 +26,10 @@ public class RepositorioUsuarioPokemonImpl implements RepositorioUsuarioPokemon{
 
 	@Override
 	public List<UsuarioPokemon> buscarPokemon(Long idUsuario) {
+
 		return (List<UsuarioPokemon>) this.sessionFactory.getCurrentSession()
 				.createCriteria(UsuarioPokemon.class)
 				.add(Restrictions.eq("usuario.id", idUsuario)).list();
-
 	}
 
 }

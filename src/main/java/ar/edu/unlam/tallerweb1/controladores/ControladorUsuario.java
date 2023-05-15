@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,11 @@ public class ControladorUsuario {
 	}
 
 	@RequestMapping("lista-objetos")
-	public ModelAndView ObtenerObjetos() {
+	public ModelAndView ObtenerObjetos(HttpServletRequest request) {
+		
+		if (request.getSession().getAttribute("usuario") == null) {
+			return new ModelAndView("redirect:/login");
+		}
 		ModelMap modelo = new ModelMap();
 		List<Objeto> objetos = this.servicioObjeto.listarObjetos();
 		modelo.put("objetos", objetos);
@@ -46,17 +51,22 @@ public class ControladorUsuario {
 
 	@RequestMapping("elegir-equipo")
 	public ModelAndView elegirEquipo(HttpServletRequest request) {
+		
+		if (request.getSession().getAttribute("usuario") == null) {
+			return new ModelAndView("redirect:/login");
+		}
 		ModelMap model = new ModelMap();
-		Long id = (Long)request.getSession().getAttribute("id");
-		List <UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
-		List <Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemon(lista);
-		model.put("listaPokemon", pokemons);
+		model.put("listaPokemon", this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id")));
 		return new ModelAndView("elegir-equipo", model);
 	}
 	
 	
 	@RequestMapping(path = "guardar-equipo", method = RequestMethod.POST)
 	public ModelAndView guardarPokemon(@RequestParam("pokemonsLista") String[] pokemonsTraidos, HttpServletRequest request) {
+		
+		if (request.getSession().getAttribute("usuario") == null) {
+			return new ModelAndView("redirect:/login");
+		}
 		ModelMap model = new ModelMap();
 		Long id = (Long)request.getSession().getAttribute("id");
 		List <UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);

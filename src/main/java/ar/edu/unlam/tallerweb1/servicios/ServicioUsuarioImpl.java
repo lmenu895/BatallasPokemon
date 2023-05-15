@@ -1,9 +1,11 @@
 package ar.edu.unlam.tallerweb1.servicios;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
@@ -31,7 +33,18 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 			this.servicioUsuarioPokemon.guardarUsuarioPokemon(
 					new UsuarioPokemon(usuario, this.servicioPokemon.buscarPokemon(Long.parseLong(pokemon)))
 			);
-		}
-		
+		}	
+	}
+
+	@Override
+	public Usuario buscarUsuario(Long idUsuario) {
+		return this.repositorioUsuario.buscarUsuario(idUsuario);
+	}
+	
+	@Override
+	public List<Pokemon> obtenerListaDePokemons(Long idUsuario) {
+		List<Pokemon> pokemons = new ArrayList<>();
+		this.buscarUsuario(idUsuario).getPokemons().forEach(x -> pokemons.add(x.getPokemon()));
+		return pokemons;
 	}
 }
