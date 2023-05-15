@@ -59,7 +59,7 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 	private void validarPokemon(Pokemon pokemon, MultipartFile frente, MultipartFile dorso)
 			throws IOException, NombreExistenteException {
 		if (this.repositorioPokemon.buscarPokemonPorNombre(pokemon.getNombre()) == null) {
-			String frenteFileName = frente.getOriginalFilename();
+			/*String frenteFileName = frente.getOriginalFilename();
 			String dorsoFileName = dorso.getOriginalFilename();
 			String uploadDir = servletContext.getRealPath(".") + "/images/sprites/" + pokemon.getNombre();
 			Path uploadPath = Paths.get(uploadDir);
@@ -79,7 +79,7 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 				pokemon.setImagenDorso(dorsoFileName);
 			} catch (IOException ex) {
 				throw new IOException("No se pudo guardar el archivo: " + dorsoFileName);
-			}
+			}*/
 		} else
 			throw new NombreExistenteException("El nombre del pokemon ya existe");
 	}
