@@ -8,7 +8,7 @@
 		<table id="tablaPokemons"
 			class='table table-hover table-striped mb-5 tableForm'>
 			<thead>
-				<tr class='text-center table-dark align-middle '>
+				<tr class='text-center table-dark align-middle'>
 					<th scope='col'>Nombre Pokemon</th>
 					<th scope='col'>Acciones</th>
 				</tr>

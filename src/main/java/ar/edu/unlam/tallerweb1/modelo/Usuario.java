@@ -1,9 +1,14 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 // Clase que modela el concepto de Usuario, la anotacion @Entity le avisa a hibernate que esta clase es persistible
 // el paquete ar.edu.unlam.tallerweb1.modelo esta indicado en el archivo hibernateCOntext.xml para que hibernate
@@ -22,6 +27,8 @@ public class Usuario {
 	private String password;
 	private Boolean esAdmin = false;
 	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contraseñas en la base de datos, no está implementado
+	@OneToMany(mappedBy = "usuario" ,cascade = CascadeType.ALL)
+	private List<UsuarioPokemon> pokemons;
 	
 	
 	public Long getId() {
@@ -60,5 +67,11 @@ public class Usuario {
 	}
 	public void setSalt(byte[] salt) {
 		this.salt = salt;
+	}
+	public List<UsuarioPokemon> getPokemons() {
+		return pokemons;
+	}
+	public void setPokemons(List<UsuarioPokemon> pokemons) {
+		this.pokemons = pokemons;
 	}
 }

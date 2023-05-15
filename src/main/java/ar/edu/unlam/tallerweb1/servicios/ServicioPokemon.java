@@ -21,7 +21,7 @@ public interface ServicioPokemon {
 
 	List<Pokemon> obtenerTodosLosPokemons();
 
-	void modificarPokemon(Pokemon pokemon, List<Long> ataques, MultipartFile frente, MultipartFile dorso, String nombreAnterior) throws IOException, NombreExistenteException, SpriteNoIngresadoException;;
+	void modificarPokemon(Pokemon pokemon, List<Long> ataques, MultipartFile frente, MultipartFile dorso, String nombreAnterior, List<Long> ataquesAprendidos) throws IOException, NombreExistenteException, SpriteNoIngresadoException;;
 
 	void borrarPokemon(Long id);
 

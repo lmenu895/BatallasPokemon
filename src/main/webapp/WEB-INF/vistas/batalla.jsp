@@ -15,10 +15,10 @@
 			</div>
 			<div id="ataqueUsuario" style="visibility: hidden;">Ataque</div>
 			<div id="ataques">
-				<c:forEach items="${pokemonUsuario.ataques}" var="ataque"
+				<c:forEach items="${pokemonUsuario.ataques}" var="ataquePokemon"
 					varStatus="status">
 					<button class='btn btn-success ataques' id="${status.count-1}"
-						value="${status.count-1}">${ataque.nombre}</button>
+						value="${status.count-1}">${ataquePokemon.ataque.nombre}</button>
 				</c:forEach>
 			</div>
 		</div>

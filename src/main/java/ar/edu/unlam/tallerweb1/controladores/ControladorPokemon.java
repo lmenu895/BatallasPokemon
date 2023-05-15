@@ -27,7 +27,7 @@ public class ControladorPokemon {
 
 	private ServicioPokemon servicioPokemon;
 	private ServicioAtaque servicioAtaque;
-	
+
 	@Autowired
 	public ControladorPokemon(ServicioPokemon servicioPokemon, ServicioAtaque servicioAtaque) {
 		this.servicioPokemon = servicioPokemon;
@@ -36,8 +36,8 @@ public class ControladorPokemon {
 
 	@RequestMapping("/crear-pokemon")
 	public ModelAndView crearPokemon(HttpServletRequest request) {
-		
-		if(request.getSession().getAttribute("usuario") == null || !(Boolean)request.getSession().getAttribute("esAdmin")) {
+		if (request.getSession().getAttribute("usuario") == null
+				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
@@ -54,8 +54,9 @@ public class ControladorPokemon {
 			return new ModelAndView("redirect:/lista-pokemons");
 		} catch (IOException | NombreExistenteException | SpriteNoIngresadoException ex) {
 			ModelMap model = new ModelMap();
-			List<Ataque> ataquesSeleccionados = new ArrayList<>();
-			ataques.forEach(x -> ataquesSeleccionados.add(this.servicioAtaque.buscarAtaque(x)));
+			List<AtaquePokemon> ataquesSeleccionados = new ArrayList<>();
+			ataques.forEach(
+					x -> ataquesSeleccionados.add(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
 			pokemon.setAtaques(ataquesSeleccionados);
 			model.put("error", ex.getMessage());
 			model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
@@ -82,20 +83,20 @@ public class ControladorPokemon {
 	@RequestMapping(path = "/modificar-pokemon", method = RequestMethod.POST)
 	public ModelAndView modificarPokemon(@ModelAttribute Pokemon pokemon, @RequestParam List<Long> ataquesLista,
 			@RequestParam MultipartFile frente, @RequestParam MultipartFile dorso, @RequestParam String nombreAnterior,
-			@RequestParam String frenteAnterior, @RequestParam String dorsoAnterior, HttpServletRequest request) {
+			@RequestParam String frenteAnterior, @RequestParam String dorsoAnterior,
+			@RequestParam List<Long> ataquesAprendidos, HttpServletRequest request) {
 		pokemon.setImagenFrente(frenteAnterior);
 		pokemon.setImagenDorso(dorsoAnterior);
 		try {
-			this.servicioPokemon.modificarPokemon(pokemon, ataquesLista, frente, dorso, nombreAnterior);
+			this.servicioPokemon.modificarPokemon(pokemon, ataquesLista, frente, dorso, nombreAnterior, ataquesAprendidos);
 			return new ModelAndView("redirect:/lista-pokemons");
 		} catch (Exception ex) {
 			ModelMap model = new ModelMap();
-			List<Ataque> ataquesSeleccionados = new ArrayList<>();
-			for (Long ataque : ataquesLista) {
-				ataquesSeleccionados.add(this.servicioAtaque.buscarAtaque(ataque));
-			}
+			List<AtaquePokemon> ataquesSeleccionados = new ArrayList<>();
+			ataquesLista.forEach(
+					x -> ataquesSeleccionados.add(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
 			pokemon.setAtaques(ataquesSeleccionados);
-			model.put("error", ex.getMessage());
+			model.put("error", ex);
 			model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
 			return new ModelAndView("modificar-pokemon", model);
 		}

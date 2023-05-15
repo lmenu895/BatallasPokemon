@@ -9,8 +9,14 @@ $(document).ready(function() {
 		/*/beforeSend: function() {
 		},*/
 		success: function(resultado) {
-			pokemonUsuario = resultado.pokemonUsuario
-			pokemonCpu = resultado.pokemonCpu
+			pokemonUsuario = resultado.pokemonUsuario;
+			pokemonCpu = resultado.pokemonCpu;
+			$(resultado.ataquesUsuario).each(function() {
+				pokemonUsuario.ataques.push(this.ataque);
+			});
+			$(resultado.ataquesCpu).each(function() {
+				pokemonCpu.ataques.push(this.ataque);
+			});
 		}
 		/*error: function(error){
 		}*/

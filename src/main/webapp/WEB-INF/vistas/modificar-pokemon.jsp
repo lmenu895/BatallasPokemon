@@ -1,10 +1,10 @@
-<%@ include file="partial/header.jsp" %>
+<%@ include file="partial/header.jsp"%>
 <title>Modificar Pokemon</title>
 </head>
 <body class="fondo pokemon">
 	<div class="container d-flex justify-content-center align-items-center">
-		<form:form method="POST"
-			class="form" modelAttribute="pokemon" enctype="multipart/form-data">
+		<form:form method="POST" class="form" modelAttribute="pokemon"
+			enctype="multipart/form-data">
 			<h3 class="form-signin-heading">${pokemon.nombre}</h3>
 			<hr class="colorgraph">
 			<div class="form-group mb-3">
@@ -20,18 +20,22 @@
 						frente</label> <input class="form-control" type="file" name="frente"
 						id="frente" /> <input type="hidden" name="frenteAnterior"
 						value="${pokemon.imagenFrente}" />
-						<div id="verFrente" style="text-align: center;">
-							<img id='_frente' alt='frente' src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}" class='img-fluid mt-1 sprite'>
-						</div>
+					<div id="verFrente" style="text-align: center;">
+						<img id='_frente' alt='frente'
+							src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}"
+							class='img-fluid mt-1 sprite'>
+					</div>
 				</div>
 				<div class="form-group mb-3">
 					<label for="dorso">Ingrese un sprite de su pokemon de
 						espaldas</label> <input class="form-control" type="file" name="dorso"
 						id="dorso" /> <input type="hidden" name="dorsoAnterior"
 						value="${pokemon.imagenDorso}" />
-						<div id="verDorso" style="text-align: center;">
-							<img id='_dorso' alt='dorso' src="images/sprites/${pokemon.nombre}/${pokemon.imagenDorso}" class='img-fluid mt-1 sprite'>
-						</div>
+					<div id="verDorso" style="text-align: center;">
+						<img id='_dorso' alt='dorso'
+							src="images/sprites/${pokemon.nombre}/${pokemon.imagenDorso}"
+							class='img-fluid mt-1 sprite'>
+					</div>
 				</div>
 			</div>
 			<div class="form-group mb-3">
@@ -49,10 +53,17 @@
 					<div class="form-check form-check-inline">
 						<label class="form-check-label ataques-label">${ataque.nombre}</label>
 						<input type="checkbox"
-							<c:forEach items="${pokemon.ataques}" var="aprendido"><c:if test="${ataque.id == aprendido.id}">checked="ckecked"</c:if></c:forEach>
+							<c:forEach items="${pokemon.ataques}" var="aprendido">
+								<c:if test="${ataque.id == aprendido.ataque.id}">
+								checked="checked"
+								</c:if>
+							</c:forEach>
 							class="form-check-input ataques" name="ataquesLista"
 							value="${ataque.id}" />
 					</div>
+				</c:forEach>
+				<c:forEach items="${pokemon.ataques}" var="aprendido">
+					<input type="hidden" name="ataquesAprendidos" value="${aprendido.ataque.id}">
 				</c:forEach>
 			</div>
 			<div class="valida-ataques validation mb-3" style="display: none;">Seleccione

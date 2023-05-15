@@ -20,18 +20,16 @@
 	<div class="barra">
 		<div>
 			<img class="pokemon" alt="pokemon" src="images/pokemonLogo.png">
-
 			<div class="fondo-pokemon"></div>
 		</div>
-		<div class="fondo-usuario">
+		<div class="user">
 			<div class="userProfile">
+				<div class="fondo-usuario"></div>
 				<img class="pokeball" src="images/pokeballU.png" alt="pokeball">
 				<button class="textUser">1000</button>
 				<button id="usuario" class="textUser">${usuario}</button>
 			</div>
-			<div class="logout">
-				<button class="logoutButton">Logout</button>
-			</div>
+			<button class="logoutButton">Logout</button>
 		</div>
 	</div>
 	<div class="menus">

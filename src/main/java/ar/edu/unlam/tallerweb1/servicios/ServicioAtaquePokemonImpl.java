@@ -1,13 +1,11 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.edu.unlam.tallerweb1.modelo.Ataque;
 import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioAtaquePokemon;
 
@@ -16,12 +14,9 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioAtaquePokemon;
 public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 
 	private RepositorioAtaquePokemon repositorioAtaquePokemon;
-	private ServicioAtaque servicioAtaque;
-
 	@Autowired
-	public ServicioAtaquePokemonImpl(RepositorioAtaquePokemon repositorioAtaquePokemon, ServicioAtaque servicioAtaque) {
+	public ServicioAtaquePokemonImpl(RepositorioAtaquePokemon repositorioAtaquePokemon) {
 		this.repositorioAtaquePokemon = repositorioAtaquePokemon;
-		this.servicioAtaque = servicioAtaque;
 	}
 
 	@Override
@@ -30,11 +25,8 @@ public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 	}
 
 	@Override
-	public List<Ataque> obtenerListaDeAtaquePokemon(Long idPokemon) {
-		List<Ataque> ataques = new ArrayList<>();
-		this.repositorioAtaquePokemon.buscarAtaques(idPokemon)
-				.forEach(x -> ataques.add(this.servicioAtaque.buscarAtaque(x.getAtaque().getId())));
-		return ataques;
+	public List<AtaquePokemon> obtenerListaDeAtaquePokemon(Long idPokemon) {
+		return this.repositorioAtaquePokemon.buscarAtaques(idPokemon);
 	}
 
 	@Override

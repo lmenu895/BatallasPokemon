@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,9 +15,9 @@ import ar.edu.unlam.tallerweb1.servicios.*;
 
 @Controller
 public class ControladorBatalla {
-	
+
 	private ServicioPokemon servicioPokemon;
-	
+
 	@Autowired
 	public ControladorBatalla(ServicioPokemon servicioPokemon) {
 		this.servicioPokemon = servicioPokemon;
@@ -30,13 +32,17 @@ public class ControladorBatalla {
 		model.put("pokemonCpu", pokemonCpu);
 		return new ModelAndView("batalla", model);
 	}
-	
+
 	@RequestMapping(path = "/obtener-pokemons-ajax", method = RequestMethod.POST)
 	@ResponseBody
 	public ModelMap obtenerPokemonsAjax() {
 		ModelMap model = new ModelMap();
 		Pokemon pokemonUsuario = this.servicioPokemon.buscarPokemon(2l);
 		Pokemon pokemonCpu = this.servicioPokemon.buscarPokemon(1l);
+		model.put("ataquesUsuario", pokemonUsuario.getAtaques());
+		model.put("ataquesCpu", pokemonCpu.getAtaques());
+		pokemonUsuario.setAtaques(new ArrayList<>());
+		pokemonCpu.setAtaques(new ArrayList<>());
 		model.put("pokemonUsuario", pokemonUsuario);
 		model.put("pokemonCpu", pokemonCpu);
 		return model;
