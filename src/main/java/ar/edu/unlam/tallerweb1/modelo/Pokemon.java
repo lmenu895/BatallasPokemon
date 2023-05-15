@@ -18,7 +18,7 @@ public class Pokemon {
 	private Double velocidad;
 	private String imagenFrente;
 	private String imagenDorso;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pokemon" ,cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pokemon", cascade = CascadeType.ALL)
 	private List<AtaquePokemon> ataques;
 
 	public Long getId() {
