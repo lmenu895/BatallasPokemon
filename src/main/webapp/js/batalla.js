@@ -8,13 +8,13 @@ $(document).ready(function() {
 		//processData: false,
 		/*/beforeSend: function() {
 		},*/
-		success: function(resultado) {
-			pokemonUsuario = resultado.pokemonUsuario;
-			pokemonCpu = resultado.pokemonCpu;
-			$(resultado.ataquesUsuario).each(function() {
+		success: function(result) {
+			pokemonUsuario = result.pokemonUsuario;
+			pokemonCpu = result.pokemonCpu;
+			$(result.ataquesUsuario).each(function() {
 				pokemonUsuario.ataques.push(this.ataque);
 			});
-			$(resultado.ataquesCpu).each(function() {
+			$(result.ataquesCpu).each(function() {
 				pokemonCpu.ataques.push(this.ataque);
 			});
 		}
