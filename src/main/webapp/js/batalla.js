@@ -54,7 +54,8 @@ $(document).ready(function() {
 	})
 
 	const ataqueUsuario = (widthCpuBar, ataque, siguiente, subsiguiente) => {
-		if (!endGame) {
+		//PARALISIS
+		if (!endGame && !pokemonUsuario.paralizado || !endGame && !efectoPorParalisis) {
 			var potencia = pokemonUsuario.ataques[ataque].potencia;
 			var tipo = pokemonUsuario.ataques[ataque].tipo;
 			if (tipo == pokemonUsuario.tipo)
@@ -69,13 +70,18 @@ $(document).ready(function() {
 			if (!estadosCpu.envenenado && tipo == "VENENO") {
 				envenenado("cpu");
 			}
+			//PARALISIS
+			else if (!estadosCpu.paralizado && tipo == "ELECTRICO"){
+				paralizado("cpu");
+			}
 		}
 		else
 			$("#vidaPkmnCpu").html("Perdiste :C");
 	};
 
 	const ataqueCpu = (widthUsrBar, siguiente, subsiguiente) => {
-		if (!endGame) {
+		//PARALISIS
+		if (!endGame && !pokemonCpu.paralizado || !endGame && !efectoPorParalisis) {
 			var ataque = Math.floor(Math.random() * pokemonCpu.ataques.length);
 			var tipo = pokemonCpu.ataques[ataque].tipo;
 			var potencia = pokemonCpu.ataques[ataque].potencia;
@@ -90,6 +96,10 @@ $(document).ready(function() {
 			$("#ataqueCpu").css('visibility', 'visible');
 			if (!estadosUsr.envenenado && tipo == "VENENO") {
 				envenenado("user");
+			}
+			//PARALISIS
+			else if (!estadosUsr.paralizado && tipo == "ELECTRICO"){
+				paralizado("user");
 			}
 		}
 		else
@@ -108,13 +118,16 @@ $(document).ready(function() {
 				daniarCpu(daniarUsr, enableButtons)
 			else if (estadosCpu.envenenado)
 				daniarCpu(enableButtons)
+			
 			else enableButtons()
+			
 		}
 		else if (!primero) {
 			if (estadosCpu.envenenado && estadosUsr.envenenado)
 				daniarUsr(daniarCpu, enableButtons)
 			else if (estadosUsr.envenenado)
 				daniarUsr(enableButtons)
+				
 			else enableButtons()
 		}
 	}
@@ -140,6 +153,18 @@ $(document).ready(function() {
 		else $("#vidaPkmnCpu").html("Perdiste :C")
 	}
 
+
+	// PARALISIS
+	const efectoPorParalisis = () =>{
+		if(!endgame){
+			var chanceDeNoAtacar = Math.floor(Math.random() * 10) + 1
+			if (chanceDeNoAtacar > 7) {
+				return true
+			}
+			return false
+		}
+	}
+
 	const envenenado = (name) => {
 		var random;
 		random = Math.floor(Math.random() * 10) + 1
@@ -161,6 +186,32 @@ $(document).ready(function() {
 		else
 			return 0
 	}
+
+	// PARALISIS
+	const paralizado = (name) => {
+		var random;
+		random = Math.floor(Math.random() * 10) + 1
+		if (random > 7) {
+			if (name == "cpu") {
+				estadosCpu.paralizado = true
+				$("#estadoCpu").html("Paralized")
+				pokemonCpu.velocidad *= 0.75
+				if (primero == undefined)
+					primero = true
+			}
+			else if (name == "user") {
+				estadosUsr.paralizado = true
+				$("#estadoUsuario").html("Paralized")
+				pokemonUsuarior.velocidad *= 0.75
+				if (primero == undefined)
+					primero = false
+			}
+
+		}
+		else
+			return 0
+	}
+
 
 	const moveProgressBar = (porcentajeDeVida, porcentajeARestar, vidaActual, idProgressBar, idVida, width, siguiente, subsiguiente) => {
 		setTimeout(() => {

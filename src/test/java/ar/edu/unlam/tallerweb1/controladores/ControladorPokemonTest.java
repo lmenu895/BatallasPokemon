@@ -14,7 +14,6 @@ public class ControladorPokemonTest {
 		String nombre = "Charizard";
 		TipoPokemon tipo = TipoPokemon.FUEGO;
 		Double vida = 2000.0;
-		
 		fail("not implemented");
 
 	}
