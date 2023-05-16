@@ -25,8 +25,8 @@ $(document).ready(function() {
 	var pokemonUsuario;
 	var pokemonCpu;
 	var endGame = false;
-	var estadosUsr = { envenenado: false, paralizado: false };
-	var estadosCpu = { envenenado: false, paralizado: false };
+	var estadosUsr = { envenenado: false, paralizado: false, quemado: false };
+	var estadosCpu = { envenenado: false, paralizado: false, quemado: false };
 	var primero;
 	var vidaPkmnCpu = pokemonCpu.vida;
 	var vidaPkmnUsr = pokemonUsuario.vida;
@@ -74,6 +74,10 @@ $(document).ready(function() {
 			else if (!estadosCpu.paralizado && tipo == "ELECTRICO"){
 				paralizado("cpu");
 			}
+			//QUEMAR
+			else if (!estadosCpu.quemado && tipo == "FUEGO"){
+				quemado("cpu");
+			}
 		}
 		else
 			$("#vidaPkmnCpu").html("Perdiste :C");
@@ -101,6 +105,10 @@ $(document).ready(function() {
 			else if (!estadosUsr.paralizado && tipo == "ELECTRICO"){
 				paralizado("user");
 			}
+			//QUEMAR
+			else if (!estadosUsr.quemado && tipo == "FUEGO"){
+				quemado("user");
+			}
 		}
 		else
 			$("#vidaPkmnUsr").html("Ganaste C:");
@@ -113,23 +121,30 @@ $(document).ready(function() {
 		var danioCpu = pokemonCpu.vida * 8 / 100
 		var daniarUsr = (x, y) => { danioPorEstado("user", widthBarUsr, danioUsr, x, y) }
 		var daniarCpu = (x, y) => { danioPorEstado("cpu", widthBarCpu, danioCpu, x, y) }
+		
+		//CHECKEO LOS ESTADOS Y LES APLICO EL DAÑO
 		if (primero) {
-			if (estadosCpu.envenenado && estadosUsr.envenenado)
-				daniarCpu(daniarUsr, enableButtons)
-			else if (estadosCpu.envenenado)
-				daniarCpu(enableButtons)
-			
-			else enableButtons()
-			
+			checkeoEstadosDaño(estadosUsr, estadosCpu, daniarUsr, daniarCpu)
 		}
 		else if (!primero) {
-			if (estadosCpu.envenenado && estadosUsr.envenenado)
-				daniarUsr(daniarCpu, enableButtons)
-			else if (estadosUsr.envenenado)
-				daniarUsr(enableButtons)
-				
-			else enableButtons()
+			checkeoEstadosDaño(estadosCpu, estadosUsr, daniarUsr, daniarCpu)
 		}
+	}
+	
+	//CHECKEO SI ESTAN ENVENENADOS O QUEMADOS
+	const checkeoEstadosDaño = (estados, estadosOponente, daniarUsr, daniarCpu) =>{
+		estados.foreach(estado => {
+				if (estado && !estados.paralizado){
+					daniarUsr(daniarCpu, enableButtons)
+					return true
+				}
+				else if (estadosOponente.quemado || estadosOponente.envenenado){
+					daniarUsr(enableButtons)
+					return true
+				}
+				else enableButtons()
+			}
+		)
 	}
 
 	const danioPorEstado = (objetivo, width, potencia, siguiente, subsiguiente) => {
@@ -202,7 +217,31 @@ $(document).ready(function() {
 			else if (name == "user") {
 				estadosUsr.paralizado = true
 				$("#estadoUsuario").html("Paralized")
-				pokemonUsuarior.velocidad *= 0.75
+				pokemonUsuario.velocidad *= 0.75
+				if (primero == undefined)
+					primero = false
+			}
+
+		}
+		else
+			return 0
+	}
+	
+	const quemado = (name) => {
+		var random;
+		random = Math.floor(Math.random() * 10) + 1
+		if (random > 7) {
+			if (name == "cpu") {
+				estadosCpu.quemado = true
+				$("#estadoCpu").html("Burned")
+				pokemonCpu.ataque *= 0.5
+				if (primero == undefined)
+					primero = true
+			}
+			else if (name == "user") {
+				estadosUsr.paralizado = true
+				$("#estadoUsuario").html("Burned")
+				pokemonUsuario.ataque *= 0.5
 				if (primero == undefined)
 					primero = false
 			}
