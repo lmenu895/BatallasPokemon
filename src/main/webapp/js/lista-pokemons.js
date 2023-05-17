@@ -12,7 +12,7 @@ $(document).ready(function() {
 				//processData: false,
 				/*/beforeSend: function() {
 				},*/
-				success: function(result) {
+				success: (result) => {
 					$("#pokemon" + idPokemon).remove();
 					console.log("Pokemon borrado");
 				}

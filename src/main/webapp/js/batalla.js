@@ -12,7 +12,7 @@ $(document).ready(function() {
 		//processData: false,
 		/*/beforeSend: function() {
 		},*/
-		success: function(result) {
+		success: (result) => {
 			pokemonUsuario = result.pokemonUsuario;
 			pokemonCpu = result.pokemonCpu;
 			$(result.ataquesUsuario).each(function() {
@@ -46,52 +46,31 @@ $(document).ready(function() {
 	$("#vidaMaximaPkmnCpu").html(" / " + vidaPkmnCpu);
 
 	//Detecto si el usuario presiona un ataque y comienza el intercambio de daño
-	$("#ataques").on("click", "button", function() {
+	$("#ataques").on("click", "button", async function() {
 		widthUsrBar = vidaPkmnUsr / pokemonUsuario.vida * 100;
 		widthCpuBar = vidaPkmnCpu / pokemonCpu.vida * 100;
-
 		$(".ataques").prop('disabled', true);
-
-		const intercambioInicial = new Promise(resolve => {
-			resolve(realizarAtaques(this.id));
-		});
-
-		const aplicarEstados = new Promise(resolve => {
-			intercambioInicial.then(() => {
-				resolve(efectosDeEstado());
-			});
-		});
-
-		aplicarEstados.then(() => {
-			activarBotones();
-		});
+		await realizarAtaques(this.id);
+		await efectosDeEstado();
+		activarBotones();
 	});
 
 	//Hago el intercambio de ataques entre el pokemon del usuario y la cpu
-	const realizarAtaques = idAtaqueUsuario => {
-		return new Promise(resolve => {
-			var velocidad = Math.floor(Math.random() * 2);
-			if (velocidad == 1) {
-				const atacaUsuario = new Promise(resolve => {
-					resolve(ataqueUsuario(idAtaqueUsuario));
-				});
-				atacaUsuario.then(() => {
-					resolve(ataqueCpu());
-				});
-			}
-			else {
-				const atacaCpu = new Promise(resolve => {
-					resolve(ataqueCpu());
-				});
-				atacaCpu.then(() => {
-					resolve(ataqueUsuario(idAtaqueUsuario));
-				});
-			}
-		});
+
+	async function realizarAtaques(idAtaqueUsuario) {
+		var velocidad = Math.floor(Math.random() * 2);
+		if (velocidad == 1) {
+			await ataqueUsuario(idAtaqueUsuario);
+			await ataqueCpu();
+		}
+		else {
+			await ataqueCpu();
+			await ataqueUsuario(idAtaqueUsuario);
+		}
 	};
 
 	//Metodo que ejecuta el ataque del usuario
-	const ataqueUsuario = idAtaque => {
+	const ataqueUsuario = async (idAtaque) => {
 		if (!endGame) {
 			var potencia = pokemonUsuario.ataques[idAtaque].potencia;
 			var tipo = pokemonUsuario.ataques[idAtaque].tipo;
@@ -100,13 +79,13 @@ $(document).ready(function() {
 			$("#ataqueUsuario").html("Utilizaste: " + pokemonUsuario.ataques[idAtaque].nombre);
 			$("#ataqueUsuario").css('visibility', 'visible');
 			if (!estadosCpu.envenenado && tipo == "VENENO") intentarEnvenenar("cpu");
-			return moveProgressBar(porcVidaPkmnCpu, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", widthCpuBar);
+			await moveProgressBar(porcVidaPkmnCpu, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", widthCpuBar);
 		}
 		else $("#vidaPkmnCpu").html("Perdiste :C");
 	};
 
 	//Metodo que ejecuta el ataque de la cpu
-	const ataqueCpu = () => {
+	const ataqueCpu = async () => {
 		if (!endGame) {
 			var ataque = Math.floor(Math.random() * pokemonCpu.ataques.length);
 			var tipo = pokemonCpu.ataques[ataque].tipo;
@@ -116,56 +95,44 @@ $(document).ready(function() {
 			$("#ataqueCpu").html("Ataque enemigo: " + pokemonCpu.ataques[ataque].nombre);
 			$("#ataqueCpu").css('visibility', 'visible');
 			if (!estadosUsr.envenenado && tipo == "VENENO") intentarEnvenenar("user");
-			return moveProgressBar(porcVidaPkmnUsr, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", widthUsrBar);
+			await moveProgressBar(porcVidaPkmnUsr, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", widthUsrBar);
 		}
 		else $("#vidaPkmnUsr").html("Ganaste C:");
 	};
 
 	//Metodo que verifica si un pokemon se encuentra afectado por un efecto de estado
-	const efectosDeEstado = () => {
+	const efectosDeEstado = async () => {
 		widthCpuBar = vidaPkmnCpu / pokemonCpu.vida * 100;
 		widthUsrBar = vidaPkmnUsr / pokemonUsuario.vida * 100;
-		return new Promise(resolve => {
-			if (primero) {
-				if (estadosCpu.envenenado && estadosUsr.envenenado) {
-					const daniarCpu = new Promise(resolve => {
-						resolve(danioPorEstado("cpu", danioCpu));
-					});
-					daniarCpu.then(() => {
-						resolve(danioPorEstado("user", danioUsr));
-					});
-				}
-				else if (estadosCpu.envenenado) resolve(danioPorEstado("cpu", danioCpu));
-				else resolve();
+		if (primero) {
+			if (estadosCpu.envenenado && estadosUsr.envenenado) {
+				await danioPorEstado("cpu", danioCpu);
+				await danioPorEstado("user", danioUsr);
 			}
-			else if (!primero) {
-				if (estadosCpu.envenenado && estadosUsr.envenenado) {
-					const daniarUsr = new Promise(resolve => {
-						resolve(danioPorEstado("user", danioUsr));
-					});
-					daniarUsr.then(() => {
-						resolve(danioPorEstado("cpu", danioCpu));
-					});
-				}
-				else if (estadosUsr.envenenado) resolve(danioPorEstado("user", danioUsr));
-				else resolve();
+			else if (estadosCpu.envenenado) await danioPorEstado("cpu", danioCpu);
+		}
+		else if (!primero) {
+			if (estadosCpu.envenenado && estadosUsr.envenenado) {
+				await danioPorEstado("user", danioUsr);
+				await danioPorEstado("cpu", danioCpu);
 			}
-		});
+			else if (estadosUsr.envenenado) await danioPorEstado("user", danioUsr);
+		}
 	}
 
 	//Metodo que es llamado cuando quiero aplicar el daño de un efecto de estado
-	const danioPorEstado = (objetivo, potencia) => {
+	const danioPorEstado = async (objetivo, potencia) => {
 		if (!endGame) {
 			var porcentajeARestar;
 			if (objetivo == "cpu") {
 				vidaPkmnCpu -= potencia;
 				porcentajeARestar = pokemonCpu.vida * 0.003;
-				return moveProgressBar(porcentajeARestar, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", widthCpuBar);
+				await moveProgressBar(porcentajeARestar, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", widthCpuBar);
 			}
 			else {
 				vidaPkmnUsr -= potencia;
 				porcentajeARestar = pokemonUsuario.vida * 0.003;
-				return moveProgressBar(porcentajeARestar, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", widthUsrBar);
+				await moveProgressBar(porcentajeARestar, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", widthUsrBar);
 			}
 		}
 		else if (vidaPkmnCpu <= 0) $("#vidaPkmnUsr").html("Ganaste C:");
@@ -200,7 +167,7 @@ $(document).ready(function() {
 				function frame() {
 					if (vidaAnterior <= vidaActual) {
 						clearInterval(interval);
-						return resolve();
+						resolve();
 					}
 					else {
 						width -= 0.3;

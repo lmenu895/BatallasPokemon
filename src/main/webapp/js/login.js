@@ -39,7 +39,7 @@ $(document).ready(function() {
 				data: $("form").serialize(),
 				type: 'POST',
 				url: "registrarme",
-				success: function(result) {
+				success: (result) => {
 					if (result.error == null) {
 						alert(result.exito);
 						$(".container").html(partialLogin);
