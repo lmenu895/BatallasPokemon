@@ -13,9 +13,10 @@
 	crossorigin="anonymous">
 <title>Lista de Objetos</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<link rel="stylesheet" href="css/objetos.css"></link>
 </head>
 <body>
-	<table class="table table-hover">
+	<table class="table table-hover form">
 		<thead>
 			<tr>
 				<th scope="col">Nombre</th>
