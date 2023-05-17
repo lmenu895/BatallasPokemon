@@ -24,9 +24,7 @@ $(document).ready(function() { //Funcion principal de jquery
 	});
 	
 	$(".modificar").click(function(){
-		
-		window.location.href="modificar-ataque?id=" + $(this).val();
-		
+		window.location.href="modificar-ataque?id=" + $(this).val();	
 	});
 	
 	$(".boton-nuevo").click(function(){

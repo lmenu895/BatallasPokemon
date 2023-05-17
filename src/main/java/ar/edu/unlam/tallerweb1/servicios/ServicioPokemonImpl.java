@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.servlet.ServletContext;
 
@@ -62,11 +61,13 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 				ataques.remove(ataque);
 			}
 		}
+
 		List<AtaquePokemon> lista = new ArrayList<>();
 		ataques.forEach(x -> lista.add(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
 		pokemon.setAtaques(lista);
 		this.validarPokemon(pokemon, frente, dorso, nombreAnterior);
 		this.repositorioPokemon.modificarPokemon(pokemon);
+
 	}
 
 	@Override
@@ -76,8 +77,8 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 	}
 
 	@Override
-	public Pokemon buscarPokemonPorNombre(String nombre) {
-		return this.repositorioPokemon.buscarPokemonPorNombre(nombre);
+	public Pokemon buscarPokemon(String nombre) {
+		return this.repositorioPokemon.buscarPokemon(nombre);
 	}
 
 	@Override
@@ -115,7 +116,7 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 	private void validarPokemon(Pokemon pokemon, MultipartFile frente, MultipartFile dorso, String nombreAnterior)
 			throws IOException, NombreExistenteException {
 		if (nombreAnterior.equals(pokemon.getNombre())
-				|| this.repositorioPokemon.buscarPokemonPorNombre(pokemon.getNombre()) == null) {
+				|| this.repositorioPokemon.buscarPokemon(pokemon.getNombre()) == null) {
 			try {
 				if (!frente.isEmpty()) {
 					this.guardarImagen(frente, pokemon.getNombre());

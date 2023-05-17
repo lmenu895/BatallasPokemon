@@ -26,7 +26,7 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 	}
 
 	@Override
-	public Pokemon buscarPokemonPorNombre(String nombre) {
+	public Pokemon buscarPokemon(String nombre) {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);

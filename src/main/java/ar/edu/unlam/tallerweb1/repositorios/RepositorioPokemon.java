@@ -8,7 +8,7 @@ public interface RepositorioPokemon {
 
 	void guardarPokemon(Pokemon pokemon);
 
-	Pokemon buscarPokemonPorNombre(String nombre);
+	Pokemon buscarPokemon(String nombre);
 
 	Pokemon buscarPokemon(Long id);
 
