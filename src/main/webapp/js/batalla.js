@@ -58,7 +58,6 @@ $(document).ready(function() {
 	});
 
 	//Hago el intercambio de ataques entre el pokemon del usuario y la cpu
-
 	async function realizarAtaques(idAtaqueUsuario) {
 		if (pokemonUsuario.velocidad > pokemonCpu.velocidad) {
 			await ataqueUsuario(idAtaqueUsuario);
@@ -72,57 +71,61 @@ $(document).ready(function() {
 
 	//Metodo que ejecuta el ataque del usuario
 	const ataqueUsuario = async (idAtaque) => {
-		var paralizado = efectoPorParalisis(estadosUsr.paralizado);
-		if (!endGame && !paralizado) {
-			var potencia = pokemonUsuario.ataques[idAtaque].potencia;
-			var tipo = pokemonUsuario.ataques[idAtaque].tipo;
-			if (tipo == pokemonUsuario.tipo) potencia *= 1.5;
-			vidaPkmnCpu -= potencia;
-			$("#ataqueUsuario").html("Utilizaste: " + pokemonUsuario.ataques[idAtaque].nombre);
-			$("#ataqueUsuario").css('visibility', 'visible');
-			await moveProgressBar(porcVidaPkmnCpu, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", widthCpuBar);
-			if (!estadosCpu.envenenado && !estadosCpu.paralizado && !estadosCpu.quemado) {
-				//ENVENENAR
-				if (tipo == "VENENO") intentarEnvenenar("cpu");
-				//PARALISIS
-				else if (tipo == "ELECTRICO") intentarParalizar("cpu");
-				//QUEMAR
-				else if (tipo == "FUEGO") intentarQuemar("cpu");
+		if (!endGame) {
+			var inmovil = efectoPorParalisis(estadosUsr.paralizado);
+			if (!inmovil) {
+				var potencia = pokemonUsuario.ataques[idAtaque].potencia;
+				var tipo = pokemonUsuario.ataques[idAtaque].tipo;
+				if (tipo == pokemonUsuario.tipo) potencia *= 1.5;
+				vidaPkmnCpu -= potencia;
+				$("#ataqueUsuario").html("Utilizaste: " + pokemonUsuario.ataques[idAtaque].nombre);
+				$("#ataqueUsuario").css('visibility', 'visible');
+				await moveProgressBar(porcVidaPkmnCpu, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", widthCpuBar);
+				if (!estadosCpu.envenenado && !estadosCpu.paralizado && !estadosCpu.quemado) {
+					//ENVENENAR
+					if (tipo == "VENENO") intentarEnvenenar("cpu");
+					//PARALISIS
+					else if (tipo == "ELECTRICO") intentarParalizar("cpu");
+					//QUEMAR
+					else if (tipo == "FUEGO") intentarQuemar("cpu");
+				}
 			}
-		}
-		else if (paralizado) {
-			$("#ataqueUsuario").html("Estas paralizado, no puedes atacar!");
-			$("#ataqueUsuario").css('visibility', 'visible');
-			return new Promise((resolve) => setTimeout(resolve, 1000));
+			else {
+				$("#ataqueUsuario").html("Estas paralizado, no puedes atacar!");
+				$("#ataqueUsuario").css('visibility', 'visible');
+				return new Promise((resolve) => setTimeout(resolve, 1000));
+			}
 		}
 		else $("#vidaPkmnUsr").html("Perdiste :C");
 	};
 
 	//Metodo que ejecuta el ataque de la cpu
 	const ataqueCpu = async () => {
-		var paralizado = efectoPorParalisis(estadosCpu.paralizado);
-		if (!endGame && !paralizado) {
-			var ataque = Math.floor(Math.random() * pokemonCpu.ataques.length);
-			var tipo = pokemonCpu.ataques[ataque].tipo;
-			var potencia = pokemonCpu.ataques[ataque].potencia;
-			if (tipo == pokemonCpu.tipo) potencia *= 1.5;
-			vidaPkmnUsr -= potencia;
-			$("#ataqueCpu").html("Ataque enemigo: " + pokemonCpu.ataques[ataque].nombre);
-			$("#ataqueCpu").css('visibility', 'visible');
-			await moveProgressBar(porcVidaPkmnUsr, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", widthUsrBar);
-			if (!estadosUsr.envenenado && !estadosUsr.paralizado && !estadosUsr.quemado) {
-				//ENVENENAR
-				if (tipo == "VENENO") intentarEnvenenar("user");
-				//PARALISIS
-				else if (tipo == "ELECTRICO") intentarParalizar("user");
-				//QUEMAR
-				else if (tipo == "FUEGO") intentarQuemar("user");
+		if (!endGame) {
+			var inmovil = efectoPorParalisis(estadosCpu.paralizado);
+			if (!inmovil) {
+				var ataque = Math.floor(Math.random() * pokemonCpu.ataques.length);
+				var tipo = pokemonCpu.ataques[ataque].tipo;
+				var potencia = pokemonCpu.ataques[ataque].potencia;
+				if (tipo == pokemonCpu.tipo) potencia *= 1.5;
+				vidaPkmnUsr -= potencia;
+				$("#ataqueCpu").html("Ataque enemigo: " + pokemonCpu.ataques[ataque].nombre);
+				$("#ataqueCpu").css('visibility', 'visible');
+				await moveProgressBar(porcVidaPkmnUsr, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", widthUsrBar);
+				if (!estadosUsr.envenenado && !estadosUsr.paralizado && !estadosUsr.quemado) {
+					//ENVENENAR
+					if (tipo == "VENENO") intentarEnvenenar("user");
+					//PARALISIS
+					else if (tipo == "ELECTRICO") intentarParalizar("user");
+					//QUEMAR
+					else if (tipo == "FUEGO") intentarQuemar("user");
+				}
 			}
-		}
-		else if (paralizado) {
-			$("#ataqueCpu").html("Enemigo paralizado, no puede atacar!");
-			$("#ataqueCpu").css('visibility', 'visible');
-			return new Promise((resolve) => setTimeout(resolve, 1000));
+			else {
+				$("#ataqueCpu").html("Enemigo paralizado, no puede atacar!");
+				$("#ataqueCpu").css('visibility', 'visible');
+				return new Promise((resolve) => setTimeout(resolve, 1000));
+			}
 		}
 		else $("#vidaPkmnUsr").html("Ganaste C:");
 	};
@@ -136,7 +139,7 @@ $(document).ready(function() {
 				await danioPorEstado("cpu", danioPorEstadoCpu);
 				await danioPorEstado("user", danioPorEstadoUsr);
 			}
-			else if (estadosCpu.envenenado || estadosCpu.quemado){
+			else if (estadosCpu.envenenado || estadosCpu.quemado) {
 				await danioPorEstado("cpu", danioPorEstadoCpu);
 			}
 		}
@@ -150,8 +153,8 @@ $(document).ready(function() {
 	}
 
 	//Metodo que es llamado si el pokemon está paralizado
-	const efectoPorParalisis = (estado) => {
-		if (estado) {
+	const efectoPorParalisis = (paralizado) => {
+		if (paralizado) {
 			var chanceDeNoAtacar = Math.floor(Math.random() * 100) + 1;
 			if (chanceDeNoAtacar > 75) return true;
 		}
