@@ -26,7 +26,7 @@ $(document).ready(function() {
 		history.pushState(partialLogin, '', 'login');
 	});
 
-	$(window).bind("popstate", function(e) {
+	$(window).bind("popstate", (e) => {
 		$(".container").html(e.originalEvent.state);
 	});
 
@@ -43,6 +43,7 @@ $(document).ready(function() {
 					if (result.error == null) {
 						alert(result.exito);
 						$(".container").html(partialLogin);
+						history.pushState(partialLogin, '', 'login');
 					}
 					else {
 						alert(result.error);
