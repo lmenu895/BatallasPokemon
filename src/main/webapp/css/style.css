@@ -7,7 +7,17 @@
 	box-shadow: 1px 1px 5px black;
 	padding: 4rem;
 	max-width: 900px;
+	margin-right:1rem;
+	margin-left:1rem;
 }
+.formP {
+	width:100%;
+	display:flex;
+	justify-content:space-evenly;
+	align-items:center;
+	flex-direction:row;
+}
+
 
 .fondo {
 	background-image: url("../images/Ataques.png");
