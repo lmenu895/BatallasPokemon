@@ -1,6 +1,5 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +35,7 @@ public class ControladorUsuario {
 		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
 		this.servicioPokemon = servicioPokemon;
 	}
-
+	
 	@RequestMapping("lista-objetos")
 	public ModelAndView ObtenerObjetos(HttpServletRequest request) {
 		
@@ -57,6 +56,7 @@ public class ControladorUsuario {
 		}
 		ModelMap model = new ModelMap();
 		model.put("listaPokemon", this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id")));
+		model.put("listaObjetos", this.servicioUsuario.obtenerListaDeObjetos((Long)request.getSession().getAttribute("id")));
 		return new ModelAndView("elegir-equipo", model);
 	}
 	
@@ -78,6 +78,7 @@ public class ControladorUsuario {
 		}
 		model.put("error", "Debe seleccionar 3 pokemons");
 		model.put("listaPokemon", pokemons);
+		model.put("listaObjetos", this.servicioUsuario.obtenerListaDeObjetos((Long)request.getSession().getAttribute("id")));
 		return new ModelAndView("elegir-equipo", model);
 	}
 

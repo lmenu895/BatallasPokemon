@@ -31,7 +31,26 @@
 				</c:forEach>
 			</div>
 
-			<button id="btn-registrarme"
+		</form:form>
+		<form:form action="guardar-equipo" method="POST" class="form"
+			modelAttribute="pokemon" enctype="multipart/form-data">
+			<h3 class="form-signin-heading">Lista de Objetos</h3>
+			<h3 class="fs-5 text">Seleccione qué objetos va a tener</h3>
+			<div class="d-flex align-items-baseline justify-content-around flex-wrap" style="width: 30vw">
+				<c:forEach items="${listaObjetos}" var="objeto">
+					<div class="d-flex flex-column align-items-center" style="width: 33%;">
+						<button type="button" style="width: 105px;" class="btn btn-primary botonPokemon">Seleccionar</button>
+						<input type="hidden" name="objetosLista" value="${objeto.id}"
+							disabled />
+						<h4>${objeto.nombre}</h4>
+					</div>
+				</c:forEach>
+			</div>
+
+		</form:form>
+	</div>
+	<div class="text-center">
+		<button id="btn-registrarme"
 				class="btn btn-lg btn-primary btn-block mb-2" Type="Submit">Guardar</button>
 			<c:if test="${not empty error}">
 				<h4>
@@ -39,8 +58,8 @@
 				</h4>
 				<br>
 			</c:if>
-		</form:form>
 	</div>
+
 	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript" src="js/elegir-equipo.js"></script>

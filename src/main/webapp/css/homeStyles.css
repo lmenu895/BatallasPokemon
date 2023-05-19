@@ -170,6 +170,7 @@ a {
     left:45rem;
 }*/
 button {
+	text-decoration:none;
 	background: none;
 	color: inherit;
 	border: none;
