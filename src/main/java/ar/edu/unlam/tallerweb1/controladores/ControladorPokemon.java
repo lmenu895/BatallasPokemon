@@ -124,7 +124,7 @@ public class ControladorPokemon {
 		}
 	}
 
-	@RequestMapping("/borrar-pokemon")
+	@RequestMapping(path = "/borrar-pokemon", method = RequestMethod.POST)
 	@ResponseBody
 	public void borrarPokemon(@RequestParam String id, HttpServletRequest request) throws PermisosInsuficientesException {
 		

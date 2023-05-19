@@ -1,16 +1,17 @@
 .myProgress {
 	width: 100%;
-	max-width: 200px;
+	max-width: 230px;
 	border: solid 0.5px;
-	border-radius: 5px;
+	border-radius: 1rem;
 	overflow: hidden;
 }
 
 .myBar {
 	width: 100%;
-	max-width: 200px;
+	max-width: 224px;
 	height: 20px;
-	/*border-radius: 10px;*/
+	border-radius: 1rem;
+	margin: 2px;
 	background: linear-gradient(green, green) left/calc(100% - 110px) 100%,
 		linear-gradient(#ffff3b, #ffff3b) left/calc(100% - 40px) 100%,
 		linear-gradient(red, red) left/calc(100% - 0px) 100%;

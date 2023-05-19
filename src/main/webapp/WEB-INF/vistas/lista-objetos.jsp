@@ -13,9 +13,9 @@
 	crossorigin="anonymous">
 <title>Lista de Objetos</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-<link rel="stylesheet" href="css/objetos.css"></link>
+<link href="css/objetos.css" rel="stylesheet">
 </head>
-<body>
+<body class="fondo">
 	<table class="table table-hover form">
 		<thead>
 			<tr>
@@ -31,14 +31,6 @@
 					<td><b>${objetos.nombre}</b></td>
 					<td>${objetos.descripcion}</td>
 					<td>${objetos.efecto}</td>
-
-
-					<td>
-						<!-- Button trigger modal --> <a class="btn btn-primary"
-						" role="button">Elegir</a>
-						</button>
-
-					</td>
 				</tr>
 
 

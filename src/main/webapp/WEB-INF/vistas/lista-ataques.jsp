@@ -1,10 +1,9 @@
-<%@ include file ="partial/header.jsp" %>>
+<%@ include file="partial/header.jsp"%>>
 <title>Lista de ataques</title>
 
 <body class="fondo">
 	<div class="container">
-		<button class="boton-nuevo btn btn-success mt-5">Nuevo
-			Ataque</button>
+		<button class="boton-nuevo btn btn-success mt-5">Nuevo Ataque</button>
 		<table id="tablaAtaques"
 			class='table table-hover table-striped mb-5 tableForm'>
 
@@ -23,7 +22,8 @@
 						<!-- ${VAR.atributo} -->
 						<td><button class="borrar btn btn-danger"
 								value="${ataque.id}">Borrar</button>
-							<button class="modificar btn btn-info text-light" value="${ataque.id}">Modificar</button></td>
+							<button class="modificar btn btn-info text-light"
+								value="${ataque.id}">Modificar</button></td>
 
 					</tr>
 				</c:forEach>

@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+	var pokemonUsuario;
+	var pokemonCpu;
+
+	//Traigo los pokemons utilizando ajax
 	$.ajax({
 		type: 'POST',
 		url: "obtener-pokemons-ajax",
@@ -8,13 +12,13 @@ $(document).ready(function() {
 		//processData: false,
 		/*/beforeSend: function() {
 		},*/
-		success: function(resultado) {
-			pokemonUsuario = resultado.pokemonUsuario;
-			pokemonCpu = resultado.pokemonCpu;
-			$(resultado.ataquesUsuario).each(function() {
+		success: (result) => {
+			pokemonUsuario = result.pokemonUsuario;
+			pokemonCpu = result.pokemonCpu;
+			$(result.ataquesUsuario).each(function() {
 				pokemonUsuario.ataques.push(this.ataque);
 			});
-			$(resultado.ataquesCpu).each(function() {
+			$(result.ataquesCpu).each(function() {
 				pokemonCpu.ataques.push(this.ataque);
 			});
 		}
@@ -22,226 +26,176 @@ $(document).ready(function() {
 		}*/
 	});
 
-	var pokemonUsuario;
-	var pokemonCpu;
+	//Defino las variables que voy a usar en el combate
 	var endGame = false;
-	var estadosUsr = { envenenado: false, paralizado: false };
-	var estadosCpu = { envenenado: false, paralizado: false };
+	var estadosUsr = { envenenado: false, paralizado: false, quemado: false };
+	var estadosCpu = { envenenado: false, paralizado: false, quemado: false };
 	var primero;
+	var porcVidaPkmnUsr = pokemonUsuario.vida * 0.003;
+	var porcVidaPkmnCpu = pokemonCpu.vida * 0.003;
 	var vidaPkmnCpu = pokemonCpu.vida;
 	var vidaPkmnUsr = pokemonUsuario.vida;
+	var widthUsrBar;
+	var widthCpuBar;
+	var danioUsr = pokemonUsuario.vida * 0.08;
+	var danioCpu = pokemonCpu.vida * 0.08;
+	//Coloco la vida de los pokemons en html porque sino hay que hacer un cast double to int en jsp
 	$("#vidaPkmnUsr").html(vidaPkmnUsr);
 	$("#vidaPkmnCpu").html(vidaPkmnCpu);
 	$("#vidaMaximaPkmnUsr").html(" / " + vidaPkmnUsr);
 	$("#vidaMaximaPkmnCpu").html(" / " + vidaPkmnCpu);
 
-
-	$("#ataques").on("click", "button", function() {
-		var widthUsrBar = vidaPkmnUsr * 100 / pokemonUsuario.vida;
-		var widthCpuBar = vidaPkmnCpu * 100 / pokemonCpu.vida;
-		const atacaUsuario = (x, y) => { ataqueUsuario(widthCpuBar, this.id, x, y) };
-		const atacaCpu = (x, y) => { ataqueCpu(widthUsrBar, x, y) };
-
+	//Detecto si el usuario presiona un ataque y comienza el intercambio de daño
+	$("#ataques").on("click", "button", async function() {
+		widthUsrBar = vidaPkmnUsr / pokemonUsuario.vida * 100;
+		widthCpuBar = vidaPkmnCpu / pokemonCpu.vida * 100;
 		$(".ataques").prop('disabled', true);
-		var velocidad = Math.floor(Math.random() * 2);
+		await realizarAtaques(this.id); //Await espera a que se hagan los ataques sino hace todo de una
+		await efectosDeEstado();
+		activarBotones();
+	});
+	//para llamar a AWAIT Necesito que la funcion sea async
+	//Hago el intercambio de ataques entre el pokemon del usuario y la cpu
 
-		if (velocidad == 1) {
-			atacaUsuario(atacaCpu, efectosDeEstado);
+	async function realizarAtaques(idAtaqueUsuario) {
+		if (pokemonUsuario.velocidad > pokemonCpu.velocidad) {
+			await ataqueUsuario(idAtaqueUsuario);
+			await ataqueCpu();
 		}
 		else {
-			atacaCpu(atacaUsuario, efectosDeEstado);
+			await ataqueCpu();
+			await ataqueUsuario(idAtaqueUsuario);
 		}
-	})
-
-	const ataqueUsuario = (widthCpuBar, ataque, siguiente, subsiguiente) => {
-		if (!endGame) {
-			var potencia = pokemonUsuario.ataques[ataque].potencia;
-			var tipo = pokemonUsuario.ataques[ataque].tipo;
-			if (tipo == pokemonUsuario.tipo)
-				potencia *= 1.5;
-			var porcentajeDeVida;
-			var porcentajeARestar = pokemonCpu.vida * 0.003;
-			vidaPkmnCpu -= potencia;
-			porcentajeDeVida = vidaPkmnCpu * 100 / pokemonCpu.vida;
-			moveProgressBar(porcentajeDeVida, porcentajeARestar, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", widthCpuBar, siguiente, subsiguiente);
-			$("#ataqueUsuario").html("Utilizaste: " + pokemonUsuario.ataques[ataque].nombre);
-			$("#ataqueUsuario").css('visibility', 'visible');
-			if (!estadosCpu.envenenado && tipo == "VENENO") {
-				envenenado("cpu");
-			}
-		}
-		else
-			$("#vidaPkmnCpu").html("Perdiste :C");
 	};
 
-	const ataqueCpu = (widthUsrBar, siguiente, subsiguiente) => {
+	//Metodo que ejecuta el ataque del usuario
+	const ataqueUsuario = async (idAtaque) => {
+		if (!endGame) {
+			var potencia = pokemonUsuario.ataques[idAtaque].potencia;
+			var tipo = pokemonUsuario.ataques[idAtaque].tipo;
+			if (tipo == pokemonUsuario.tipo) potencia *= 1.5;
+			vidaPkmnCpu -= potencia;
+			$("#ataqueUsuario").html("Utilizaste: " + pokemonUsuario.ataques[idAtaque].nombre);
+			$("#ataqueUsuario").css('visibility', 'visible');
+			if (!estadosCpu.envenenado && tipo == "VENENO") intentarEnvenenar("cpu");
+			await moveProgressBar(porcVidaPkmnCpu, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", widthCpuBar);
+		}
+		else $("#vidaPkmnCpu").html("Perdiste :C");
+	};
+
+	//Metodo que ejecuta el ataque de la cpu
+	const ataqueCpu = async () => {
 		if (!endGame) {
 			var ataque = Math.floor(Math.random() * pokemonCpu.ataques.length);
 			var tipo = pokemonCpu.ataques[ataque].tipo;
 			var potencia = pokemonCpu.ataques[ataque].potencia;
-			if (tipo == pokemonCpu.tipo)
-				potencia *= 1.5;
-			var porcentajeDeVida;
-			var porcentajeARestar = pokemonUsuario.vida * 0.003;
+			if (tipo == pokemonCpu.tipo) potencia *= 1.5;
 			vidaPkmnUsr -= potencia;
-			porcentajeDeVida = vidaPkmnUsr * 100 / pokemonUsuario.vida;
-			moveProgressBar(porcentajeDeVida, porcentajeARestar, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", widthUsrBar, siguiente, subsiguiente);
 			$("#ataqueCpu").html("Ataque enemigo: " + pokemonCpu.ataques[ataque].nombre);
 			$("#ataqueCpu").css('visibility', 'visible');
-			if (!estadosUsr.envenenado && tipo == "VENENO") {
-				envenenado("user");
-			}
+			if (!estadosUsr.envenenado && tipo == "VENENO") intentarEnvenenar("user");
+			await moveProgressBar(porcVidaPkmnUsr, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", widthUsrBar);
 		}
-		else
-			$("#vidaPkmnUsr").html("Ganaste C:");
+		else $("#vidaPkmnUsr").html("Ganaste C:");
 	};
 
-	const efectosDeEstado = () => {
-		var widthBarCpu = vidaPkmnCpu * 100 / pokemonCpu.vida;
-		var widthBarUsr = vidaPkmnUsr * 100 / pokemonUsuario.vida;
-		var danioUsr = pokemonUsuario.vida * 8 / 100
-		var danioCpu = pokemonCpu.vida * 8 / 100
-		var daniarUsr = (x, y) => { danioPorEstado("user", widthBarUsr, danioUsr, x, y) }
-		var daniarCpu = (x, y) => { danioPorEstado("cpu", widthBarCpu, danioCpu, x, y) }
+	//Metodo que verifica si un pokemon se encuentra afectado por un efecto de estado
+	const efectosDeEstado = async () => {
+		widthCpuBar = vidaPkmnCpu / pokemonCpu.vida * 100;
+		widthUsrBar = vidaPkmnUsr / pokemonUsuario.vida * 100;
 		if (primero) {
-			if (estadosCpu.envenenado && estadosUsr.envenenado)
-				daniarCpu(daniarUsr, enableButtons)
-			else if (estadosCpu.envenenado)
-				daniarCpu(enableButtons)
-			else enableButtons()
+			if (estadosCpu.envenenado && estadosUsr.envenenado) {
+				await danioPorEstado("cpu", danioCpu);
+				await danioPorEstado("user", danioUsr);
+			}
+			else if (estadosCpu.envenenado) await danioPorEstado("cpu", danioCpu);
 		}
 		else if (!primero) {
-			if (estadosCpu.envenenado && estadosUsr.envenenado)
-				daniarUsr(daniarCpu, enableButtons)
-			else if (estadosUsr.envenenado)
-				daniarUsr(enableButtons)
-			else enableButtons()
+			if (estadosCpu.envenenado && estadosUsr.envenenado) {
+				await danioPorEstado("user", danioUsr);
+				await danioPorEstado("cpu", danioCpu);
+			}
+			else if (estadosUsr.envenenado) await danioPorEstado("user", danioUsr);
 		}
 	}
 
-	const danioPorEstado = (objetivo, width, potencia, siguiente, subsiguiente) => {
+	//Metodo que es llamado cuando quiero aplicar el daño de un efecto de estado
+	const danioPorEstado = async (objetivo, potencia) => {
 		if (!endGame) {
-			var porcentajeDeVida
-			var porcentajeARestar
+			var porcentajeARestar;
 			if (objetivo == "cpu") {
-				vidaPkmnCpu -= potencia
-				porcentajeDeVida = vidaPkmnCpu * 100 / pokemonCpu.vida
-				porcentajeARestar = pokemonCpu.vida * 0.003
-				moveProgressBar(porcentajeDeVida, porcentajeARestar, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", width, siguiente, subsiguiente)
+				vidaPkmnCpu -= potencia;
+				porcentajeARestar = pokemonCpu.vida * 0.003;
+				await moveProgressBar(porcentajeARestar, vidaPkmnCpu, "#progressBarCpu", "#vidaPkmnCpu", widthCpuBar);
 			}
 			else {
-				vidaPkmnUsr -= potencia
-				porcentajeDeVida = vidaPkmnUsr * 100 / pokemonUsuario.vida
-				porcentajeARestar = pokemonUsuario.vida * 0.003
-				moveProgressBar(porcentajeDeVida, porcentajeARestar, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", width, siguiente, subsiguiente)
+				vidaPkmnUsr -= potencia;
+				porcentajeARestar = pokemonUsuario.vida * 0.003;
+				await moveProgressBar(porcentajeARestar, vidaPkmnUsr, "#progressBarUsr", "#vidaPkmnUsr", widthUsrBar);
 			}
 		}
-		else if (vidaPkmnCpu <= 0) $("#vidaPkmnUsr").html("Ganaste C:")
-		else $("#vidaPkmnCpu").html("Perdiste :C")
-	}
+		else if (vidaPkmnCpu <= 0) $("#vidaPkmnUsr").html("Ganaste C:");
+		else $("#vidaPkmnCpu").html("Perdiste :C");
+	};
 
-	const envenenado = (name) => {
+	//Metodo que es llamado cuando un pokemon ataca a otro con un ataque de tipo veneno
+	const intentarEnvenenar = name => {
 		var random;
-		random = Math.floor(Math.random() * 10) + 1
+		random = Math.floor(Math.random() * 10) + 1;
 		if (random > 7) {
 			if (name == "cpu") {
-				estadosCpu.envenenado = true
-				$("#estadoCpu").html("Poisoned")
-				if (primero == undefined)
-					primero = true
+				estadosCpu.envenenado = true;
+				$("#estadoCpu").html("Poisoned");
+				if (primero == undefined) primero = true;
 			}
 			else if (name == "user") {
-				estadosUsr.envenenado = true
-				$("#estadoUsuario").html("Poisoned")
-				if (primero == undefined)
-					primero = false
+				estadosUsr.envenenado = true;
+				$("#estadoUsuario").html("Poisoned");
+				if (primero == undefined) primero = false;
 			}
-
 		}
-		else
-			return 0
-	}
+	};
 
-	const moveProgressBar = (porcentajeDeVida, porcentajeARestar, vidaActual, idProgressBar, idVida, width, siguiente, subsiguiente) => {
-		setTimeout(() => {
-			var elem = $(idProgressBar);
-			var interval = setInterval(frame, 10);
-			var vidaAnterior = $(idVida).html()
-			function frame() {
-				if (vidaAnterior <= vidaActual) {
-					clearInterval(interval)
-					if (siguiente && subsiguiente) siguiente(subsiguiente)
-					else if (siguiente) siguiente()
-				} else {
-					width -= 0.3;
-					elem.width(width + "%");
-					vidaAnterior -= porcentajeARestar
-					if (vidaAnterior > vidaActual && vidaAnterior > 0)
-						$(idVida).html(parseInt(vidaAnterior))
-					else if (vidaActual > 0)
-						$(idVida).html(parseInt(vidaActual))
+	//Metodo asincrona que mueve la barra de vida de los pokemons y me obliga a usar promesas para esperar que finalize
+	const moveProgressBar = (porcentajeARestar, vidaActual, idProgressBar, idVida, width) => {
+		return new Promise(resolve => {
+			setTimeout(() => {
+				var elem = $(idProgressBar);
+				var interval = setInterval(frame, 10);
+				var vidaAnterior = $(idVida).html();		//sin el promise se seguiria ejecutando todo lo abajo
+				function frame() {							//cuando tira el resolve, el await ahi dice CHETO termino, me ejecuto
+					if (vidaAnterior <= vidaActual) {
+						clearInterval(interval);
+						resolve();
+					}
 					else {
-						$(idVida).html(0)
-						endGame = true
+						width -= 0.3;
+						elem.width(width + "%");
+						vidaAnterior -= porcentajeARestar;
+						if (vidaAnterior > vidaActual && vidaAnterior > 0) $(idVida).html(parseInt(vidaAnterior));
+						else if (vidaActual > 0) $(idVida).html(parseInt(vidaActual));
+						else {
+							$(idVida).html(0);
+							endGame = true;
+						}
 					}
 				}
-			}
-		}, 500)
-	}
+			}, 500);
+		});
+	};
 
-	const enableButtons = () => {
+	//Metodo que habilita los botones al finalizar el intercambio de daños
+	const activarBotones = () => {
 		setTimeout(() => {
 			if (!endGame) {
-				$(".ataques").prop('disabled', false)
-				$("#ataqueUsuario").css('visibility', 'hidden')
-				$("#ataqueCpu").css('visibility', 'hidden')
+				$(".ataques").prop('disabled', false);
+				$("#ataqueUsuario").css('visibility', 'hidden');
+				$("#ataqueCpu").css('visibility', 'hidden');
 			}
 			else {
-				if (vidaPkmnCpu <= 0) $("#vidaPkmnUsr").html("Ganaste C:")
-				else $("#vidaPkmnCpu").html("Perdiste :C")
+				if (vidaPkmnCpu <= 0) $("#vidaPkmnUsr").html("Ganaste C:");
+				else $("#vidaPkmnCpu").html("Perdiste :C");
 			}
 		}, 500)
-	}
-
-	//	const esperando = (funcion, esSegundo) => {
-	//		var interval = setInterval(function() {
-	//			if (waiting) return
-	//			clearInterval(interval)
-	//			if (esSegundo) segundoMove = true
-	//			waiting = true
-	//			funcion()
-	//			interval = setInterval(function() {
-	//				if (waiting) return
-	//				clearInterval(interval)
-	//				waiting = true
-	//			}, 10)
-	//		}, 10)
-	//	}
-
-	//	function loading() {
-	//		var interval = setInterval(function() {
-	//			// get elem
-	//			if (continuar != 0) {
-	//				clearInterval(interval)
-	//				console.log("loading finished " + continuar)
-	//				continuar = 0
-	//				return true
-	//			}
-	//		}, 10)
-	//		return false
-	//	}
-
-
-	//	$.ajax({
-	//            data:  {datos: datos},
-	//            type:  'GET',
-	//            url:   url,
-	//            async: true,
-	//            beforeSend: function () {
-	//                
-	//            },
-	//            success:  function (resultado) {
-	//                    $(campo).html(resultado);
-	//            }
-	//        });
-})
+	};
+});

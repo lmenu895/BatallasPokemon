@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
@@ -34,37 +35,44 @@ public class ServicioLoginImpl implements ServicioLogin {
 	@Override
 	public Usuario consultarMail(String email) {
 		// TODO Auto-generated method stub
-		return this.servicioLoginDao.buscar(email);
+		return this.servicioLoginDao.buscarUsuario(email);
 	}
 
 	@Override
-	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException {
+	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException, CampoVacioException {
+		if (verificarCaposRequeridos(usuarioNuevo)) {
+			throw new CampoVacioException("Debe llenar todos los campos para registrarse");
+		}
 		if (verificarUsuarioExistente(usuarioNuevo) && verificarUsuarioExistentePorNick(usuarioNuevo)) {
 			this.servicioLoginDao.guardar(usuarioNuevo);
-		}else {
+		} else {
 			throw new UsuarioExistenteException("Ya existe un usuario con ese email o nombre de usuario");
-
 		}
 	}
 
 	// si da true no existe un usuario con ese email
-	@Override
-	public Boolean verificarUsuarioExistente(Usuario usuario) {
-		Usuario resultado = this.servicioLoginDao.buscar(usuario.getEmail());
+	private Boolean verificarUsuarioExistente(Usuario usuario) {
+		Usuario resultado = this.servicioLoginDao.buscarUsuario(usuario.getEmail());
 		if (resultado != null) {
 			return false;
 		}
 		return true;
 	}
+
 	// si da true no existe un usuario con ese nick
-		@Override
-		public Boolean verificarUsuarioExistentePorNick(Usuario usuario)  {
-			Usuario resultado = this.servicioLoginDao.buscar(usuario.getEmail());
-			if (resultado != null && resultado.getUsuario() != usuario.getUsuario() ) {
-				return false;
-				
-			}
+	private Boolean verificarUsuarioExistentePorNick(Usuario usuario) {
+		Usuario resultado = this.servicioLoginDao.buscarUsuarioPorUsername(usuario.getUsuario());
+		if (resultado != null && resultado.getUsuario() != usuario.getUsuario()) {
+			return false;
+		}
+		return true;
+	}
+	
+	private Boolean verificarCaposRequeridos(Usuario usuario) {
+		if (usuario.getEmail().isBlank() || usuario.getUsuario().isBlank()
+				|| usuario.getPassword().isBlank()) {
 			return true;
 		}
-
+		return false;
+	}
 }

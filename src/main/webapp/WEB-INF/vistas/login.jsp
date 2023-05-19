@@ -19,10 +19,11 @@
 			<%--para eso debe coincidir el valor del elemento path de cada input con el nombre de un atributo del objeto --%>
 			<form:form action="validar-login" method="POST"
 				modelAttribute="datosLogin">
-				<img src="https://fontmeme.com/permalink/230515/1710a180ff6e8fbb28b13c9bde843ad0.png" alt="fuente-pokemon" border="0">
+				<img
+					src="https://fontmeme.com/permalink/230515/1710a180ff6e8fbb28b13c9bde843ad0.png"
+					alt="fuente-pokemon" border="0">
 				<hr class="colorgraph">
 				<br>
-
 				<%--Elementos de entrada de datos, el elemento path debe indicar en que atributo del objeto usuario se guardan los datos ingresados--%>
 				<label for="email">Correo electronico</label>
 				<form:input path="email" id="email" type="email"
@@ -32,29 +33,25 @@
 					class="form-control" />
 				<br>
 
-				<button class="btn btn-lg btn-primary btn-block" Type="Submit" />Iniciar sesion</button> <a class="btn btn-lg btn-primary btn-block" href="registrar-usuario">Registrarme</a>
-
+				<button class="btn btn-lg btn-primary btn-block" Type="Submit">Iniciar
+					sesion</button>
+				<button id="registrarme" class="btn btn-lg btn-primary btn-block"
+					type="button">Registrarme</button>
+				<%--Bloque que es visible si el elemento error no esta vacio	--%>
+				<c:if test="${not empty error}">
+					<h4>
+						<span id="error">${error}</span>
+					</h4>
+					<br>
+				</c:if>
 			</form:form>
-			
-			<%--Bloque que es visible si el elemento error no esta vacio	--%>
-			<c:if test="${not empty error}">
-				<h4>
-					<span>${error}</span>
-				</h4>
-				<br>
-			</c:if>
 			${msg}
 		</div>
 	</div>
 
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script>
-		window.jQuery
-				|| document
-						.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
-	</script>
+	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script src="js/bootstrap.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="js/login.js"></script>
 </body>
 </html>

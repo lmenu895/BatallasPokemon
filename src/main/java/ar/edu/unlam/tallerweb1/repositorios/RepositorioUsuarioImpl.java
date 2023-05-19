@@ -52,7 +52,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	}
 
 	@Override
-	public Usuario buscar(String email) {
+	public Usuario buscarUsuario(String email) {
 		return (Usuario) this.sessionFactory.getCurrentSession().createCriteria(Usuario.class)
 				.add(Restrictions.eq("email", email)).uniqueResult();
 	}
@@ -66,6 +66,12 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	@Override
 	public void modificar(Usuario usuario) {
 		this.sessionFactory.getCurrentSession().update(usuario);
+	}
+
+	@Override
+	public Usuario buscarUsuarioPorUsername(String userName) {
+		return (Usuario) this.sessionFactory.getCurrentSession().createCriteria(Usuario.class)
+				.add(Restrictions.eq("usuario", userName)).uniqueResult();
 	}
 
 	// Este código sirve para crear un hash seguro y almacenarlo en la bd en lugar de la contraseña, como no es requerido en la materia no lo implementé

@@ -3,8 +3,8 @@
 </head>
 <body class="pokemon">
 	<div class="container">
-		<button class="boton-nuevo btn btn-success mt-5">Nuevo
-			Pokemon</button>
+		<a class="boton-nuevo btn btn-success mt-5" href="crear-pokemon">Nuevo
+			Pokemon</a>
 		<table id="tablaPokemons"
 			class='table table-hover table-striped mb-5 tableForm'>
 			<thead>
@@ -20,9 +20,9 @@
 						<td>${pokemon.nombre}</td>
 						<!-- ${VAR.atributo} -->
 						<td><button class="borrar btn btn-danger"
-								value="${pokemon.id}">Borrar</button>
-							<button class="modificar btn btn-info text-light"
-								value="${pokemon.id}">Modificar</button></td>
+								value="${pokemon.id}">Borrar</button> <a
+							class="modificar btn btn-info text-light"
+							href="modificar-pokemon?id=${pokemon.id}">Modificar</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

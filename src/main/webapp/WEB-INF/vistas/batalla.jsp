@@ -33,6 +33,8 @@
 			</div>
 			<div id="ataqueCpu" style="visibility: hidden;">Ataque</div>
 		</div>
+		<button id="botonPruebas" class="btn btn-danger">Boton</button>
+		<div id="pruebas"></div>
 	</div>
 	<script src="js/batalla.js" type="text/javascript"></script>
 </body>

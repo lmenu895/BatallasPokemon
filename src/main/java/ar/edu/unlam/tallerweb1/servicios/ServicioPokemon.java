@@ -17,7 +17,7 @@ public interface ServicioPokemon {
 
 	Pokemon buscarPokemon(Long id);
 	
-	Pokemon buscarPokemonPorNombre(String nombre);
+	Pokemon buscarPokemon(String nombre);
 
 	List<Pokemon> obtenerTodosLosPokemons();
 
