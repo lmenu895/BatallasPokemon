@@ -62,7 +62,7 @@ public class ControladorUsuario {
 	
 	
 	@RequestMapping(path = "guardar-equipo", method = RequestMethod.POST)
-	public ModelAndView guardarPokemon(@RequestParam("pokemonsLista") String[] pokemonsTraidos, HttpServletRequest request) {
+	public ModelAndView guardarPokemon(@RequestParam(required=false, name="pokemonsLista")  String[] pokemonsTraidos ,  HttpServletRequest request) {
 		
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
@@ -71,15 +71,15 @@ public class ControladorUsuario {
 		Long id = (Long)request.getSession().getAttribute("id");
 		List <UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
 		List <Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemon(lista);
-		if(pokemonsTraidos.length == 3) {
-			pokemons = this.servicioPokemon.buscarPokemonPorGrupo(pokemonsTraidos);
-			model.put("equipo", pokemons);
-			return new ModelAndView("ver-equipos", model);
+		if(pokemonsTraidos == null || pokemonsTraidos.length != 3){
+			model.put("error", "Debe seleccionar 3 pokemons");
+			model.put("listaPokemon", this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id")));
+			model.put("listaObjetos", this.servicioUsuario.obtenerListaDeObjetos((Long)request.getSession().getAttribute("id")));
+			return new ModelAndView("elegir-equipo", model);
 		}
-		model.put("error", "Debe seleccionar 3 pokemons");
-		model.put("listaPokemon", pokemons);
-		model.put("listaObjetos", this.servicioUsuario.obtenerListaDeObjetos((Long)request.getSession().getAttribute("id")));
-		return new ModelAndView("elegir-equipo", model);
+		pokemons = this.servicioPokemon.buscarPokemonPorGrupo(pokemonsTraidos);
+		model.put("equipo", pokemons);
+		return new ModelAndView("ver-equipos", model);
 	}
 
 //	@RequestMapping(path = "/guardar-equipo", method = RequestMethod.POST)
