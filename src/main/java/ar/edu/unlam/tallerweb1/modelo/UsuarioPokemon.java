@@ -11,7 +11,7 @@ public class UsuarioPokemon {
 	}
 
 	public UsuarioPokemon() {}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
