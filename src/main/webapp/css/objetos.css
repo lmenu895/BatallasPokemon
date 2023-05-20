@@ -1,12 +1,16 @@
-
+.form {
+	background-color:white;
+	margin: 4rem auto;
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
+	padding: 4rem 4rem 4rem 4rem;
+	width: 40rem;
+	height: 20rem;
+	
+}
 
 .fondo{
 	background-image: url("../images/pokepelotas.jpg");
 	background-size: cover;
 }
 
-th{
-	
-	padding-left: 40px;
-	
-}

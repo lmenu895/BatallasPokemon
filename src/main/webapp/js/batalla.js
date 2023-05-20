@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-	var pokemonUsuario;
-	var pokemonCpu;
+	var pokemonsUsuario;
+	var pokemonsCpu;
 
 	//Traigo los pokemons utilizando ajax
 	$.ajax({
@@ -13,18 +13,26 @@ $(document).ready(function() {
 		beforeSend: function() {
 		},*/
 		success: (result) => {
-			pokemonUsuario = result.pokemonUsuario;
-			pokemonCpu = result.pokemonCpu;
-			$(result.ataquesUsuario).each(function() {
-				pokemonUsuario.ataques.push(this.ataque);
+			pokemonsUsuario = result.pokemonsUsuario;
+			pokemonsCpu = result.pokemonsCpu;
+			$(pokemonsUsuario).each((i, pokemon) => {
+				$(result.ataquesUsuario[pokemon.nombre]).each((j, ataques) => {
+					pokemon.ataques.push(ataques.ataque);
+				});
 			});
-			$(result.ataquesCpu).each(function() {
-				pokemonCpu.ataques.push(this.ataque);
+			console.log(pokemonsUsuario);
+			$(pokemonsCpu).each((i, pokemon) => {
+				$(result.ataquesCpu[pokemon.nombre]).each((j, ataques) => {
+					pokemon.ataques.push(ataques.ataque);
+				});
 			});
 		}
 		/*error: function(error){
 		}*/
 	});
+
+	var pokemonUsuario = pokemonsUsuario[0];
+	var pokemonCpu = pokemonsCpu[0];
 
 	//Defino las variables que voy a usar en el combate
 	var endGame = false;
@@ -279,6 +287,7 @@ $(document).ready(function() {
 	/**
 	 * 	Estilos y animaciones de la vista de batalla
 	 */
+
 	
 	//Comportamiento de la mochila de objetos
 	var ocultaMochila = '-' + $('.mochila').css('width');
@@ -308,4 +317,42 @@ $(document).ready(function() {
 			}
 		}, 1000);
 	}
+
+
+	//Comportamiento de la mochila de objetos
+	var ocultaMochila = '-' + $('.mochila').css('width');
+	var oculto = true;
+	$('.mochila').css('left', ocultaMochila);
+	$('#abrirMochila').click(() => {
+		if (oculto) {
+			$('.mochila').animate({ left: 0 }, 600, () => { oculto = false; });
+		}
+		else {
+			$('.mochila').animate({ left: ocultaMochila }, 600, () => { oculto = true; });
+		}
+	});
+
+	$('#abrirMochila').hover(() => {
+		if (oculto) {
+			$('.mochila').animate({ left: 0 }, 600, () => { oculto = false; });
+		}
+	}, ocultarMochilaAuto);
+
+	$('.mochila').mouseleave(ocultarMochilaAuto);
+
+	function ocultarMochilaAuto() {
+		setTimeout(() => {
+			if (!$('.mochila').is(':hover') && !$('#abrirMochila').is(':hover') && !oculto) {
+				$('.mochila').animate({ left: ocultaMochila }, 600, () => { oculto = true; });
+			}
+		}, 1000);
+	}
+
+	$(window).on('load', () => {
+		$('.img-suplente').each(function() {
+			var width = $(this).prop('width') * 0.6;
+			$(this).prop('width', width);
+		});
+	});
+
 });

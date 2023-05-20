@@ -16,27 +16,29 @@
 <link href="css/objetos.css" rel="stylesheet">
 </head>
 <body class="fondo">
-	<table class="table table-dark  form">
-		<thead >
-			<tr >
-				<th scope="col">Nombre</th>
-				<th scope="col">Descripcion</th>
-				<th scope="col">Efecto</th>
-
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="objetos" items="${objetos}" varStatus="status">
+	<div class="tabla">
+		<table class="table table-dark  form">
+			<thead>
 				<tr>
-					<td><b>${objetos.nombre}</b></td>
-					<td>${objetos.descripcion}</td>
-					<td>${objetos.efecto}</td>
+					<th scope="col">Nombre</th>
+					<th scope="col">Descripcion</th>
+					<th scope="col">Efecto</th>
+
 				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="objetos" items="${objetos}" varStatus="status">
+					<tr>
+						<td><b>${objetos.nombre}</b></td>
+						<td>${objetos.descripcion}</td>
+						<td>${objetos.efecto}</td>
+					</tr>
 
 
-			</c:forEach>
+				</c:forEach>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
