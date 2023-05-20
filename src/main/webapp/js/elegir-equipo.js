@@ -23,7 +23,6 @@ $(document).ready(function() {
 		$(".imgPokemon").each(function() {
 			width = $(this).prop("width") * 2;
 			$(this).prop("width", width);
-			console.log($(this).prop("width"));
 		});
 	});
 });
