@@ -33,8 +33,8 @@ public class ControladorBatalla {
 			return new ModelAndView("redirect:/login");
 		}
 		ModelMap model = new ModelMap();
-		Pokemon pokemonUsuario = this.servicioPokemon.buscarPokemon(2l);
-		Pokemon pokemonCpu = this.servicioPokemon.buscarPokemon(1l);
+		Pokemon pokemonUsuario = this.servicioPokemon.buscarPokemon("Gardevoir");
+		Pokemon pokemonCpu = this.servicioPokemon.buscarPokemon("Charizard");
 		model.put("pokemonUsuario", pokemonUsuario);
 		model.put("pokemonCpu", pokemonCpu);
 		return new ModelAndView("batalla", model);
@@ -48,8 +48,8 @@ public class ControladorBatalla {
 			throw new PermisosInsuficientesException();
 		}
 		ModelMap model = new ModelMap();
-		Pokemon pokemonUsuario = this.servicioPokemon.buscarPokemon(2l);
-		Pokemon pokemonCpu = this.servicioPokemon.buscarPokemon(1l);
+		Pokemon pokemonUsuario = this.servicioPokemon.buscarPokemon("Gardevoir");
+		Pokemon pokemonCpu = this.servicioPokemon.buscarPokemon("Charizard");
 		model.put("ataquesUsuario", pokemonUsuario.getAtaques());
 		model.put("ataquesCpu", pokemonCpu.getAtaques());
 		pokemonUsuario.setAtaques(new ArrayList<>());

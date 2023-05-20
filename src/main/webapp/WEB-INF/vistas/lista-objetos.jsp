@@ -16,9 +16,9 @@
 <link href="css/objetos.css" rel="stylesheet">
 </head>
 <body class="fondo">
-	<table class="table table-hover form">
-		<thead>
-			<tr>
+	<table class="table table-dark  form">
+		<thead >
+			<tr >
 				<th scope="col">Nombre</th>
 				<th scope="col">Descripcion</th>
 				<th scope="col">Efecto</th>
