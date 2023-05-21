@@ -18,9 +18,9 @@ public class AtaquePokemon {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Ataque ataque;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Pokemon pokemon;
 
 	public Long getId() {

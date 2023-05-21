@@ -54,7 +54,7 @@
 						<label class="form-check-label ataques-label">${ataque.nombre}</label>
 						<input type="checkbox"
 							<c:forEach items="${pokemon.ataques}" var="aprendido">
-								<c:if test="${ataque.id == aprendido.ataque.id}">
+								<c:if test="${ataque.id == aprendido.id}">
 								checked="checked"
 								</c:if>
 							</c:forEach>
@@ -63,7 +63,7 @@
 					</div>
 				</c:forEach>
 				<c:forEach items="${pokemon.ataques}" var="aprendido">
-					<input type="hidden" name="ataquesAprendidos" value="${aprendido.ataque.id}">
+					<input type="hidden" name="ataquesAprendidos" value="${aprendido.id}">
 				</c:forEach>
 			</div>
 			<div class="valida-ataques validation mb-3" style="display: none;">Seleccione

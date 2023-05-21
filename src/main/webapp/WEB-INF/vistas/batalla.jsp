@@ -1,4 +1,5 @@
 <%@ include file="partial/header.jsp"%>
+<%@ page import="java.util.ArrayList" %>
 <link href="css/progress-bar.css" rel="stylesheet">
 <link href="css/batalla.css" rel="stylesheet">
 <title>Pocket Monster Online Battle!</title>
@@ -16,14 +17,14 @@
 			</div>
 			<div id="ataqueUsuario" style="visibility: hidden;">Ataque</div>
 			<div id="ataques">
-				<c:forEach items="${pokemonsUsuario[0].ataques}" var="ataquePokemon"
+				<c:forEach items="${pokemonsUsuario[0].ataques}" var="ataque"
 					varStatus="status">
-					<button class='btn btn-success ataques' value="${status.count-1}">${ataquePokemon.ataque.nombre}</button>
+					<button class='btn btn-success ataques' value="${status.count-1}">${ataque.nombre}</button>
 				</c:forEach>
 			</div>
 		</div>
 		<div id="cpu">
-			<div id="nombrePkmnCpu">${pokemonCpu.nombre}</div>
+			<div id="nombrePkmnCpu">${pokemonsCpu.nombre}</div>
 			<div>
 				<span id="vidaPkmnCpu"></span><span id="vidaMaximaPkmnCpu"></span><span
 					id=estadoCpu style="padding-left: 20px;"></span>
@@ -58,7 +59,7 @@
 		<div class="cambiarPokemon d-flex">
 			<c:forEach items="${pokemonsUsuario}" var="pokemon"
 				varStatus="status">
-				<button class='btn btn-success suplente' style="margin-right: 10px;"
+				<button class='btn btn-success suplentes' style="margin-right: 10px;"
 					value="${status.count-1}">
 					<img class="img-suplente" alt="${pokemon.nombre}"
 						src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}">
@@ -67,6 +68,10 @@
 			</c:forEach>
 		</div>
 	</div>
+	<script type="text/javascript">
+		var pokemonsUsuario = JSON.parse('${pokemonsUsuarioJson}');
+		var pokemonsCpu = JSON.parse('${pokemonsCpuJson}');
+	</script>
 	<script type="text/javascript" src="js/batalla.js"></script>
 </body>
 </html>

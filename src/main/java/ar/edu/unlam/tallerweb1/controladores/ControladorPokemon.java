@@ -28,16 +28,19 @@ public class ControladorPokemon {
 
 	private ServicioPokemon servicioPokemon;
 	private ServicioAtaque servicioAtaque;
+	private ServicioAtaquePokemon servicioAtaquePokemon;
 
 	@Autowired
-	public ControladorPokemon(ServicioPokemon servicioPokemon, ServicioAtaque servicioAtaque) {
+	public ControladorPokemon(ServicioPokemon servicioPokemon, ServicioAtaque servicioAtaque,
+			ServicioAtaquePokemon servicioAtaquePokemon) {
 		this.servicioPokemon = servicioPokemon;
 		this.servicioAtaque = servicioAtaque;
+		this.servicioAtaquePokemon = servicioAtaquePokemon;
 	}
 
 	@RequestMapping("/crear-pokemon")
 	public ModelAndView crearPokemon(HttpServletRequest request) {
-		
+
 		if (request.getSession().getAttribute("usuario") == null
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
@@ -49,21 +52,20 @@ public class ControladorPokemon {
 	}
 
 	@RequestMapping(path = "/crear-pokemon", method = RequestMethod.POST)
-	public ModelAndView crearPokemon(@ModelAttribute Pokemon pokemon, @RequestParam("ataquesLista") List<Long> ataques,
+	public ModelAndView crearPokemon(@ModelAttribute Pokemon pokemon, @RequestParam("ataquesLista") List<Long> ataquesLista,
 			@RequestParam MultipartFile frente, @RequestParam MultipartFile dorso, HttpServletRequest request) {
-		
+
 		if (request.getSession().getAttribute("usuario") == null
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
 		}
 		try {
-			this.servicioPokemon.guardarPokemon(pokemon, ataques, frente, dorso);
+			this.servicioPokemon.guardarPokemon(pokemon, ataquesLista, frente, dorso);
 			return new ModelAndView("redirect:/lista-pokemons");
 		} catch (IOException | NombreExistenteException | SpriteNoIngresadoException ex) {
 			ModelMap model = new ModelMap();
-			List<AtaquePokemon> ataquesSeleccionados = new ArrayList<>();
-			ataques.forEach(
-					x -> ataquesSeleccionados.add(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
+			List<Ataque> ataquesSeleccionados = new ArrayList<>();
+			ataquesLista.forEach(x -> ataquesSeleccionados.add(this.servicioAtaque.buscarAtaque(x)));
 			pokemon.setAtaques(ataquesSeleccionados);
 			model.put("error", ex.getMessage());
 			model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
@@ -73,7 +75,7 @@ public class ControladorPokemon {
 
 	@RequestMapping("/lista-pokemons")
 	public ModelAndView listaPokemons(HttpServletRequest request) {
-		
+
 		if (request.getSession().getAttribute("usuario") == null
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
@@ -92,6 +94,7 @@ public class ControladorPokemon {
 		}
 		ModelMap model = new ModelMap();
 		Pokemon pokemon = this.servicioPokemon.buscarPokemon(id);
+		pokemon.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(id));
 		model.put("pokemon", pokemon);
 		model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
 		return new ModelAndView("modificar-pokemon", model);
@@ -102,7 +105,7 @@ public class ControladorPokemon {
 			@RequestParam MultipartFile frente, @RequestParam MultipartFile dorso, @RequestParam String nombreAnterior,
 			@RequestParam String frenteAnterior, @RequestParam String dorsoAnterior,
 			@RequestParam List<Long> ataquesAprendidos, HttpServletRequest request) {
-		
+
 		if (request.getSession().getAttribute("usuario") == null
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
@@ -110,13 +113,13 @@ public class ControladorPokemon {
 		pokemon.setImagenFrente(frenteAnterior);
 		pokemon.setImagenDorso(dorsoAnterior);
 		try {
-			this.servicioPokemon.modificarPokemon(pokemon, ataquesLista, frente, dorso, nombreAnterior, ataquesAprendidos);
+			this.servicioPokemon.modificarPokemon(pokemon, ataquesLista, frente, dorso, nombreAnterior,
+					ataquesAprendidos);
 			return new ModelAndView("redirect:/lista-pokemons");
 		} catch (Exception ex) {
 			ModelMap model = new ModelMap();
-			List<AtaquePokemon> ataquesSeleccionados = new ArrayList<>();
-			ataquesLista.forEach(
-					x -> ataquesSeleccionados.add(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
+			List<Ataque> ataquesSeleccionados = new ArrayList<>();
+			ataquesLista.forEach(x -> ataquesSeleccionados.add(this.servicioAtaque.buscarAtaque(x)));
 			pokemon.setAtaques(ataquesSeleccionados);
 			model.put("error", ex);
 			model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
@@ -126,8 +129,9 @@ public class ControladorPokemon {
 
 	@RequestMapping(path = "/borrar-pokemon", method = RequestMethod.POST)
 	@ResponseBody
-	public void borrarPokemon(@RequestParam String id, HttpServletRequest request) throws PermisosInsuficientesException {
-		
+	public void borrarPokemon(@RequestParam String id, HttpServletRequest request)
+			throws PermisosInsuficientesException {
+
 		if (request.getSession().getAttribute("usuario") == null
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			throw new PermisosInsuficientesException();
