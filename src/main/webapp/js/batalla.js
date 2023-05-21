@@ -85,6 +85,9 @@ $(document).ready(function() {
 				var tipo = pokemonUsuario.ataques[idAtaque].tipo;
 				if (tipo == pokemonUsuario.tipo) potencia *= 1.5;
 				pokemonCpu.vidaActual -= potencia;
+				//DEBILIDADES
+				if (comprobarDebilidades(tipo, pokemonCpu.tipo)) potencia *= 2;
+				pokemonCpu.vidaActual -= potencia;
 				$('#ataqueUsuario').html('Utilizaste: ' + pokemonUsuario.ataques[idAtaque].nombre);
 				$('#ataqueUsuario').css('visibility', 'visible');
 				await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', pokemonCpu);
@@ -96,6 +99,8 @@ $(document).ready(function() {
 					//QUEMAR
 					else if (tipo == 'FUEGO') intentarQuemar('cpu');
 				}
+
+
 			}
 			else {
 				$('#ataqueUsuario').html('Estas paralizado, no puedes atacar!');
@@ -240,6 +245,26 @@ $(document).ready(function() {
 		}
 	}
 
+
+	function comprobarDebilidades(tipoAtaque, tipoPokemon) {
+
+		switch (tipoPokemon) {
+			case 'AGUA':
+				if (tipoAtaque == 'PLANTA')
+					return true;
+			case 'FUEGO':
+				if (tipoAtaque == 'AGUA' || tipoAtaque == 'TIERRA')
+					return true;
+			case 'AGUA':
+				if (tipoAtaque == 'ELECTRICO')
+					return true;
+			default:
+				return false;
+		}
+
+
+	}
+
 	//Metodo asincrono que mueve la barra de vida de los pokemons y me obliga a usar promesas para esperar que finalize
 	const moveProgressBar = (idProgressBar, idVida, pokemon) => {
 		return new Promise((resolve) => {
@@ -288,7 +313,7 @@ $(document).ready(function() {
 	 * 	Estilos y animaciones de la vista de batalla
 	 */
 
-	
+
 	//Comportamiento de la mochila de objetos
 	var ocultaMochila = '-' + $('.mochila').css('width');
 	var oculto = true;
@@ -317,6 +342,8 @@ $(document).ready(function() {
 			}
 		}, 1000);
 	}
+
+
 
 
 	//Comportamiento de la mochila de objetos
