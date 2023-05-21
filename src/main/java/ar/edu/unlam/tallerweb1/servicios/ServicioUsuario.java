@@ -14,11 +14,8 @@ public interface ServicioUsuario {
 	
 	public List<Pokemon> obtenerListaDePokemons(Long idUsuario);
 
-<<<<<<< HEAD
 	Boolean restarPuntos(Integer monedas, Usuario usuario);
 
-=======
 	public List<Objeto> obtenerListaDeObjetos(Long attribute);
->>>>>>> 2568fed6d33ba262d10a854882019a6315c9db34
 	
 }

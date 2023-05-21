@@ -51,7 +51,6 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public Boolean restarPuntos(Integer monedas, Usuario usuario) {
 		if(monedas > usuario.getPuntos()) {
 			return false;
@@ -62,12 +61,9 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		
 	}
 	
-
-=======
 	public List<Objeto> obtenerListaDeObjetos(Long idUsuario) {
 		List<Objeto> objetos= new ArrayList<>();
 		this.buscarUsuario(idUsuario).getObjetos().forEach(x -> objetos.add(x.getObjeto()));
 		return objetos;
 	}
->>>>>>> 2568fed6d33ba262d10a854882019a6315c9db34
 }
