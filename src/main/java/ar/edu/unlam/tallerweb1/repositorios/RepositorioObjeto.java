@@ -7,6 +7,8 @@ import ar.edu.unlam.tallerweb1.modelo.Objeto;
 public interface RepositorioObjeto {
 
 	List<Objeto> listarObjetos();
+
+	Objeto buscarObjeto(Long id);
 	
 	
 

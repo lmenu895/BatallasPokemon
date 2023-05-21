@@ -1,6 +1,5 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +15,12 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.unlam.tallerweb1.servicios.ServicioObjeto;
 import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
+import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioObjeto;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
+import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
 
 @Controller
 public class ControladorUsuario {
@@ -28,15 +29,17 @@ public class ControladorUsuario {
 	private ServicioUsuario servicioUsuario;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	private ServicioPokemon servicioPokemon;
+	private ServicioUsuarioObjeto servicioUsuarioObjeto;
 
 	@Autowired
-	public ControladorUsuario(ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon, ServicioPokemon servicioPokemon) {
+	public ControladorUsuario(ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon, ServicioPokemon servicioPokemon, ServicioUsuarioObjeto servicioUsuarioObjeto) {
 		this.servicioObjeto = servicioObjeto;
 		this.servicioUsuario = servicioUsuario;
 		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
 		this.servicioPokemon = servicioPokemon;
+		this.servicioUsuarioObjeto = servicioUsuarioObjeto;
 	}
-
+	
 	@RequestMapping("lista-objetos")
 	public ModelAndView ObtenerObjetos(HttpServletRequest request) {
 		
@@ -57,12 +60,13 @@ public class ControladorUsuario {
 		}
 		ModelMap model = new ModelMap();
 		model.put("listaPokemon", this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id")));
+		model.put("listaObjetos", this.servicioUsuario.obtenerListaDeObjetos((Long)request.getSession().getAttribute("id")));
 		return new ModelAndView("elegir-equipo", model);
 	}
 	
 	
 	@RequestMapping(path = "guardar-equipo", method = RequestMethod.POST)
-	public ModelAndView guardarPokemon(@RequestParam("pokemonsLista") String[] pokemonsTraidos, HttpServletRequest request) {
+	public ModelAndView guardarPokemon(@RequestParam(required=false, name="pokemonsLista")  String[] pokemonsTraidos , @RequestParam(required=false, name="objetosLista")  String[] objetosTraidos,  HttpServletRequest request) {
 		
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
@@ -71,14 +75,21 @@ public class ControladorUsuario {
 		Long id = (Long)request.getSession().getAttribute("id");
 		List <UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
 		List <Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemon(lista);
-		if(pokemonsTraidos.length == 3) {
-			pokemons = this.servicioPokemon.buscarPokemonPorGrupo(pokemonsTraidos);
-			model.put("equipo", pokemons);
-			return new ModelAndView("ver-equipos", model);
+		if(pokemonsTraidos == null || pokemonsTraidos.length != 3){
+			model.put("error", "Debe seleccionar 3 pokemons");
+			model.put("listaPokemon", this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id")));
+			model.put("listaObjetos", this.servicioUsuario.obtenerListaDeObjetos((Long)request.getSession().getAttribute("id")));
+			return new ModelAndView("elegir-equipo", model);
 		}
-		model.put("error", "Debe seleccionar 3 pokemons");
-		model.put("listaPokemon", pokemons);
-		return new ModelAndView("elegir-equipo", model);
+		if(objetosTraidos != null) {
+			List <UsuarioObjeto> listaO = this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto(id);
+			List <Objeto> objetos = this.servicioUsuarioObjeto.buscarObjeto(listaO);
+			objetos = this.servicioObjeto.buscarObjetoPorGrupo(objetosTraidos);
+			model.put("objetos", objetos);
+		}
+		pokemons = this.servicioPokemon.buscarPokemonPorGrupo(pokemonsTraidos);
+		model.put("equipo", pokemons);
+		return new ModelAndView("ver-equipos", model);
 	}
 
 //	@RequestMapping(path = "/guardar-equipo", method = RequestMethod.POST)

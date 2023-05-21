@@ -13,37 +13,32 @@
 	crossorigin="anonymous">
 <title>Lista de Objetos</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<link href="css/objetos.css" rel="stylesheet">
 </head>
-<body>
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th scope="col">Nombre</th>
-				<th scope="col">Descripcion</th>
-				<th scope="col">Efecto</th>
-
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="objetos" items="${objetos}" varStatus="status">
+<body class="fondo">
+	<div class="tabla">
+		<table class="table table-dark  form">
+			<thead>
 				<tr>
-					<td><b>${objetos.nombre}</b></td>
-					<td>${objetos.descripcion}</td>
-					<td>${objetos.efecto}</td>
+					<th scope="col">Nombre</th>
+					<th scope="col">Descripcion</th>
+					<th scope="col">Efecto</th>
 
-
-					<td>
-						<!-- Button trigger modal --> <a class="btn btn-primary"
-						" role="button">Elegir</a>
-						</button>
-
-					</td>
 				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="objetos" items="${objetos}" varStatus="status">
+					<tr>
+						<td><b>${objetos.nombre}</b></td>
+						<td>${objetos.descripcion}</td>
+						<td>${objetos.efecto}</td>
+					</tr>
 
 
-			</c:forEach>
+				</c:forEach>
 
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>

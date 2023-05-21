@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import java.util.List;
 
+import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
@@ -13,7 +14,11 @@ public interface ServicioUsuario {
 	
 	public List<Pokemon> obtenerListaDePokemons(Long idUsuario);
 
+<<<<<<< HEAD
 	Boolean restarPuntos(Integer monedas, Usuario usuario);
 
+=======
+	public List<Objeto> obtenerListaDeObjetos(Long attribute);
+>>>>>>> 2568fed6d33ba262d10a854882019a6315c9db34
 	
 }

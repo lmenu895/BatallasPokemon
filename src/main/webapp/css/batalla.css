@@ -1,0 +1,132 @@
+body{
+	background: url(../images/pokehuevas.png);
+	color: white;
+}
+
+.objetos {
+	height: 60px;
+}
+
+.verMochila {
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+	width: 90%;
+	left: -6px;
+}
+
+.mochila {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	border: 1px solid;
+	border-left: none;
+	border-radius: 0px 10px 10px 0;
+	height: 100%;
+	width: fit-content;
+	background: center/100% white;
+}
+
+.objeto {
+	margin-right: 20px;
+	/*white-space: nowrap;*/
+	height: 80%;
+	padding: 8px;
+	color: white;
+	border-radius: 10px;
+	
+}
+
+.objeto:first-child{
+	margin-left: 30px;
+}
+
+#abrirMochila {
+	z-index: 1;
+	height: 100%;
+	border-radius: 10px;
+	padding: 10px;
+	
+}
+
+.img-mochila{
+	height: 70%;
+	
+}
+
+.cambiarPokemon {
+	height: 60px;
+}
+
+.suplente {
+	padding: 0 5px 0 5px;
+}
+.gamebox{
+	
+	margin: 0 auto;
+	position: relative;
+	border-style: solid;
+	background-color: rgb(223, 213, 211);
+	width: 800px;
+	height: 600px;
+	border-radius: 10px 10px 0px 0px;
+	
+}
+
+.container{
+	
+	align-items: center;
+	display:run-in;
+	
+}
+
+.texto{
+	color: black;
+}
+
+.ams{
+	margin-left:247.9px;
+	padding-left: 1px;
+	background-color:gray;
+	width: 800px;
+	height: 230px;
+	border-radius: 0px 0px 10px 10px;
+}
+
+.pokeUsuario{
+	position:absolute;
+	bottom: 200px;
+	right: 500px;
+}
+
+.pokeCpu{
+	position: absolute;
+	left: 500px;
+	bottom: 450px;
+	
+}
+
+.textoCpu{
+	color: black;
+	padding-left:162px;
+}
+
+.img-primero{
+	height: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

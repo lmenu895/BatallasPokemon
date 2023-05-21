@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
+import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 
 @Repository
 public class RepositorioObjetoImpl implements RepositorioObjeto {
@@ -25,6 +26,13 @@ public class RepositorioObjetoImpl implements RepositorioObjeto {
 		 final Session session = sessionFactory.getCurrentSession();
 		return session.createCriteria(Objeto.class)
 				.list();
+	}
+
+
+
+	@Override
+	public Objeto buscarObjeto(Long id) {
+		return this.sessionFactory.getCurrentSession().get(Objeto.class, id);
 	}
 
 }
