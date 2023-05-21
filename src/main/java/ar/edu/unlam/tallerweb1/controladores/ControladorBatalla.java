@@ -35,6 +35,7 @@ public class ControladorBatalla {
 			return new ModelAndView("redirect:/login");
 		}
 		ModelMap model = new ModelMap();
+
 		List<Pokemon> pokemonsUsuario = new ArrayList<>();
 		pokemonsUsuario.add(this.servicioPokemon.buscarPokemon("Charizard"));
 		pokemonsUsuario.add(this.servicioPokemon.buscarPokemon("Wartortle"));

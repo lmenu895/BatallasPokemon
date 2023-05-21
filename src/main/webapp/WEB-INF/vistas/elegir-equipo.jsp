@@ -41,7 +41,6 @@
 				</c:if>
 			</div>
 			
-
 			<div class="form">
 				<h3 class="form-signin-heading">Lista de Objetos</h3>
 				<h3 class="fs-5 text">Seleccione qué objetos va a tener</h3>

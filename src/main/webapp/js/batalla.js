@@ -387,6 +387,37 @@ $(document).ready(function() {
 	 * 	Estilos y animaciones de la vista de batalla
 	 */
 
+	
+	//Comportamiento de la mochila de objetos
+	var ocultaMochila = '-' + $('.mochila').css('width');
+	var oculto = true;
+	$('.mochila').css('left', ocultaMochila);
+	$('#botonPruebas').click(() => {
+		if (oculto) {
+			$('.mochila').animate({ left: 0 }, 600, () => { oculto = false; });
+		}
+		else {
+			$('.mochila').animate({ left: ocultaMochila }, 600, () => { oculto = true; });
+		}
+	});
+
+	$('#botonPruebas').hover(() => {
+		if (oculto) {
+			$('.mochila').animate({ left: 0 }, 600, () => { oculto = false; });
+		}
+	}, ocultarMochilaAuto);
+
+	$('.mochila').mouseleave(ocultarMochilaAuto);
+
+	function ocultarMochilaAuto() {
+		setTimeout(() => {
+			if (!$('.mochila').is(':hover') && !$('#botonPruebas').is(':hover') && !oculto) {
+				$('.mochila').animate({ left: ocultaMochila }, 600, () => { oculto = true; });
+			}
+		}, 1000);
+	}
+
+
 	//Comportamiento de la mochila de objetos
 	var ocultaMochila;
 	var oculto = true;
@@ -419,4 +450,5 @@ $(document).ready(function() {
 			$(this).prop('width', width);
 		});
 	});
+
 });

@@ -27,6 +27,10 @@ public class Usuario {
 	private String email;
 	private String password;
 	private Boolean esAdmin = false;
+<<<<<<< HEAD
+	private Integer puntos=1000;
+=======
+>>>>>>> 2568fed6d33ba262d10a854882019a6315c9db34
 	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contrase�as en la base de datos, no est� implementado
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<UsuarioPokemon> pokemons;
@@ -83,4 +87,11 @@ public class Usuario {
 	public void setPokemons(List<UsuarioPokemon> pokemons) {
 		this.pokemons = pokemons;
 	}
+	public Integer getPuntos() {
+		return puntos;
+	}
+	public void setPuntos(Integer puntos) {
+		this.puntos = puntos;
+	}
+	
 }

@@ -6,15 +6,37 @@
 </head>
 <body>
 	<div class="container mt-5">
-		<div id="usuario">
-			<div id="nombrePkmnUsr">${pokemonsUsuario[0].nombre}</div>
-			<div class="vida">
-				<span id="vidaPkmnUsr"></span><span id="vidaMaximaPkmnUsr"></span><span
-					id=estadoUsuario style="padding-left: 20px;"></span>
+		<div class="gamebox">
+			<div id="usuario" class="pokeUsuario" style="left: 60px;">
+				<div class="texto" id="nombrePkmnUsr">${pokemonsUsuario[0].nombre}</div>
+				<div class="vida texto">
+					<span id="vidaPkmnUsr"></span><span id="vidaMaximaPkmnUsr"></span><span
+						id=estadoUsuario style="padding-left: 20px;"></span>
+				</div>
+				<div id="progressUsr" class="myProgress">
+					<div id="progressBarUsr" class="myBar"></div>
+				</div>
+				<!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
+
+				<!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
 			</div>
-			<div id="progressUsr" class="myProgress">
-				<div id="progressBarUsr" class="myBar"></div>
+			<div id="cpu" class="pokeCpu" style="height: 90px; right: 30px;">
+				<div class="textoCpu" id="nombrePkmnCpu">${pokemonCpu.nombre}</div>
+				<div class="textoCpu">
+					<!-- CLASE TEXTO EN HP Y NOMBRE DE LOS POKEMON PARA EL FONDO BLANCO -->
+					<span id="vidaPkmnCpu"></span><span id="vidaMaximaPkmnCpu"></span><span
+						id=estadoCpu style="padding-left: 20px;"></span>
+				</div>
+				<div id="progressCpu" class="myProgress">
+					<div id="progressBarCpu" class="myBar"></div>
+				</div>
+				<div id="ataqueCpu" style="visibility: hidden;">Ataque</div>
 			</div>
+		</div>
+
+		<div class="ams">
+			<!-- ATAQUES MOCHILA SUPLENTES xD -->
+			<!-- ATAQUES DEL USUARIO -->
 			<div id="ataqueUsuario" style="visibility: hidden;">Ataque</div>
 			<div id="ataques">
 				<c:forEach items="${pokemonsUsuario[0].ataques}" var="ataque"
@@ -22,6 +44,7 @@
 					<button class='btn btn-success ataques' value="${status.count-1}">${ataque.nombre}</button>
 				</c:forEach>
 			</div>
+<<<<<<< HEAD
 		</div>
 		<div id="cpu">
 			<div id="nombrePkmnCpu">${pokemonsCpu.nombre}</div>
