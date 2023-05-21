@@ -25,6 +25,21 @@
 				</c:forEach>
 			</tbody>
 		</table>
+
+		<table id="tablaPokemons" class='table table-hover table-striped mb-5 tableForm'>
+			<thead>
+				<tr class='text-center table-dark align-middle '>
+					<th scope='col'>Nombre Objeto</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${objetos}" var="objeto">
+					<tr class='text-center align-middle' id="pokemon${objeto.id}">
+						<td>${objeto.nombre}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>
