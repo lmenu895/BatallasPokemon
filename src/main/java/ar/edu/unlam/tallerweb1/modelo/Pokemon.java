@@ -14,6 +14,7 @@ public class Pokemon {
 	@Column(unique = true)
 	private String nombre;
 	private TipoPokemon tipo;
+	private RarezaPokemon rareza;
 	private Double vida;
 	private Double velocidad;
 	private String imagenFrente;
@@ -84,4 +85,13 @@ public class Pokemon {
 	public void setVelocidad(Double velocidad) {
 		this.velocidad = velocidad;
 	}
+
+	public RarezaPokemon getRareza() {
+		return rareza;
+	}
+
+	public void setRareza(RarezaPokemon rareza) {
+		this.rareza = rareza;
+	}
+	
 }

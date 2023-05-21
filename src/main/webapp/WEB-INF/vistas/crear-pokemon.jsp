@@ -38,6 +38,14 @@
 				<div class="valida-select validation" style="display: none;">Seleccione
 					un tipo</div>
 			</div>
+			<div class="form-group mb-3">
+				<form:select class="form-select" path="rareza" id="rareza">
+					<form:option value="default">Seleccione rareza</form:option>
+					<form:options />
+				</form:select>
+				<div class="valida-select validation" style="display: none;">Seleccione
+					rareza</div>
+			</div>
 			<h3 class="fs-5 text">Seleccione qué ataques va a tener su
 				pokemon</h3>
 			<div class="form-group lista-ataques">

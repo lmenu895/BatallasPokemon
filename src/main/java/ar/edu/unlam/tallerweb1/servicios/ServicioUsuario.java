@@ -12,5 +12,8 @@ public interface ServicioUsuario {
 	Usuario buscarUsuario(Long idUsuario);
 	
 	public List<Pokemon> obtenerListaDePokemons(Long idUsuario);
+
+	Boolean restarPuntos(Integer monedas, Usuario usuario);
+
 	
 }

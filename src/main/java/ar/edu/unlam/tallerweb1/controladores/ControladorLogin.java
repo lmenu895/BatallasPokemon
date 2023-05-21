@@ -111,7 +111,7 @@ public class ControladorLogin {
 
 	// Escucha la URL /home por GET, y redirige a una vista.
 	@RequestMapping(path = "/home", method = RequestMethod.GET)
-	public ModelAndView irAHome(HttpServletRequest request) {
+	public ModelAndView irAHome( HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null)
 			return new ModelAndView("redirect:/login");
 		ModelMap model = new ModelMap();
