@@ -8,6 +8,8 @@
 </head>
 <body>
 		<h1>Tus monedas ${puntos}</h1>
+		<h1>Pokemon obtenido</h1>
+		${pokemon.nombre}
 
 </body>
 </html>
