@@ -13,6 +13,10 @@ import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioGachapon;
+<<<<<<< HEAD
+=======
+import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
+>>>>>>> 0df91bd (gacha terminado sin front2)
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 
@@ -24,8 +28,13 @@ public class ControladorGachapon {
 	private ServicioGachapon servicioGachapon;
 	
 	@Autowired
+<<<<<<< HEAD
 	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) 
 	{
+=======
+	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioUsuarioPokemon servicioUsuarioPokemon) {
+		this.servicioPokemon=servicioPokemon;	
+>>>>>>> 0df91bd (gacha terminado sin front2)
 		this.servicioUsuario=servicioUsuario;
 		this.servicioUsuarioPokemon=servicioUsuarioPokemon;
 		this.servicioGachapon=servicioGachapon;
@@ -60,7 +69,10 @@ public class ControladorGachapon {
 		}
 		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas);
 		this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon));
+<<<<<<< HEAD
 		model.put("monedas", request.getParameter("monedas"));
+=======
+>>>>>>> 0df91bd (gacha terminado sin front2)
 		model.put("puntos", usuario.getPuntos());
 		model.put("pokemon", pokemon);
 		return new ModelAndView("gachapon-resultado", model);

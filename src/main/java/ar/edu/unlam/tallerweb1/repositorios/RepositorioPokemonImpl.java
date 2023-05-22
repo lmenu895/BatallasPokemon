@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.*;
@@ -79,4 +80,27 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 	public void borrarPokemon(Long id) {
 		this.sessionFactory.getCurrentSession().delete(this.buscarPokemon(id));
 	}
+<<<<<<< HEAD
+=======
+
+	@Override
+	public ArrayList<Pokemon> buscarPorRareza(int rareza) {
+		Session session = sessionFactory.getCurrentSession();
+	    CriteriaBuilder cb = session.getCriteriaBuilder();
+	    CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);
+	    Root<Pokemon> root = cr.from(Pokemon.class);
+	    cr.select(root);
+	    cr.select(root).where(cb.equal(root.get("rareza"), rareza));
+	    try {
+	        return (ArrayList<Pokemon>) session.createQuery(cr).getResultList();
+	        
+	    } catch (Exception ex) {
+	        System.err.println(ex);
+	        return null;
+	    }
+	}
+
+
+
+>>>>>>> 0df91bd (gacha terminado sin front2)
 }

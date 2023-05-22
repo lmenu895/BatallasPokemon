@@ -26,10 +26,17 @@ public class Usuario {
 	private String email;
 	private String password;
 	private Boolean esAdmin = false;
+<<<<<<< HEAD
 	private Boolean principiante = true;
 	private Integer puntos=1000;
 	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contraseñas en la base de datos, no está implementado
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+=======
+	private Integer puntos=1000;
+
+	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contraseï¿½as en la base de datos, no estï¿½ implementado
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario", cascade = CascadeType.ALL)
+>>>>>>> 0df91bd (gacha terminado sin front2)
 	private List<UsuarioPokemon> pokemons;
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<UsuarioObjeto> objetos;

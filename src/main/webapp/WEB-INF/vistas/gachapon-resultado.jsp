@@ -12,9 +12,15 @@
     <title>Gachapon Resultado</title>
 </head>
 <body>
+<<<<<<< HEAD
     <div class="header">
         <a href="gachapon" class="gachaponLogo" ><img class="gachapon" src="images/togepi.png" alt="gachaLogo"></a>
     </div>
+=======
+		<h1>Tus monedas ${puntos}</h1>
+		<h1>Pokemon obtenido</h1>
+		${pokemon.nombre}
+>>>>>>> 0df91bd (gacha terminado sin front2)
 
     <div class="resultado">
         <img class="pokeballArriba pokeball animation" src="images/pokeballArriba${monedas}.png" alt="arriba">
