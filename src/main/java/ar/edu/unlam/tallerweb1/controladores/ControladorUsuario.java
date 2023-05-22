@@ -90,14 +90,7 @@ public class ControladorUsuario {
 		pokemons = this.servicioPokemon.buscarPokemonPorGrupo(pokemonsTraidos);
 		model.put("equipo", pokemons);
 		return new ModelAndView("ver-equipos", model);
+		
 	}
-
-//	@RequestMapping(path = "/guardar-equipo", method = RequestMethod.POST)
-//	public ModelAndView guardarPokemon(@ModelAttribute("pokemon") Pokemon pokemon,
-//			@RequestParam("pokemonsLista") String[] pokemons,  HttpServletRequest request) {
-//			Long id = (Long)request.getSession().getAttribute("id");
-//			this.servicioUsuario.guardarEquipo(pokemons, id);
-//			return new ModelAndView("ver-equipos");
-//	}
 	
 }

@@ -70,4 +70,5 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 		this.sessionFactory.getCurrentSession().delete(this.buscarPokemon(id));
 	}
 
+
 }

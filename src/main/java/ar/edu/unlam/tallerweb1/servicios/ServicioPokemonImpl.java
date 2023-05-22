@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,5 +141,17 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		InputStream inputStream = imagen.getInputStream();
 		Path filePath = uploadPath.resolve(fileName);
 		Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+	}
+
+	@Override
+	public List<Pokemon> crearEquipoCpu() {
+		Random random = new Random();
+		List<Pokemon> todosLosPokemons = repositorioPokemon.obtenerTodosLosPokemons();
+		List<Pokemon> pokemons = new ArrayList<>();
+		while(pokemons.size() < 3) {
+			int indexPokemon = random.nextInt(todosLosPokemons.size()+1);
+			pokemons.add(todosLosPokemons.get(indexPokemon));
+		}
+		return pokemons;
 	}
 }
