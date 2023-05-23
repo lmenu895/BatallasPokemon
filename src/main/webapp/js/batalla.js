@@ -83,11 +83,12 @@ $(document).ready(function() {
 			if (!inmovil) {
 				var potencia = pokemonUsuario.ataques[idAtaque].potencia;
 				var tipo = pokemonUsuario.ataques[idAtaque].tipo;
-				if (tipo == pokemonUsuario.tipo) potencia *= 1.5;
+				//if (tipo == pokemonUsuario.tipo) potencia *= 1.5;
+								//DEBILIDADES
+				if (comprobarDebilidades(tipo, pokemonCpu.tipo)==true) potencia *= 2;
 				pokemonCpu.vidaActual -= potencia;
-				//DEBILIDADES
-				if (comprobarDebilidades(tipo, pokemonCpu.tipo)) potencia *= 2;
-				pokemonCpu.vidaActual -= potencia;
+
+				
 				$('#ataqueUsuario').html('Utilizaste: ' + pokemonUsuario.ataques[idAtaque].nombre);
 				$('#ataqueUsuario').css('visibility', 'visible');
 				await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', pokemonCpu);
@@ -258,6 +259,9 @@ $(document).ready(function() {
 			case 'AGUA':
 				if (tipoAtaque == 'ELECTRICO')
 					return true;
+			case 'PLANTA':
+				if (tipoAtaque== 'FUEGO')
+				return true;		
 			default:
 				return false;
 		}

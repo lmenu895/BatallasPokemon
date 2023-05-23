@@ -39,7 +39,7 @@ public class ControladorBatalla {
 		pokemonsUsuario.add(this.servicioPokemon.buscarPokemon("Charizard"));
 		pokemonsUsuario.add(this.servicioPokemon.buscarPokemon("Wartortle"));
 		pokemonsUsuario.add(this.servicioPokemon.buscarPokemon("Gyarados"));
-		Pokemon pokemonCpu = this.servicioPokemon.buscarPokemon("Raticate");
+		Pokemon pokemonCpu = this.servicioPokemon.buscarPokemon("Venusaur");
 
 		model.put("pokemonsUsuario", pokemonsUsuario);
 
@@ -67,8 +67,8 @@ public class ControladorBatalla {
 			pokemon.setAtaques(new ArrayList<>());
 		}
 		List<Pokemon> pokemonsCpu = new ArrayList<>();
-		pokemonsCpu.add(this.servicioPokemon.buscarPokemon("Raticate"));
 		pokemonsCpu.add(this.servicioPokemon.buscarPokemon("Venusaur"));
+		pokemonsCpu.add(this.servicioPokemon.buscarPokemon("Raticate"));
 		pokemonsCpu.add(this.servicioPokemon.buscarPokemon("Pikachu"));
 		for (Pokemon pokemon : pokemonsCpu) {
 			ataquesCpu.put(pokemon.getNombre(), pokemon.getAtaques());
