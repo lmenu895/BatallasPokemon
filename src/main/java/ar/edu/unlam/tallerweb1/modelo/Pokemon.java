@@ -14,12 +14,13 @@ public class Pokemon {
 	@Column(unique = true)
 	private String nombre;
 	private TipoPokemon tipo;
+	private RarezaPokemon rareza;
 	private Double vida;
 	private Double velocidad;
 	private String imagenFrente;
 	private String imagenDorso;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pokemon", cascade = CascadeType.ALL)
-	private List<AtaquePokemon> ataques;
+	@Transient
+	private List<Ataque> ataques;
 
 	public Long getId() {
 		return id;
@@ -69,19 +70,27 @@ public class Pokemon {
 		this.imagenDorso = imagenDorso;
 	}
 
-	public List<AtaquePokemon> getAtaques() {
-		return ataques;
-	}
-
-	public void setAtaques(List<AtaquePokemon> ataques) {
-		this.ataques = ataques;
-	}
-
 	public Double getVelocidad() {
 		return velocidad;
 	}
 
 	public void setVelocidad(Double velocidad) {
 		this.velocidad = velocidad;
+	}
+
+	public List<Ataque> getAtaques() {
+		return ataques;
+	}
+
+	public void setAtaques(List<Ataque> ataques) {
+		this.ataques = ataques;
+	}
+
+	public RarezaPokemon getRareza() {
+		return rareza;
+	}
+
+	public void setRareza(RarezaPokemon rareza) {
+		this.rareza = rareza;
 	}
 }

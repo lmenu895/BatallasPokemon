@@ -55,7 +55,7 @@ body{
 }
 
 .cambiarPokemon {
-	height: 60px;
+	height: 65px;
 }
 
 .suplente {
@@ -95,25 +95,37 @@ body{
 
 .pokeUsuario{
 	position:absolute;
-	bottom: 200px;
+	bottom:100px;
 	right: 500px;
 }
-
-.pokeCpu{
-	position: absolute;
-	left: 500px;
-	bottom: 450px;
+#cpu{
 	
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 234px;
+    left: 500px;
+    bottom: 330px;
 }
 
 .textoCpu{
 	color: black;
-	padding-left:162px;
 }
 
 .img-primero{
 	height: 100px;
 }
+
+dialog {
+  
+  margin-top: 10px;
+  background: black;
+  border: none;
+  border-radius: 1rem;
+}
+
+
 
 
 
