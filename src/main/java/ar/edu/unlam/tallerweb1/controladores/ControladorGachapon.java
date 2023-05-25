@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
+import ar.edu.unlam.tallerweb1.servicios.ServicioGachapon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
@@ -21,14 +24,15 @@ import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 public class ControladorGachapon {
 	
 	private ServicioUsuario servicioUsuario;
-	private ServicioPokemon servicioPokemon;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
+	private ServicioGachapon servicioGachapon;
 	
 	@Autowired
-	public ControladorGachapon(ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioUsuarioPokemon servicioUsuarioPokemon) {
-		this.servicioPokemon=servicioPokemon;	
+	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) 
+	{
 		this.servicioUsuario=servicioUsuario;
 		this.servicioUsuarioPokemon=servicioUsuarioPokemon;
+		this.servicioGachapon=servicioGachapon;
 	}
 	
 	@RequestMapping("/gachapon")
@@ -58,8 +62,10 @@ public class ControladorGachapon {
 			model.put("puntos", usuario.getPuntos());
 			return new ModelAndView("gachapon", model);
 		}
-		
+		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas);
+		this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon));
 		model.put("puntos", usuario.getPuntos());
+		model.put("pokemon", pokemon);
 		return new ModelAndView("gachapon-resultado", model);
 	}
 	
