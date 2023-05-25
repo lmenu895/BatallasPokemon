@@ -1,13 +1,13 @@
-<%@ include file="partial/header.jsp"%>
+﻿<%@ include file="partial/header.jsp"%>
 <%@ page import="java.util.ArrayList"%>
 <link href="css/progress-bar.css" rel="stylesheet">
 <link href="css/batalla.css" rel="stylesheet">
 <title>Pocket Monster Online Battle!</title>
 </head>
-<body onclick="play()">
+<body>
 	<div class="container mt-5">
 		<div class="gamebox">
-			<div id="usuario" class="pokeUsuario texto" style="left: 60px;">
+			<div id="usuario" class="pokeUsuario">
 				<div class="texto" id="nombrePkmnUsr">${pokemonsUsuario[0].nombre}</div>
 				<div class="vida texto">
 					<span id="vidaPkmnUsr"></span><span id="vidaMaximaPkmnUsr"></span><span
@@ -16,43 +16,39 @@
 				<div id="progressUsr" class="myProgress">
 					<div id="progressBarUsr" class="myBar"></div>
 				</div>
-				<!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
-				<img class="imagenBatalla" alt=""
-					src="images/sprites/${pokemonsUsuario[0].nombre}/${pokemonsUsuario[0].imagenDorso}">
-				<!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
+				<div id="ataqueUsuario" class="texto" style="visibility: hidden;">Ataque</div>
+				<c:forEach items="${pokemonsUsuario}" var="pokemon">
+					<img class="imagenBatalla img-usuario" alt=""
+						src="images/sprites/${pokemon.nombre}/${pokemon.imagenDorso}">
+				</c:forEach>
 			</div>
-			<div id="cpu" class="pokeCpu textoCpu">
-				<div id="nombrePkmnCpu">${pokemonsCpu.nombre}</div>
-				<div>
-					<span id="vidaPkmnCpu"></span><span id="vidaMaximaPkmnCpu"></span><span
-						id=estadoCpu></span>
+			<div id="cpu" class="pokeCpu">
+				<div class="textoCpu" id="nombrePkmnCpu">${pokemonsCpu[0].nombre}</div>
+				<div class="textoCpu">
+					<!-- CLASE TEXTO EN HP Y NOMBRE DE LOS POKEMON PARA EL FONDO BLANCO -->
+					<span id=estadoCpu style="padding-right: 20px;"></span> <span
+						id="vidaPkmnCpu"></span><span id="vidaMaximaPkmnCpu"></span>
 				</div>
 				<div id="progressCpu" class="myProgress">
 					<div id="progressBarCpu" class="myBar"></div>
 				</div>
-
-				<div id="ataqueCpu" style="visibility: hidden;">Ataque</div>
-
-				<img class="imagenBatalla" alt=""
-					src="images/sprites/${pokemonsCpu.nombre}/${pokemonsCpu.imagenFrente}">
-
+				<div id="ataqueCpu" class="textoCpu" style="visibility: hidden;">Ataque</div>
+				<c:forEach items="${pokemonsCpu}" var="pokemon">
+					<img class="imagenBatalla img-cpu" alt=""
+						src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}">
+				</c:forEach>
 			</div>
 		</div>
-
-
-
 		<div class="ams">
 			<!-- ATAQUES MOCHILA SUPLENTES xD -->
 			<!-- ATAQUES DEL USUARIO -->
-			<div id="ataqueUsuario" style="visibility: hidden;">Ataque</div>
 			<div id="ataques">
 				<c:forEach items="${pokemonsUsuario[0].ataques}" var="ataque"
 					varStatus="status">
 					<button class='btn btn-success ataques' value="${status.count-1}">${ataque.nombre}</button>
 				</c:forEach>
 			</div>
-
-			<div class="objetos d-flex align-items-center mb-2">
+			<div class="objetos d-flex align-items-center">
 				<button id="abrirMochila" class="btn btn-success ">
 					<img class="img-mochila" alt="mochila"
 						src="images/Mochila_RZ_(chico).png"> Mochila
@@ -61,7 +57,7 @@
 					<div class="mochila">
 						<button class="objeto btn btn-success">
 							<img class="img-mochila" alt="mochila"
-								src="images/Mochila_RZ_(chico).png"> Ant�doto
+								src="images/Mochila_RZ_(chico).png"> Antídoto
 						</button>
 						<button class="objeto btn btn-success">
 							<img class="img-mochila" alt="mochila"
@@ -69,7 +65,7 @@
 						</button>
 						<button class="objeto btn btn-success">
 							<img class="img-mochila" alt="mochila"
-								src="images/Mochila_RZ_(chico).png"> Poci�n
+								src="images/Mochila_RZ_(chico).png"> Poción
 						</button>
 					</div>
 				</div>
@@ -85,35 +81,29 @@
 					</button>
 				</c:forEach>
 			</div>
-
 		</div>
-
-		<dialog> <span>Game Over</span> </dialog>
-
-
-
+		<dialog class="game-over"> <span>Game Over</span></dialog>
 	</div>
-
-
+	<div class="musica-fondo">
+		<span style="margin: 0 5px 6.5px 0;">Volumen música: </span> <input
+			type="range" id="slider" value="10" maxlength="100"> <span
+			class="reproducir">▶️</span>
+		<dialog class="reproducir-dialog"> <span class="d-block mb-2">¿Quieres
+			activar la música de batalla?</span>
+		<div class="d-flex justify-content-around">
+			<button class="yes btn btn-info w-25" type="button">Sí</button>
+			<button class="no btn btn-info w-25" type="button">No</button>
+		</div>
+		</dialog>
+		<audio id="musica" loop="loop">
+			<source src="images/pokemonSoundtrack.mp3" type="audio/mpeg">
+		</audio>
+	</div>
 
 	<script type="text/javascript">
 		var pokemonsUsuario = JSON.parse('${pokemonsUsuarioJson}');
 		var pokemonsCpu = JSON.parse('${pokemonsCpuJson}');
 	</script>
-
-	<audio id="musica">
-
-		<source src="/images/pokemonSoundtrack.mp3" type="audio/mpeg">
-
-	</audio>
 	<script type="text/javascript" src="js/batalla.js"></script>
-
-	<script>
-		var audio = document.getElementById("musica");
-		function play() {
-			audio.play();
-		}
-	</script>
-
 </body>
 </html>

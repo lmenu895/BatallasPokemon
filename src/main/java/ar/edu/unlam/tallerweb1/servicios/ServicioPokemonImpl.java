@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import javax.servlet.ServletContext;
@@ -45,7 +46,8 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		}
 		this.validarPokemon(pokemon, frente, dorso, "");
 		this.repositorioPokemon.guardarPokemon(pokemon);
-		ataques.forEach(x -> this.servicioAtaquePokemon.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
+		ataques.forEach(x -> this.servicioAtaquePokemon
+				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
 	}
 
 	@Override
@@ -62,7 +64,8 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 			}
 		}
 		this.repositorioPokemon.modificarPokemon(pokemon);
-		ataques.forEach(x -> this.servicioAtaquePokemon.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
+		ataques.forEach(x -> this.servicioAtaquePokemon
+				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
 
 	}
 
@@ -148,9 +151,10 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		Random random = new Random();
 		List<Pokemon> todosLosPokemons = repositorioPokemon.obtenerTodosLosPokemons();
 		List<Pokemon> pokemons = new ArrayList<>();
-		while(pokemons.size() < 3) {
-			int indexPokemon = random.nextInt(todosLosPokemons.size()+1);
+		while (pokemons.size() < 3) {
+			int indexPokemon = random.nextInt(todosLosPokemons.size());
 			pokemons.add(todosLosPokemons.get(indexPokemon));
+			todosLosPokemons.remove(indexPokemon);
 		}
 		return pokemons;
 	}

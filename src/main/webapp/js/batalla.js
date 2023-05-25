@@ -7,12 +7,13 @@ $(document).ready(function() {
 	var pokemonsVivosCpu = 3;
 	var nextPokemonCpu = 0;
 
+
 	const setVariables = pokemon => {
 		pokemon['porcVida'] = pokemon.vida * 0.003;
 		pokemon['width'] = 100;
 		pokemon['vidaActual'] = pokemon.vida;
 		pokemon['estados'] = { envenenado: false, paralizado: false, quemado: false };
-		pokemon['danioPorEstado'] = pokemon.vida * 0.08;
+		pokemon['danioPorEstado'] = { veneno: pokemon.vida * 0.08, quemadura: pokemon.vida * 0.04 };
 		pokemon['debilitado'] = false;
 	};
 
@@ -26,12 +27,20 @@ $(document).ready(function() {
 	var pokemonUsuario = pokemonsUsuario[0];
 	var pokemonCpu = pokemonsCpu[0];
 	var botonCambio = $('.suplentes')[0];
+	var spriteUsuario = $('.img-usuario')[0];
+	var spriteCpu = $('.img-cpu')[0];
 	$(botonCambio).prop('disabled', true);
 
 	//Cambio de pokemon usuario
-	const cambiarPokemonUsr = boton => {
-		$(boton).prop('disabled', true);
+	const cambiarPokemonUsr = async boton => {
+		$('.suplentes').prop('disabled', true);
 		botonCambio = boton;
+		await new Promise(resolve => {
+			$(spriteUsuario).fadeOut(1000, () => {
+				spriteUsuario = $('.img-usuario')[boton.value];
+				$(spriteUsuario).fadeIn(1000, resolve);
+			});
+		});
 		pokemonUsuario = pokemonsUsuario[boton.value];
 		$('#nombrePkmnUsr').html(pokemonUsuario.nombre);
 		$('#vidaPkmnUsr').html(pokemonUsuario.vidaActual);
@@ -47,8 +56,15 @@ $(document).ready(function() {
 	};
 
 	//Cambio de pokemon cpu
-	const cambiarPokemonCpu = () => {
-		pokemonCpu = pokemonsCpu[++nextPokemonCpu];
+	const cambiarPokemonCpu = async () => {
+		nextPokemonCpu++;
+		pokemonCpu = pokemonsCpu[nextPokemonCpu];
+		await new Promise(resolve => {
+			$(spriteCpu).fadeOut(1000, () => {
+				spriteCpu = $('.img-cpu')[nextPokemonCpu];
+				$(spriteCpu).fadeIn(1000, resolve);
+			});
+		});
 		$('#nombrePkmnCpu').html(pokemonCpu.nombre);
 		$('#vidaPkmnCpu').html(pokemonCpu.vidaActual);
 		$('#vidaMaximaPkmnCpu').html(' / ' + pokemonCpu.vida);
@@ -59,14 +75,13 @@ $(document).ready(function() {
 		else $('#estadoCpu').html('');
 	};
 
-	$(document).on('click', '.suplentes', function() {
+	$(document).on('click', '.suplentes', async function() {
 		if (!pokemonUsuario.debilitado) {
-			cambiarPokemonUsr(this);
+			await cambiarPokemonUsr(this);
 			cambio = true;
 			iniciarTurno();
-		}
-		else {
-			cambiarPokemonUsr(this);
+		} else {
+			await cambiarPokemonUsr(this);
 			activarBotones();
 		}
 	});
@@ -83,19 +98,18 @@ $(document).ready(function() {
 	});
 
 	//Inicio el turno
-	const iniciarTurno = async (idAtaque) => {
+	const iniciarTurno = async idAtaque => {
 		$('.ataques').prop('disabled', true);
 		$('.suplentes').prop('disabled', true);
 
 		await realizarAtaques(idAtaque);
 		await efectosDeEstado();
 		if (pokemonCpu.debilitado) {
-			pokemonDebilitado('cpu');
+			await pokemonDebilitado('cpu');
 		}
 		if (pokemonUsuario.debilitado) {
 			pokemonDebilitado('user');
-		}
-		else {
+		} else {
 			activarBotones();
 		}
 	};
@@ -106,13 +120,11 @@ $(document).ready(function() {
 			if (pokemonUsuario.velocidad > pokemonCpu.velocidad) {
 				await ataqueUsuario(idAtaque);
 				if (!pokemonCpu.debilitado) await ataqueCpu();
-			}
-			else {
+			} else {
 				await ataqueCpu();
 				if (!pokemonUsuario.debilitado) await ataqueUsuario(idAtaque);
 			}
-		}
-		else {
+		} else {
 			await ataqueCpu();
 			cambio = false;
 		}
@@ -124,9 +136,9 @@ $(document).ready(function() {
 		if (!inmovil) {
 			var potencia = pokemonUsuario.ataques[idAtaque].potencia;
 			var tipo = pokemonUsuario.ataques[idAtaque].tipo;
-			if (tipo == pokemonUsuario.tipo) potencia *= 1.5;
+			if (tipo === pokemonUsuario.tipo) potencia *= 1.5;
 			if (comprobarDebilidad(tipo, pokemonCpu.tipo)) potencia *= 2;
-			else if (comprobarDebilidad(tipo, pokemonCpu.tipo) == false) potencia *= 0.5;
+			else if (comprobarDebilidad(tipo, pokemonCpu.tipo) === false) potencia *= 0.5;
 			pokemonCpu.vidaActual -= potencia;
 			$('#ataqueUsuario').html('Utilizaste: ' + pokemonUsuario.ataques[idAtaque].nombre);
 			$('#ataqueUsuario').css('visibility', 'visible');
@@ -147,8 +159,7 @@ $(document).ready(function() {
 						break;
 				}
 			}
-		}
-		else {
+		} else {
 			$('#ataqueUsuario').html('Estas paralizado, no puedes atacar!');
 			$('#ataqueUsuario').css('visibility', 'visible');
 			return new Promise(resolve => setTimeout(resolve, 1000));
@@ -162,9 +173,9 @@ $(document).ready(function() {
 			var ataque = Math.floor(Math.random() * pokemonCpu.ataques.length);
 			var tipo = pokemonCpu.ataques[ataque].tipo;
 			var potencia = pokemonCpu.ataques[ataque].potencia;
-			if (tipo == pokemonCpu.tipo) potencia *= 1.5;
+			if (tipo === pokemonCpu.tipo) potencia *= 1.5;
 			if (comprobarDebilidad(tipo, pokemonUsuario.tipo)) potencia *= 2;
-			else if (comprobarDebilidad(tipo, pokemonUsuario.tipo) == false) potencia *= 0.5;
+			else if (comprobarDebilidad(tipo, pokemonUsuario.tipo) === false) potencia *= 0.5;
 			pokemonUsuario.vidaActual -= potencia;
 			$('#ataqueCpu').html('Ataque enemigo: ' + pokemonCpu.ataques[ataque].nombre);
 			$('#ataqueCpu').css('visibility', 'visible');
@@ -185,8 +196,7 @@ $(document).ready(function() {
 						break;
 				}
 			}
-		}
-		else {
+		} else {
 			$('#ataqueCpu').html('Enemigo paralizado, no puede atacar!');
 			$('#ataqueCpu').css('visibility', 'visible');
 			return new Promise(resolve => setTimeout(resolve, 1000));
@@ -196,18 +206,24 @@ $(document).ready(function() {
 	//Metodo que verifica si un pokemon se encuentra afectado por un efecto de estado
 	const efectosDeEstado = async () => {
 		if (primero) {
-			if (pokemonCpu.estados.envenenado && pokemonUsuario.estados.envenenado || pokemonCpu.estados.quemado && pokemonUsuario.estados.quemado) {
-				await danioPorEstado('cpu');
-				await danioPorEstado('user');
-			}
-			else if (pokemonCpu.estados.envenenado || pokemonCpu.estados.quemado) await danioPorEstado('cpu');
+			await ordenDanioPorEstado(pokemonCpu, pokemonUsuario);
+		} else if (!primero) {
+			await ordenDanioPorEstado(pokemonUsuario, pokemonCpu);
 		}
-		else if (!primero) {
-			if (pokemonCpu.estados.envenenado && pokemonUsuario.estados.envenenado || pokemonCpu.estados.quemado && pokemonUsuario.estados.quemado) {
-				await danioPorEstado('user');
-				await danioPorEstado('cpu');
-			}
-			else if (pokemonUsuario.estados.envenenado || pokemonUsuario.estados.quemado) await danioPorEstado('user');
+	};
+
+	const ordenDanioPorEstado = async (primer, segundo) => {
+		if (primer.estados.envenenado && segundo.estados.envenenado) {
+			await danioPorEstado(primer, 'veneno');
+			await danioPorEstado(segundo, 'veneno');
+		} else if (primer.estados.quemado && segundo.estados.quemado) {
+			await danioPorEstado(primer, 'quemadura');
+			await danioPorEstado(segundo, 'quemadura');
+		} else {
+			if (primer.estados.envenenado) await danioPorEstado(primer, 'veneno');
+			else if (primer.estados.quemado) await danioPorEstado(primer, 'quemadura');
+			if (segundo.estados.envenenado) await danioPorEstado(segundo, 'veneno');
+			else if (segundo.estados.quemado) await danioPorEstado(segundo, 'quemadura');
 		}
 	};
 
@@ -220,44 +236,42 @@ $(document).ready(function() {
 		return false;
 	};
 
-	const comprobarDebilidad = (tipoAtaque, tipoPokemon) => {
-		switch (tipoPokemon) {
-			case 'AGUA':
-				if (tipoAtaque == 'PLANTA' || tipoAtaque == 'ELECTRICO') return true;
-				if (tipoAtaque == 'FUEGO') return false;
-				break;
-			case 'FUEGO':
-				if (tipoAtaque == 'AGUA') return true;
-				if (tipoAtaque == 'PLANTA') return false;
-				break;
-			case 'VENENO':
-				if (tipoAtaque == 'TIERRA') return true;
-				if (tipoAtaque == 'PLANTA') return false;
-				break;
-			case 'TIERRA':
-				if (tipoAtaque == 'AGUA' || tipoAtaque == 'PLANTA') return true;
-				if (tipoAtaque == 'VENENO') return false;
-				break;
-			case 'ELECTRICO':
-				if (tipoAtaque == 'TIERRA') return true;
-				if (tipoAtaque == 'AGUA') return false;
-				break;
-			case 'PLANTA':
-				if (tipoAtaque == 'FUEGO') return true;
-				if (tipoAtaque == 'ELECTRICO') return false;
-				break;
+	//Metodo que es llamado cuando quiero aplicar el daño de un efecto de estado
+	const danioPorEstado = async (objetivo, estado) => {
+		objetivo.vidaActual -= objetivo.danioPorEstado[estado];
+		if (objetivo === pokemonUsuario) {
+			await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', objetivo);
+		} else {
+			await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', objetivo);
 		}
 	};
 
-	//Metodo que es llamado cuando quiero aplicar el daño de un efecto de estado
-	const danioPorEstado = async objetivo => {
-		if (objetivo == 'cpu') {
-			pokemonCpu.vidaActual -= pokemonCpu.danioPorEstado;
-			await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', pokemonCpu);
-		}
-		else {
-			pokemonUsuario.vidaActual -= pokemonUsuario.danioPorEstado;
-			await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario);
+	const comprobarDebilidad = (tipoAtaque, tipoPokemon) => {
+		switch (tipoPokemon) {
+			case 'AGUA':
+				if (tipoAtaque === 'PLANTA' || tipoAtaque === 'ELECTRICO') return true;
+				if (tipoAtaque === 'FUEGO') return false;
+				break;
+			case 'FUEGO':
+				if (tipoAtaque === 'AGUA') return true;
+				if (tipoAtaque === 'PLANTA') return false;
+				break;
+			case 'VENENO':
+				if (tipoAtaque === 'TIERRA') return true;
+				if (tipoAtaque === 'PLANTA') return false;
+				break;
+			case 'TIERRA':
+				if (tipoAtaque === 'AGUA' || tipoAtaque === 'PLANTA') return true;
+				if (tipoAtaque === 'VENENO') return false;
+				break;
+			case 'ELECTRICO':
+				if (tipoAtaque === 'TIERRA') return true;
+				if (tipoAtaque === 'AGUA') return false;
+				break;
+			case 'PLANTA':
+				if (tipoAtaque === 'FUEGO') return true;
+				if (tipoAtaque === 'ELECTRICO') return false;
+				break;
 		}
 	};
 
@@ -266,15 +280,15 @@ $(document).ready(function() {
 		var random;
 		random = Math.floor(Math.random() * 10) + 1;
 		if (random > 7) {
-			if (name == 'cpu') {
+			if (name === 'cpu') {
 				pokemonCpu.estados.envenenado = true;
 				$('#estadoCpu').html('Poisoned');
-				if (primero == undefined) primero = true;
+				if (primero === undefined) primero = true;
 			}
 			else {
 				pokemonUsuario.estados.envenenado = true;
 				$('#estadoUsuario').html('Poisoned');
-				if (primero == undefined) primero = false;
+				if (primero === undefined) primero = false;
 			}
 		}
 	};
@@ -284,12 +298,11 @@ $(document).ready(function() {
 		var random;
 		random = Math.floor(Math.random() * 10) + 1;
 		if (random > 7) {
-			if (name == 'cpu') {
+			if (name === 'cpu') {
 				pokemonCpu.estados.paralizado = true;
 				$('#estadoCpu').html('Paralized');
 				pokemonCpu.velocidad *= 0.5;
-			}
-			else {
+			} else {
 				pokemonUsuario.estados.paralizado = true;
 				$('#estadoUsuario').html('Paralized');
 				pokemonUsuario.velocidad *= 0.5;
@@ -302,21 +315,20 @@ $(document).ready(function() {
 		var random;
 		random = Math.floor(Math.random() * 10) + 1;
 		if (random > 7) {
-			if (name == 'cpu') {
+			if (name === 'cpu') {
 				pokemonCpu.estados.quemado = true;
 				$('#estadoCpu').html('Burned');
 				$(pokemonCpu.ataques).each(function() {
 					this.potencia *= 0.5;
 				});
-				if (primero == undefined) primero = true;
-			}
-			else {
+				if (primero === undefined) primero = true;
+			} else {
 				pokemonUsuario.estados.quemado = true;
 				$('#estadoUsuario').html('Burned');
 				$(pokemonUsuario.ataques).each(function() {
 					this.potencia *= 0.5;
 				});
-				if (primero == undefined) primero = false;
+				if (primero === undefined) primero = false;
 			}
 		}
 	};
@@ -332,8 +344,7 @@ $(document).ready(function() {
 					if (vidaAnterior <= pokemon.vidaActual || vidaAnterior < 0) {
 						clearInterval(interval);
 						resolve();
-					}
-					else {
+					} else {
 						pokemon.width -= 0.3;
 						elem.width(pokemon.width + '%');
 						vidaAnterior -= pokemon.porcVida;
@@ -355,7 +366,7 @@ $(document).ready(function() {
 			setTimeout(() => {
 				$('.ataques').prop('disabled', false);
 				$('.suplentes').each(function() {
-					if (this.value != botonCambio.value && this.value != -1) $(this).prop('disabled', false);
+					if (this.value !== botonCambio.value && this.value !== -1) $(this).prop('disabled', false);
 				});
 				$('#ataqueUsuario').css('visibility', 'hidden');
 				$('#ataqueCpu').css('visibility', 'hidden');
@@ -363,69 +374,36 @@ $(document).ready(function() {
 		}
 	};
 
-	const pokemonDebilitado = objetivo => {
-		if (objetivo == 'cpu') {
+	const pokemonDebilitado = async objetivo => {
+		if (objetivo === 'cpu') {
 			if (--pokemonsVivosCpu > 0) {
 				$('#vidaPkmnCpu').html('Debilitado');
-				cambiarPokemonCpu();
-			}
-			else {
-				const dialog = document.querySelector("dialog")
+				await cambiarPokemonCpu();
+			} else {
+				var dialog = $('.game-over')[0];
 				dialog.showModal()
 				$('#ataqueUsuario').html('Ganaste');
-			} 
-		}
-		else {
+			}
+		} else {
 			if (--pokemonsVivosUsr > 0) {
 				$('#vidaPkmnUsr').html('Debilitado');
 				$('.suplentes').each(function() {
-					if (this.value != botonCambio.value && this.value != -1) $(this).prop('disabled', false);
-					if (this.value == botonCambio.value) this.value = -1;
+					if (this.value !== botonCambio.value && this.value !== -1) $(this).prop('disabled', false);
+					if (this.value === botonCambio.value) this.value = -1;
 				});
-			}
-			else {
-				const dialog = document.querySelector("dialog")
+			} else {
+				var dialog = $('.game-over')[0];
 				dialog.showModal()
 				$('#ataqueUsuario').html('Perdiste');
 			}
-
 		}
 	};
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * 	Estilos y animaciones de la vista de batalla
 	 */
-
-
-	//Comportamiento de la mochila de objetos
-	var ocultaMochila = '-' + $('.mochila').css('width');
-	var oculto = true;
-	$('.mochila').css('left', ocultaMochila);
-	$('#botonPruebas').click(() => {
-		if (oculto) {
-			$('.mochila').animate({ left: 0 }, 600, () => { oculto = false; });
-		}
-		else {
-			$('.mochila').animate({ left: ocultaMochila }, 600, () => { oculto = true; });
-		}
-	});
-
-	$('#botonPruebas').hover(() => {
-		if (oculto) {
-			$('.mochila').animate({ left: 0 }, 600, () => { oculto = false; });
-		}
-	}, ocultarMochilaAuto);
-
-	$('.mochila').mouseleave(ocultarMochilaAuto);
-
-	function ocultarMochilaAuto() {
-		setTimeout(() => {
-			if (!$('.mochila').is(':hover') && !$('#botonPruebas').is(':hover') && !oculto) {
-				$('.mochila').animate({ left: ocultaMochila }, 600, () => { oculto = true; });
-			}
-		}, 1000);
-	}
-
 
 	//Comportamiento de la mochila de objetos
 	var ocultaMochila;
@@ -458,15 +436,45 @@ $(document).ready(function() {
 			var width = $(this).prop('width') * 0.6;
 			$(this).prop('width', width);
 		});
-	});
-
-	$(window).on('load', () => {
 		$('.imagenBatalla').each(function() {
 			var width = $(this).prop('width') * 2;
-			$(this).prop('width', width);
+			$(this).css('width', width + 'px');
 		});
 	});
-	
 
+	var reproducirDialog = $('.reproducir-dialog')[0];
+	var musica = $('#musica')[0];
+	musica.volume = 0.02;
+	reproducirDialog.show();
+	$('.yes').click(() => {
+		reproducirDialog.close();
+		playPauseMusica();
+	});
+	$('.no').click(() => { reproducirDialog.close() });
+	$('#slider').on('input', function() {
+		musica.volume = this.value * 0.002;
+		console.log("Volume set to ", this.value);
+	});
+	$(window).click(() => { if (!$(reproducirDialog).is(':hover') && reproducirDialog.open) reproducirDialog.close() });
+	$('.reproducir').click(function() {
+		playPauseMusica();
+	});
+	$(document).keypress(e => {
+		if (e.key === 'p') {
+			playPauseMusica();
+			if (reproducirDialog.open) reproducirDialog.close();
+		}
+	});
 
+	const playPauseMusica = () => {
+		var boton = $('.reproducir');
+		if (musica.paused) {
+			musica.play();
+			boton.html('⏸️');
+		}
+		else {
+			musica.pause();
+			boton.html('▶️');
+		}
+	};
 });
