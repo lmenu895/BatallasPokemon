@@ -24,13 +24,12 @@ import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 public class ControladorGachapon {
 	
 	private ServicioUsuario servicioUsuario;
-	private ServicioPokemon servicioPokemon;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	private ServicioGachapon servicioGachapon;
 	
 	@Autowired
-	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioUsuarioPokemon servicioUsuarioPokemon) {
-		this.servicioPokemon=servicioPokemon;	
+	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) 
+	{
 		this.servicioUsuario=servicioUsuario;
 		this.servicioUsuarioPokemon=servicioUsuarioPokemon;
 		this.servicioGachapon=servicioGachapon;

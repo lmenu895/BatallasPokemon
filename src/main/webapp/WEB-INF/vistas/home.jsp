@@ -26,8 +26,8 @@
 			<div class="userProfile">
 				<div class="fondo-usuario"></div>
 				<img class="pokeball" src="images/pokeballU.png" alt="pokeball">
-				<button class="textUser">1000</button>
-				<button id="usuario" class="textUser">${usuario}</button>
+				<button class="textUser">${usuario.puntos}</button>
+				<button id="usuario" class="textUser">${usuario.usuario}</button>
 			</div>
 			<button class="logoutButton">Logout</button>
 		</div>

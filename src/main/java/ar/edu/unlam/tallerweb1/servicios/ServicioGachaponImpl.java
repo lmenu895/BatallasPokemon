@@ -75,7 +75,21 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 		pokemon= pokemonesFiltrados3.get(random.nextInt(pokemonesFiltrados3.size()));
 		return pokemon;
 			
+		case 10000:	if(numeroAleatorio<=10) {
+			List<Pokemon> pokemonesFiltrados4= this.repositorioPokemon.obtenerPokemonsPorRareza(comun);
+			pokemon= pokemonesFiltrados4.get(random.nextInt(pokemonesFiltrados4.size()));
+			return pokemon;
+		}	 if(numeroAleatorio>10 && numeroAleatorio<60) { 
+			List<Pokemon> pokemonesFiltrados4= this.repositorioPokemon.obtenerPokemonsPorRareza(raro);
+			pokemon= pokemonesFiltrados4.get(random.nextInt(pokemonesFiltrados4.size()));
+			return pokemon;
+		} List<Pokemon> pokemonesFiltrados4= this.repositorioPokemon.obtenerPokemonsPorRareza(epico);
+		pokemon= pokemonesFiltrados4.get(random.nextInt(pokemonesFiltrados4.size()));
+		return pokemon;
+			
 		}
+
+
 		return null;
 	}
 }
