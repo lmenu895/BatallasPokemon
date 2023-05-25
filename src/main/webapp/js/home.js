@@ -30,4 +30,13 @@ $(document).ready(function() {
 	$(".logoutButton").click(() => {
 		window.location.href = "logout";
 	});
+	
+	$(".batalla-texto").click(() => {
+		window.location.href = "elegir-equipo";
+	});
+	
+	$(".gacha").click(() => {
+		window.location.href = "gachapon";
+	});
+	
 });
