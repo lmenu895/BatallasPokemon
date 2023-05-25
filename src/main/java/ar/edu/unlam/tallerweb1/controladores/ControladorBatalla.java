@@ -44,10 +44,8 @@ public class ControladorBatalla {
 			pokemon.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(pokemon.getId()));
 		}
 
-		List<Pokemon> pokemonsCpu = new ArrayList<>();
-		pokemonsCpu.add(this.servicioPokemon.buscarPokemon("Wartortle"));
-		pokemonsCpu.add(this.servicioPokemon.buscarPokemon("Raticate"));
-		pokemonsCpu.add(this.servicioPokemon.buscarPokemon("Pikachu"));
+		List<Pokemon> pokemonsCpu = servicioPokemon.crearEquipoCpu();
+		
 		for (Pokemon pokemon : pokemonsCpu) {
 			pokemon.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(pokemon.getId()));
 		}

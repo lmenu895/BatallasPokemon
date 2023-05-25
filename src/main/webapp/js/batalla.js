@@ -363,7 +363,11 @@ $(document).ready(function() {
 			if (--pokemonsVivosCpu > 0) {
 				$('#vidaPkmnCpu').html('Debilitado');
 				cambiarPokemonCpu();
-			} else $('#ataqueUsuario').html('Ganaste');
+			} else {
+				const dialog = document.querySelector("dialog")
+				dialog.showModal()
+				$('#ataqueUsuario').html('Ganaste');
+			}
 		} else {
 			if (--pokemonsVivosUsr > 0) {
 				$('#vidaPkmnUsr').html('Debilitado');
@@ -371,7 +375,11 @@ $(document).ready(function() {
 					if (this.value !== botonCambio.value && this.value !== -1) $(this).prop('disabled', false);
 					if (this.value === botonCambio.value) this.value = -1;
 				});
-			} else $('#ataqueUsuario').html('Perdiste');
+			} else {
+				const dialog = document.querySelector("dialog")
+				dialog.showModal()
+				$('#ataqueUsuario').html('Perdiste');
+			}
 		}
 	};
 
@@ -413,5 +421,14 @@ $(document).ready(function() {
 			$(this).prop('width', width);
 		});
 	});
+
+	$(window).on('load', () => {
+		$('.imagenBatalla').each(function() {
+			var width = $(this).prop('width') * 2;
+			$(this).prop('width', width);
+		});
+	});
+
+
 
 });

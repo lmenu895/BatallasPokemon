@@ -1,4 +1,4 @@
-body{
+body {
 	background: url(../images/pokehuevas.png);
 	color: white;
 }
@@ -34,10 +34,9 @@ body{
 	padding: 8px;
 	color: white;
 	border-radius: 10px;
-	
 }
 
-.objeto:first-child{
+.objeto:first-child {
 	margin-left: 30px;
 }
 
@@ -45,12 +44,11 @@ body{
 	z-index: 1;
 	height: 100%;
 	border-radius: 10px;
-	padding: 10px;	
+	padding: 10px;
 }
 
-.img-mochila{
+.img-mochila {
 	height: 70%;
-	
 }
 
 .cambiarPokemon {
@@ -60,8 +58,8 @@ body{
 .suplente {
 	padding: 0 5px 0 5px;
 }
-.gamebox{
-	
+
+.gamebox {
 	margin: 0 auto;
 	position: relative;
 	border-style: solid;
@@ -69,45 +67,44 @@ body{
 	width: 800px;
 	height: 600px;
 	border-radius: 10px 10px 0px 0px;
-	
 }
 
-.container{
-	
+.container {
 	align-items: center;
-	display:run-in;
-	
+	display: run-in;
 }
 
-.texto{
+.texto {
 	color: black;
 	margin-left: 5px;
 }
 
-.ams{
+.ams {
 	margin: 0 auto;
-	background-color:gray;
+	background-color: gray;
 	width: 800px;
 	height: 230px;
 	border-radius: 0px 0px 10px 10px;
 }
 
-.pokeUsuario{
-	position:absolute;
+.pokeUsuario {
+	position: absolute;
 	display: flex;
 	flex-direction: column;
-	bottom: 200px;
+	align-items: flex-start;
+	width: 234px;
 	right: 500px;
+	bottom: 100px;
 }
 
-.pokeCpu{
+.pokeCpu {
 	position: absolute;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
 	width: 234px;
 	left: 500px;
-	bottom: 450px;
+	bottom: 330px;
 }
 
 .gamebox {
@@ -118,11 +115,18 @@ body{
 	margin-left: 20px;
 }
 
-.textoCpu{
+.textoCpu {
 	color: black;
 	margin-right: 5px;
 }
 
-.img-primero{
+.img-primero {
 	height: 100px;
+}
+
+dialog {
+	margin-top: 10px;
+	background: black;
+	border: none;
+	border-radius: 1rem;
 }
