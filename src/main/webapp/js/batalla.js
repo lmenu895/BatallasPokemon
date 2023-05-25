@@ -27,12 +27,20 @@ $(document).ready(function() {
 	var pokemonUsuario = pokemonsUsuario[0];
 	var pokemonCpu = pokemonsCpu[0];
 	var botonCambio = $('.suplentes')[0];
+	var spriteUsuario = $('.img-usuario')[0];
+	var spriteCpu = $('.img-cpu')[0];
 	$(botonCambio).prop('disabled', true);
 
 	//Cambio de pokemon usuario
-	const cambiarPokemonUsr = boton => {
-		$(boton).prop('disabled', true);
+	const cambiarPokemonUsr = async boton => {
+		$('.suplentes').prop('disabled', true);
 		botonCambio = boton;
+		await new Promise(resolve => {
+			$(spriteUsuario).fadeOut(1000, () => {
+				spriteUsuario = $('.img-usuario')[boton.value];
+				$(spriteUsuario).fadeIn(1000, resolve);
+			});
+		});
 		pokemonUsuario = pokemonsUsuario[boton.value];
 		$('#nombrePkmnUsr').html(pokemonUsuario.nombre);
 		$('#vidaPkmnUsr').html(pokemonUsuario.vidaActual);
@@ -48,8 +56,15 @@ $(document).ready(function() {
 	};
 
 	//Cambio de pokemon cpu
-	const cambiarPokemonCpu = () => {
-		pokemonCpu = pokemonsCpu[++nextPokemonCpu];
+	const cambiarPokemonCpu = async () => {
+		nextPokemonCpu++;
+		pokemonCpu = pokemonsCpu[nextPokemonCpu];
+		await new Promise(resolve => {
+			$(spriteCpu).fadeOut(1000, () => {
+				spriteCpu = $('.img-cpu')[nextPokemonCpu];
+				$(spriteCpu).fadeIn(1000, resolve);
+			});
+		});
 		$('#nombrePkmnCpu').html(pokemonCpu.nombre);
 		$('#vidaPkmnCpu').html(pokemonCpu.vidaActual);
 		$('#vidaMaximaPkmnCpu').html(' / ' + pokemonCpu.vida);
@@ -60,13 +75,13 @@ $(document).ready(function() {
 		else $('#estadoCpu').html('');
 	};
 
-	$(document).on('click', '.suplentes', function() {
+	$(document).on('click', '.suplentes', async function() {
 		if (!pokemonUsuario.debilitado) {
-			cambiarPokemonUsr(this);
+			await cambiarPokemonUsr(this);
 			cambio = true;
 			iniciarTurno();
 		} else {
-			cambiarPokemonUsr(this);
+			await cambiarPokemonUsr(this);
 			activarBotones();
 		}
 	});
@@ -90,7 +105,7 @@ $(document).ready(function() {
 		await realizarAtaques(idAtaque);
 		await efectosDeEstado();
 		if (pokemonCpu.debilitado) {
-			pokemonDebilitado('cpu');
+			await pokemonDebilitado('cpu');
 		}
 		if (pokemonUsuario.debilitado) {
 			pokemonDebilitado('user');
@@ -359,13 +374,13 @@ $(document).ready(function() {
 		}
 	};
 
-	const pokemonDebilitado = objetivo => {
+	const pokemonDebilitado = async objetivo => {
 		if (objetivo === 'cpu') {
 			if (--pokemonsVivosCpu > 0) {
 				$('#vidaPkmnCpu').html('Debilitado');
-				cambiarPokemonCpu();
+				await cambiarPokemonCpu();
 			} else {
-				const dialog = document.querySelector("dialog")
+				var dialog = $('.game-over')[0];
 				dialog.showModal()
 				$('#ataqueUsuario').html('Ganaste');
 			}
@@ -377,7 +392,7 @@ $(document).ready(function() {
 					if (this.value === botonCambio.value) this.value = -1;
 				});
 			} else {
-				const dialog = document.querySelector("dialog")
+				var dialog = $('.game-over')[0];
 				dialog.showModal()
 				$('#ataqueUsuario').html('Perdiste');
 			}
@@ -423,34 +438,43 @@ $(document).ready(function() {
 		});
 		$('.imagenBatalla').each(function() {
 			var width = $(this).prop('width') * 2;
-			$(this).prop('width', width);
-		});
-
-		var musica = $('#musica')[0];
-		musica.volume = 0.02;
-		var reproducirModal = $('.reproducir-musica')[0];
-		if (musica.paused) reproducirModal.showModal();
-		$('.yes').click(() => {
-			reproducirModal.close();
-			musica.play();
-			$('.pause').html('⏸️');
-		});
-		$('.no').click(() => reproducirModal.close());
-		$('#slider').on('input', function() {
-			musica.volume = this.value * 0.002;
-			console.log("Volume set to", this.value);
+			$(this).css('width', width + 'px');
 		});
 	});
 
-	$('.pause').click(function() {
-		var musica = $('#musica')[0];
+	var reproducirDialog = $('.reproducir-dialog')[0];
+	var musica = $('#musica')[0];
+	musica.volume = 0.02;
+	reproducirDialog.show();
+	$('.yes').click(() => {
+		reproducirDialog.close();
+		playPauseMusica();
+	});
+	$('.no').click(() => { reproducirDialog.close() });
+	$('#slider').on('input', function() {
+		musica.volume = this.value * 0.002;
+		console.log("Volume set to ", this.value);
+	});
+	$(window).click(() => { if (!$(reproducirDialog).is(':hover') && reproducirDialog.open) reproducirDialog.close() });
+	$('.reproducir').click(function() {
+		playPauseMusica();
+	});
+	$(document).keypress(e => {
+		if (e.key === 'p') {
+			playPauseMusica();
+			if (reproducirDialog.open) reproducirDialog.close();
+		}
+	});
+
+	const playPauseMusica = () => {
+		var boton = $('.reproducir');
 		if (musica.paused) {
 			musica.play();
-			$(this).html('⏸️');
+			boton.html('⏸️');
 		}
 		else {
 			musica.pause();
-			$(this).html('▶️');
+			boton.html('▶️');
 		}
-	});
+	};
 });

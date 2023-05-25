@@ -1,6 +1,5 @@
 .myProgress {
 	width: 100%;
-	max-width: 230px;
 	border: solid black 0.5px;
 	background-color: white;
 	border-radius: 1rem;
@@ -9,7 +8,7 @@
 
 .myBar {
 	width: 100%;
-	max-width: 224px;
+	max-width: 234px;
 	height: 20px;
 	border-radius: 1rem;
 	margin: 2px;

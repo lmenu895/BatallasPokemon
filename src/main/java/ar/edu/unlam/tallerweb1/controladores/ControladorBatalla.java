@@ -51,7 +51,7 @@ public class ControladorBatalla {
 		}
 
 		model.put("pokemonsUsuario", pokemonsUsuario);
-		model.put("pokemonsCpu", pokemonsCpu.get(0));
+		model.put("pokemonsCpu", pokemonsCpu);
 		model.put("pokemonsUsuarioJson", new Gson().toJson(pokemonsUsuario));
 		model.put("pokemonsCpuJson", new Gson().toJson(pokemonsCpu));
 

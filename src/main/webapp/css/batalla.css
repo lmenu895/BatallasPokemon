@@ -99,9 +99,9 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	width: 234px;
+	width: 240px;
 	right: 500px;
-	bottom: 100px;
+	bottom: 50px;
 }
 
 .pokeCpu {
@@ -109,13 +109,18 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
-	width: 234px;
+	width: 240px;
 	left: 500px;
-	bottom: 330px;
+	top: 50px;
 }
 
-.gamebox {
-	overflow: hidden;
+.imagenBatalla {
+	align-self: center;
+	display: none;
+}
+
+.imagenBatalla:first-of-type {
+	display: block;
 }
 
 .textoCpu {
@@ -130,14 +135,26 @@ body {
 dialog {
 	border: none;
 	border-radius: 1rem;
+	position: relative;
 }
 
 dialog::backdrop {
 	background-color: rgba(0, 0, 0, 0.9);
 }
 
-.pause {
+.reproducir {
 	cursor: pointer;
 	font-size: 2rem;
 	user-select: none;
+}
+
+.musica-fondo {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-wrap: wrap;
+	width: 500px;
+	position: absolute;
+	top: 50px;
+	left: 50px;
 }
