@@ -1,5 +1,5 @@
 <%@ include file="partial/header.jsp"%>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.ArrayList"%>
 <link href="css/progress-bar.css" rel="stylesheet">
 <link href="css/batalla.css" rel="stylesheet">
 <title>Pocket Monster Online Battle!</title>
@@ -16,16 +16,17 @@
 				<div id="progressUsr" class="myProgress">
 					<div id="progressBarUsr" class="myBar"></div>
 				</div>
+				<div id="ataqueUsuario" style="visibility: hidden;">Ataque</div>
 				<!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
 
 				<!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
 			</div>
-			<div id="cpu" class="pokeCpu" style="height: 90px; right: 30px;">
-				<div class="textoCpu" id="nombrePkmnCpu">${pokemonCpu.nombre}</div>
+			<div id="cpu" class="pokeCpu">
+				<div class="textoCpu" id="nombrePkmnCpu">${pokemonsCpu.nombre}</div>
 				<div class="textoCpu">
 					<!-- CLASE TEXTO EN HP Y NOMBRE DE LOS POKEMON PARA EL FONDO BLANCO -->
-					<span id="vidaPkmnCpu"></span><span id="vidaMaximaPkmnCpu"></span><span
-						id=estadoCpu style="padding-left: 20px;"></span>
+					<span id=estadoCpu style="padding-right: 20px;"></span> <span
+						id="vidaPkmnCpu"></span><span id="vidaMaximaPkmnCpu"></span>
 				</div>
 				<div id="progressCpu" class="myProgress">
 					<div id="progressBarCpu" class="myBar"></div>
@@ -33,29 +34,15 @@
 				<div id="ataqueCpu" style="visibility: hidden;">Ataque</div>
 			</div>
 		</div>
-
 		<div class="ams">
 			<!-- ATAQUES MOCHILA SUPLENTES xD -->
 			<!-- ATAQUES DEL USUARIO -->
-			<div id="ataqueUsuario" style="visibility: hidden;">Ataque</div>
 			<div id="ataques">
 				<c:forEach items="${pokemonsUsuario[0].ataques}" var="ataque"
 					varStatus="status">
 					<button class='btn btn-success ataques' value="${status.count-1}">${ataque.nombre}</button>
 				</c:forEach>
 			</div>
-<<<<<<< HEAD
-		</div>
-		<div id="cpu">
-			<div id="nombrePkmnCpu">${pokemonsCpu.nombre}</div>
-			<div>
-				<span id="vidaPkmnCpu"></span><span id="vidaMaximaPkmnCpu"></span><span
-					id=estadoCpu style="padding-left: 20px;"></span>
-			</div>
-			<div id="progressCpu" class="myProgress">
-				<div id="progressBarCpu" class="myBar"></div>
-			</div>
-			<div id="ataqueCpu" style="visibility: hidden;">Ataque</div>
 		</div>
 		<div class="objetos d-flex align-items-center mb-2">
 			<button id="abrirMochila" class="btn btn-success ">
@@ -82,8 +69,8 @@
 		<div class="cambiarPokemon d-flex">
 			<c:forEach items="${pokemonsUsuario}" var="pokemon"
 				varStatus="status">
-				<button class='btn btn-success suplentes' style="margin-right: 10px;"
-					value="${status.count-1}">
+				<button class='btn btn-success suplentes'
+					style="margin-right: 10px;" value="${status.count-1}">
 					<img class="img-suplente" alt="${pokemon.nombre}"
 						src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}">
 					${pokemon.nombre}
