@@ -64,6 +64,7 @@ public class ControladorGachapon {
 		}
 		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas);
 		this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon));
+		model.put("monedas", request.getParameter("monedas"));
 		model.put("puntos", usuario.getPuntos());
 		model.put("pokemon", pokemon);
 		return new ModelAndView("gachapon-resultado", model);

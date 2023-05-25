@@ -14,7 +14,7 @@
 </head>
 <body class="pokemon">
 
-	<div class="container d-flex ">
+	<div class="container d-flex">
 		<form:form action="guardar-equipo" method="POST"
 			modelAttribute="pokemon" enctype="multipart/form-data">
 			<div class="formP">
