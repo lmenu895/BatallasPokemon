@@ -7,6 +7,7 @@ $(document).ready(function() {
 	var pokemonsVivosCpu = 3;
 	var nextPokemonCpu = 0;
 
+
 	const setVariables = pokemon => {
 		pokemon['porcVida'] = pokemon.vida * 0.003;
 		pokemon['width'] = 100;
@@ -420,15 +421,36 @@ $(document).ready(function() {
 			var width = $(this).prop('width') * 0.6;
 			$(this).prop('width', width);
 		});
-	});
-
-	$(window).on('load', () => {
 		$('.imagenBatalla').each(function() {
 			var width = $(this).prop('width') * 2;
 			$(this).prop('width', width);
 		});
+
+		var musica = $('#musica')[0];
+		musica.volume = 0.02;
+		var reproducirModal = $('.reproducir-musica')[0];
+		if (musica.paused) reproducirModal.showModal();
+		$('.yes').click(() => {
+			reproducirModal.close();
+			musica.play();
+			$('.pause').html('⏸️');
+		});
+		$('.no').click(() => reproducirModal.close());
+		$('#slider').on('input', function() {
+			musica.volume = this.value * 0.002;
+			console.log("Volume set to", this.value);
+		});
 	});
 
-
-
+	$('.pause').click(function() {
+		var musica = $('#musica')[0];
+		if (musica.paused) {
+			musica.play();
+			$(this).html('⏸️');
+		}
+		else {
+			musica.pause();
+			$(this).html('▶️');
+		}
+	});
 });

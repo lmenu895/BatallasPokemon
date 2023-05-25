@@ -28,7 +28,7 @@ public class Usuario {
 	private Boolean esAdmin = false;
 	private Integer puntos=1000;
 	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contrase�as en la base de datos, no est� implementado
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<UsuarioPokemon> pokemons;
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<UsuarioObjeto> objetos;

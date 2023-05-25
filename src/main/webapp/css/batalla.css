@@ -5,6 +5,7 @@ body {
 
 .objetos {
 	height: 60px;
+	margin: 10px;
 }
 
 .verMochila {
@@ -53,6 +54,11 @@ body {
 
 .cambiarPokemon {
 	height: 65px;
+	margin: 10px;
+}
+
+.ataques {
+	margin: 10px;
 }
 
 .suplente {
@@ -67,6 +73,7 @@ body {
 	width: 800px;
 	height: 600px;
 	border-radius: 10px 10px 0px 0px;
+	overflow: hidden;
 }
 
 .container {
@@ -111,10 +118,6 @@ body {
 	overflow: hidden;
 }
 
-#ataques {
-	margin-left: 20px;
-}
-
 .textoCpu {
 	color: black;
 	margin-right: 5px;
@@ -125,8 +128,16 @@ body {
 }
 
 dialog {
-	margin-top: 10px;
-	background: black;
 	border: none;
 	border-radius: 1rem;
+}
+
+dialog::backdrop {
+	background-color: rgba(0, 0, 0, 0.9);
+}
+
+.pause {
+	cursor: pointer;
+	font-size: 2rem;
+	user-select: none;
 }

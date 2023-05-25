@@ -1,7 +1,8 @@
 .myProgress {
 	width: 100%;
 	max-width: 230px;
-	border: solid 0.5px;
+	border: solid black 0.5px;
+	background-color: white;
 	border-radius: 1rem;
 	overflow: hidden;
 }
