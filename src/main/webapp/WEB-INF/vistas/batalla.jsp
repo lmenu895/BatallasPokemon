@@ -8,31 +8,33 @@
 	<div class="container mt-5">
 		<div class="gamebox">
 			<div id="usuario" class="pokeUsuario">
-				<div class="texto" id="nombrePkmnUsr">${pokemonsUsuario[0].nombre}</div>
-				<div class="vida texto">
-					<span id="vidaPkmnUsr"></span><span id="vidaMaximaPkmnUsr"></span><span
-						id=estadoUsuario style="padding-left: 20px;"></span>
+				<div class="contenedorVidaUser">
+					<div class="texto" id="nombrePkmnUsr">${pokemonsUsuario[0].nombre}</div>
+					<div class="vida texto">
+						<span id="vidaPkmnUsr"></span><span id="vidaMaximaPkmnUsr"></span><span
+							id="estadoUsuario"></span>
+					</div>
+					<div id="progressUsr" class="myProgress">
+						<div id="progressBarUsr" class="myBar"></div>
+					</div>
 				</div>
-				<div id="progressUsr" class="myProgress">
-					<div id="progressBarUsr" class="myBar"></div>
-				</div>
-				<div id="ataqueUsuario" class="texto" style="visibility: hidden;">Ataque</div>
 				<c:forEach items="${pokemonsUsuario}" var="pokemon">
 					<img class="imagenBatalla img-usuario" alt=""
 						src="images/sprites/${pokemon.nombre}/${pokemon.imagenDorso}">
 				</c:forEach>
 			</div>
 			<div id="cpu" class="pokeCpu">
-				<div class="textoCpu" id="nombrePkmnCpu">${pokemonsCpu[0].nombre}</div>
-				<div class="textoCpu">
-					<!-- CLASE TEXTO EN HP Y NOMBRE DE LOS POKEMON PARA EL FONDO BLANCO -->
-					<span id=estadoCpu style="padding-right: 20px;"></span> <span
-						id="vidaPkmnCpu"></span><span id="vidaMaximaPkmnCpu"></span>
+				<div class="contenedorVida">
+					<div class="textoCpu" id="nombrePkmnCpu">${pokemonsCpu[0].nombre}</div>
+					<div class="textoCpu">
+						<!-- CLASE TEXTO EN HP Y NOMBRE DE LOS POKEMON PARA EL FONDO BLANCO -->
+						<span id="estadoCpu" ></span> <span
+							id="vidaPkmnCpu"></span><span id="vidaMaximaPkmnCpu"></span>
+					</div>
+					<div id="progressCpu" class="myProgress">
+						<div id="progressBarCpu" class="myBar"></div>
+					</div>
 				</div>
-				<div id="progressCpu" class="myProgress">
-					<div id="progressBarCpu" class="myBar"></div>
-				</div>
-				<div id="ataqueCpu" class="textoCpu" style="visibility: hidden;">Ataque</div>
 				<c:forEach items="${pokemonsCpu}" var="pokemon">
 					<img class="imagenBatalla img-cpu" alt=""
 						src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}">

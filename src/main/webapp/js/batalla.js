@@ -282,12 +282,14 @@ $(document).ready(function() {
 		if (random > 7) {
 			if (name === 'cpu') {
 				pokemonCpu.estados.envenenado = true;
-				$('#estadoCpu').html('Poisoned');
+				$('#estadoCpu').html('PSN');
+				$('#estadoCpu').css('background-color', 'purple');
 				if (primero === undefined) primero = true;
 			}
 			else {
 				pokemonUsuario.estados.envenenado = true;
-				$('#estadoUsuario').html('Poisoned');
+				$('#estadoUsuario').html('PSN');
+				$('#estadoUsuario').css('background-color', 'purple');
 				if (primero === undefined) primero = false;
 			}
 		}
@@ -300,11 +302,13 @@ $(document).ready(function() {
 		if (random > 7) {
 			if (name === 'cpu') {
 				pokemonCpu.estados.paralizado = true;
-				$('#estadoCpu').html('Paralized');
+				$('#estadoCpu').html('PAR');
+				$('#estadoCpu').css('background-color', 'rgb(255,255,102)');
 				pokemonCpu.velocidad *= 0.5;
 			} else {
 				pokemonUsuario.estados.paralizado = true;
-				$('#estadoUsuario').html('Paralized');
+				$('#estadoUsuario').html('PAR');
+				$('#estadoUsuario').css('background-color', 'rgb(255,255,102)');
 				pokemonUsuario.velocidad *= 0.5;
 			}
 		}
@@ -317,14 +321,16 @@ $(document).ready(function() {
 		if (random > 7) {
 			if (name === 'cpu') {
 				pokemonCpu.estados.quemado = true;
-				$('#estadoCpu').html('Burned');
+				$('#estadoCpu').html('BRN');
+				$('#estadoCpu').css('background-color', 'red');
 				$(pokemonCpu.ataques).each(function() {
 					this.potencia *= 0.5;
 				});
 				if (primero === undefined) primero = true;
 			} else {
 				pokemonUsuario.estados.quemado = true;
-				$('#estadoUsuario').html('Burned');
+				$('#estadoUsuario').html('BRN');
+				$('#estadoUsuario').css('background-color', 'red');
 				$(pokemonUsuario.ataques).each(function() {
 					this.potencia *= 0.5;
 				});
