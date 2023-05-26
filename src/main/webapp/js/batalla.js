@@ -140,8 +140,7 @@ $(document).ready(function() {
 			if (comprobarDebilidad(tipo, pokemonCpu.tipo)) potencia *= 2;
 			else if (comprobarDebilidad(tipo, pokemonCpu.tipo) === false) potencia *= 0.5;
 			pokemonCpu.vidaActual -= potencia;
-			$('#ataqueUsuario').html('Utilizaste: ' + pokemonUsuario.ataques[idAtaque].nombre);
-			$('#ataqueUsuario').css('visibility', 'visible');
+			$('.historia-ataques').prepend('<span>Utilizaste: ' + pokemonUsuario.ataques[idAtaque].nombre + '</span>');
 			await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', pokemonCpu);
 			if (!pokemonCpu.estados.envenenado && !pokemonCpu.estados.paralizado && !pokemonCpu.estados.quemado) {
 				switch (tipo) {
@@ -177,8 +176,7 @@ $(document).ready(function() {
 			if (comprobarDebilidad(tipo, pokemonUsuario.tipo)) potencia *= 2;
 			else if (comprobarDebilidad(tipo, pokemonUsuario.tipo) === false) potencia *= 0.5;
 			pokemonUsuario.vidaActual -= potencia;
-			$('#ataqueCpu').html('Ataque enemigo: ' + pokemonCpu.ataques[ataque].nombre);
-			$('#ataqueCpu').css('visibility', 'visible');
+			$('.historia-ataques').prepend('<span>Ataque enemigo: ' + pokemonCpu.ataques[ataque].nombre + '</span>');
 			await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario);
 			if (!pokemonUsuario.estados.envenenado && !pokemonUsuario.estados.paralizado && !pokemonUsuario.estados.quemado) {
 				switch (tipo) {

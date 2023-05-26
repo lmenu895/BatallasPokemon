@@ -9,7 +9,7 @@
 .myBar {
 	width: 100%;
 	max-width: 234px;
-	height: 20px;
+	height: 10px;
 	border-radius: 1rem;
 	margin: 2px;
 	background: linear-gradient(green, green) left/calc(100% - 110px) 100%,

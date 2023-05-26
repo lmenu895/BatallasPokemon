@@ -132,7 +132,13 @@ body {
 	height: 100px;
 }
 
-dialog {
+.game-over {
+	border: none;
+	border-radius: 1rem;
+	position: relative;
+}
+
+.reproducir-dialog {
 	border: none;
 	border-radius: 1rem;
 	position: relative;
@@ -157,4 +163,20 @@ dialog::backdrop {
 	position: absolute;
 	top: 50px;
 	left: 50px;
+}
+
+.historia-ataques {
+	position: absolute;
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: flex-end;
+	overflow-y: auto;
+	padding: 0 25px 20px 0;
+	top: 50px;
+	right: 150px;
+	width: 300px;
+	height: 80vh;
+	border: solid white 1px;
+	border-radius: 10px;
+	background-color: grey;
 }

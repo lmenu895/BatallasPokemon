@@ -99,6 +99,7 @@
 			<source src="images/pokemonSoundtrack.mp3" type="audio/mpeg">
 		</audio>
 	</div>
+	<div class="historia-ataques"></div>
 
 	<script type="text/javascript">
 		var pokemonsUsuario = JSON.parse('${pokemonsUsuarioJson}');
