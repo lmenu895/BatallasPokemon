@@ -86,7 +86,7 @@
 		</div>
 		<dialog class="game-over">
 		<img class="modalV">
-			<button class="btn btn-success d-block">Continuar</button>
+			<button class="btn btn-success d-block" style="margin: auto;">Continuar</button>
 		</dialog>
 			
 	</div>
@@ -105,6 +105,7 @@
 			<source src="images/pokemonSoundtrack.mp3" type="audio/mpeg">
 		</audio>
 	</div>
+	<audio id="golpe" src="images/golpe.wav"></audio>
 
 
 	<script type="text/javascript">

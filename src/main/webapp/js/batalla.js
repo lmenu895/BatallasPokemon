@@ -8,9 +8,8 @@ $(document).ready(function() {
 	var pokemonsVivosCpu = 3;
 	var nextPokemonCpu = 0;
 
-	//$(".game-over")[0].showModal();
-	
-
+	/*$(".game-over")[0].showModal();
+	$('.modalV').attr('src',"https://fontmeme.com/permalink/230526/5007cd2b81c93c581fc044aed10e703a.png");*/
 
 	const setVariables = pokemon => {
 		pokemon['porcVida'] = pokemon.vida * 0.003;
@@ -183,6 +182,7 @@ $(document).ready(function() {
 			else if (comprobarDebilidad(tipo, pokemonCpu.tipo) === false) potencia *= 0.5;
 			pokemonCpu.vidaActual -= potencia;
 			agregarAlHistorial('Utilizaste: ' + pokemonUsuario.ataques[idAtaque].nombre);
+			await animacionAtaque('cpu');
 			await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', pokemonCpu);
 			if (!pokemonCpu.estados.envenenado && !pokemonCpu.estados.paralizado && !pokemonCpu.estados.quemado) {
 				switch (tipo) {
@@ -206,8 +206,7 @@ $(document).ready(function() {
 				await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario, true);
 			}
 		} else {
-			$('#ataqueUsuario').html('Estas paralizado, no puedes atacar!');
-			$('#ataqueUsuario').css('visibility', 'visible');
+			agregarAlHistorial('Estas paralizado, no puedes atacar!');
 			return new Promise(resolve => setTimeout(resolve, 1000));
 		}
 	};
@@ -224,6 +223,7 @@ $(document).ready(function() {
 			else if (comprobarDebilidad(tipo, pokemonUsuario.tipo) === false) potencia *= 0.5;
 			pokemonUsuario.vidaActual -= potencia;
 			agregarAlHistorial('Ataque enemigo: ' + pokemonCpu.ataques[ataque].nombre, 'cpu');
+			await animacionAtaque('user');
 			await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario);
 			if (!pokemonUsuario.estados.envenenado && !pokemonUsuario.estados.paralizado && !pokemonUsuario.estados.quemado) {
 				switch (tipo) {
@@ -247,8 +247,7 @@ $(document).ready(function() {
 				await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', pokemonCpu, true);
 			}
 		} else {
-			$('#ataqueCpu').html('Enemigo paralizado, no puede atacar!');
-			$('#ataqueCpu').css('visibility', 'visible');
+			agregarAlHistorial('Enemigo paralizado, no puede atacar!', 'cpu');
 			return new Promise(resolve => setTimeout(resolve, 1000));
 		}
 	};
@@ -341,7 +340,7 @@ $(document).ready(function() {
 				pokemonUsuario.estados.envenenado = true;
 				$('#estadoUsuario').html('PSN');
 				$('#estadoUsuario').css('background-color', 'purple');
-				agregarAlHistorial(pokemonUsuario.nombre + ' se ha envenenado!',  'cpu');
+				agregarAlHistorial(pokemonUsuario.nombre + ' se ha envenenado!', 'cpu');
 				if (primero === undefined) primero = false;
 			}
 		}
@@ -362,7 +361,7 @@ $(document).ready(function() {
 				pokemonUsuario.estados.paralizado = true;
 				$('#estadoUsuario').html('PAR');
 				$('#estadoUsuario').css('background-color', 'rgb(255, 225, 0)');
-				agregarAlHistorial(pokemonUsuario.nombre + ' se ha paralizado!',  'cpu');
+				agregarAlHistorial(pokemonUsuario.nombre + ' se ha paralizado!', 'cpu');
 				pokemonUsuario.velocidad *= 0.5;
 			}
 		}
@@ -386,7 +385,7 @@ $(document).ready(function() {
 				pokemonUsuario.estados.quemado = true;
 				$('#estadoUsuario').html('BRN');
 				$('#estadoUsuario').css('background-color', 'red');
-				agregarAlHistorial(pokemonUsuario.nombre + ' se ha quemado!',  'cpu');
+				agregarAlHistorial(pokemonUsuario.nombre + ' se ha quemado!', 'cpu');
 				$(pokemonUsuario.ataques).each(function() {
 					this.potencia *= 0.5;
 				});
@@ -434,7 +433,31 @@ $(document).ready(function() {
 						}
 					}
 				}
-			}, 500);
+			}, 200);
+		});
+	};
+
+	const animacionAtaque = async objetivo => {
+		var contador = 0;
+		var imgObjetivo = objetivo === 'cpu' ? $('.img-cpu') : $('.img-usuario');
+		var imgAtacante = objetivo === 'cpu' ? $('.img-usuario') : $('.img-cpu');
+		for (var i = 0; i < 2; i++) {
+			await new Promise(resolve => {
+				imgAtacante.animate({ bottom: '20px' }, 120, () => {
+					imgAtacante.animate({ bottom: 0 }, 120, resolve)
+				});
+			});
+		}
+		$('#golpe')[0].play();
+		await new Promise(resolve => {
+			interval = setInterval(() => {
+				if (contador === 5) {
+					clearInterval(interval);
+					resolve();
+				}
+				imgObjetivo.css('visibility') === 'hidden' ? imgObjetivo.css('visibility', 'visible') : imgObjetivo.css('visibility', 'hidden');
+				contador++;
+			}, 150);
 		});
 	};
 
@@ -462,7 +485,7 @@ $(document).ready(function() {
 	const agregarAlHistorial = (texto, player) => {
 		if (player === 'cpu') {
 			$('.historial').prepend('<li style="color: red;">' + texto + '</li>');
-		}else{
+		} else {
 			$('.historial').prepend('<li style="color: green;">' + texto + '</li>');
 		}
 
@@ -476,21 +499,22 @@ $(document).ready(function() {
 				await cambiarPokemonCpu();
 			} else {
 				var dialog = $('.game-over')[0];
-				$('.modalV').attr('src',"https://fontmeme.com/permalink/230526/5007cd2b81c93c581fc044aed10e703a.png");
-				dialog.showModal()
-				
+				if (!musica.paused) musica.pause();
+				$('.modalV').attr('src', "https://fontmeme.com/permalink/230526/5007cd2b81c93c581fc044aed10e703a.png");
+				dialog.showModal();
 			}
 		} else {
 			if (--pokemonsVivosUsr > 0) {
-				agregarAlHistorial('Tu ' + pokemonUsuario.nombre + ' ha sido debilitado!',  'cpu');
+				agregarAlHistorial('Tu ' + pokemonUsuario.nombre + ' ha sido debilitado!', 'cpu');
 				$('.suplentes').each(function() {
 					if (this.value !== botonCambio.value && this.value !== -1) $(this).prop('disabled', false);
 					if (this.value === botonCambio.value) this.value = -1;
 				});
 			} else {
 				var dialog = $('.game-over')[0];
-				$('.modalV').attr('src',"https://fontmeme.com/permalink/230526/1ee9f0defcfb3c531d273fd1b430e0ba.png");
-				dialog.showModal()
+				if (!musica.paused) musica.pause();
+				$('.modalV').attr('src', "https://fontmeme.com/permalink/230526/1ee9f0defcfb3c531d273fd1b430e0ba.png");
+				dialog.showModal();
 			}
 		}
 	};
@@ -535,25 +559,14 @@ $(document).ready(function() {
 		pokemonCpu = pokemonsCpu[nextPokemonCpu];
 		await new Promise(resolve => {
 			$(spriteCpu).fadeOut(1000, () => {
-				agregarAlHistorial('El enemigo envio a ' + pokemonCpu.nombre,  'cpu');
+				agregarAlHistorial('El enemigo envio a ' + pokemonCpu.nombre, 'cpu');
 				spriteCpu = $('.img-cpu')[nextPokemonCpu];
 				$('#nombrePkmnCpu').html(pokemonCpu.nombre);
 				$('#vidaPkmnCpu').html(pokemonCpu.vidaActual);
 				$('#vidaMaximaPkmnCpu').html(' / ' + pokemonCpu.vida);
 				$('#progressBarCpu').width(pokemonCpu.width + '%');
-				/*if (pokemonCpu.estados.envenenado) {
-					$('#estadoCpu').html('PSN');
-					$('#estadoCpu').css('background-color', 'purple');
-				} else if (pokemonCpu.estados.quemado) {
-					$('#estadoCpu').html('BRN');
-					$('#estadoCpu').css('background-color', 'red');
-				} else if (pokemonCpu.estados.paralizado) {
-					$('#estadoCpu').html('PAR');
-					$('#estadoCpu').css('background-color', 'rgb(255, 225, 0)');
-				} else {
-					$('#estadoCpu').html('');
-					$('#estadoCpu').css('background-color', 'none');
-				}*/
+				$('#estadoCpu').html('');
+				$('#estadoCpu').css('background-color', '');
 				$(spriteCpu).fadeIn(1000, resolve);
 			});
 		});
@@ -605,7 +618,9 @@ $(document).ready(function() {
 
 	var reproducirDialog = $('.reproducir-dialog')[0];
 	var musica = $('#musica')[0];
+	var golpe = $('#golpe')[0];
 	musica.volume = 0.02;
+	golpe.volume = 0.08;
 	reproducirDialog.show();
 	$('.yes').click(() => {
 		reproducirDialog.close();
@@ -614,6 +629,7 @@ $(document).ready(function() {
 	$('.no').click(() => { reproducirDialog.close() });
 	$('#slider').on('input', function() {
 		musica.volume = this.value * 0.002;
+		golpe.volume = this.value * 0.008;
 		console.log("Volume set to ", this.value);
 	});
 	$(window).click(() => { if (!$(reproducirDialog).is(':hover') && reproducirDialog.open) reproducirDialog.close() });

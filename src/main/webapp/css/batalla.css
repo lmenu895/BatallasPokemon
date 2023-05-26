@@ -117,6 +117,7 @@ body {
 .imagenBatalla {
 	align-self: center;
 	display: none;
+	position: relative;
 }
 
 .imagenBatalla:first-of-type {
@@ -133,16 +134,11 @@ body {
 }
 
 .game-over {
-	
 	width:fit-content;
     padding: 20px 20px;
     margin: 14% auto;
     position: relative;
     border-radius: 1rem;
-    display:flex;
-    align-items:center;
-    flex-direction: column;
-
 }
 
 .reproducir-dialog {
