@@ -63,7 +63,8 @@
 								varStatus="status">
 								<button class="objeto btn btn-success" value="${status.count-1}">
 									<img class="img-mochila" alt="objeto"
-										src="images/sprites/Objetos/${objeto.imagen}"> ${objeto.nombre}
+										src="images/sprites/Objetos/${objeto.imagen}">
+									${objeto.nombre}
 								</button>
 							</c:forEach>
 						</div>
@@ -81,8 +82,13 @@
 					</button>
 				</c:forEach>
 			</div>
+			<div class="historial"></div>
 		</div>
-		<dialog class="game-over"> <span>Game Over</span></dialog>
+		<dialog class="game-over">
+		<img class="modalV">
+			<button class="btn btn-success d-block">Continuar</button>
+		</dialog>
+			
 	</div>
 	<div class="musica-fondo">
 		<span style="margin: 0 5px 6.5px 0;">Volumen música: </span> <input
@@ -99,7 +105,7 @@
 			<source src="images/pokemonSoundtrack.mp3" type="audio/mpeg">
 		</audio>
 	</div>
-	<div class="historial"></div>
+
 
 	<script type="text/javascript">
 		var pokemonsUsuario = JSON.parse('${pokemonsUsuarioJson}');

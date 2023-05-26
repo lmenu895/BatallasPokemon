@@ -8,6 +8,9 @@ $(document).ready(function() {
 	var pokemonsVivosCpu = 3;
 	var nextPokemonCpu = 0;
 
+	//$(".game-over")[0].showModal();
+	
+
 
 	const setVariables = pokemon => {
 		pokemon['porcVida'] = pokemon.vida * 0.003;
@@ -220,7 +223,7 @@ $(document).ready(function() {
 			if (comprobarDebilidad(tipo, pokemonUsuario.tipo)) potencia *= 2;
 			else if (comprobarDebilidad(tipo, pokemonUsuario.tipo) === false) potencia *= 0.5;
 			pokemonUsuario.vidaActual -= potencia;
-			agregarAlHistorial('Ataque enemigo: ' + pokemonCpu.ataques[ataque].nombre);
+			agregarAlHistorial('Ataque enemigo: ' + pokemonCpu.ataques[ataque].nombre, 'cpu');
 			await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario);
 			if (!pokemonUsuario.estados.envenenado && !pokemonUsuario.estados.paralizado && !pokemonUsuario.estados.quemado) {
 				switch (tipo) {
@@ -338,7 +341,7 @@ $(document).ready(function() {
 				pokemonUsuario.estados.envenenado = true;
 				$('#estadoUsuario').html('PSN');
 				$('#estadoUsuario').css('background-color', 'purple');
-				agregarAlHistorial(pokemonUsuario.nombre + ' se ha envenenado!');
+				agregarAlHistorial(pokemonUsuario.nombre + ' se ha envenenado!',  'cpu');
 				if (primero === undefined) primero = false;
 			}
 		}
@@ -359,7 +362,7 @@ $(document).ready(function() {
 				pokemonUsuario.estados.paralizado = true;
 				$('#estadoUsuario').html('PAR');
 				$('#estadoUsuario').css('background-color', 'rgb(255, 225, 0)');
-				agregarAlHistorial(pokemonUsuario.nombre + ' se ha paralizado!');
+				agregarAlHistorial(pokemonUsuario.nombre + ' se ha paralizado!',  'cpu');
 				pokemonUsuario.velocidad *= 0.5;
 			}
 		}
@@ -383,7 +386,7 @@ $(document).ready(function() {
 				pokemonUsuario.estados.quemado = true;
 				$('#estadoUsuario').html('BRN');
 				$('#estadoUsuario').css('background-color', 'red');
-				agregarAlHistorial(pokemonUsuario.nombre + ' se ha quemado!');
+				agregarAlHistorial(pokemonUsuario.nombre + ' se ha quemado!',  'cpu');
 				$(pokemonUsuario.ataques).each(function() {
 					this.potencia *= 0.5;
 				});
@@ -456,8 +459,14 @@ $(document).ready(function() {
 		$('.objeto').prop('disabled', true);
 	};
 
-	const agregarAlHistorial = texto => {
-		$('.historial').prepend('<li>' + texto + '</li>');
+	const agregarAlHistorial = (texto, player) => {
+		if (player === 'cpu') {
+			$('.historial').prepend('<li style="color: red;">' + texto + '</li>');
+		}else{
+			$('.historial').prepend('<li style="color: green;">' + texto + '</li>');
+		}
+
+
 	};
 
 	const pokemonDebilitado = async objetivo => {
@@ -467,20 +476,21 @@ $(document).ready(function() {
 				await cambiarPokemonCpu();
 			} else {
 				var dialog = $('.game-over')[0];
+				$('.modalV').attr('src',"https://fontmeme.com/permalink/230526/5007cd2b81c93c581fc044aed10e703a.png");
 				dialog.showModal()
-				$('#ataqueUsuario').html('Ganaste');
+				
 			}
 		} else {
 			if (--pokemonsVivosUsr > 0) {
-				agregarAlHistorial('Tu ' + pokemonUsuario.nombre + ' ha sido debilitado!');
+				agregarAlHistorial('Tu ' + pokemonUsuario.nombre + ' ha sido debilitado!',  'cpu');
 				$('.suplentes').each(function() {
 					if (this.value !== botonCambio.value && this.value !== -1) $(this).prop('disabled', false);
 					if (this.value === botonCambio.value) this.value = -1;
 				});
 			} else {
 				var dialog = $('.game-over')[0];
+				$('.modalV').attr('src',"https://fontmeme.com/permalink/230526/1ee9f0defcfb3c531d273fd1b430e0ba.png");
 				dialog.showModal()
-				$('#ataqueUsuario').html('Perdiste');
 			}
 		}
 	};
@@ -525,7 +535,7 @@ $(document).ready(function() {
 		pokemonCpu = pokemonsCpu[nextPokemonCpu];
 		await new Promise(resolve => {
 			$(spriteCpu).fadeOut(1000, () => {
-				agregarAlHistorial('El enemigo envio a ' + pokemonCpu.nombre);
+				agregarAlHistorial('El enemigo envio a ' + pokemonCpu.nombre,  'cpu');
 				spriteCpu = $('.img-cpu')[nextPokemonCpu];
 				$('#nombrePkmnCpu').html(pokemonCpu.nombre);
 				$('#vidaPkmnCpu').html(pokemonCpu.vidaActual);
@@ -556,7 +566,7 @@ $(document).ready(function() {
 	 */
 
 	//Comportamiento de la mochila de objetos
-	
+
 	var ocultaMochila;
 	var oculto = true;
 	$(window).on('load', () => {
