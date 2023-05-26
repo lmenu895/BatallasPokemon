@@ -141,11 +141,11 @@ body {
 }
 
 .game-over {
-	width:fit-content;
-    padding: 20px 20px;
-    margin: 14% auto;
-    position: relative;
-    border-radius: 1rem;
+	width: fit-content;
+	padding: 20px 20px;
+	margin: 14% auto;
+	position: relative;
+	border-radius: 1rem;
 }
 
 .reproducir-dialog {
@@ -189,7 +189,6 @@ dialog::backdrop {
 	border-left: solid black 1px;
 	background-color: beige;
 	color: black;
-	
 }
 
 .contenedorVidaCpu {
@@ -217,8 +216,19 @@ dialog::backdrop {
 	margin-bottom: 5px;
 }
 
-#estadoUsuario, #estadoCpu{
+#estadoUsuario, #estadoCpu {
 	border-radius: 5px;
 	color: white;
 	padding: 0 3px;
+}
+
+.interfazMusica {
+	border-style: solid;
+	border-color: black;
+	background-color: beige;
+	width: 325px;
+	border-radius: 15px;
+	height: 85px;
+	padding: 5px;
+	margin-bottom: 5px;
 }

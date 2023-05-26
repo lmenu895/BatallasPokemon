@@ -47,8 +47,8 @@
 			<div id="ataques">
 				<c:forEach items="${pokemonsUsuario[0].ataques}" var="ataque"
 					varStatus="status">
-					<button class='btn btn-success ataques' style="margin: 10px 10px 0 0"
-						value="${status.count-1}">${ataque.nombre}</button>
+					<button class='btn btn-success ataques'
+						style="margin: 10px 10px 0 0" value="${status.count-1}">${ataque.nombre}</button>
 				</c:forEach>
 			</div>
 			<c:if test="${objetosUsuario != null}">
@@ -84,16 +84,17 @@
 			</div>
 			<div class="historial"></div>
 		</div>
-		<dialog class="game-over">
-		<img class="modalV">
-			<button class="btn btn-success d-block" style="margin: auto;">Continuar</button>
+		<dialog class="game-over"> <img class="modalV">
+		<button class="btn btn-success d-block" style="margin: auto;">Continuar</button>
 		</dialog>
-			
+
 	</div>
 	<div class="musica-fondo">
-		<span style="margin: 0 5px 6.5px 0;">Volumen música: </span> <input
-			type="range" id="slider" value="10" maxlength="100"> <span
-			class="reproducir">▶️</span>
+		<div class="interfazMusica">
+			<span class="texto" style="margin: 0 5px 6.5px 0;">Volumen música: </span> <input
+				type="range" id="slider" value="10" maxlength="100"> <span
+				class="reproducir">▶️</span>
+		</div>
 		<dialog class="reproducir-dialog"> <span class="d-block mb-2">¿Quieres
 			activar la música de batalla?</span>
 		<div class="d-flex justify-content-around">
@@ -106,6 +107,8 @@
 		</audio>
 	</div>
 	<audio id="golpe" src="images/golpe.wav"></audio>
+	<audio id="final" src="images/victoriaBatalla.mp3"></audio>
+	<audio id="finalMalo" src="images/gameOver.wav"></audio>
 
 
 	<script type="text/javascript">
