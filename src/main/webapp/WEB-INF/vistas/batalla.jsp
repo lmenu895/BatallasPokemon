@@ -44,10 +44,10 @@
 		<div class="ams" style="padding: 10px;">
 			<!-- ATAQUES MOCHILA SUPLENTES xD -->
 			<!-- ATAQUES DEL USUARIO -->
-			<div id="ataques" class="d-flex">
+			<div id="ataques">
 				<c:forEach items="${pokemonsUsuario[0].ataques}" var="ataque"
 					varStatus="status">
-					<button class='btn btn-success ataques' style="margin-right: 10px"
+					<button class='btn btn-success ataques' style="margin: 10px 10px 0 0"
 						value="${status.count-1}">${ataque.nombre}</button>
 				</c:forEach>
 			</div>

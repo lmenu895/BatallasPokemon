@@ -3,6 +3,13 @@ body {
 	color: white;
 }
 
+#ataques {
+	display: flex;
+	flex-wrap: wrap;
+	width: 460px;
+	margin-top: -10px;
+}
+
 .objetos {
 	height: 60px;
 	margin: 10px 0;
@@ -89,7 +96,7 @@ body {
 	margin: 0 auto;
 	background-color: beige;
 	width: 768px;
-	height: 230px;
+	height: 250px;
 	border-radius: 0px 0px 10px 10px;
 	border: solid black 1px;
 }
