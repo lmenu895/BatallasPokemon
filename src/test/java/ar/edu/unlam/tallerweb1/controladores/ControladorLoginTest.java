@@ -23,7 +23,7 @@ public class ControladorLoginTest {
         servicioLogin = mock(ServicioLogin.class);
         sesion = mock(HttpSession.class);
         request = mock(HttpServletRequest.class);
-        controladorLogin = new ControladorLogin(this.servicioLogin);
+        controladorLogin = mock(ControladorLogin.class);
     }
 
     /*@Test

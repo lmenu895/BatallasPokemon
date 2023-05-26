@@ -4,6 +4,8 @@ import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.*;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
+import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,10 +30,12 @@ public class ControladorLogin {
 	// paquete de los indicados en
 	// applicationContext.xml
 	private ServicioLogin servicioLogin;
-
+	private ServicioUsuario servicioUsuario;
+	
 	@Autowired
-	public ControladorLogin(ServicioLogin servicioLogin) {
+	public ControladorLogin(ServicioLogin servicioLogin, ServicioUsuario servicioUsuario) {
 		this.servicioLogin = servicioLogin;
+		this.servicioUsuario = servicioUsuario;
 	}
 
 	// Este metodo escucha la URL localhost:8080/NOMBRE_APP/login si la misma es
@@ -115,7 +119,7 @@ public class ControladorLogin {
 		if (request.getSession().getAttribute("usuario") == null)
 			return new ModelAndView("redirect:/login");
 		ModelMap model = new ModelMap();
-		model.put("usuario", request.getSession().getAttribute("usuario"));
+		model.put("usuario", servicioUsuario.buscarUsuario((Long)request.getSession().getAttribute("id")));
 		return new ModelAndView("home", model);
 	}
 

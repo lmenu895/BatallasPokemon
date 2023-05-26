@@ -8,68 +8,68 @@
 	<div class="container mt-5">
 		<div class="gamebox">
 			<div id="usuario" class="pokeUsuario">
-				<div class="texto" id="nombrePkmnUsr">${pokemonsUsuario[0].nombre}</div>
-				<div class="vida texto">
-					<span id="vidaPkmnUsr"></span><span id="vidaMaximaPkmnUsr"></span><span
-						id=estadoUsuario style="padding-left: 20px;"></span>
+				<div class="contenedorVidaUser">
+					<div class="texto" id="nombrePkmnUsr">${pokemonsUsuario[0].nombre}</div>
+					<div class="vida texto">
+						<span id="vidaPkmnUsr"></span><span id="vidaMaximaPkmnUsr"></span>
+						<span id="estadoUsuario"></span>
+					</div>
+					<div id="progressUsr" class="myProgress">
+						<div id="progressBarUsr" class="myBar"></div>
+					</div>
 				</div>
-				<div id="progressUsr" class="myProgress">
-					<div id="progressBarUsr" class="myBar"></div>
-				</div>
-				<div id="ataqueUsuario" class="texto" style="visibility: hidden;">Ataque</div>
 				<c:forEach items="${pokemonsUsuario}" var="pokemon">
 					<img class="imagenBatalla img-usuario" alt=""
 						src="images/sprites/${pokemon.nombre}/${pokemon.imagenDorso}">
 				</c:forEach>
 			</div>
 			<div id="cpu" class="pokeCpu">
-				<div class="textoCpu" id="nombrePkmnCpu">${pokemonsCpu[0].nombre}</div>
-				<div class="textoCpu">
-					<!-- CLASE TEXTO EN HP Y NOMBRE DE LOS POKEMON PARA EL FONDO BLANCO -->
-					<span id=estadoCpu style="padding-right: 20px;"></span> <span
-						id="vidaPkmnCpu"></span><span id="vidaMaximaPkmnCpu"></span>
+				<div class="contenedorVidaCpu">
+					<div class="textoCpu" id="nombrePkmnCpu">${pokemonsCpu[0].nombre}</div>
+					<div class="textoCpu">
+						<!-- CLASE TEXTO EN HP Y NOMBRE DE LOS POKEMON PARA EL FONDO BLANCO -->
+						<span id="estadoCpu"></span> <span id="vidaPkmnCpu"></span><span
+							id="vidaMaximaPkmnCpu"></span>
+					</div>
+					<div id="progressCpu" class="myProgress">
+						<div id="progressBarCpu" class="myBar"></div>
+					</div>
 				</div>
-				<div id="progressCpu" class="myProgress">
-					<div id="progressBarCpu" class="myBar"></div>
-				</div>
-				<div id="ataqueCpu" class="textoCpu" style="visibility: hidden;">Ataque</div>
 				<c:forEach items="${pokemonsCpu}" var="pokemon">
 					<img class="imagenBatalla img-cpu" alt=""
 						src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}">
 				</c:forEach>
 			</div>
 		</div>
-		<div class="ams">
+		<div class="ams" style="padding: 10px;">
 			<!-- ATAQUES MOCHILA SUPLENTES xD -->
 			<!-- ATAQUES DEL USUARIO -->
-			<div id="ataques">
+			<div id="ataques" class="d-flex">
 				<c:forEach items="${pokemonsUsuario[0].ataques}" var="ataque"
 					varStatus="status">
-					<button class='btn btn-success ataques' value="${status.count-1}">${ataque.nombre}</button>
+					<button class='btn btn-success ataques' style="margin-right: 10px"
+						value="${status.count-1}">${ataque.nombre}</button>
 				</c:forEach>
 			</div>
-			<div class="objetos d-flex align-items-center">
-				<button id="abrirMochila" class="btn btn-success ">
-					<img class="img-mochila" alt="mochila"
-						src="images/Mochila_RZ_(chico).png"> Mochila
-				</button>
-				<div class="verMochila">
-					<div class="mochila">
-						<button class="objeto btn btn-success">
-							<img class="img-mochila" alt="mochila"
-								src="images/Mochila_RZ_(chico).png"> Antídoto
-						</button>
-						<button class="objeto btn btn-success">
-							<img class="img-mochila" alt="mochila"
-								src="images/Mochila_RZ_(chico).png"> Antiparaliz
-						</button>
-						<button class="objeto btn btn-success">
-							<img class="img-mochila" alt="mochila"
-								src="images/Mochila_RZ_(chico).png"> Poción
-						</button>
+			<c:if test="${objetosUsuario != null}">
+				<div class="objetos d-flex align-items-center">
+					<button id="abrirMochila" class="btn btn-success ">
+						<img class="img-mochila" alt="mochila"
+							src="images/Mochila_RZ_(chico).png"> Mochila
+					</button>
+					<div class="verMochila">
+						<div class="mochila">
+							<c:forEach items="${objetosUsuario}" var="objeto"
+								varStatus="status">
+								<button class="objeto btn btn-success" value="${status.count-1}">
+									<img class="img-mochila" alt="objeto"
+										src="images/sprites/Objetos/${objeto.imagen}"> ${objeto.nombre}
+								</button>
+							</c:forEach>
+						</div>
 					</div>
 				</div>
-			</div>
+			</c:if>
 			<div class="cambiarPokemon d-flex">
 				<c:forEach items="${pokemonsUsuario}" var="pokemon"
 					varStatus="status">
@@ -99,11 +99,12 @@
 			<source src="images/pokemonSoundtrack.mp3" type="audio/mpeg">
 		</audio>
 	</div>
-	<div class="historia-ataques"></div>
+	<div class="historial"></div>
 
 	<script type="text/javascript">
 		var pokemonsUsuario = JSON.parse('${pokemonsUsuarioJson}');
 		var pokemonsCpu = JSON.parse('${pokemonsCpuJson}');
+		var objetosUsuario = JSON.parse('${objetosUsuarioJson}');
 	</script>
 	<script type="text/javascript" src="js/batalla.js"></script>
 </body>
