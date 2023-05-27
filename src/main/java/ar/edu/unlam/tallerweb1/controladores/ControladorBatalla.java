@@ -38,7 +38,7 @@ public class ControladorBatalla {
 
 	@RequestMapping("/batalla")
 	public ModelAndView iniciarBatalla(HttpServletRequest request,
-			@RequestParam(required = false) List<String> pokemonsLista,
+			@RequestParam(required = false) List<Long> pokemonsLista,
 			@RequestParam(required = false) String[] objetosLista) {
 
 		if (request.getSession().getAttribute("usuario") == null) {
@@ -54,11 +54,9 @@ public class ControladorBatalla {
 					this.servicioUsuario.obtenerListaDeObjetos((Long) request.getSession().getAttribute("id")));
 			return new ModelAndView("elegir-equipo", model);
 		}
-		Collections.sort(pokemonsLista);
 
 		List<Pokemon> pokemonsUsuario = new ArrayList<>();
-		pokemonsLista.forEach(x -> pokemonsUsuario
-				.add(this.servicioPokemon.buscarPokemon(Long.parseLong(x.substring(x.indexOf('p') + 1)))));
+		pokemonsLista.forEach(x -> pokemonsUsuario.add(this.servicioPokemon.buscarPokemon(x)));
 		for (Pokemon pokemon : pokemonsUsuario) {
 			pokemon.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(pokemon.getId()));
 		}

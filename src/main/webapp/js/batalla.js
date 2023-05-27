@@ -449,16 +449,13 @@ $(document).ready(function() {
 			});
 		}
 		$('#golpe')[0].play();
-		//await new Promise(resolve => {
 		interval = setInterval(() => {
-			if (contador === 6) {
+			if (contador === 5) {
 				clearInterval(interval);
-				resolve();
 			}
 			imgObjetivo.css('visibility') === 'hidden' ? imgObjetivo.css('visibility', 'visible') : imgObjetivo.css('visibility', 'hidden');
 			contador++;
 		}, 150);
-		//});
 	};
 
 	//Metodo que habilita los botones al finalizar el intercambio de daños
