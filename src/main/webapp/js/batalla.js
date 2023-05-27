@@ -497,6 +497,7 @@ $(document).ready(function() {
 			} else {
 				var dialog = $('.game-over')[0];
 				if (!musica.paused) musica.pause();
+				$('#final')[0].play();
 				$('.modalV').attr('src', "https://fontmeme.com/permalink/230526/5007cd2b81c93c581fc044aed10e703a.png");
 				dialog.showModal();
 			}
@@ -510,6 +511,7 @@ $(document).ready(function() {
 			} else {
 				var dialog = $('.game-over')[0];
 				if (!musica.paused) musica.pause();
+				$('#finalMalo')[0].play();
 				$('.modalV').attr('src', "https://fontmeme.com/permalink/230526/1ee9f0defcfb3c531d273fd1b430e0ba.png");
 				dialog.showModal();
 			}
