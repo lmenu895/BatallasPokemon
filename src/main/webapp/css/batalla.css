@@ -28,12 +28,12 @@ body {
 	position: absolute;
 	display: flex;
 	align-items: center;
-	border: 1px solid;
+	border: solid black 1px;
 	border-left: none;
 	border-radius: 0px 10px 10px 0;
 	height: 100%;
 	width: fit-content;
-	background: center/100% white;
+	background: beige;
 }
 
 .objeto {

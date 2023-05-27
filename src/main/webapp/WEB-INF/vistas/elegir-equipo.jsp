@@ -21,13 +21,15 @@
 					<h3 class="form-signin-heading">Equipo</h3>
 					<h3 class="fs-5 text mb-3">Seleccione 3 Pokémons para la
 						batalla</h3>
-					<input type="text" placeholder="Buscar pokemon" class="form-control buscar" />
+					<input type="text" placeholder="Buscar pokemon"
+						class="form-control buscar" />
 					<div
 						class="d-flex align-items-baseline justify-content-around flex-wrap pokemons"
 						style="width: 30vw; height: 510px; overflow-y: auto;">
 						<c:forEach items="${listaPokemon}" var="pokemon">
-							<div class="d-flex flex-column align-items-center pokemon-usuario" id="${pokemon.nombre}"
-								style="width: 33%;">
+							<div
+								class="d-flex flex-column align-items-center pokemon-usuario"
+								id="${pokemon.nombre}" style="width: 33%;">
 								<img alt="${pokemon.nombre}" class="img-fluid imgPokemon mb-2"
 									src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}">
 								<button type="button" style="width: 105px;"
@@ -62,12 +64,10 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="text-center">
 				<button id="btn-registrarme"
 					class="btn btn-lg btn-primary btn-block mb-2" Type="Submit">INICIAR
 					BATALLA</button>
-
 			</div>
 
 		</form:form>
