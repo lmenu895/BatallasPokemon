@@ -497,7 +497,7 @@ $(document).ready(function() {
 			} else {
 				var dialog = $('.game-over')[0];
 				if (!musica.paused) musica.pause();
-				$('#final')[0].play();
+				sonidoVictoria.play();
 				$('.modalV').attr('src', "https://fontmeme.com/permalink/230526/5007cd2b81c93c581fc044aed10e703a.png");
 				dialog.showModal();
 			}
@@ -505,13 +505,13 @@ $(document).ready(function() {
 			if (--pokemonsVivosUsr > 0) {
 				agregarAlHistorial('Tu ' + pokemonUsuario.nombre + ' ha sido debilitado!', 'cpu');
 				$('.suplentes').each(function() {
-					if (this.value !== botonCambio.value && this.value !== -1) $(this).prop('disabled', false);
+					if (this.value !== botonCambio.value && this.value !== '-1') $(this).prop('disabled', false);
 					if (this.value === botonCambio.value) this.value = -1;
 				});
 			} else {
 				var dialog = $('.game-over')[0];
 				if (!musica.paused) musica.pause();
-				$('#finalMalo')[0].play();
+				sonidoDerrota.play();
 				$('.modalV').attr('src', "https://fontmeme.com/permalink/230526/1ee9f0defcfb3c531d273fd1b430e0ba.png");
 				dialog.showModal();
 			}
@@ -528,7 +528,7 @@ $(document).ready(function() {
 				else agregarAlHistorial('Cambiaste a ' + pokemonUsuario.nombre);
 				spriteUsuario = $('.img-usuario')[boton.value];
 				$('#nombrePkmnUsr').html(pokemonUsuario.nombre);
-				$('#vidaPkmnUsr').html(pokemonUsuario.vidaActual);
+				$('#vidaPkmnUsr').html(parseInt(pokemonUsuario.vidaActual));
 				$('#vidaMaximaPkmnUsr').html(' / ' + pokemonUsuario.vida);
 				$('#progressBarUsr').width(pokemonUsuario.width + '%');
 				$('.ataques').each((i, ataque) => {
@@ -617,9 +617,14 @@ $(document).ready(function() {
 
 	var reproducirDialog = $('.reproducir-dialog')[0];
 	var musica = $('#musica')[0];
-	var golpe = $('#golpe')[0];
+	var sonidoGolpe = $('#golpe')[0];
+	var sonidoVictoria = $('#final')[0];
+	var sonidoDerrota = $('#finalMalo')[0];
 	musica.volume = 0.02;
-	golpe.volume = 0.08;
+	sonidoGolpe.volume = 0.08;
+	sonidoVictoria.volume = 0.04;
+	sonidoDerrota.volume = 0.08;
+	
 	reproducirDialog.show();
 	$('.yes').click(() => {
 		reproducirDialog.close();
@@ -628,7 +633,9 @@ $(document).ready(function() {
 	$('.no').click(() => { reproducirDialog.close() });
 	$('#slider').on('input', function() {
 		musica.volume = this.value * 0.002;
-		golpe.volume = this.value * 0.008;
+		sonidoGolpe.volume = this.value * 0.008;
+		sonidoVictoria.volume = this.value * 0.004;
+		sonidoDerrota.volume = this.value * 0.008;
 		console.log("Volume set to ", this.value);
 	});
 	$(window).click(() => { if (!$(reproducirDialog).is(':hover') && reproducirDialog.open) reproducirDialog.close() });

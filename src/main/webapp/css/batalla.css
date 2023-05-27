@@ -169,7 +169,7 @@ dialog::backdrop {
 	justify-content: flex-start;
 	align-items: center;
 	flex-wrap: wrap;
-	width: 500px;
+	width: 325px;
 	position: absolute;
 	top: 50px;
 	left: 50px;
@@ -231,4 +231,5 @@ dialog::backdrop {
 	height: 85px;
 	padding: 5px;
 	margin-bottom: 5px;
+	text-align: center;
 }
