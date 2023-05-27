@@ -34,6 +34,8 @@ public class Usuario {
 	private List<UsuarioObjeto> objetos;
 	
 	
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -83,4 +85,7 @@ public class Usuario {
 	public void setPokemons(List<UsuarioPokemon> pokemons) {
 		this.pokemons = pokemons;
 	}
+	
+	
+	
 }
