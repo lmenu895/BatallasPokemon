@@ -19,8 +19,8 @@ import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioObjeto;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
-import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
+import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 
 @Controller
 public class ControladorUsuario {

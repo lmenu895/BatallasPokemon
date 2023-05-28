@@ -7,6 +7,7 @@ $(document).ready(function() {
 	var pokemonsVivosUsr = 3;
 	var pokemonsVivosCpu = 3;
 	var nextPokemonCpu = 0;
+	var ganador;
 
 	/*$(".game-over")[0].showModal();
 	$('.modalV').attr('src',"https://fontmeme.com/permalink/230526/5007cd2b81c93c581fc044aed10e703a.png");*/
@@ -70,6 +71,7 @@ $(document).ready(function() {
 					quitarEstadosHtml();
 					agregarAlHistorial(pokemonUsuario.nombre + ' ya no esta envenenado!');
 					removerObjeto();
+					await new Promise(resolve => setTimeout(resolve, 1000));
 					iniciarTurno();
 					return;
 				}
@@ -80,6 +82,7 @@ $(document).ready(function() {
 					quitarEstadosHtml();
 					agregarAlHistorial(pokemonUsuario.nombre + ' ya no esta quemado!');
 					removerObjeto();
+					await new Promise(resolve => setTimeout(resolve, 1000));
 					iniciarTurno();
 					return;
 				}
@@ -90,6 +93,7 @@ $(document).ready(function() {
 					quitarEstadosHtml();
 					agregarAlHistorial(pokemonUsuario.nombre + ' ya no esta paralizado!');
 					removerObjeto();
+					await new Promise(resolve => setTimeout(resolve, 1000));
 					iniciarTurno();
 					return;
 				}
@@ -126,6 +130,7 @@ $(document).ready(function() {
 				});
 				agregarAlHistorial('Ha subido el daño de ' + pokemonUsuario.nombre);
 				removerObjeto();
+				await new Promise(resolve => setTimeout(resolve, 1000));
 				iniciarTurno();
 				return;
 		}
@@ -188,15 +193,15 @@ $(document).ready(function() {
 				switch (tipo) {
 					//ENVENENAR
 					case 'VENENO':
-						intentarEnvenenar('cpu');
+						await intentarEnvenenar('cpu');
 						break;
 					//PARALISIS
 					case 'ELECTRICO':
-						intentarParalizar('cpu');
+						await intentarParalizar('cpu');
 						break;
 					//QUEMAR
 					case 'FUEGO':
-						intentarQuemar('cpu');
+						await intentarQuemar('cpu');
 						break;
 				}
 			}
@@ -229,15 +234,15 @@ $(document).ready(function() {
 				switch (tipo) {
 					//ENVENENAR
 					case 'VENENO':
-						intentarEnvenenar('user');
+						await intentarEnvenenar('user');
 						break;
 					//PARALISIS
 					case 'ELECTRICO':
-						intentarParalizar('user');
+						await intentarParalizar('user');
 						break;
 					//QUEMAR
 					case 'FUEGO':
-						intentarQuemar('user');
+						await intentarQuemar('user');
 						break;
 				}
 			}
@@ -325,7 +330,7 @@ $(document).ready(function() {
 	};
 
 	//Metodo que es llamado cuando un pokemon ataca a otro con un ataque de tipo veneno
-	const intentarEnvenenar = name => {
+	const intentarEnvenenar = async name => {
 		var random;
 		random = Math.floor(Math.random() * 10) + 1;
 		if (random > 7) {
@@ -343,11 +348,12 @@ $(document).ready(function() {
 				agregarAlHistorial(pokemonUsuario.nombre + ' se ha envenenado!', 'cpu');
 				if (primero === undefined) primero = false;
 			}
+			await new Promise(resolve => setTimeout(resolve, 1000));
 		}
 	};
 
 	//Metodo que es llamado cuando un pokemon ataca a otro con un ataque de tipo electrico
-	const intentarParalizar = name => {
+	const intentarParalizar = async name => {
 		var random;
 		random = Math.floor(Math.random() * 10) + 1;
 		if (random > 7) {
@@ -364,11 +370,12 @@ $(document).ready(function() {
 				agregarAlHistorial(pokemonUsuario.nombre + ' se ha paralizado!', 'cpu');
 				pokemonUsuario.velocidad *= 0.5;
 			}
+			await new Promise(resolve => setTimeout(resolve, 1000));
 		}
 	};
 
 	//Metodo que es llamado cuando un pokemon ataca a otro con un ataque de tipo fuego
-	const intentarQuemar = name => {
+	const intentarQuemar = async name => {
 		var random;
 		random = Math.floor(Math.random() * 10) + 1;
 		if (random > 7) {
@@ -391,6 +398,7 @@ $(document).ready(function() {
 				});
 				if (primero === undefined) primero = false;
 			}
+			await new Promise(resolve => setTimeout(resolve, 1000));
 		}
 	};
 
@@ -500,6 +508,7 @@ $(document).ready(function() {
 				sonidoVictoria.play();
 				$('.modalV').attr('src', "https://fontmeme.com/permalink/230526/5007cd2b81c93c581fc044aed10e703a.png");
 				dialog.showModal();
+				ganador = 'user';
 			}
 		} else {
 			if (--pokemonsVivosUsr > 0) {
@@ -514,6 +523,7 @@ $(document).ready(function() {
 				sonidoDerrota.play();
 				$('.modalV').attr('src', "https://fontmeme.com/permalink/230526/1ee9f0defcfb3c531d273fd1b430e0ba.png");
 				dialog.showModal();
+				ganador = 'cpu';
 			}
 		}
 	};
@@ -571,6 +581,17 @@ $(document).ready(function() {
 		});
 	};
 
+	$(document).on('click', '.continuar', () => {
+		$.ajax({
+			data: { ganador: ganador },
+			type: 'POST',
+			url: 'final-batalla',
+			success: (result) => {
+				window.location.href = 'home';
+			}
+		});
+	});
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -624,7 +645,7 @@ $(document).ready(function() {
 	sonidoGolpe.volume = 0.08;
 	sonidoVictoria.volume = 0.04;
 	sonidoDerrota.volume = 0.08;
-	
+
 	reproducirDialog.show();
 	$('.yes').click(() => {
 		reproducirDialog.close();

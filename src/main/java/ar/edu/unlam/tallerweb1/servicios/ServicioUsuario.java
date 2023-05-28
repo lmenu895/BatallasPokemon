@@ -17,5 +17,6 @@ public interface ServicioUsuario {
 	Boolean restarPuntos(Integer monedas, Usuario usuario);
 
 	public List<Objeto> obtenerListaDeObjetos(Long attribute);
-	
+
+	void sumarPuntos(Long idUsuario, Integer puntos);
 }
