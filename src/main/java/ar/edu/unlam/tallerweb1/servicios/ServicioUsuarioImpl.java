@@ -58,12 +58,18 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		usuario.setPuntos(usuario.getPuntos()-monedas);
 		repositorioUsuario.modificar(usuario);
 		return true;
-		
 	}
 	
 	public List<Objeto> obtenerListaDeObjetos(Long idUsuario) {
 		List<Objeto> objetos= new ArrayList<>();
 		this.buscarUsuario(idUsuario).getObjetos().forEach(x -> objetos.add(x.getObjeto()));
 		return objetos;
+	}
+
+	@Override
+	public void sumarPuntos(Long idUsuario, Integer puntos) {
+		Usuario user = this.repositorioUsuario.buscarUsuario(idUsuario);
+		user.setPuntos(user.getPuntos() + puntos);
+		this.repositorioUsuario.modificar(user);
 	}
 }

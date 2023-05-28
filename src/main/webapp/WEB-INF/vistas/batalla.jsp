@@ -85,7 +85,7 @@
 			<div class="historial"></div>
 		</div>
 		<dialog class="game-over"> <img class="modalV">
-		<button class="btn btn-success d-block" style="margin: auto;">Continuar</button>
+		<button class="btn btn-success d-block continuar" style="margin: auto;">Continuar</button>
 		</dialog>
 
 	</div>
@@ -102,9 +102,7 @@
 			<button class="no btn btn-info w-25" type="button">No</button>
 		</div>
 		</dialog>
-		<audio id="musica" loop="loop">
-			<source src="images/pokemonSoundtrack.mp3" type="audio/mpeg">
-		</audio>
+		<audio id="musica" src="images/pokemonSoundtrack.mp3" loop="loop"></audio>
 	</div>
 	<audio id="golpe" src="images/golpe.wav"></audio>
 	<audio id="final" src="images/victoriaBatalla.mp3"></audio>

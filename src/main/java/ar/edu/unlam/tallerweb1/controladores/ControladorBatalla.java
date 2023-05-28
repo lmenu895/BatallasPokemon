@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -26,14 +28,16 @@ public class ControladorBatalla {
 	private ServicioAtaquePokemon servicioAtaquePokemon;
 	private ServicioObjeto servicioObjeto;
 	private ServicioUsuario servicioUsuario;
+	private ServicioBatalla servicioBatalla;
 
 	@Autowired
 	public ControladorBatalla(ServicioPokemon servicioPokemon, ServicioAtaquePokemon servicioAtaquePokemon,
-			ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario) {
+			ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioBatalla servicioBatalla) {
 		this.servicioPokemon = servicioPokemon;
 		this.servicioAtaquePokemon = servicioAtaquePokemon;
 		this.servicioObjeto = servicioObjeto;
 		this.servicioUsuario = servicioUsuario;
+		this.servicioBatalla = servicioBatalla;
 	}
 
 	@RequestMapping("/batalla")
@@ -57,14 +61,10 @@ public class ControladorBatalla {
 
 		List<Pokemon> pokemonsUsuario = new ArrayList<>();
 		pokemonsLista.forEach(x -> pokemonsUsuario.add(this.servicioPokemon.buscarPokemon(x)));
-		for (Pokemon pokemon : pokemonsUsuario) {
-			pokemon.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(pokemon.getId()));
-		}
+		pokemonsUsuario.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
 
 		List<Pokemon> pokemonsCpu = servicioPokemon.crearEquipoCpu();
-		for (Pokemon pokemon : pokemonsCpu) {
-			pokemon.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(pokemon.getId()));
-		}
+		pokemonsCpu.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
 
 		if (objetosLista != null) {
 			List<Objeto> objetosUsuario = this.servicioObjeto.buscarObjetoPorGrupo(objetosLista);
@@ -78,5 +78,11 @@ public class ControladorBatalla {
 		model.put("pokemonsCpuJson", new Gson().toJson(pokemonsCpu));
 
 		return new ModelAndView("batalla", model);
+	}
+
+	@RequestMapping(path = "/final-batalla", method = RequestMethod.POST)
+	@ResponseBody
+	public void finalBatalla(@RequestParam String ganador, HttpServletRequest request) {
+		this.servicioBatalla.finalBatalla(ganador, (Long) request.getSession().getAttribute("id"));
 	}
 }
