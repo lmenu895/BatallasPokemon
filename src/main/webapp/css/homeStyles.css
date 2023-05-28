@@ -1,6 +1,6 @@
 body {
 	background-image: url("../images/bg.jpg");
-	background-repeat: no-repeat;
+	background-repeat: repeat-y;
 	background-size: 100%;
 	font-family: 'Roboto', sans-serif;
 	color: #202020;
