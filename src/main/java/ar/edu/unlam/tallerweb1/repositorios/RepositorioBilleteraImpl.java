@@ -11,10 +11,10 @@ import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
 @Repository
 public class RepositorioBilleteraImpl implements RepositorioBilletera{
-	@Autowired
+	
 	private SessionFactory sessionFactory;
 
-	
+	@Autowired
 	public RepositorioBilleteraImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}

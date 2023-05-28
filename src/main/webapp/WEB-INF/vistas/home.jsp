@@ -26,21 +26,13 @@
 			<div class="userProfile">
 				<div class="fondo-usuario"></div>
 				<img class="pokeball" src="images/pokeballU.png" alt="pokeball">
-				<div style="text-align: center;">
-					<h1 style="margin-top: 30px; margin-bottom: 30px;">Mi
-						billetera</h1>
-
-					<h3>Saldo: ${billetera.saldo}</h3>
-
-					<a class="btn btn-primary mt-3" href="formularioSaldo"
-						role="button">Ingresar dinero</a>
 				</div>
-				<a class="btn btn-dark mt-5" role="button"
-					href="javascript:history.back()"> Volver</a>
-			</div>
+				
 			<button id="usuario" class="textUser">${usuario}</button>
+			<h5>Saldo disponible: $${billetera.saldo} </h5>	 
 
 		</div>
+		
 		<button class="logoutButton">Logout</button>
 	</div>
 	</div>
