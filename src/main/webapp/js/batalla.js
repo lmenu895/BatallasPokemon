@@ -178,37 +178,46 @@ $(document).ready(function() {
 
 	//Metodo que ejecuta el ataque del usuario
 	const ataqueUsuario = async idAtaque => {
-		var inmovil = efectoPorParalisis(pokemonUsuario.estados.paralizado);
-		if (!inmovil) {
-			var potencia = pokemonUsuario.ataques[idAtaque].potencia;
-			var tipo = pokemonUsuario.ataques[idAtaque].tipo;
-			if (tipo === pokemonUsuario.tipo) potencia *= 1.5;
-			if (comprobarDebilidad(tipo, pokemonCpu.tipo)) potencia *= 2;
-			else if (comprobarDebilidad(tipo, pokemonCpu.tipo) === false) potencia *= 0.5;
-			pokemonCpu.vidaActual -= potencia;
+		var paralizado = pokemonUsuario.estados.paralizado && Math.floor(Math.random() * 100) + 1 > 75 ? true : false;
+		var inmovil = pokemonUsuario.ataques[idAtaque].precataque < Math.floor(Math.random() * 100) + 1 ? true : false;
+		if (!paralizado) {
 			agregarAlHistorial('Utilizaste: ' + pokemonUsuario.ataques[idAtaque].nombre);
-			await animacionAtaque('cpu');
-			await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', pokemonCpu);
-			if (!pokemonCpu.estados.envenenado && !pokemonCpu.estados.paralizado && !pokemonCpu.estados.quemado) {
-				switch (tipo) {
-					//ENVENENAR
-					case 'VENENO':
-						await intentarEnvenenar('cpu');
-						break;
-					//PARALISIS
-					case 'ELECTRICO':
-						await intentarParalizar('cpu');
-						break;
-					//QUEMAR
-					case 'FUEGO':
-						await intentarQuemar('cpu');
-						break;
+			if (!inmovil) {
+				var potencia = pokemonUsuario.ataques[idAtaque].potencia;
+				var tipo = pokemonUsuario.ataques[idAtaque].tipo;
+				if (tipo === pokemonUsuario.tipo) potencia *= 1.5;
+				if (comprobarDebilidad(tipo, pokemonCpu.tipo)) potencia *= 2;
+				else if (comprobarDebilidad(tipo, pokemonCpu.tipo) === false) potencia *= 0.5;
+				pokemonCpu.vidaActual -= potencia;
+				await animacionAtaque('cpu');
+				await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', pokemonCpu);
+				if (!pokemonCpu.estados.envenenado && !pokemonCpu.estados.paralizado && !pokemonCpu.estados.quemado) {
+					switch (tipo) {
+						//ENVENENAR
+						case 'VENENO':
+							await intentarEnvenenar('cpu');
+							break;
+						//PARALISIS
+						case 'ELECTRICO':
+							await intentarParalizar('cpu');
+							break;
+						//QUEMAR
+						case 'FUEGO':
+							await intentarQuemar('cpu');
+							break;
+					}
 				}
-			}
-			if (tipo === 'VAMPIRICO') {
-				pokemonUsuario.vidaActual += potencia * 0.5;
-				if (pokemonUsuario.vidaActual > pokemonUsuario.vida) pokemonUsuario.vidaActual = pokemonUsuario.vida
-				await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario, true);
+				if (tipo === 'VAMPIRICO') {
+					pokemonUsuario.vidaActual += potencia * 0.5;
+					if (pokemonUsuario.vidaActual > pokemonUsuario.vida) pokemonUsuario.vidaActual = pokemonUsuario.vida
+					await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario, true);
+				}
+			} else {
+				await new Promise(resolve => setTimeout(() => {
+					agregarAlHistorial('Tu ' + pokemonUsuario.nombre + ' ha fallado el ataque!');
+					resolve();
+				}, 1000));
+				return new Promise(resolve => setTimeout(resolve, 1000));
 			}
 		} else {
 			agregarAlHistorial('Estas paralizado, no puedes atacar!');
@@ -218,38 +227,47 @@ $(document).ready(function() {
 
 	//Metodo que ejecuta el ataque de la cpu
 	const ataqueCpu = async () => {
-		var inmovil = efectoPorParalisis(pokemonCpu.estados.paralizado);
-		if (!inmovil) {
-			var ataque = Math.floor(Math.random() * pokemonCpu.ataques.length);
-			var tipo = pokemonCpu.ataques[ataque].tipo;
-			var potencia = pokemonCpu.ataques[ataque].potencia;
-			if (tipo === pokemonCpu.tipo) potencia *= 1.5;
-			if (comprobarDebilidad(tipo, pokemonUsuario.tipo)) potencia *= 2;
-			else if (comprobarDebilidad(tipo, pokemonUsuario.tipo) === false) potencia *= 0.5;
-			pokemonUsuario.vidaActual -= potencia;
+		var ataque = Math.floor(Math.random() * pokemonCpu.ataques.length);
+		var paralizado = pokemonCpu.estados.paralizado && Math.floor(Math.random() * 100) + 1 > 75 ? true : false;
+		var inmovil = pokemonCpu.ataques[ataque].precataque < Math.floor(Math.random() * 100) + 1 ? true : false;
+		if (!paralizado) {
 			agregarAlHistorial('Ataque enemigo: ' + pokemonCpu.ataques[ataque].nombre, 'cpu');
-			await animacionAtaque('user');
-			await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario);
-			if (!pokemonUsuario.estados.envenenado && !pokemonUsuario.estados.paralizado && !pokemonUsuario.estados.quemado) {
-				switch (tipo) {
-					//ENVENENAR
-					case 'VENENO':
-						await intentarEnvenenar('user');
-						break;
-					//PARALISIS
-					case 'ELECTRICO':
-						await intentarParalizar('user');
-						break;
-					//QUEMAR
-					case 'FUEGO':
-						await intentarQuemar('user');
-						break;
+			if (!inmovil) {
+				var tipo = pokemonCpu.ataques[ataque].tipo;
+				var potencia = pokemonCpu.ataques[ataque].potencia;
+				if (tipo === pokemonCpu.tipo) potencia *= 1.5;
+				if (comprobarDebilidad(tipo, pokemonUsuario.tipo)) potencia *= 2;
+				else if (comprobarDebilidad(tipo, pokemonUsuario.tipo) === false) potencia *= 0.5;
+				pokemonUsuario.vidaActual -= potencia;
+				await animacionAtaque('user');
+				await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario);
+				if (!pokemonUsuario.estados.envenenado && !pokemonUsuario.estados.paralizado && !pokemonUsuario.estados.quemado) {
+					switch (tipo) {
+						//ENVENENAR
+						case 'VENENO':
+							await intentarEnvenenar('user');
+							break;
+						//PARALISIS
+						case 'ELECTRICO':
+							await intentarParalizar('user');
+							break;
+						//QUEMAR
+						case 'FUEGO':
+							await intentarQuemar('user');
+							break;
+					}
 				}
-			}
-			if (tipo === 'VAMPIRICO') {
-				pokemonCpu.vidaActual += potencia * 0.5;
-				if (pokemonCpu.vidaActual > pokemonCpu.vida) pokemonCpu.vidaActual = pokemonCpu.vida
-				await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', pokemonCpu, true);
+				if (tipo === 'VAMPIRICO') {
+					pokemonCpu.vidaActual += potencia * 0.5;
+					if (pokemonCpu.vidaActual > pokemonCpu.vida) pokemonCpu.vidaActual = pokemonCpu.vida
+					await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', pokemonCpu, true);
+				}
+			} else {
+				await new Promise(resolve => setTimeout(() => {
+					agregarAlHistorial(pokemonCpu.nombre + ' enemigo ha fallado el ataque!', 'cpu');
+					resolve();
+				}, 1000));
+				return new Promise(resolve => setTimeout(resolve, 1000));
 			}
 		} else {
 			agregarAlHistorial('Enemigo paralizado, no puede atacar!', 'cpu');
