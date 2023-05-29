@@ -52,13 +52,13 @@
 							<div class="d-flex flex-column align-items-center"
 								style="width: 33%;">
 								<img alt="${objeto.nombre}" class="img-fluid mb-2"
-									style="height: 70px;"
+									style="max-height: 70px;"
 									src="images/sprites/Objetos/${objeto.imagen}">
 								<button type="button" style="width: 105px;"
 									class="btn btn-primary botonObjeto">Seleccionar</button>
 								<input type="hidden" name="objetosLista" value="${objeto.id}"
 									disabled />
-								<h4>${objeto.nombre}</h4>
+								<h4 class="nombre-objeto">${objeto.nombre}</h4>
 							</div>
 						</c:forEach>
 					</div>

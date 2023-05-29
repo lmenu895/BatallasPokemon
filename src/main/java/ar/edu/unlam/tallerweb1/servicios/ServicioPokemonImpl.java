@@ -101,6 +101,19 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		return pokemons;
 	}
 
+	@Override
+	public List<Pokemon> crearEquipoCpu() {
+		Random random = new Random();
+		List<Pokemon> todosLosPokemons = repositorioPokemon.obtenerTodosLosPokemons();
+		List<Pokemon> pokemons = new ArrayList<>();
+		while (pokemons.size() < 3) {
+			int indexPokemon = random.nextInt(todosLosPokemons.size());
+			pokemons.add(todosLosPokemons.get(indexPokemon));
+			todosLosPokemons.remove(indexPokemon);
+		}
+		return pokemons;
+	}
+
 	// Funciones privadas para utilizar dentro de la clase
 
 	private Long verificarAtaqueOlvidado(Long aprendido, List<Long> ataques) {
@@ -144,18 +157,5 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		InputStream inputStream = imagen.getInputStream();
 		Path filePath = uploadPath.resolve(fileName);
 		Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-	}
-
-	@Override
-	public List<Pokemon> crearEquipoCpu() {
-		Random random = new Random();
-		List<Pokemon> todosLosPokemons = repositorioPokemon.obtenerTodosLosPokemons();
-		List<Pokemon> pokemons = new ArrayList<>();
-		while (pokemons.size() < 3) {
-			int indexPokemon = random.nextInt(todosLosPokemons.size());
-			pokemons.add(todosLosPokemons.get(indexPokemon));
-			todosLosPokemons.remove(indexPokemon);
-		}
-		return pokemons;
 	}
 }

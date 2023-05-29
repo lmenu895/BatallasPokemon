@@ -53,3 +53,10 @@
 	margin-left: 75%;
 }
 
+@media (max-height: 768px) {
+  .nombre-pokemon, .nombre-objeto {
+  	font-size: 1.2rem;
+  }
+}
+
+

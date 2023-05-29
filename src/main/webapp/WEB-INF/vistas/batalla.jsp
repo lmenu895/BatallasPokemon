@@ -19,7 +19,8 @@
 					</div>
 				</div>
 				<c:forEach items="${pokemonsUsuario}" var="pokemon">
-					<img class="imagenBatalla img-usuario" alt=""
+					<img class="imagenBatalla img-usuario"
+						title="Tipo: ${pokemon.tipo}" alt=""
 						src="images/sprites/${pokemon.nombre}/${pokemon.imagenDorso}">
 				</c:forEach>
 			</div>
@@ -36,7 +37,8 @@
 					</div>
 				</div>
 				<c:forEach items="${pokemonsCpu}" var="pokemon">
-					<img class="imagenBatalla img-cpu" alt=""
+					<img class="imagenBatalla img-cpu" title="Tipo: ${pokemon.tipo}"
+						alt=""
 						src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}">
 				</c:forEach>
 			</div>
@@ -48,6 +50,7 @@
 				<c:forEach items="${pokemonsUsuario[0].ataques}" var="ataque"
 					varStatus="status">
 					<button class='btn btn-success ataques'
+						title="Tipo: ${ataque.tipo} | Potencia: ${ataque.potencia} | Precision: ${ataque.precataque}"
 						style="margin: 10px 10px 0 0" value="${status.count-1}">${ataque.nombre}</button>
 				</c:forEach>
 			</div>
@@ -75,7 +78,8 @@
 				<c:forEach items="${pokemonsUsuario}" var="pokemon"
 					varStatus="status">
 					<button class='btn btn-success suplentes'
-						style="margin-right: 10px;" value="${status.count-1}">
+						title="Tipo: ${pokemon.tipo}" style="margin-right: 10px;"
+						value="${status.count-1}">
 						<img class="img-suplente" alt="${pokemon.nombre}"
 							src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}">
 						${pokemon.nombre}
@@ -85,15 +89,16 @@
 			<div class="historial"></div>
 		</div>
 		<dialog class="game-over"> <img class="modalV">
-		<button class="btn btn-success d-block continuar" style="margin: auto;">Continuar</button>
+		<button class="btn btn-success d-block continuar"
+			style="margin: auto;">Continuar</button>
 		</dialog>
 
 	</div>
 	<div class="musica-fondo">
 		<div class="interfazMusica">
-			<span class="texto" style="margin: 0 5px 6.5px 0;">Volumen música: </span> <input
-				type="range" id="slider" value="10" maxlength="100"> <span
-				class="reproducir">▶️</span>
+			<span class="texto" style="margin: 0 5px 6.5px 0;">Volumen
+				música y sonidos: </span> <input type="range" id="slider" value="10"
+				maxlength="100"> <span class="reproducir">▶️</span>
 		</div>
 		<dialog class="reproducir-dialog"> <span class="d-block mb-2">¿Quieres
 			activar la música de batalla?</span>

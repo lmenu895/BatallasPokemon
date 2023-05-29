@@ -62,8 +62,20 @@ public class ControladorBatalla {
 		List<Pokemon> pokemonsUsuario = new ArrayList<>();
 		pokemonsLista.forEach(x -> pokemonsUsuario.add(this.servicioPokemon.buscarPokemon(x)));
 		pokemonsUsuario.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
-
-		List<Pokemon> pokemonsCpu = servicioPokemon.crearEquipoCpu();
+		List<Pokemon> pokemonsCpu = new ArrayList<>();
+		Long[] idsPokemonsCpu = new Long[3];
+		if (request.getSession().getAttribute("idsPokemonsCpu") == null) {
+			pokemonsCpu = servicioPokemon.crearEquipoCpu();
+			for (Integer i = 0; i < pokemonsCpu.size(); i++) {
+				idsPokemonsCpu[i] = pokemonsCpu.get(i).getId();
+			}
+			request.getSession().setAttribute("idsPokemonsCpu", idsPokemonsCpu);
+		} else {
+			idsPokemonsCpu = (Long[]) request.getSession().getAttribute("idsPokemonsCpu");
+			for (Integer i = 0; i < idsPokemonsCpu.length; i++) {
+				pokemonsCpu.add(this.servicioPokemon.buscarPokemon(idsPokemonsCpu[i]));
+			}
+		}
 		pokemonsCpu.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
 
 		if (objetosLista != null) {
@@ -83,6 +95,9 @@ public class ControladorBatalla {
 	@RequestMapping(path = "/final-batalla", method = RequestMethod.POST)
 	@ResponseBody
 	public void finalBatalla(@RequestParam String ganador, HttpServletRequest request) {
-		this.servicioBatalla.finalBatalla(ganador, (Long) request.getSession().getAttribute("id"));
+		if (request.getSession().getAttribute("idsPokemonsCpu") != null) {
+			request.getSession().removeAttribute("idsPokemonsCpu");
+			this.servicioBatalla.finalBatalla(ganador, (Long) request.getSession().getAttribute("id"));
+		}
 	}
 }
