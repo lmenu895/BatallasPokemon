@@ -618,8 +618,7 @@ $(document).ready(function() {
 
 	//Cambio de pokemon cpu
 	const cambiarPokemonCpu = async () => {
-		nextPokemonCpu++;
-		pokemonCpu = pokemonsCpu[nextPokemonCpu];
+		pokemonCpu = pokemonsCpu[++nextPokemonCpu];
 		await new Promise(resolve => {
 			$(spriteCpu).fadeOut(1000, () => {
 				agregarAlHistorial('El enemigo envio a ' + pokemonCpu.nombre, 'cpu');
