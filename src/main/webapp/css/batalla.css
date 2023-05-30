@@ -192,8 +192,7 @@ dialog::backdrop {
 }
 
 .contenedorVidaCpu {
-	border-style: solid;
-	border-color: black;
+	border: solid black;
 	background-color: beige;
 	width: 245px;
 	border-radius: 15px 0;
@@ -206,8 +205,7 @@ dialog::backdrop {
 }
 
 .contenedorVidaUser {
-	border-style: solid;
-	border-color: black;
+	border: solid black;
 	background-color: beige;
 	width: 245px;
 	border-radius: 15px 0;
@@ -232,4 +230,11 @@ dialog::backdrop {
 	padding: 5px;
 	margin-bottom: 5px;
 	text-align: center;
+}
+
+@media ( max-width : 1366px) {
+	.musica-fondo {
+		left: 5px;
+		width: 290px;
+	}
 }

@@ -9,6 +9,22 @@ $(document).ready(function() {
 	var nextPokemonCpu = 0;
 	var ganador;
 
+	const TABLA_DE_TIPOS_ATAQUES = {
+		FUEGO: { fuerte_contra: ['PLANTA', 'HIELO', 'ACERO'], debil_contra: ['AGUA', 'FUEGO', 'DRAGON'] },
+		AGUA: { fuerte_contra: ['FUEGO', 'TIERRA'], debil_contra: ['PLANTA', 'AGUA', 'DRAGON'] },
+		TIERRA: { fuerte_contra: ['FUEGO', 'VENENO', 'ACERO', 'ELECTRICO'], debil_contra: ['PLANTA'] },
+		PLANTA: { fuerte_contra: ['AGUA', 'TIERRA'], debil_contra: ['FUEGO', 'VENENO', 'PLANTA', 'ACERO', 'DRAGON'] },
+		ELECTRICO: { fuerte_contra: ['AGUA'], debil_contra: ['TIERRA', 'DRAGON', 'ELECTRICO', 'PLANTA'] },
+		VENENO: { fuerte_contra: ['PLANTA'], debil_contra: ['ACERO', 'TIERRA', 'VENENO'] },
+		NORMAL: { fuerte_contra: [], debil_contra: ['ACERO'] },
+		HIELO: { fuerte_contra: ['PLANTA', 'TIERRA', 'DRAGON'], debil_contra: ['ACERO', 'FUEGO', 'AGUA', 'HIELO'] },
+		ACERO: { fuerte_contra: ['HIELO'], debil_contra: ['FUEGO', 'AGUA', 'ELECTRICO', 'ACERO'] },
+		DRAGON: { fuerte_contra: ['DRAGON'], debil_contra: ['ACERO'] },
+		PSIQUICO: { fuerte_contra: ['VENENO', 'LUCHA'], debil_contra: ['ACERO', 'PSIQUICO', 'SINIESTRO'] },
+		SINIESTRO: { fuerte_contra: ['PSIQUICO'], debil_contra: ['LUCHA', 'SINIESTRO'] },
+		LUCHA: { fuerte_contra: ['NORMAL', 'LUCHA', 'SINIESTRO', 'ACERO'], debil_contra: ['PSIQUICO', 'VENENO'] }
+	};
+
 	const setVariables = pokemon => {
 		pokemon['porcVida'] = pokemon.vida * 0.003;
 		pokemon['width'] = 100;
@@ -348,40 +364,13 @@ $(document).ready(function() {
 	//Metodo que es llamado cuando quiero aplicar el daño de un efecto de estado
 	const danioPorEstado = async (objetivo, estado) => {
 		objetivo.vidaActual -= objetivo.danioPorEstado[estado];
-		if (objetivo === pokemonUsuario) {
-			await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', objetivo);
-		} else {
-			await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', objetivo);
-		}
+		if (objetivo === pokemonUsuario) await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', objetivo);
+		else await moveProgressBar('#progressBarCpu', '#vidaPkmnCpu', objetivo);
 	};
 
 	const comprobarDebilidad = (tipoAtaque, tipoPokemon) => {
-		switch (tipoPokemon) {
-			case 'AGUA':
-				if (tipoAtaque === 'PLANTA' || tipoAtaque === 'ELECTRICO') return true;
-				if (tipoAtaque === 'FUEGO') return false;
-				break;
-			case 'FUEGO':
-				if (tipoAtaque === 'AGUA') return true;
-				if (tipoAtaque === 'PLANTA') return false;
-				break;
-			case 'VENENO':
-				if (tipoAtaque === 'TIERRA') return true;
-				if (tipoAtaque === 'PLANTA') return false;
-				break;
-			case 'TIERRA':
-				if (tipoAtaque === 'AGUA' || tipoAtaque === 'PLANTA') return true;
-				if (tipoAtaque === 'VENENO') return false;
-				break;
-			case 'ELECTRICO':
-				if (tipoAtaque === 'TIERRA') return true;
-				if (tipoAtaque === 'AGUA') return false;
-				break;
-			case 'PLANTA':
-				if (tipoAtaque === 'FUEGO') return true;
-				if (tipoAtaque === 'ELECTRICO') return false;
-				break;
-		}
+		if (TABLA_DE_TIPOS_ATAQUES[tipoAtaque].fuerte_contra.indexOf(tipoPokemon) > -1) return true;
+		else if (TABLA_DE_TIPOS_ATAQUES[tipoAtaque].debil_contra.indexOf(tipoPokemon) > -1) return false;
 	};
 
 	//Metodo que es llamado cuando un pokemon ataca a otro con un ataque de tipo veneno
@@ -595,9 +584,13 @@ $(document).ready(function() {
 				$('#vidaPkmnUsr').html(parseInt(pokemonUsuario.vidaActual));
 				$('#vidaMaximaPkmnUsr').html(' / ' + pokemonUsuario.vida);
 				$('#progressBarUsr').width(pokemonUsuario.width + '%');
-				$('.ataques').each((i, ataque) => {
-					$(ataque).html(pokemonUsuario.ataques[i].nombre);
+				$('.ataques').each((i, iAtaque) => {
+					var ataque = pokemonUsuario.ataques[i];
+					$(iAtaque).html(ataque.nombre);
+					$(iAtaque).prop('title', 'Tipo: ' + ataque.tipo + ' | Potencia: ' + ataque.potencia +
+						'.0 | Precision: ' + ataque.precataque + '.0');
 				});
+				$('.img-usuario').prop('title', 'Tipo: ' + pokemonUsuario.tipo);
 				if (pokemonUsuario.estados.envenenado) {
 					$('#estadoUsuario').html('PSN');
 					$('#estadoUsuario').css('background-color', 'purple');
@@ -629,6 +622,7 @@ $(document).ready(function() {
 				$('#progressBarCpu').width(pokemonCpu.width + '%');
 				$('#estadoCpu').html('');
 				$('#estadoCpu').css('background-color', '');
+				$('.img-cpu').prop('title', 'Tipo: ' + pokemonCpu.tipo);
 				$(spriteCpu).fadeIn(1000, resolve);
 			});
 		});
