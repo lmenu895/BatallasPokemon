@@ -31,6 +31,9 @@
 			</div>
 			<button class="logoutButton">Logout</button>
 		</div>
+		 <a  href="${pageContext.request.contextPath}/registroBilletera">Billetera </a>
+		<button class="logoutButton">Logout</button>
+	</div>
 	</div>
 	<div class="menus">
 		<div class="pok">
