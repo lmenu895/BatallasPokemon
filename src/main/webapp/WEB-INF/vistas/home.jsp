@@ -29,10 +29,10 @@
 				</div>
 				
 			<button id="usuario" class="textUser">${usuario}</button>
-			<h5>Saldo disponible: $${billetera.saldo} </h5>	 
+			
 
 		</div>
-		
+		 <a  href="${pageContext.request.contextPath}/registroBilletera">Billetera </a>
 		<button class="logoutButton">Logout</button>
 	</div>
 	</div>

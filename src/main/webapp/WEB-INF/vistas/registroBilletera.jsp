@@ -35,7 +35,7 @@
 		  </div>
 		  <div class="col-12" style="margin-top:20px;">
 		  	<a href="javascript:history.back()" role="button" class="btn btn-dark control-label mb-3">Cancelar</a>
-		    <a role="button" class="btn btn-primary control-label mb-3" href="procesarRegistroBilletera">Generar</a>
+		    <a role="button" class="btn btn-primary control-label mb-3" href="/procesarRegistroBilletera">Generar</a>
 		   </div>
   	
   		<%--Bloque que es visible si el elemento error no está vacío	--%>

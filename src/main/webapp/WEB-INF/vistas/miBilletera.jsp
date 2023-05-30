@@ -12,8 +12,8 @@
 	<div class="container">
 	<div style="text-align: center;">
 		<h1 style="margin-top: 30px; margin-bottom: 30px;">Mi billetera</h1>
-		<h3>${usuario.nombre}</h3>
-		<h3>Saldo: $${billetera.saldo}</h3>
+		<h3>${nombre}</h3>
+		<h3>Saldo: $${saldo}</h3>
 		
 		<a class="btn btn-primary mt-3" href="formularioSaldo" role="button">Ingresar dinero</a>
 		</div>
