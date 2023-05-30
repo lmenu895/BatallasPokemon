@@ -27,4 +27,7 @@ public interface ServicioPokemon {
 
 	List<Pokemon> buscarPokemonPorGrupo(String[] pokemonsTraidos);
 
+	List<Pokemon> crearEquipoCpu();
+
+
 }

@@ -2,18 +2,17 @@
 
 .form {
 	background-color: white;
-	margin: 4rem auto;
+	margin: 2rem 1rem;
 	border-radius: 2rem;
 	box-shadow: 1px 1px 5px black;
 	padding: 4rem;
 	max-width: 900px;
-	margin-right:1rem;
-	margin-left:1rem;
 }
+
 .formP {
 	width:100%;
 	display:flex;
-	justify-content:space-evenly;
+	justify-content:center;
 	align-items:center;
 	flex-direction:row;
 }
@@ -53,3 +52,11 @@
 .boton-nuevo {
 	margin-left: 75%;
 }
+
+@media (max-height: 768px) {
+  .nombre-pokemon, .nombre-objeto {
+  	font-size: 1.2rem;
+  }
+}
+
+

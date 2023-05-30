@@ -59,6 +59,16 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 			return null;
 		}
 	}
+	public List<Pokemon> obtenerPokemonsPorRareza(int rareza) {
+	Session session = sessionFactory.getCurrentSession();
+    CriteriaBuilder cb = session.getCriteriaBuilder();
+    CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);
+    Root<Pokemon> root = cr.from(Pokemon.class);
+    cr.select(root);
+    cr.select(root).where(cb.equal(root.get("rareza"), rareza));
+
+        return session.createQuery(cr).getResultList();
+	}
 
 	@Override
 	public void modificarPokemon(Pokemon pokemon) {
@@ -69,5 +79,6 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 	public void borrarPokemon(Long id) {
 		this.sessionFactory.getCurrentSession().delete(this.buscarPokemon(id));
 	}
+
 
 }

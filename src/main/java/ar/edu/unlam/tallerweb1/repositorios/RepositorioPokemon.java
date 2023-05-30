@@ -13,6 +13,8 @@ public interface RepositorioPokemon {
 	Pokemon buscarPokemon(Long id);
 
 	List<Pokemon> obtenerTodosLosPokemons();
+	
+	List<Pokemon> obtenerPokemonsPorRareza(int rareza);
 
 	void modificarPokemon(Pokemon pokemon);
 

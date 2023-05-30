@@ -14,6 +14,9 @@ public interface ServicioUsuario {
 	
 	public List<Pokemon> obtenerListaDePokemons(Long idUsuario);
 
+	Boolean restarPuntos(Integer monedas, Usuario usuario);
+
 	public List<Objeto> obtenerListaDeObjetos(Long attribute);
-	
+
+	void sumarPuntos(Long idUsuario, Integer puntos);
 }

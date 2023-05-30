@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,75 +11,93 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.edu.unlam.tallerweb1.exceptions.PermisosInsuficientesException;
+import com.google.gson.Gson;
+
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
+import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.servicios.*;
 
 @Controller
 public class ControladorBatalla {
 
 	private ServicioPokemon servicioPokemon;
+	private ServicioAtaquePokemon servicioAtaquePokemon;
+	private ServicioObjeto servicioObjeto;
+	private ServicioUsuario servicioUsuario;
+	private ServicioBatalla servicioBatalla;
 
 	@Autowired
-	public ControladorBatalla(ServicioPokemon servicioPokemon) {
+	public ControladorBatalla(ServicioPokemon servicioPokemon, ServicioAtaquePokemon servicioAtaquePokemon,
+			ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioBatalla servicioBatalla) {
 		this.servicioPokemon = servicioPokemon;
+		this.servicioAtaquePokemon = servicioAtaquePokemon;
+		this.servicioObjeto = servicioObjeto;
+		this.servicioUsuario = servicioUsuario;
+		this.servicioBatalla = servicioBatalla;
 	}
 
 	@RequestMapping("/batalla")
-	public ModelAndView iniciarBatalla(HttpServletRequest request) {
+	public ModelAndView iniciarBatalla(HttpServletRequest request,
+			@RequestParam(required = false) List<Long> pokemonsLista,
+			@RequestParam(required = false) String[] objetosLista) {
 
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
 		ModelMap model = new ModelMap();
 
+		if (pokemonsLista == null || pokemonsLista.size() != 3 || objetosLista != null && objetosLista.length > 3) {
+			model.put("error", "Debe seleccionar 3 pokemons y un máximo de 3 objetos");
+			model.put("listaPokemon",
+					this.servicioUsuario.obtenerListaDePokemons((Long) request.getSession().getAttribute("id")));
+			model.put("listaObjetos",
+					this.servicioUsuario.obtenerListaDeObjetos((Long) request.getSession().getAttribute("id")));
+			return new ModelAndView("elegir-equipo", model);
+		}
+
 		List<Pokemon> pokemonsUsuario = new ArrayList<>();
-		pokemonsUsuario.add(this.servicioPokemon.buscarPokemon("Charizard"));
-		pokemonsUsuario.add(this.servicioPokemon.buscarPokemon("Wartortle"));
-		pokemonsUsuario.add(this.servicioPokemon.buscarPokemon("Gyarados"));
-		Pokemon pokemonCpu = this.servicioPokemon.buscarPokemon("Raticate");
+		pokemonsLista.forEach(x -> pokemonsUsuario.add(this.servicioPokemon.buscarPokemon(x)));
+		pokemonsUsuario.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
+		List<Pokemon> pokemonsCpu = new ArrayList<>();
+		Long[] idsPokemonsCpu = new Long[3];
+		if (request.getSession().getAttribute("idsPokemonsCpu") == null) {
+			pokemonsCpu = servicioPokemon.crearEquipoCpu();
+			for (Integer i = 0; i < pokemonsCpu.size(); i++) {
+				idsPokemonsCpu[i] = pokemonsCpu.get(i).getId();
+			}
+			request.getSession().setAttribute("idsPokemonsCpu", idsPokemonsCpu);
+		} else {
+			idsPokemonsCpu = (Long[]) request.getSession().getAttribute("idsPokemonsCpu");
+			for (Integer i = 0; i < idsPokemonsCpu.length; i++) {
+				pokemonsCpu.add(this.servicioPokemon.buscarPokemon(idsPokemonsCpu[i]));
+			}
+		}
+		pokemonsCpu.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
+
+		if (objetosLista != null) {
+			List<Objeto> objetosUsuario = this.servicioObjeto.buscarObjetoPorGrupo(objetosLista);
+			model.put("objetosUsuario", objetosUsuario);
+			model.put("objetosUsuarioJson", new Gson().toJson(objetosUsuario));
+		}
 
 		model.put("pokemonsUsuario", pokemonsUsuario);
+		model.put("pokemonsCpu", pokemonsCpu);
+		model.put("pokemonsUsuarioJson", new Gson().toJson(pokemonsUsuario));
+		model.put("pokemonsCpuJson", new Gson().toJson(pokemonsCpu));
 
-		model.put("pokemonCpu", pokemonCpu);
 		return new ModelAndView("batalla", model);
 	}
 
-	@RequestMapping(path = "/obtener-pokemons-ajax", method = RequestMethod.POST)
+	@RequestMapping(path = "/final-batalla", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelMap obtenerPokemonsAjax(HttpServletRequest request) throws PermisosInsuficientesException {
-
-		if (request.getSession().getAttribute("usuario") == null) {
-			throw new PermisosInsuficientesException();
+	public void finalBatalla(@RequestParam String ganador, HttpServletRequest request) {
+		if (request.getSession().getAttribute("idsPokemonsCpu") != null) {
+			request.getSession().removeAttribute("idsPokemonsCpu");
+			this.servicioBatalla.finalBatalla(ganador, (Long) request.getSession().getAttribute("id"));
 		}
-		ModelMap model = new ModelMap();
-
-		ModelMap ataquesUsuario = new ModelMap();
-		ModelMap ataquesCpu = new ModelMap();
-		List<Pokemon> pokemonsUsuario = new ArrayList<>();
-		pokemonsUsuario.add(this.servicioPokemon.buscarPokemon("Charizard"));
-		pokemonsUsuario.add(this.servicioPokemon.buscarPokemon("Wartortle"));
-		pokemonsUsuario.add(this.servicioPokemon.buscarPokemon("Gyarados"));
-		for (Pokemon pokemon : pokemonsUsuario) {
-			ataquesUsuario.put(pokemon.getNombre(), pokemon.getAtaques());
-			pokemon.setAtaques(new ArrayList<>());
-		}
-		List<Pokemon> pokemonsCpu = new ArrayList<>();
-		pokemonsCpu.add(this.servicioPokemon.buscarPokemon("Raticate"));
-		pokemonsCpu.add(this.servicioPokemon.buscarPokemon("Venusaur"));
-		pokemonsCpu.add(this.servicioPokemon.buscarPokemon("Pikachu"));
-		for (Pokemon pokemon : pokemonsCpu) {
-			ataquesCpu.put(pokemon.getNombre(), pokemon.getAtaques());
-			pokemon.setAtaques(new ArrayList<>());
-		}
-		model.put("pokemonsUsuario", pokemonsUsuario);
-		model.put("pokemonsCpu", pokemonsCpu);
-		model.put("ataquesUsuario", ataquesUsuario);
-		model.put("ataquesCpu", ataquesCpu);
-
-		return model;
 	}
 }

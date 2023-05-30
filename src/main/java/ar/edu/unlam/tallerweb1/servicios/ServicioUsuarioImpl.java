@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
@@ -50,9 +51,25 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 	}
 
 	@Override
+	public Boolean restarPuntos(Integer monedas, Usuario usuario) {
+		if(monedas > usuario.getPuntos()) {
+			return false;
+		}
+		usuario.setPuntos(usuario.getPuntos()-monedas);
+		repositorioUsuario.modificar(usuario);
+		return true;
+	}
+	
 	public List<Objeto> obtenerListaDeObjetos(Long idUsuario) {
 		List<Objeto> objetos= new ArrayList<>();
 		this.buscarUsuario(idUsuario).getObjetos().forEach(x -> objetos.add(x.getObjeto()));
 		return objetos;
+	}
+
+	@Override
+	public void sumarPuntos(Long idUsuario, Integer puntos) {
+		Usuario user = this.repositorioUsuario.buscarUsuario(idUsuario);
+		user.setPuntos(user.getPuntos() + puntos);
+		this.repositorioUsuario.modificar(user);
 	}
 }

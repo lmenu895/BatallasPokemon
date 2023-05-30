@@ -5,7 +5,9 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,16 +44,16 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		if (frente.isEmpty() | dorso.isEmpty()) {
 			throw new SpriteNoIngresadoException("No ha ingresado los dos sprites del pokemon");
 		}
-		List<AtaquePokemon> lista = new ArrayList<>();
-		ataques.forEach(x -> lista.add(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
-		pokemon.setAtaques(lista);
 		this.validarPokemon(pokemon, frente, dorso, "");
 		this.repositorioPokemon.guardarPokemon(pokemon);
+		ataques.forEach(x -> this.servicioAtaquePokemon
+				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
 	}
 
 	@Override
 	public void modificarPokemon(Pokemon pokemon, List<Long> ataques, MultipartFile frente, MultipartFile dorso,
 			String nombreAnterior, List<Long> ataquesAprendidos) throws IOException, NombreExistenteException {
+		this.validarPokemon(pokemon, frente, dorso, nombreAnterior);
 		Long ataque;
 		for (Long aprendido : ataquesAprendidos) {
 			ataque = this.verificarAtaqueOlvidado(aprendido, ataques);
@@ -61,12 +63,9 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 				ataques.remove(ataque);
 			}
 		}
-
-		List<AtaquePokemon> lista = new ArrayList<>();
-		ataques.forEach(x -> lista.add(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
-		pokemon.setAtaques(lista);
-		this.validarPokemon(pokemon, frente, dorso, nombreAnterior);
 		this.repositorioPokemon.modificarPokemon(pokemon);
+		ataques.forEach(x -> this.servicioAtaquePokemon
+				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
 
 	}
 
@@ -98,6 +97,19 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 
 		for (String pokemon : pokemonsTraidos) {
 			pokemons.add(this.repositorioPokemon.buscarPokemon(Long.parseLong(pokemon)));
+		}
+		return pokemons;
+	}
+
+	@Override
+	public List<Pokemon> crearEquipoCpu() {
+		Random random = new Random();
+		List<Pokemon> todosLosPokemons = repositorioPokemon.obtenerTodosLosPokemons();
+		List<Pokemon> pokemons = new ArrayList<>();
+		while (pokemons.size() < 3) {
+			int indexPokemon = random.nextInt(todosLosPokemons.size());
+			pokemons.add(todosLosPokemons.get(indexPokemon));
+			todosLosPokemons.remove(indexPokemon);
 		}
 		return pokemons;
 	}

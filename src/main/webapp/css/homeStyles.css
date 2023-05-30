@@ -1,6 +1,6 @@
 body {
 	background-image: url("../images/bg.jpg");
-	background-repeat: no-repeat;
+	background-repeat: repeat-y;
 	background-size: 100%;
 	font-family: 'Roboto', sans-serif;
 	color: #202020;
@@ -100,44 +100,41 @@ a {
 }
 
 .pok {
-	width: 100%;
+	width: 30%;
 	height: 22%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	right: 3.5%;
 	font-size: 3vmin;
 }
 
 .glaceon {
-	max-height: 100%;
-	max-width: 7%;
-	width: 7%;
-	position: relative;
-	left: 1%;
+	max-height: 70%;
+	position: absolute;
+	right: 72%;
 }
 
 .togepi {
 	max-height: 100%;
-	max-width: 7%;
-	width: auto;
-	position: relative;
-	left: 23%;
+	position: absolute;
+	left: 65%;
 }
 
 .pokedex {
-	max-height: 64%;
-	max-width: 7%;
-	position: relative;
-	left: 2%;
+	max-height: 70%;
+	position: absolute;
+	right: 68%;
 }
 
 .fortnite {
-	max-height: 92%;
-	max-width: 7%;
-	position: relative;
-	left: 24%;
+	max-height: 70%;
+	position: absolute;
+	left: 71%;
+}
+
+.pok img {
+	z-index: 1;
 }
 
 /* 926 width */
@@ -182,33 +179,12 @@ button {
 	border-radius: 15px;
 }
 
-.batalla-texto {
+.pok button{
 	padding: 1.5vmin;
-	width: 19%;
-	height: 50%;
-	font-size: 1em;
+	width: 50%;
+	height: 40%;
+	font-size: 1.5rem;
 	position: relative;
-}
-
-.gacha {
-	padding: 1.5vmin;
-	width: 19%;
-	height: 50%;
-	font-size: 1em;
-}
-
-.pokedex-texto {
-	padding: 1.5vmin;
-	width: 19%;
-	height: 50%;
-	font-size: 1em;
-}
-
-.pase {
-	padding: 1.5vmin;
-	width: 19%;
-	height: 50%;
-	font-size: 1em;
 }
 
 .admin {

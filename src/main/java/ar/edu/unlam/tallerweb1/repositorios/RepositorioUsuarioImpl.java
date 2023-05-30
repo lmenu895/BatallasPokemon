@@ -1,7 +1,5 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
@@ -12,6 +10,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
 // implelemtacion del repositorio de usuarios, la anotacion @Repository indica a Spring que esta clase es un componente que debe
 // ser manejado por el framework, debe indicarse en applicationContext que busque en el paquete ar.edu.unlam.tallerweb1.dao
@@ -38,7 +38,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 		// objeto recibido como parametro
 		// uniqueResult da error si se encuentran mas de un resultado en la busqueda.
 		final Session session = sessionFactory.getCurrentSession();
-		//password = hashUtil(password, this.buscar(email).getSalt()); //Buscar hash de la contraseña
+		//password = hashUtil(password, this.buscar(email).getSalt()); //Buscar hash de la contraseï¿½a
 		return (Usuario) session.createCriteria(Usuario.class).add(Restrictions.eq("email", email))
 				.add(Restrictions.eq("password", password)).uniqueResult();
 	}
@@ -47,7 +47,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 	public void guardar(Usuario usuario) {
 		/*byte[] salt = generateSalt();
 		usuario.setSalt(salt);
-		usuario.setPassword(hashUtil(usuario.getPassword(), salt));*/ //Guardando un hash seguro de la contraseña del usuario
+		usuario.setPassword(hashUtil(usuario.getPassword(), salt));*/ //Guardando un hash seguro de la contraseï¿½a del usuario
 		this.sessionFactory.getCurrentSession().save(usuario);
 	}
 
@@ -73,8 +73,13 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 		return (Usuario) this.sessionFactory.getCurrentSession().createCriteria(Usuario.class)
 				.add(Restrictions.eq("usuario", userName)).uniqueResult();
 	}
+	
+	@Override
+	public void modificarUsuario(Usuario usuario) {
+		this.sessionFactory.getCurrentSession().update(usuario);
+	}
 
-	// Este código sirve para crear un hash seguro y almacenarlo en la bd en lugar de la contraseña, como no es requerido en la materia no lo implementé
+	// Este cï¿½digo sirve para crear un hash seguro y almacenarlo en la bd en lugar de la contraseï¿½a, como no es requerido en la materia no lo implementï¿½
 	/*private String hashUtil(String password, byte[] salt) {
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");

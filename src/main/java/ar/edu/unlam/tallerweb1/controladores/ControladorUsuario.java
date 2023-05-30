@@ -19,8 +19,8 @@ import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioObjeto;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
-import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
+import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 
 @Controller
 public class ControladorUsuario {
@@ -90,14 +90,7 @@ public class ControladorUsuario {
 		pokemons = this.servicioPokemon.buscarPokemonPorGrupo(pokemonsTraidos);
 		model.put("equipo", pokemons);
 		return new ModelAndView("ver-equipos", model);
+		
 	}
-
-//	@RequestMapping(path = "/guardar-equipo", method = RequestMethod.POST)
-//	public ModelAndView guardarPokemon(@ModelAttribute("pokemon") Pokemon pokemon,
-//			@RequestParam("pokemonsLista") String[] pokemons,  HttpServletRequest request) {
-//			Long id = (Long)request.getSession().getAttribute("id");
-//			this.servicioUsuario.guardarEquipo(pokemons, id);
-//			return new ModelAndView("ver-equipos");
-//	}
 	
 }

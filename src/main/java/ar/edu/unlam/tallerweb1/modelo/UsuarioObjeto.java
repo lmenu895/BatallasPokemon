@@ -24,6 +24,7 @@ public class UsuarioObjeto {
 	private Usuario usuario;
 	@ManyToOne
 	private Objeto objeto;
+	
 	public Long getId() {
 		return id;
 	}

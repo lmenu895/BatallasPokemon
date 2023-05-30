@@ -11,4 +11,5 @@ public interface RepositorioUsuario {
 	void modificar(Usuario usuario);
 	Usuario buscarUsuario(Long id);
 	Usuario buscarUsuarioPorUsername(String userName);
+	void modificarUsuario(Usuario usuario);
 }
