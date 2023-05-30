@@ -38,8 +38,13 @@ $(document).ready(function() {
 		window.location.href = "elegir-equipo";
 	});
 	
+	
 	$(".gacha").click(() => {
 		window.location.href = "gachapon";
+	});
+	
+	$(".billetera").click(() => {
+		window.location.href = "registroBilletera";
 	});
 	
 

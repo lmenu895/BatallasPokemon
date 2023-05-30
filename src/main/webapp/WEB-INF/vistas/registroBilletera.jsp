@@ -11,7 +11,7 @@
 		    <link href="css/bootstrap.min.css" rel="stylesheet" >-->
 <!-- Bootstrap theme
 		    <link href="css/bootstrap-theme.min.css" rel="stylesheet"> -->
-<link href="css/estilos.css" rel="stylesheet">
+<link href="css/billetera-estilos.css" rel="stylesheet">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -34,8 +34,11 @@
 		    �Desea continuar?
 		  </div>
 		  <div class="col-12" style="margin-top:20px;">
-		  	<a href="javascript:history.back()" role="button" class="btn btn-dark control-label mb-3">Cancelar</a>
-		    <a role="button" class="btn btn-primary control-label mb-3" href="/procesarRegistroBilletera">Generar</a>
+			  <form:form action="procesarRegistroBilletera" method="GET" class="form">
+			  	<a href="javascript:history.back()" role="button" class="btn btn-lg btn-primary btn-block btn-cancelar">Cancelar</a>
+						<button id="btn-registrarme"
+						class="btn btn-lg btn-primary btn-block" Type="Submit">Generar</button>
+			   </form:form>
 		   </div>
   	
   		<%--Bloque que es visible si el elemento error no está vacío	--%>
