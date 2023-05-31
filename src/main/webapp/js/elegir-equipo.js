@@ -13,16 +13,16 @@ $(document).ready(function() {
 		}
 	});
 
-	var listaPokemons = $('.pokemon-usuario');
+	var buscador = new Buscador('.buscar', '.clear', '.pokemon-usuario', '.pokemons', 'vBuscado');
+	
 	$(document).on('keyup', '.buscar', function() {
-		var busqueda = [];
-		var value = this.value;
-		listaPokemons.each(function() {
-			if ($(this).attr('id').toLowerCase().includes(value.toLowerCase())) {
-				busqueda.push(this);
-			}
-		});
-		$('.pokemons').html(busqueda);
+		buscador.buscar(this.value);
+	});
+	$(document).on('click', '.clear', function() {
+		buscador.limpiarBuscar(true);
+	});
+	$(document).keyup(e => {
+		if (e.key === 'Escape') buscador.limpiarBuscar(true);
 	});
 
 	const appendInputPokemonsLista = (value) => {
@@ -81,7 +81,6 @@ $(document).ready(function() {
 			width = $(this).prop('width') * 2;
 			$(this).prop('width', width);
 		});
-		
-		$('.buscar').val('');
+		if ($('.buscar').val() !== '') buscador.buscar($('.buscar').val());
 	});
 });

@@ -441,9 +441,9 @@ $(document).ready(function() {
 	};
 
 	//Metodo asincrono que mueve la barra de vida de los pokemons y me obliga a usar promesas para esperar que finalize
-	const moveProgressBar = (idProgressBar, idVida, pokemon, recover) => {
-		return new Promise(async resolve => {
-			await sleep(0.6);
+	const moveProgressBar = async (idProgressBar, idVida, pokemon, recover) => {
+		await sleep(0.6);
+		return new Promise(resolve => {
 			var elem = $(idProgressBar);
 			var interval = setInterval(frame, 10);
 			var vidaAnterior = parseFloat($(idVida).html());
