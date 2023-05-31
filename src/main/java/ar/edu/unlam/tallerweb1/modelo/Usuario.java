@@ -34,6 +34,8 @@ public class Usuario {
 	private List<UsuarioObjeto> objetos;
 	
 	
+	
+	
 	public Long getId() {
 		return id;
 	}

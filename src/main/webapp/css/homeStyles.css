@@ -22,6 +22,7 @@ a {
 	width: 20%;
 	height: 100%;
 	cursor: pointer;
+	margin-left: 1%;
 }
 
 .fondo-pokemon {
@@ -31,7 +32,6 @@ a {
 	width: 22%;
 	height: 100%;
 	top: -105%;
-	left: -0.5%;
 	border-radius: 15px;
 	z-index: -1;
 }
