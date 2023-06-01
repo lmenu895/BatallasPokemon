@@ -3,10 +3,10 @@ package ar.edu.unlam.tallerweb1.modelo;
 import javax.persistence.*;
 
 @Entity
-public class Ataque {
+public class Ataque { // ENTIDAD
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //hacemos que el ID sea autoincremental
 	private Long id;
 
 	private String nombre;

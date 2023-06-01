@@ -9,8 +9,10 @@
 
 			<thead>
 				<tr class='text-center table-dark align-middle '>
+
 					<th scope='col'>Nombre Ataque</th>
 					<th scope='col'>Acciones</th>
+
 
 				</tr>
 			</thead>

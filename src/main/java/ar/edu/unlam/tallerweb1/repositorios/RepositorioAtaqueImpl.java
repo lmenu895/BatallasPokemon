@@ -15,7 +15,7 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 
 	private SessionFactory sessionFactory;
 
-	@Autowired
+	@Autowired //inyeccion de dependencias
 	public RepositorioAtaqueImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
