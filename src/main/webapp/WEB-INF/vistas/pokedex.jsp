@@ -33,7 +33,7 @@
 								id="${pokemon.nombre}" style="width: 33%;">
 								<img alt="${pokemon.nombre}" class="img-fluid imgPokemon mb-2 imagen-pokemon"
 									src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}">
-								<h4 class="nombre-pokemon vBuscado">${pokemon.nombre}</h4>
+								<h4 class="nombre-pokemon vBuscado pnombre">${pokemon.nombre}</h4>
 								<h5 class="nombre-pokemon vBuscado tipo">${pokemon.tipo}</h5>
 							</div>
 						</c:forEach>

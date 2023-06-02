@@ -66,11 +66,27 @@ $(document).ready(function() {
 		 });
 	})
 	
+	$(".pnombre").each(function(){
+					$(this).css("filter", "brightness(0%)")
+				   	var name = $(this).text();
+				   	$(this).text("???")
+				   	pokemonsUsuario.forEach(pokemon => {
+				  	if(pokemon.nombre.toLowerCase() == name.toLowerCase()){
+					    $(this).text(pokemon.nombre);
+				    }
+		 			});  
+				 })
+	
 	        $('input[type="checkbox"]').click(function(){
             if($(this).prop("checked") == true){
                 $(".imagen-pokemon").each(function(){
 					$(this).css("filter", "brightness(100%)")
 				})
+				$(".pnombre").each(function(index){
+					$(this).css("filter", "brightness(0%)")
+				   	var name = $(this).text();
+					$(this).text(pokemonsLista[index].nombre);
+				 })
             }
             else if($(this).prop("checked") == false){
                 $(".imagen-pokemon").each(function(){
@@ -80,10 +96,18 @@ $(document).ready(function() {
 				  	if(pokemon.nombre.toLowerCase() == imagen){
 					    $(this).css("filter", "brightness(100%)")
 				    }
-		 });
-	})
-            }
-        });
-
-	
+		 			});
+	   			})
+	   			$(".pnombre").each(function(){
+					$(this).css("filter", "brightness(0%)")
+				   	var name = $(this).text();
+				   	$(this).text("???")
+				   	pokemonsUsuario.forEach(pokemon => {
+				  	if(pokemon.nombre.toLowerCase() == name.toLowerCase()){
+					    $(this).text(pokemon.nombre);
+				    }
+		 			});  
+				 })
+     }
+   });
 });
