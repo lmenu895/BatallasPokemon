@@ -1,11 +1,15 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
+import ar.edu.unlam.tallerweb1.exceptions.ContraseñaCorta;
+import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
@@ -39,15 +43,30 @@ public class ServicioLoginImpl implements ServicioLogin {
 	}
 
 	@Override
-	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException, CampoVacioException {
+	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException, CampoVacioException, ContraseñaCorta, FormatoDeEmailIncorrecto {
+		
+		checkearDatos(usuarioNuevo);
+		
+		if (verificarUsuarioExistente(usuarioNuevo) && verificarUsuarioExistentePorNick(usuarioNuevo)) {
+			this.servicioLoginDao.guardar(usuarioNuevo);
+		} 
+		else {
+			throw new UsuarioExistenteException("Ya existe un usuario con ese email o nombre de usuario");
+		}
+	}
+
+	private void checkearDatos(Usuario usuarioNuevo) throws FormatoDeEmailIncorrecto, ContraseñaCorta, CampoVacioException {
+		
 		if (verificarCaposRequeridos(usuarioNuevo)) {
 			throw new CampoVacioException("Debe llenar todos los campos para registrarse");
 		}
-		if (verificarUsuarioExistente(usuarioNuevo) && verificarUsuarioExistentePorNick(usuarioNuevo)) {
-			this.servicioLoginDao.guardar(usuarioNuevo);
-		} else {
-			throw new UsuarioExistenteException("Ya existe un usuario con ese email o nombre de usuario");
+		if(usuarioNuevo.getPassword().length() < 8) {
+			throw new ContraseñaCorta("La contraseña debe ser de por lo menos 8 caracteres");
 		}
+		if(!validarEmail(usuarioNuevo.getEmail())) {
+			throw new FormatoDeEmailIncorrecto("El formato de email es incorrecto");
+		}
+		
 	}
 
 	// si da true no existe un usuario con ese email
@@ -74,5 +93,19 @@ public class ServicioLoginImpl implements ServicioLogin {
 			return true;
 		}
 		return false;
+	}
+	
+	private static Boolean validarEmail(String email) {
+		
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + 
+		"[a-zA-Z0-9_+&*-]+)*@" + 
+		"(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+		
+		Pattern pattern = Pattern.compile(emailRegex);
+		if(pattern.matcher(email).matches()) {
+			return true;
+		}
+		return false;
+		
 	}
 }

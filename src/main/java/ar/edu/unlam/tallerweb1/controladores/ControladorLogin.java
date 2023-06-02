@@ -1,6 +1,8 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
+import ar.edu.unlam.tallerweb1.exceptions.ContraseñaCorta;
+import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.*;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
@@ -9,14 +11,17 @@ import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Validated
 @Controller
 public class ControladorLogin {
 
@@ -100,7 +105,7 @@ public class ControladorLogin {
 		ModelMap model = new ModelMap();
 		try {
 			this.servicioLogin.guardarCliente(datosUsuario);
-		} catch (UsuarioExistenteException | CampoVacioException e) {
+		} catch (ContraseñaCorta | FormatoDeEmailIncorrecto |UsuarioExistenteException | CampoVacioException e) {
 			model.put("error", e.getMessage());
 			return model;
 		}
