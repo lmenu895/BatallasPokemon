@@ -32,7 +32,6 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 			this.repositorioPokemon = repositorioPokemon;
 		}
 		
-
 	@Override
 	public Pokemon tiradaGachapon(Integer monedas) {
 		Random random = new Random();
