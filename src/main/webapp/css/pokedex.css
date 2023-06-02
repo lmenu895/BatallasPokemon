@@ -2,7 +2,6 @@
 	background-image: url("../images/PokeAtaque.jpg");
 	background-size: 100%;
 	background-attachment: fixed;
-
 }
 
 .pokemon-usuario {
@@ -71,4 +70,23 @@
 
 .imagen-pokemon {
 	filter:brightness(0%);
+}
+
+.header {
+    display:flex;
+    justify-content: space-between;
+    height: 150px;
+}
+
+.header a{
+	height: 100%;
+}
+
+.pokemonLogo{
+	height: 80%;
+    padding:20px;
+    margin:15px 20px;
+    background: rgba(135,206,250, 0.75);
+    border-radius: 15px;
+     border:1px solid black;
 }

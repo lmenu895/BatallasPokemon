@@ -66,13 +66,12 @@ $(document).ready(function() {
 		 });
 	})
 	
-	$(".pnombre").each(function(){
-					$(this).css("filter", "brightness(0%)")
+				$(".pnombre").each(function(){
 				   	var name = $(this).text();
-				   	$(this).text("???")
+				   	$(this).hide()
 				   	pokemonsUsuario.forEach(pokemon => {
 				  	if(pokemon.nombre.toLowerCase() == name.toLowerCase()){
-					    $(this).text(pokemon.nombre);
+					    $(this).show();
 				    }
 		 			});  
 				 })
@@ -82,10 +81,8 @@ $(document).ready(function() {
                 $(".imagen-pokemon").each(function(){
 					$(this).css("filter", "brightness(100%)")
 				})
-				$(".pnombre").each(function(index){
-					$(this).css("filter", "brightness(0%)")
-				   	var name = $(this).text();
-					$(this).text(pokemonsLista[index].nombre);
+				$(".pnombre").each(function(){
+					$(this).show();
 				 })
             }
             else if($(this).prop("checked") == false){
@@ -101,10 +98,10 @@ $(document).ready(function() {
 	   			$(".pnombre").each(function(){
 					$(this).css("filter", "brightness(0%)")
 				   	var name = $(this).text();
-				   	$(this).text("???")
+				   	$(this).hide();
 				   	pokemonsUsuario.forEach(pokemon => {
 				  	if(pokemon.nombre.toLowerCase() == name.toLowerCase()){
-					    $(this).text(pokemon.nombre);
+					    $(this).show();
 				    }
 		 			});  
 				 })

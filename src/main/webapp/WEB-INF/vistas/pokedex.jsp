@@ -13,6 +13,9 @@
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body class="pokemon">
+	<div class="header d-flex justify-content-center align-items-center">
+            <a href="home"><img class="pokemonLogo" src="images/pokemonLogo.png" alt="pokemonLogo"></a>
+        </div>
 	<div class="container d-flex">
 			<div class="formP">
 				<div class="form">

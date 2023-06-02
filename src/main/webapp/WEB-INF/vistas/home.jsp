@@ -45,7 +45,7 @@
 		</div>
 		<div class="pok">
 			<img class="pokedex" src="images/pokedex.png" alt="pokedex">
-			<button class="pokedex-texto">POKEDEX</button>
+			<button id="pokedex" class="pokedex-texto">POKEDEX</button>
 		</div>
 		<div class="pok">
 			<img class="fortnite" src="images/fortnite.png" alt="pase de batalla">
