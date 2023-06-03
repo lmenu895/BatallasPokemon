@@ -55,16 +55,16 @@ $(document).ready(function() {
 	});
 	
 
-   var imagen;
-   $(".imagen-pokemon").each(function(){
-	   	imagen = $(this).attr("src").split('/')[3].split(".gif")[0];
-	   	pokemonsUsuario.forEach(pokemon => {
-
-			   if(pokemon.nombre.toLowerCase() == imagen){
-				    $(this).css("filter", "brightness(100%)")
-			   }
-		 });
-	})
+		   var imagen;
+		   $(".imagen-pokemon").each(function(){
+			   	imagen = $(this).attr("src").split('/')[3].split(".gif")[0];
+			   	pokemonsUsuario.forEach(pokemon => {
+		
+					   if(pokemon.nombre.toLowerCase() == imagen){
+						    $(this).css("filter", "brightness(100%)")
+					   }
+				 });
+			})
 	
 				$(".pnombre").each(function(){
 				   	var name = $(this).text();
