@@ -21,8 +21,10 @@
 					<h3 class="form-signin-heading">Equipo</h3>
 					<h3 class="fs-5 text mb-3">Seleccione 3 Pokémons para la
 						batalla</h3>
-					<input type="text" placeholder="Buscar pokemon"
-						class="form-control buscar" />
+					<div class="buscador">
+						<input type="text" placeholder="Buscar pokemon"
+							class="form-control buscar" /><span class="clear">X</span>
+					</div>
 					<div
 						class="d-flex align-items-baseline justify-content-around flex-wrap pokemons"
 						style="width: 30vw; height: 510px; overflow-y: auto;">
@@ -34,7 +36,8 @@
 									src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}">
 								<button type="button" style="width: 105px;"
 									class="btn btn-primary botonPokemon" value="${pokemon.id}">Seleccionar</button>
-								<h4 class="nombre-pokemon">${pokemon.nombre}</h4>
+								<h4 class="nombre-pokemon vBuscado">${pokemon.nombre}</h4>
+								<span class="vBuscado" style="display: none;">${pokemon.tipo}</span>
 							</div>
 						</c:forEach>
 					</div>
@@ -79,6 +82,7 @@
 
 	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="js/buscador.js"></script>
 	<script type="text/javascript" src="js/elegir-equipo.js"></script>
 	<!-- 	<script type="text/javascript" src="js/validation.js"></script> -->
 </body>

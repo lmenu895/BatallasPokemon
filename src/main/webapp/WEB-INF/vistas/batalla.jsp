@@ -100,8 +100,9 @@
 				música y sonidos: </span> <input type="range" id="slider" value="10"
 				maxlength="100"> <span class="reproducir">▶️</span>
 		</div>
-		<dialog class="reproducir-dialog"> <span class="d-block mb-2">¿Quieres
-			activar la música de batalla?</span>
+		<dialog class="reproducir-dialog"> <span class="d-block mb-2"
+			style="text-align: center;">¿Quieres activar la música de
+			batalla?</span>
 		<div class="d-flex justify-content-around">
 			<button class="yes btn btn-info w-25" type="button">Sí</button>
 			<button class="no btn btn-info w-25" type="button">No</button>

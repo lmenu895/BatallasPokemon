@@ -28,10 +28,12 @@
 				<img class="pokeball" src="images/pokeballU.png" alt="pokeball">
 				<button class="textUser">${usuario.puntos}</button>
 				<button id="usuario" class="textUser">${usuario.usuario}</button>
+				<button class="textUser billetera">Billetera</button>
 			</div>
 			<button class="logoutButton">Logout</button>
 		</div>
 	</div>
+	
 	<div class="menus">
 		<div class="pok">
 			<img class="glaceon" src="images/glaceon.png" alt="glaceon">
