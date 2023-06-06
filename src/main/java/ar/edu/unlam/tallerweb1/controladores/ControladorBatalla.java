@@ -1,13 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +20,6 @@ import ar.edu.unlam.tallerweb1.exceptions.ExcesoDeObjetosException;
 import ar.edu.unlam.tallerweb1.exceptions.PokemonsInsuficientesException;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.servicios.*;
-import net.bytebuddy.description.type.TypeDescription.Generic;
 
 @Controller
 public class ControladorBatalla {

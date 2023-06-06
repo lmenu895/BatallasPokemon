@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
-import ar.edu.unlam.tallerweb1.exceptions.ContraseÃ±aCorta;
+import ar.edu.unlam.tallerweb1.exceptions.ContraseñaCorta;
 import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.*;
@@ -15,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -105,7 +104,7 @@ public class ControladorLogin {
 		ModelMap model = new ModelMap();
 		try {
 			this.servicioLogin.guardarCliente(datosUsuario);
-		} catch (ContraseÃ±aCorta | FormatoDeEmailIncorrecto |UsuarioExistenteException | CampoVacioException e) {
+		} catch (ContraseñaCorta | FormatoDeEmailIncorrecto |UsuarioExistenteException | CampoVacioException e) {
 			model.put("error", e.getMessage());
 			return model;
 		}

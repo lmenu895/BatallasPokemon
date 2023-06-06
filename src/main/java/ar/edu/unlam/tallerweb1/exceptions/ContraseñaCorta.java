@@ -1,8 +1,8 @@
 package ar.edu.unlam.tallerweb1.exceptions;
 
-public class ContraseÃ±aCorta extends Exception {
+public class ContraseñaCorta extends Exception {
 
-	public ContraseÃ±aCorta(String mensaje) {
+	public ContraseñaCorta(String mensaje) {
 		super(mensaje);
 		
 	}
