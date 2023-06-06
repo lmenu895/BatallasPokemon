@@ -52,7 +52,6 @@ public class ControladorBilletera {
 		Long id = (Long) request.getSession().getAttribute("id");
 		Usuario usuario = servicioUsuario.buscarUsuario(id);
 		Billetera billeteraEncontrada = servicioBilletera.consultarBilleteraDeUsuario(usuario);
-		
 		try {
 			if(usuario != null) {
 				if(billeteraEncontrada == null) {
@@ -95,7 +94,6 @@ public class ControladorBilletera {
 		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario);
 		
 		try {
-			
 			if(usuario != null) {
 				if(billetera != null) {
 					modelo.put("saldo", billetera.getSaldo());
@@ -115,7 +113,6 @@ public class ControladorBilletera {
 			}catch(Exception e) {
 				modelo.put("billetera", billetera);
 				modelo.put("error", e.getMessage());				
-	
 			}
 		
 		return new ModelAndView("redirect:/registroBilletera", modelo);

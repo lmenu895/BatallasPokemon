@@ -127,10 +127,6 @@ body {
 	position: relative;
 }
 
-.imagenBatalla:first-of-type {
-	display: block;
-}
-
 .textoCpu {
 	color: black;
 	margin-right: 5px;

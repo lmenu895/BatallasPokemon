@@ -8,6 +8,7 @@ $(document).ready(function() {
 	var pokemonsVivosCpu = 3;
 	var nextPokemonCpu = 0;
 	var ganador;
+	var startTimer = new Date().getTime();
 
 	const TABLA_DE_TIPOS_ATAQUES = {
 		FUEGO: { fuerte_contra: ['PLANTA', 'HIELO', 'ACERO'], debil_contra: ['AGUA', 'FUEGO', 'DRAGON'] },
@@ -22,7 +23,8 @@ $(document).ready(function() {
 		DRAGON: { fuerte_contra: ['DRAGON'], debil_contra: ['ACERO'] },
 		PSIQUICO: { fuerte_contra: ['VENENO', 'LUCHA'], debil_contra: ['ACERO', 'PSIQUICO', 'SINIESTRO'] },
 		SINIESTRO: { fuerte_contra: ['PSIQUICO'], debil_contra: ['LUCHA', 'SINIESTRO'] },
-		LUCHA: { fuerte_contra: ['NORMAL', 'LUCHA', 'SINIESTRO', 'ACERO'], debil_contra: ['PSIQUICO', 'VENENO'] }
+		LUCHA: { fuerte_contra: ['NORMAL', 'LUCHA', 'SINIESTRO', 'ACERO'], debil_contra: ['PSIQUICO', 'VENENO'] },
+		VAMPIRICO: { fuerte_contra: [], debil_contra: [] }
 	};
 
 	const setVariables = pokemon => {
@@ -217,8 +219,8 @@ $(document).ready(function() {
 					await sleep(1, agregarAlHistorial, critico);
 				} else if (eficaz !== undefined) await sleep(1, agregarAlHistorial, eficaz);
 				else if (critico !== undefined) await sleep(1, agregarAlHistorial, critico);
-				if (!pokemonCpu.estados.envenenado && !pokemonCpu.estados.paralizado &&
-					!pokemonCpu.estados.quemado && !pokemonCpu.debilitado) {
+				if (!pokemonCpu.estados.envenenado && !pokemonCpu.estados.paralizado
+					&& !pokemonCpu.estados.quemado && !pokemonCpu.debilitado) {
 					switch (tipo) {
 						//ENVENENAR
 						case 'VENENO':
@@ -283,8 +285,8 @@ $(document).ready(function() {
 					await sleep(1, agregarAlHistorial, critico, 'cpu');
 				} else if (eficaz !== undefined) await sleep(1, agregarAlHistorial, eficaz, 'cpu');
 				else if (critico !== undefined) await sleep(1, agregarAlHistorial, critico, 'cpu');
-				if (!pokemonUsuario.estados.envenenado && !pokemonUsuario.estados.paralizado &&
-					!pokemonUsuario.estados.quemado && !pokemonUsuario.debilitado) {
+				if (!pokemonUsuario.estados.envenenado && !pokemonUsuario.estados.paralizado
+					&& !pokemonUsuario.estados.quemado && !pokemonUsuario.debilitado) {
 					switch (tipo) {
 						//ENVENENAR
 						case 'VENENO':
@@ -323,18 +325,11 @@ $(document).ready(function() {
 			else if (comprobarDebilidad(atk.tipo, pokemonUsuario.tipo) === false) iAtaquesDebiles.push(i);
 			else iAtaquesNormales.push(i);
 		});
-		return iAtaquesNormales.length === 0 && iAtaquesDebiles.length === 0 || iAtaquesFuertes.length !== 0 && getRandom(10) <= 9 ?
-			iAtaquesFuertes[getRandom(iAtaquesFuertes.length) - 1] :
-			iAtaquesDebiles.length === 0 || iAtaquesNormales.length !== 0 && getRandom(10) <= 9 ?
-				iAtaquesNormales[getRandom(iAtaquesNormales.length) - 1] :
-				iAtaquesDebiles[getRandom(iAtaquesDebiles.length) - 1];
-		/*if (iAtaquesFuertes.length !== 0 && getRandom(10) <= 9) return iAtaquesFuertes[getRandom(iAtaquesFuertes.length) - 1];
-		if (iAtaquesNormales !== 0) {
-			if (iAtaquesDebiles.length === 0) return iAtaquesNormales[getRandom(iAtaquesNormales.length) - 1];
-			if (getRandom(10) <= 9) return iAtaquesNormales[getRandom(iAtaquesNormales.length) - 1];
-		}
-		if (iAtaquesDebiles !== 0) return iAtaquesDebiles[getRandom(iAtaquesDebiles.length) - 1];
-		return iAtaquesFuertes[getRandom(iAtaquesFuertes.length) - 1];*/
+		return iAtaquesNormales.length === 0 && iAtaquesDebiles.length === 0 || iAtaquesFuertes.length !== 0 && getRandom(10) <= 9
+			? iAtaquesFuertes[getRandom(iAtaquesFuertes.length) - 1]
+			: iAtaquesDebiles.length === 0 || iAtaquesNormales.length !== 0 && getRandom(10) <= 9
+				? iAtaquesNormales[getRandom(iAtaquesNormales.length) - 1]
+				: iAtaquesDebiles[getRandom(iAtaquesDebiles.length) - 1];
 	};
 
 	//Metodo que verifica si un pokemon se encuentra afectado por un efecto de estado
@@ -458,9 +453,7 @@ $(document).ready(function() {
 						vidaAnterior += pokemon.porcVida;
 						if (vidaAnterior < pokemon.vidaActual && vidaAnterior < pokemon.vida) $(idVida).html(parseInt(vidaAnterior));
 						else if (pokemon.vidaActual < pokemon.vida) $(idVida).html(parseInt(pokemon.vidaActual));
-						else {
-							$(idVida).html(pokemon.vida);
-						}
+						else $(idVida).html(pokemon.vida);
 					}
 				} else {
 					if (vidaAnterior <= pokemon.vidaActual || vidaAnterior < 0) {
@@ -524,10 +517,12 @@ $(document).ready(function() {
 	};
 
 	const agregarAlHistorial = (texto, player) => {
+		var timer = new Date().getTime() - startTimer;
+		var time = ('0' + Math.floor(timer / 60000)).slice(-2) + ':' + ('0' + Math.floor((timer % 60000) / 1000)).slice(-2);
 		if (player === 'cpu') {
-			$('.historial').prepend('<li style="color: red;">' + texto + '</li>');
+			$('.historial').prepend('<li style="color: red;">' + time + ' - ' + texto + '</li>');
 		} else {
-			$('.historial').prepend('<li style="color: green;">' + texto + '</li>');
+			$('.historial').prepend('<li style="color: green;">' + time + ' - ' + texto + '</li>');
 		}
 	};
 	const getRandom = rango => {
@@ -630,7 +625,7 @@ $(document).ready(function() {
 
 	$(document).on('click', '.continuar', () => {
 		$.ajax({
-			data: { ganador: ganador },
+			data: { ganador: pokemonsUsuario },
 			type: 'POST',
 			url: 'final-batalla',
 			success: (result) => {
@@ -680,6 +675,8 @@ $(document).ready(function() {
 			var width = $(this).prop('width') * 2;
 			$(this).css('width', width + 'px');
 		});
+		$(spriteUsuario).show();
+		$(spriteCpu).show();
 	});
 
 	var reproducirDialog = $('.reproducir-dialog')[0];

@@ -31,7 +31,7 @@ $(document).ready(function() {
 		buscador.limpiarBuscar(true);
 	});
 	$(document).keyup(e => {
-		if (e.key === 'Escape') buscador.limpiarBuscar(true);
+		if (e.key === 'Escape' && $('.buscar').is(':focus') && $('.buscar').val() != '') buscador.limpiarBuscar(true);
 	});
 
 	var ascendente = false;

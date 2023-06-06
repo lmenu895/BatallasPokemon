@@ -5,6 +5,8 @@ package ar.edu.unlam.tallerweb1.servicios;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import ar.edu.unlam.tallerweb1.exceptions.NombreExistenteException;
@@ -27,7 +29,7 @@ public interface ServicioPokemon {
 
 	List<Pokemon> buscarPokemonPorGrupo(String[] pokemonsTraidos);
 
-	List<Pokemon> crearEquipoCpu();
+	List<Pokemon> crearEquipoCpu(HttpServletRequest request);
 
 
 }

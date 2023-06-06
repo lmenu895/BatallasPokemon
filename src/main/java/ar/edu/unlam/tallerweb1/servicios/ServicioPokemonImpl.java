@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -102,16 +103,29 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 	}
 
 	@Override
-	public List<Pokemon> crearEquipoCpu() {
-		Random random = new Random();
-		List<Pokemon> todosLosPokemons = repositorioPokemon.obtenerTodosLosPokemons();
+	public List<Pokemon> crearEquipoCpu(HttpServletRequest request) {
+		Long[] idsPokemonsCpu = new Long[3];
 		List<Pokemon> pokemons = new ArrayList<>();
-		while (pokemons.size() < 3) {
-			int indexPokemon = random.nextInt(todosLosPokemons.size());
-			pokemons.add(todosLosPokemons.get(indexPokemon));
-			todosLosPokemons.remove(indexPokemon);
+		if ((Long[]) request.getSession().getAttribute("idsPokemonsCpu") == null) {
+			Random random = new Random();
+			List<Pokemon> todosLosPokemons = repositorioPokemon.obtenerTodosLosPokemons();
+			while (pokemons.size() < 3) {
+				int indexPokemon = random.nextInt(todosLosPokemons.size());
+				pokemons.add(todosLosPokemons.get(indexPokemon));
+				todosLosPokemons.remove(indexPokemon);
+			}
+			for (Integer i = 0; i < pokemons.size(); i++) {
+				idsPokemonsCpu[i] = pokemons.get(i).getId();
+			}
+			request.getSession().setAttribute("idsPokemonsCpu", idsPokemonsCpu);
+			return pokemons;
+		} else {
+			idsPokemonsCpu = (Long[]) request.getSession().getAttribute("idsPokemonsCpu");
+			for (Integer i = 0; i < idsPokemonsCpu.length; i++) {
+				pokemons.add(this.buscarPokemon(idsPokemonsCpu[i]));
+			}
+			return pokemons;
 		}
-		return pokemons;
 	}
 
 	// Funciones privadas para utilizar dentro de la clase

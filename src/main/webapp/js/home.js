@@ -43,9 +43,14 @@ $(document).ready(function() {
 		window.location.href = "gachapon";
 	});
 	
+	$(".pokedex-texto").click(() => {
+		window.location.href = "pokedex";
+	});
+	
 	$(".billetera").click(() => {
 		window.location.href = "registroBilletera";
 	});
+	
 	
 
 

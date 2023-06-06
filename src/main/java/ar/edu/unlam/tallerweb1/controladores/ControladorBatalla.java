@@ -1,9 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
+import ar.edu.unlam.tallerweb1.exceptions.ExcesoDeObjetosException;
+import ar.edu.unlam.tallerweb1.exceptions.PokemonsInsuficientesException;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.servicios.*;
 
@@ -50,46 +50,42 @@ public class ControladorBatalla {
 		}
 		ModelMap model = new ModelMap();
 
-		if (pokemonsLista == null || pokemonsLista.size() != 3 || objetosLista != null && objetosLista.length > 3) {
-			model.put("error", "Debe seleccionar 3 pokemons y un máximo de 3 objetos");
-			model.put("listaPokemon",
-					this.servicioUsuario.obtenerListaDePokemons((Long) request.getSession().getAttribute("id")));
-			model.put("listaObjetos",
-					this.servicioUsuario.obtenerListaDeObjetos((Long) request.getSession().getAttribute("id")));
-			return new ModelAndView("elegir-equipo", model);
-		}
+		try {
+			this.servicioBatalla.inicioBatalla(pokemonsLista, objetosLista);
+			List<Pokemon> pokemonsUsuario = new ArrayList<>();
+			pokemonsLista.forEach(x -> pokemonsUsuario.add(this.servicioPokemon.buscarPokemon(x)));
+			pokemonsUsuario.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
+			List<Pokemon> pokemonsCpu = this.servicioPokemon.crearEquipoCpu(request);
+			pokemonsCpu.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
 
-		List<Pokemon> pokemonsUsuario = new ArrayList<>();
-		pokemonsLista.forEach(x -> pokemonsUsuario.add(this.servicioPokemon.buscarPokemon(x)));
-		pokemonsUsuario.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
-		List<Pokemon> pokemonsCpu = new ArrayList<>();
-		Long[] idsPokemonsCpu = new Long[3];
-		if (request.getSession().getAttribute("idsPokemonsCpu") == null) {
-			pokemonsCpu = servicioPokemon.crearEquipoCpu();
-			for (Integer i = 0; i < pokemonsCpu.size(); i++) {
-				idsPokemonsCpu[i] = pokemonsCpu.get(i).getId();
+			if (objetosLista != null) {
+				List<Objeto> objetosUsuario = this.servicioObjeto.buscarObjetoPorGrupo(objetosLista);
+				model.put("objetosUsuario", objetosUsuario);
+				model.put("objetosUsuarioJson", new Gson().toJson(objetosUsuario));
 			}
-			request.getSession().setAttribute("idsPokemonsCpu", idsPokemonsCpu);
-		} else {
-			idsPokemonsCpu = (Long[]) request.getSession().getAttribute("idsPokemonsCpu");
-			for (Integer i = 0; i < idsPokemonsCpu.length; i++) {
-				pokemonsCpu.add(this.servicioPokemon.buscarPokemon(idsPokemonsCpu[i]));
-			}
+
+			model.put("pokemonsUsuario", pokemonsUsuario);
+			model.put("pokemonsCpu", pokemonsCpu);
+			model.put("pokemonsUsuarioJson", new Gson().toJson(pokemonsUsuario));
+			model.put("pokemonsCpuJson", new Gson().toJson(pokemonsCpu));
+
+			return new ModelAndView("batalla", model);
+		} catch (PokemonsInsuficientesException ex) {
+			return errorInicioBatalla(ex.getMessage(), (Long)request.getSession().getAttribute("id"));
 		}
-		pokemonsCpu.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
-
-		if (objetosLista != null) {
-			List<Objeto> objetosUsuario = this.servicioObjeto.buscarObjetoPorGrupo(objetosLista);
-			model.put("objetosUsuario", objetosUsuario);
-			model.put("objetosUsuarioJson", new Gson().toJson(objetosUsuario));
+		catch (ExcesoDeObjetosException ex) {
+			return errorInicioBatalla(ex.getMessage(), (Long)request.getSession().getAttribute("id"));
 		}
-
-		model.put("pokemonsUsuario", pokemonsUsuario);
-		model.put("pokemonsCpu", pokemonsCpu);
-		model.put("pokemonsUsuarioJson", new Gson().toJson(pokemonsUsuario));
-		model.put("pokemonsCpuJson", new Gson().toJson(pokemonsCpu));
-
-		return new ModelAndView("batalla", model);
+	}
+	
+	private ModelAndView errorInicioBatalla(String message, Long idUsuario) {
+		ModelMap model = new ModelMap();
+		model.put("error", message);
+		model.put("listaPokemon",
+				this.servicioUsuario.obtenerListaDePokemons(idUsuario));
+		model.put("listaObjetos",
+				this.servicioUsuario.obtenerListaDeObjetos(idUsuario));
+		return new ModelAndView("elegir-equipo", model);
 	}
 
 	@RequestMapping(path = "/final-batalla", method = RequestMethod.POST)

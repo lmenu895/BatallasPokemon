@@ -1,0 +1,92 @@
+.pokemon {
+	background-image: url("../images/PokeAtaque.jpg");
+	background-size: 100%;
+	background-attachment: fixed;
+}
+
+.pokemon-usuario {
+	margin:1rem 0rem;
+}
+
+.tipo {
+	border-radius:15px;
+	padding:10px;
+}
+
+.margin {
+	margin: 0px 1rem;
+	font-size:1.5rem;
+}
+
+.texto-input {
+	font-size:1.5rem;
+	position:relative;
+	top:-0.2rem;
+}
+
+.pokemons {
+	width:100%;
+	max-width:1800px;
+	margin:2rem;
+}
+
+.formP {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.form {
+	width:100%;
+	background-color: white;
+	margin: 2rem 1rem;
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
+	padding: 4rem;
+}
+
+.fondo {
+	background-image: url("../images/Ataques.png");
+	background-size: cover;
+}
+
+.buscador {
+	position: relative;
+	width: 650px;
+	margin: 1rem auto 0 auto;
+	margin-bottom:2rem;
+}
+
+@media ( max-width : 1366px) {
+	.nombre-pokemon, .nombre-objeto {
+		font-size: 1.2rem;
+	}
+}
+
+.texto-pokedex {
+	text-align:center;
+}
+
+.imagen-pokemon {
+	filter:brightness(0%);
+}
+
+.header {
+    display:flex;
+    justify-content: space-between;
+    height: 150px;
+}
+
+.header a{
+	height: 100%;
+}
+
+.pokemonLogo{
+	height: 80%;
+    padding:20px;
+    margin:15px 20px;
+    background: rgba(135,206,250, 0.75);
+    border-radius: 15px;
+     border:1px solid black;
+}
