@@ -79,6 +79,4 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 	public void borrarPokemon(Long id) {
 		this.sessionFactory.getCurrentSession().delete(this.buscarPokemon(id));
 	}
-
-
 }

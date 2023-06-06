@@ -52,7 +52,6 @@ public class ControladorBilletera {
 		Long id = (Long) request.getSession().getAttribute("id");
 		Usuario usuario = servicioUsuario.buscarUsuario(id);
 		Billetera billeteraEncontrada = servicioBilletera.consultarBilleteraDeUsuario(usuario);
-		
 		try {
 			if(usuario != null) {
 				if(billeteraEncontrada == null) {

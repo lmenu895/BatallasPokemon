@@ -93,4 +93,40 @@ public class ControladorUsuario {
 		
 	}
 	
+	@RequestMapping("/datos-de-usuario")
+	public ModelAndView datosDeUsuario(HttpServletRequest request) {
+		String tipoDeRequest = request.getHeader("X-Requested-With");
+		ModelMap model = new ModelMap();
+		if (tipoDeRequest == null || !tipoDeRequest.equals("XMLHttpRequest")) {
+			model.put("contenido", "datos-de-usuario");
+			return new ModelAndView("perfil-de-usuario", model);
+		} else {
+			return new ModelAndView("partial/datos-de-usuario");
+		}
+	}
+	
+	@RequestMapping("/historial-de-batallas")
+	public ModelAndView historialDeBatallas(HttpServletRequest request) {
+		String tipoDeRequest = request.getHeader("X-Requested-With");
+		ModelMap model = new ModelMap();
+		if (tipoDeRequest == null || !tipoDeRequest.equals("XMLHttpRequest")) {
+			model.put("contenido", "historial-de-batallas");
+			return new ModelAndView("perfil-de-usuario", model);
+		} else {
+			return new ModelAndView("partial/historial-de-batallas");
+		}
+	}
+	
+	@RequestMapping("/lista-pokemons-usuario")
+	public ModelAndView listaPokemonsUsuario(HttpServletRequest request) {
+		String tipoDeRequest = request.getHeader("X-Requested-With");
+		ModelMap model = new ModelMap();
+		if (tipoDeRequest == null || !tipoDeRequest.equals("XMLHttpRequest")) {
+			model.put("contenido", "lista-pokemons-usuario");
+			return new ModelAndView("perfil-de-usuario", model);
+		} else {
+			return new ModelAndView("partial/lista-pokemons-usuario");
+		}
+	}
+	
 }

@@ -14,7 +14,7 @@ $(document).ready(function() {
 	});
 
 	var buscador = new Buscador('.buscar', '.clear', '.pokemon-usuario', '.pokemons', 'vBuscado');
-	
+
 	$(document).on('keyup', '.buscar', function() {
 		buscador.buscar(this.value);
 	});
@@ -22,7 +22,7 @@ $(document).ready(function() {
 		buscador.limpiarBuscar(true);
 	});
 	$(document).keyup(e => {
-		if (e.key === 'Escape') buscador.limpiarBuscar(true);
+		if (e.key === 'Escape' && $('.buscar').is(':focus') && $('.buscar').val() !== '') buscador.limpiarBuscar(true);
 	});
 
 	const appendInputPokemonsLista = (value) => {
@@ -81,6 +81,7 @@ $(document).ready(function() {
 			width = $(this).prop('width') * 2;
 			$(this).prop('width', width);
 		});
+		$('.imgPokemon').show();
 		if ($('.buscar').val() !== '') buscador.buscar($('.buscar').val());
 	});
 });

@@ -32,11 +32,9 @@ function Buscador(claseBuscador, claseLimpiador, elementosBusqueda, containerRes
 		}
 	};
 	this.limpiarBuscar = (llenarContainer) => {
-		if (this.claseBuscador.val() !== '') {
-			llenarContainer ? this.containerResultado.html(this.elementosBusqueda) : this.containerResultado.html('');
-			this.claseBuscador.val('');
-			this.claseBuscador.focus();
-			this.claseLimpiador.hide();
-		}
+		llenarContainer ? this.containerResultado.html(this.elementosBusqueda) : this.containerResultado.html('');
+		this.claseBuscador.val('');
+		this.claseBuscador.focus();
+		this.claseLimpiador.hide();
 	}
 };

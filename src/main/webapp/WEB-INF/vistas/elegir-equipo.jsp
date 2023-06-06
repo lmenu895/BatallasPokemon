@@ -32,7 +32,8 @@
 							<div
 								class="d-flex flex-column align-items-center pokemon-usuario"
 								id="${pokemon.nombre}" style="width: 33%;">
-								<img alt="${pokemon.nombre}" class="img-fluid imgPokemon mb-2"
+								<img alt="${pokemon.nombre}" style="display: none;"
+									class="img-fluid imgPokemon mb-2"
 									src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}">
 								<button type="button" style="width: 105px;"
 									class="btn btn-primary botonPokemon" value="${pokemon.id}">Seleccionar</button>
