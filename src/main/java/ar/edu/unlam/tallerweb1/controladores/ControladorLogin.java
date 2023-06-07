@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
-import ar.edu.unlam.tallerweb1.exceptions.ContraseñaCorta;
+import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
 import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.*;
@@ -104,7 +104,7 @@ public class ControladorLogin {
 		ModelMap model = new ModelMap();
 		try {
 			this.servicioLogin.guardarCliente(datosUsuario);
-		} catch (ContraseñaCorta | FormatoDeEmailIncorrecto |UsuarioExistenteException | CampoVacioException e) {
+		} catch (ContraseniaCorta | FormatoDeEmailIncorrecto |UsuarioExistenteException | CampoVacioException e) {
 			model.put("error", e.getMessage());
 			return model;
 		}

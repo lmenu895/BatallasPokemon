@@ -56,6 +56,7 @@ $(document).ready(function() {
 	
 
 		   var imagen;
+		   var clase;
 		   $(".imagen-pokemon").each(function(){
 			   	imagen = $(this).attr("src").split('/')[3].split(".gif")[0];
 			   	pokemonsUsuario.forEach(pokemon => {
@@ -72,6 +73,11 @@ $(document).ready(function() {
 				   	pokemonsUsuario.forEach(pokemon => {
 				  	if(pokemon.nombre.toLowerCase() == name.toLowerCase()){
 					    $(this).show();
+					    
+					    
+					    clase = "." + pokemon.nombre;
+					    $(clase).hide();
+					    
 				    }
 		 			});  
 				 })
@@ -84,6 +90,13 @@ $(document).ready(function() {
 				$(".pnombre").each(function(){
 					$(this).show();
 				 })
+				 
+				 
+				 $(".pquestion").each(function(){
+					 $(this).hide();
+				 })
+				 
+				 
             }
             else if($(this).prop("checked") == false){
                 $(".imagen-pokemon").each(function(){
@@ -95,16 +108,24 @@ $(document).ready(function() {
 				    }
 		 			});
 	   			})
-	   			$(".pnombre").each(function(){
+	   			$(".pquestion").each(function(){
+					 $(this).show();
+				 })
+	   			$(".pnombre").each(function(index){
 					$(this).css("filter", "brightness(0%)")
 				   	var name = $(this).text();
 				   	$(this).hide();
-				   	pokemonsUsuario.forEach(pokemon => {
+				   	pokemonsUsuario.forEach(pokemon => { 
 				  	if(pokemon.nombre.toLowerCase() == name.toLowerCase()){
 					    $(this).show();
+					    clase = "." + pokemon.nombre; 
+					    $(clase).hide();   
 				    }
 		 			});  
 				 })
+				 
+				 
+				 
      }
    });
 });
