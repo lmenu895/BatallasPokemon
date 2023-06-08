@@ -622,10 +622,34 @@ $(document).ready(function() {
 			});
 		});
 	};
+	
+	$('.game-over')[0].showModal()
 
 	$(document).on('click', '.continuar', () => {
+		var duracion = new Date().getTime() - startTimer;
+		var datosPokemons = [];
+		$(pokemonsUsuario).each(function() {
+			var pokemon = {
+				id: this.id,
+				debilitado: this.debilitado,
+				entrenador: 'usuario'
+			};
+			datosPokemons.push(pokemon);
+		});
+		$(pokemonsCpu).each(function() {
+			var pokemon = {
+				id: this.id,
+				debilitado: this.debilitado,
+				entrenador: 'cpu'
+			};
+			datosPokemons.push(pokemon);
+		});
+		
 		$.ajax({
-			data: { ganador: pokemonsUsuario },
+			data: {
+				datosPokemons: JSON.stringify(datosPokemons),
+				duracion: duracion
+			},
 			type: 'POST',
 			url: 'final-batalla',
 			success: (result) => {

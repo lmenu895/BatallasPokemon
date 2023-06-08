@@ -1,4 +1,5 @@
 <%@ include file="partial/header.jsp"%>
+<link href="css/style.css" rel="stylesheet">
 <title>Lista de Pokemons</title>
 </head>
 <body class="pokemon">
@@ -26,7 +27,7 @@
 						<td id="nombre" class="vBuscado">${pokemon.nombre}</td>
 						<!-- ${VAR.atributo} -->
 						<td id="tipo" class="vBuscado">${pokemon.tipo}</td>
-						<td  class="vRegexRareza" style="display: none;">${pokemon.rareza}</td>
+						<td class="vRegexRareza" style="display: none;">${pokemon.rareza}</td>
 						<td><button class="borrar btn btn-danger"
 								value="${pokemon.id}">Borrar</button> <a
 							class="modificar btn btn-info text-light"

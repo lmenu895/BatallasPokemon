@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.exceptions.ExcesoDeObjetosException;
 import ar.edu.unlam.tallerweb1.exceptions.PokemonsInsuficientesException;
+import ar.edu.unlam.tallerweb1.modelo.DatosPokemonBatalla;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.servicios.*;
 
@@ -71,29 +72,28 @@ public class ControladorBatalla {
 
 			return new ModelAndView("batalla", model);
 		} catch (PokemonsInsuficientesException ex) {
-			return errorInicioBatalla(ex.getMessage(), (Long)request.getSession().getAttribute("id"));
-		}
-		catch (ExcesoDeObjetosException ex) {
-			return errorInicioBatalla(ex.getMessage(), (Long)request.getSession().getAttribute("id"));
+			return errorInicioBatalla(ex.getMessage(), (Long) request.getSession().getAttribute("id"));
+		} catch (ExcesoDeObjetosException ex) {
+			return errorInicioBatalla(ex.getMessage(), (Long) request.getSession().getAttribute("id"));
 		}
 	}
-	
+
 	private ModelAndView errorInicioBatalla(String message, Long idUsuario) {
 		ModelMap model = new ModelMap();
 		model.put("error", message);
-		model.put("listaPokemon",
-				this.servicioUsuario.obtenerListaDePokemons(idUsuario));
-		model.put("listaObjetos",
-				this.servicioUsuario.obtenerListaDeObjetos(idUsuario));
+		model.put("listaPokemon", this.servicioUsuario.obtenerListaDePokemons(idUsuario));
+		model.put("listaObjetos", this.servicioUsuario.obtenerListaDeObjetos(idUsuario));
 		return new ModelAndView("elegir-equipo", model);
 	}
 
 	@RequestMapping(path = "/final-batalla", method = RequestMethod.POST)
 	@ResponseBody
-	public void finalBatalla(@RequestParam String ganador, HttpServletRequest request) {
+	public void finalBatalla(@RequestParam Long duracion, @RequestParam("datosPokemons") String datosPokemonsJson,
+			HttpServletRequest request) {
+		DatosPokemonBatalla[] listaDatosPokemons = new Gson().fromJson(datosPokemonsJson, DatosPokemonBatalla[].class);
 		if (request.getSession().getAttribute("idsPokemonsCpu") != null) {
 			request.getSession().removeAttribute("idsPokemonsCpu");
-			this.servicioBatalla.finalBatalla(ganador, (Long) request.getSession().getAttribute("id"));
+			this.servicioBatalla.finalBatalla(duracion, listaDatosPokemons, (Long) request.getSession().getAttribute("id"));
 		}
 	}
 }
