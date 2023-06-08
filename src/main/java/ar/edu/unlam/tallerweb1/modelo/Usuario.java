@@ -33,6 +33,11 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 =======
 	private Integer puntos=1000;
+	//repetidos
+	private Integer pokemonedas=0;
+	//pitty
+	private Integer cantTiradasComunes=0;
+	private Integer cantTiradasTotales=0;
 
 	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contrase�as en la base de datos, no est� implementado
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -99,11 +104,35 @@ public class Usuario {
 	public void setPuntos(Integer puntos) {
 		this.puntos = puntos;
 	}
+<<<<<<< HEAD
 	public Boolean getPrincipiante() {
 		return principiante;
 	}
 	public void setPrincipiante(Boolean principiante) {
 		this.principiante = principiante;
 	}
+=======
+	public Integer getPokemonedas() {
+		return pokemonedas;
+	}
+	public void setPokemonedas(Integer pokemonedas) {
+		this.pokemonedas = pokemonedas;
+	}
+	public Integer getCantTiradasComunes() {
+		return cantTiradasComunes;
+	}
+	public void setCantTiradasComunes(Integer cantTiradas) {
+		this.cantTiradasComunes = cantTiradas;
+	}
+	public Integer getCantTiradasTotales() {
+		return cantTiradasTotales;
+	}
+	public void setCantTiradasTotales(Integer cantTiradasTotales) {
+		this.cantTiradasTotales = cantTiradasTotales;
+	}
+	
+	
+	
+>>>>>>> f2f3795 (pitty y repetidos sin front)
 	
 }

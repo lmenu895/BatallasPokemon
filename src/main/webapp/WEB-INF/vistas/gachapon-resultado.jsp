@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,7 @@
 </head>
 <body>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div class="header">
         <a href="gachapon" class="gachaponLogo" ><img class="gachapon" src="images/togepi.png" alt="gachaLogo"></a>
     </div>
@@ -21,6 +23,11 @@
 		<h1>Pokemon obtenido</h1>
 		${pokemon.nombre}
 >>>>>>> 0df91bd (gacha terminado sin front2)
+=======
+    <div class="header">
+        <a href="gachapon" class="gachaponLogo" ><img class="gachapon" src="images/togepi.png" alt="gachaLogo"></a>
+    </div>
+>>>>>>> f2f3795 (pitty y repetidos sin front)
 
     <div class="resultado">
         <img class="pokeballArriba pokeball animation" src="images/pokeballArriba${monedas}.png" alt="arriba">
@@ -28,6 +35,9 @@
         <img class="pokeballAbajo pokeball animation" src="images/pokeballAbajo100.png" alt="abajo">
     </div>
     <h1 class="congrats animation">¡Felicidades, ${pokemon.nombre}  es tu nuevo pokemon!</h1>
+    <c:if test="${not empty repetido}">
+			<span id="error">${repetido}  ${pokemonedas}</span>
+		</c:if>
 
 
     <script  type="text/javascript" src="js/jquery-1.11.3.min.js"></script>

@@ -67,6 +67,7 @@ public class ControladorGachapon {
 			model.put("puntos", usuario.getPuntos());
 			return new ModelAndView("gachapon", model);
 		}
+<<<<<<< HEAD
 		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas);
 		this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon));
 <<<<<<< HEAD
@@ -76,6 +77,26 @@ public class ControladorGachapon {
 		model.put("puntos", usuario.getPuntos());
 		model.put("pokemon", pokemon);
 		return new ModelAndView("gachapon-resultado", model);
+=======
+		//repetidos
+		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas, usuario);
+		if(this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon), id, pokemon.getId(), usuario, pokemon)) {
+			model.put("puntos", usuario.getPuntos());
+			model.put("pokemon", pokemon);
+			return new ModelAndView("gachapon-resultado", model);
+		}else {
+			String error = "Obtuviste Pokemonedas por repetido, tus pokeMonedas son: ";
+			servicioUsuario.sumarpokeMonedas(pokemon.getRareza(), usuario);
+			model.put("puntos", usuario.getPuntos());
+			model.put("pokemon", pokemon);
+			model.put("repetido", error);
+			model.put("pokemonedas", usuario.getPokemonedas());
+			return new ModelAndView("gachapon-resultado", model);
+		}
+		
+
+		
+>>>>>>> f2f3795 (pitty y repetidos sin front)
 	}
 	
 	

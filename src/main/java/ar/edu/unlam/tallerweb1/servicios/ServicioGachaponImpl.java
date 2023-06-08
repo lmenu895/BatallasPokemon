@@ -22,6 +22,7 @@ import antlr.collections.List;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioPokemon;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -82,14 +83,17 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 =======
 	
 	 private RepositorioPokemon repositorioPokemon;
-	 
+	 private RepositorioUsuario repositorioUsuario;
+	 private ServicioUsuario servicioUsuario;
 	 @Autowired
-	 public ServicioGachaponImpl(RepositorioPokemon repositorioPokemon) {
+	 public ServicioGachaponImpl(RepositorioPokemon repositorioPokemon, RepositorioUsuario repositorioUsuario, ServicioUsuario servicioUsuario) {
 		 this.repositorioPokemon= repositorioPokemon;
+		 this.repositorioUsuario= repositorioUsuario;
+		 this.servicioUsuario= servicioUsuario;
 	 }
 
 	@Override
-	public Pokemon tiradaGachapon(Integer monedas) {
+	public Pokemon tiradaGachapon(Integer monedas, Usuario usuario) {
 		Random random = new Random();
         int numeroAleatorio = random.nextInt(101);
         ArrayList<Pokemon> pokemones= new ArrayList<Pokemon>();
@@ -99,44 +103,108 @@ public class ServicioGachaponImpl implements ServicioGachapon {
         int epico= 2;
 		switch (monedas) {
 		
-		case 100: if(numeroAleatorio<=90) {
+		case 100: if(numeroAleatorio<=80 && usuario.getCantTiradasComunes()<9 && usuario.getCantTiradasTotales()<29) {
 			pokemones=repositorioPokemon.buscarPorRareza(comun);
 			int numeroObtenido= random.nextInt(pokemones.size());
 			pokemon= pokemones.get(numeroObtenido);
-			return pokemon;
+			this.servicioUsuario.sumarTiradasComunes(usuario);
+			this.servicioUsuario.sumarTiradasTotales(usuario);
+			return pokemon;	
+			
 		}
-			pokemones= repositorioPokemon.buscarPorRareza(raro);
+		if(numeroAleatorio>=95 || usuario.getCantTiradasTotales()==29) {
+			this.servicioUsuario.reiniciarTiradasComunes(usuario);
+			this.servicioUsuario.reiniciarTiradasTotales(usuario);
+			pokemones= repositorioPokemon.buscarPorRareza(epico);
 			int numeroObtenido= random.nextInt(pokemones.size());
 			pokemon= pokemones.get(numeroObtenido);
+			return pokemon;	
+			
+		}
+			if(numeroAleatorio>80 && numeroAleatorio<95 && usuario.getCantTiradasTotales()<29 || usuario.getCantTiradasComunes()==9)
+			this.servicioUsuario.reiniciarTiradasComunes(usuario);
+			this.servicioUsuario.sumarTiradasTotales(usuario);
+			pokemones=repositorioPokemon.buscarPorRareza(raro);
+			int numeroObtenido= random.nextInt(pokemones.size());
+			pokemon= pokemones.get(numeroObtenido);
+			
 			return pokemon;
+			
 				
-		case 500: if(numeroAleatorio<=70) {
+		case 500: if(numeroAleatorio<=60 && usuario.getCantTiradasComunes()<9 && usuario.getCantTiradasTotales()<29) {
 			pokemones=repositorioPokemon.buscarPorRareza(comun);
 			int numeroObtenido2= random.nextInt(pokemones.size());
 			pokemon= pokemones.get(numeroObtenido2);
+			this.servicioUsuario.sumarTiradasComunes(usuario);
+			this.servicioUsuario.sumarTiradasTotales(usuario);
 			return pokemon;
-		} if(numeroAleatorio>70 && numeroAleatorio<=95) {
-			pokemones= repositorioPokemon.buscarPorRareza(raro);
+			
+		} 
+			if(numeroAleatorio>85 || usuario.getCantTiradasTotales()==29) {
+				this.servicioUsuario.reiniciarTiradasComunes(usuario);
+				this.servicioUsuario.reiniciarTiradasTotales(usuario);
+				pokemones= repositorioPokemon.buscarPorRareza(epico);
+				int numeroObtenido2= random.nextInt(pokemones.size());
+				pokemon= pokemones.get(numeroObtenido2);
+				return pokemon;
+			
+			
+		}	if(numeroAleatorio>60 && numeroAleatorio<=85 && usuario.getCantTiradasTotales()<29 || usuario.getCantTiradasComunes()==9) 
+			this.servicioUsuario.reiniciarTiradasComunes(usuario);
+			this.servicioUsuario.sumarTiradasTotales(usuario);
+			pokemones=repositorioPokemon.buscarPorRareza(raro);
 			int numeroObtenido2= random.nextInt(pokemones.size());
 			pokemon= pokemones.get(numeroObtenido2);
 			return pokemon;
-		}	pokemones= repositorioPokemon.buscarPorRareza(epico);
-			int numeroObtenido2= random.nextInt(pokemones.size());
-			pokemon= pokemones.get(numeroObtenido2);
-			return pokemon;
-		case 1000: if(numeroAleatorio<=40) {
+			
+		case 1000: if(numeroAleatorio<=30 && usuario.getCantTiradasComunes()<9 && usuario.getCantTiradasTotales()<29) {
 			pokemones=repositorioPokemon.buscarPorRareza(comun);
 			int numeroObtenido3= random.nextInt(pokemones.size());
 			pokemon= pokemones.get(numeroObtenido3);
+			this.servicioUsuario.sumarTiradasComunes(usuario);
+			this.servicioUsuario.sumarTiradasTotales(usuario);
 			return pokemon;
-		} if(numeroAleatorio>40 && numeroAleatorio<=85) {
-			pokemones= repositorioPokemon.buscarPorRareza(raro);
+			
+		} 
+			if(numeroAleatorio>70 || usuario.getCantTiradasTotales()==29) {
+				this.servicioUsuario.reiniciarTiradasComunes(usuario);
+				this.servicioUsuario.reiniciarTiradasTotales(usuario);
+				pokemones= repositorioPokemon.buscarPorRareza(epico);
+				int numeroObtenido3= random.nextInt(pokemones.size());
+				pokemon= pokemones.get(numeroObtenido3);
+				return pokemon;
+			
+		}	if(numeroAleatorio>30 && numeroAleatorio<=70 && usuario.getCantTiradasTotales()<29 || usuario.getCantTiradasComunes()==9) 
+			this.servicioUsuario.reiniciarTiradasComunes(usuario);
+			this.servicioUsuario.sumarTiradasTotales(usuario);
+			pokemones=repositorioPokemon.buscarPorRareza(raro);
 			int numeroObtenido3= random.nextInt(pokemones.size());
 			pokemon= pokemones.get(numeroObtenido3);
 			return pokemon;
-		}	pokemones= repositorioPokemon.buscarPorRareza(epico);
-			int numeroObtenido3= random.nextInt(pokemones.size());
-			pokemon= pokemones.get(numeroObtenido3);
+			
+		case 10000: if(numeroAleatorio<=10 && usuario.getCantTiradasComunes()<9 && usuario.getCantTiradasTotales()<29) {
+			pokemones=repositorioPokemon.buscarPorRareza(comun);
+			int numeroObtenido4= random.nextInt(pokemones.size());
+			pokemon= pokemones.get(numeroObtenido4);
+			this.servicioUsuario.sumarTiradasComunes(usuario);
+			this.servicioUsuario.sumarTiradasTotales(usuario);
+			return pokemon;
+			
+		} 
+			if(numeroAleatorio>40 || usuario.getCantTiradasTotales()==29) {
+				this.servicioUsuario.reiniciarTiradasComunes(usuario);
+				this.servicioUsuario.reiniciarTiradasTotales(usuario);
+				pokemones= repositorioPokemon.buscarPorRareza(epico);
+				int numeroObtenido4= random.nextInt(pokemones.size());
+				pokemon= pokemones.get(numeroObtenido4);
+				return pokemon;	
+			
+		}	if(numeroAleatorio>10 && numeroAleatorio<=40 && usuario.getCantTiradasTotales()<29 || usuario.getCantTiradasComunes()==9) 
+			this.servicioUsuario.reiniciarTiradasComunes(usuario);
+			this.servicioUsuario.sumarTiradasTotales(usuario);
+			pokemones=repositorioPokemon.buscarPorRareza(raro);
+			int numeroObtenido4= random.nextInt(pokemones.size());
+			pokemon= pokemones.get(numeroObtenido4);
 			return pokemon;
 			
 		}

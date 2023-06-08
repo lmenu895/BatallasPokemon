@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
+import ar.edu.unlam.tallerweb1.modelo.RarezaPokemon;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioPokemon;
 
@@ -20,10 +22,15 @@ public class ServicioUsuarioPokemonImpl implements ServicioUsuarioPokemon {
 	public ServicioUsuarioPokemonImpl(RepositorioUsuarioPokemon repositorioUsuarioPokemon) {
 		this.repositorioUsuarioPokemon = repositorioUsuarioPokemon;
 	}
-
+	//repetidos
 	@Override
-	public void guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon) {
-		this.repositorioUsuarioPokemon.guardarUsuarioPokemon(usuarioPokemon);
+	public Boolean guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon, Long idUsuario, Long idPokemon, Usuario usuario, Pokemon pokemon) {
+		if(this.repositorioUsuarioPokemon.buscarUsuarioPokemon(idUsuario, idPokemon) == null) {
+			this.repositorioUsuarioPokemon.guardarUsuarioPokemon(usuarioPokemon);
+			return true;
+		}
+		
+		return false;
 		
 	}
 

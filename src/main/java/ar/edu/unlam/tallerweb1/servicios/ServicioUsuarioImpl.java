@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
+import ar.edu.unlam.tallerweb1.modelo.RarezaPokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
@@ -31,9 +32,14 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 	@Override
 	public void guardarEquipo(String[] pokemons, Long idUsuario) {
 		Usuario usuario = this.repositorioUsuario.buscarUsuario(idUsuario);
+		Long idUs=(long) 0;
+		Long idPokemon=(long) 0;
+		Usuario us= null;
+		Pokemon poke= null;
+		
 		for (String pokemon : pokemons) {
 			this.servicioUsuarioPokemon.guardarUsuarioPokemon(
-					new UsuarioPokemon(usuario, this.servicioPokemon.buscarPokemon(Long.parseLong(pokemon)))
+					new UsuarioPokemon(usuario, this.servicioPokemon.buscarPokemon(Long.parseLong(pokemon))), idUs, idPokemon, us, poke
 			);
 		}	
 	}
@@ -71,5 +77,59 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		Usuario user = this.repositorioUsuario.buscarUsuario(idUsuario);
 		user.setPuntos(user.getPuntos() + puntos);
 		this.repositorioUsuario.modificar(user);
+	}
+	//repetidos
+	@Override
+	public void sumarpokeMonedas(RarezaPokemon rareza, Usuario usuario) {
+		switch (rareza) {
+		case NORMAL:
+			usuario.setPokemonedas(usuario.getPokemonedas()+1);
+			this.repositorioUsuario.modificar(usuario);
+			break;
+		case RARO:
+			usuario.setPokemonedas(usuario.getPokemonedas()+4);
+			this.repositorioUsuario.modificar(usuario);
+			break;
+		case EPICO:
+			usuario.setPokemonedas(usuario.getPokemonedas()+10);
+			this.repositorioUsuario.modificar(usuario);
+			break;
+
+		}
+	}
+
+	@Override
+	public void sumarTiradasComunes(Usuario usuario) {
+		if(usuario.getCantTiradasComunes()<10) {
+			usuario.setCantTiradasComunes(usuario.getCantTiradasComunes()+1);
+			}else {
+			usuario.setCantTiradasComunes(0);
+			}
+			this.repositorioUsuario.modificar(usuario);
+	}
+
+	@Override
+	public void sumarTiradasTotales(Usuario usuario) {
+		if(usuario.getCantTiradasTotales()<50) {
+		usuario.setCantTiradasTotales(usuario.getCantTiradasTotales()+1);
+		}else {
+		usuario.setCantTiradasTotales(0);
+		}
+		this.repositorioUsuario.modificar(usuario);
+		
+	}
+
+	@Override
+	public void reiniciarTiradasComunes(Usuario usuario) {
+		usuario.setCantTiradasComunes(0);
+		this.repositorioUsuario.modificar(usuario);
+		
+	}
+
+	@Override
+	public void reiniciarTiradasTotales(Usuario usuario) {
+		usuario.setCantTiradasTotales(0);
+		this.repositorioUsuario.modificar(usuario);
+		
 	}
 }
