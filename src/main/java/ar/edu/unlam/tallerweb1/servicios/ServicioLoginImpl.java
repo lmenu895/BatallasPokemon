@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
-import ar.edu.unlam.tallerweb1.exceptions.ContraseñaCorta;
+import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
 import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -43,7 +43,7 @@ public class ServicioLoginImpl implements ServicioLogin {
 	}
 
 	@Override
-	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException, CampoVacioException, ContraseñaCorta, FormatoDeEmailIncorrecto {
+	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException, CampoVacioException, ContraseniaCorta, FormatoDeEmailIncorrecto {
 		
 		checkearDatos(usuarioNuevo);
 		
@@ -55,13 +55,13 @@ public class ServicioLoginImpl implements ServicioLogin {
 		}
 	}
 
-	private void checkearDatos(Usuario usuarioNuevo) throws FormatoDeEmailIncorrecto, ContraseñaCorta, CampoVacioException {
+	private void checkearDatos(Usuario usuarioNuevo) throws FormatoDeEmailIncorrecto, ContraseniaCorta, CampoVacioException {
 		
 		if (verificarCaposRequeridos(usuarioNuevo)) {
 			throw new CampoVacioException("Debe llenar todos los campos para registrarse");
 		}
 		if(usuarioNuevo.getPassword().length() < 8) {
-			throw new ContraseñaCorta("La contraseÃ±a debe ser de por lo menos 8 caracteres");
+			throw new ContraseniaCorta("La contraseÃ±a debe ser de por lo menos 8 caracteres");
 		}
 		if(!validarEmail(usuarioNuevo.getEmail())) {
 			throw new FormatoDeEmailIncorrecto("El formato de email es incorrecto");

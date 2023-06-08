@@ -52,29 +52,34 @@ $(document).ready(function() {
 			  break;
 			  
 		  }
+		  
 	});
 	
-
 		   var imagen;
+		   var clase;
 		   $(".imagen-pokemon").each(function(){
-			   	imagen = $(this).attr("src").split('/')[3].split(".gif")[0];
-			   	pokemonsUsuario.forEach(pokemon => {
-		
-					   if(pokemon.nombre.toLowerCase() == imagen){
-						    $(this).css("filter", "brightness(100%)")
-					   }
-				 });
-			})
-	
-				$(".pnombre").each(function(){
-				   	var name = $(this).text();
-				   	$(this).hide()
+					$(this).css("filter", "brightness(0%)")
+				   	imagen = $(this).attr("src").split("/")[3];
 				   	pokemonsUsuario.forEach(pokemon => {
-				  	if(pokemon.nombre.toLowerCase() == name.toLowerCase()){
+					  	if(pokemon.imagenFrente == imagen){
+						    $(this).css("filter", "brightness(100%)")
+					    }
+		 			});
+	   			})
+	
+			$(".pnombre").each(function(){
+			   	var name = $(this).text();
+			   	$(this).hide()
+			   	pokemonsUsuario.forEach(pokemon => {
+					   	if(pokemon.nombre.toLowerCase() == name.toLowerCase()){
 					    $(this).show();
+					    clase = "." + pokemon.nombre;
+					    $(clase).hide();
+					    
 				    }
-		 			});  
-				 })
+		 		});  
+			})
+		  
 	
 	        $('input[type="checkbox"]').click(function(){
             if($(this).prop("checked") == true){
@@ -83,28 +88,40 @@ $(document).ready(function() {
 				})
 				$(".pnombre").each(function(){
 					$(this).show();
+				 }) 
+				 $(".pquestion").each(function(){
+					 $(this).hide();
 				 })
             }
+            
             else if($(this).prop("checked") == false){
                 $(".imagen-pokemon").each(function(){
 					$(this).css("filter", "brightness(0%)")
-				   	imagen = $(this).attr("src").split('/')[3].split(".gif")[0];
+				    imagen = $(this).attr("src").split("/")[3];
 				   	pokemonsUsuario.forEach(pokemon => {
-				  	if(pokemon.nombre.toLowerCase() == imagen){
-					    $(this).css("filter", "brightness(100%)")
-				    }
+					  	if(pokemon.imagenFrente == imagen){
+						    $(this).css("filter", "brightness(100%)")
+					    }
 		 			});
 	   			})
+	   			$(".pquestion").each(function(){
+					 $(this).show();
+				 })
 	   			$(".pnombre").each(function(){
 					$(this).css("filter", "brightness(0%)")
 				   	var name = $(this).text();
 				   	$(this).hide();
-				   	pokemonsUsuario.forEach(pokemon => {
+				   	pokemonsUsuario.forEach(pokemon => { 
 				  	if(pokemon.nombre.toLowerCase() == name.toLowerCase()){
 					    $(this).show();
+					    clase = "." + pokemon.nombre; 
+					    $(clase).hide();   
 				    }
-		 			});  
-				 })
+		 		});  
+			 })
+				 
+				 
+				 
      }
    });
 });
