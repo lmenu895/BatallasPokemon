@@ -5,7 +5,7 @@ $(document).ready(function() {
 		$('.pokemon').prop('width', width);
 		console.log('hoa')
 	});
-	/*var img = $('.pokeballArriba').attr('src');
+	var img = $('.pokeballArriba').attr('src');
 	if (img == "images/pokeballArriba100.png") {
 		$(".pokeballAbajo").css('bottom', '40.2%')
 	}
@@ -17,5 +17,5 @@ $(document).ready(function() {
 	}
 	else if (img == "images/pokeballArriba10000.png") {
 		$(".pokeballAbajo").css('bottom', '40.4%')
-	}*/
+	}
 });
