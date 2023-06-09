@@ -17,4 +17,6 @@ public interface ServicioUsuarioPokemon {
 	void guardarEquipo(UsuarioPokemon usuarioPokemon);
 
 	List<Pokemon> buscarPokemon(List<UsuarioPokemon> lista);
+
+	void guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon);
 }
