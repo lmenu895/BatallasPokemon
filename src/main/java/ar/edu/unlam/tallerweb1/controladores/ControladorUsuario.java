@@ -17,6 +17,7 @@ import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioObjeto;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
+import ar.edu.unlam.tallerweb1.modelo.DatosLogin;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
@@ -127,6 +128,14 @@ public class ControladorUsuario {
 		} else {
 			return new ModelAndView("partial/lista-pokemons-usuario");
 		}
+	}
+	
+	@RequestMapping("/cambiar-contrasenia")
+	public ModelAndView irALogin(HttpServletRequest request) {
+		
+		ModelMap modelo = new ModelMap();
+		modelo.put("datosCambio", new DatosLogin());
+		return new ModelAndView("cambiar-contrasenia", modelo);
 	}
 	
 }

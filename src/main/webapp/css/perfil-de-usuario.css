@@ -1,3 +1,53 @@
 .activo {
 	color: red;
 }
+
+body {
+	padding: 40px;
+	background-image: url("../images/bijachu.jpg");
+	background-position: 50%;
+}
+
+.contenedor {
+	background-color: white;
+	border-style: solid;
+	border-color: beige;
+	border-radius: 10px;
+	padding: 30px;
+}
+
+.imagenPerfil {
+	cursor: pointer;
+	height: 200px;
+	width: 200px;
+	object-fit: cover;
+}
+
+.boxFoto {
+	align-items: center;
+	border-style: solid;
+	height: 250px;
+	width: 200px;
+}
+
+.boxCentro {
+	border-style: solid;
+	
+	height: 500px;
+	width: 700px;
+}
+
+.containerBox {
+	display: flex;
+}
+
+.boxOpciones {
+	border-style: solid;
+
+	height: 250px;
+	width: 200px;
+}
+
+#file {
+	display: none;
+}
