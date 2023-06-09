@@ -27,9 +27,15 @@ public class Usuario {
 	private String password;
 	private Boolean esAdmin = false;
 	private Boolean principiante = true;
-	private Integer puntos=1000;
-	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contraseñas en la base de datos, no está implementado
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private Integer puntos=300;
+	private Integer pokemonedas=0;
+	
+	//pitty
+	private Integer cantTiradasComunes=0;
+	private Integer cantTiradasTotales=0;
+
+	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contraseï¿½as en la base de datos, no estï¿½ implementado
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<UsuarioPokemon> pokemons;
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<UsuarioObjeto> objetos;
@@ -92,11 +98,31 @@ public class Usuario {
 	public void setPuntos(Integer puntos) {
 		this.puntos = puntos;
 	}
+
 	public Boolean getPrincipiante() {
 		return principiante;
 	}
 	public void setPrincipiante(Boolean principiante) {
 		this.principiante = principiante;
+	}
+
+	public Integer getPokemonedas() {
+		return pokemonedas;
+	}
+	public void setPokemonedas(Integer pokemonedas) {
+		this.pokemonedas = pokemonedas;
+	}
+	public Integer getCantTiradasComunes() {
+		return cantTiradasComunes;
+	}
+	public void setCantTiradasComunes(Integer cantTiradas) {
+		this.cantTiradasComunes = cantTiradas;
+	}
+	public Integer getCantTiradasTotales() {
+		return cantTiradasTotales;
+	}
+	public void setCantTiradasTotales(Integer cantTiradasTotales) {
+		this.cantTiradasTotales = cantTiradasTotales;
 	}
 	
 }

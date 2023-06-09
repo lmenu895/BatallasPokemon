@@ -1,11 +1,7 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
-import java.text.SimpleDateFormat;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,9 +37,9 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 	public void inicioBatalla(List<Long> pokemonsLista, String[] objetosLista)
 			throws PokemonsInsuficientesException, ExcesoDeObjetosException {
 		if (pokemonsLista == null || pokemonsLista.size() != 3) {
-			throw new PokemonsInsuficientesException("Debe seleccionar 3 pokémons");
+			throw new PokemonsInsuficientesException("Debe seleccionar 3 pokï¿½mons");
 		} else if (objetosLista != null && objetosLista.length > 3) {
-			throw new ExcesoDeObjetosException("Solo puede seleccionar un máximo de 3 objetos");
+			throw new ExcesoDeObjetosException("Solo puede seleccionar un mï¿½ximo de 3 objetos");
 		}
 	}
 

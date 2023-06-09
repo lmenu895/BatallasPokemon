@@ -13,6 +13,8 @@ import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioGachapon;
+
+import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 
@@ -22,10 +24,12 @@ public class ControladorGachapon {
 	private ServicioUsuario servicioUsuario;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	private ServicioGachapon servicioGachapon;
+	private ServicioPokemon servicioPokemon;
 	
-	@Autowired
-	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) 
-	{
+	@Autowired	
+	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioUsuarioPokemon servicioUsuarioPokemon) {
+		this.servicioPokemon=servicioPokemon;	
+
 		this.servicioUsuario=servicioUsuario;
 		this.servicioUsuarioPokemon=servicioUsuarioPokemon;
 		this.servicioGachapon=servicioGachapon;
@@ -58,12 +62,23 @@ public class ControladorGachapon {
 			model.put("puntos", usuario.getPuntos());
 			return new ModelAndView("gachapon", model);
 		}
-		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas);
-		this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon));
-		model.put("monedas", request.getParameter("monedas"));
+		//repetidos
+		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas, usuario);
 		model.put("puntos", usuario.getPuntos());
 		model.put("pokemon", pokemon);
-		return new ModelAndView("gachapon-resultado", model);
+		model.put("monedas", monedas);
+		if(this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon), id, pokemon.getId(), usuario, pokemon)) {
+			return new ModelAndView("gachapon-resultado", model);
+		}else {
+			Integer pokemonedas= servicioUsuario.sumarpokeMonedas(pokemon.getRareza(), usuario);
+			String error = "Obtuviste " + pokemonedas + " Pokemonedas por pokemon repetido, tus pokeMonedas son: ";
+			model.put("repetido", error);
+			model.put("pokemonedas", usuario.getPokemonedas());
+			return new ModelAndView("gachapon-resultado", model);
+		}
+		
+
+		
 	}
 	
 	

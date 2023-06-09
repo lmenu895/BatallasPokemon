@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
 import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
+import ar.edu.unlam.tallerweb1.exceptions.ContraseniaIncompatible;
 import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
+import ar.edu.unlam.tallerweb1.modelo.DatosLogin;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 
@@ -107,5 +109,65 @@ public class ServicioLoginImpl implements ServicioLogin {
 		}
 		return false;
 		
+	}
+
+	@Override
+	public void cambiarContrasenia(DatosLogin datosLogin, Long idUsuario) throws ContraseniaCorta, ContraseniaIncompatible {
+		Usuario usuario=this.servicioLoginDao.buscarUsuario(idUsuario);
+		if (usuario.getPassword().equals(datosLogin.getOldPassword()) && !usuario.getPassword().equals(datosLogin.getPassword())) {
+			if(datosLogin.getPassword().length() < 8) {
+				throw new ContraseniaCorta("La contraseña debe ser de por lo menos 8 caracteres");
+			}
+			
+			usuario.setPassword(datosLogin.getPassword());
+			this.servicioLoginDao.modificar(usuario);
+			
+		}else {
+			throw new ContraseniaIncompatible("La nueva contraseña es igual a la anterior");
+		}
+		
+	}
+
+	@Override
+	public void cambiarUsuario(DatosLogin datosLogin, Long idUsuario) throws UsuarioExistenteException {
+		if(this.verificarUsuarioExistentePorNick(datosLogin.getUsuario())) {
+			Usuario usuario=this.servicioLoginDao.buscarUsuario(idUsuario);
+			usuario.setUsuario(datosLogin.getUsuario());
+			this.servicioLoginDao.modificar(usuario);
+		}else {
+			throw new UsuarioExistenteException("El usuario ya existe");
+		}
+		
+	}
+
+	private boolean verificarUsuarioExistentePorNick(String usuario) {
+		Usuario resultado = this.servicioLoginDao.buscarUsuarioPorUsername(usuario);
+		if (resultado != null && resultado.getUsuario() != usuario) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void cambiarMail(DatosLogin datosLogin, Long idUsuario)
+			throws FormatoDeEmailIncorrecto, UsuarioExistenteException {
+		
+		if(validarEmail(datosLogin.getEmail()) && verificarUsuarioExistente(datosLogin.getEmail())) {
+			Usuario usuario=this.servicioLoginDao.buscarUsuario(idUsuario);
+			usuario.setEmail(datosLogin.getEmail());
+			this.servicioLoginDao.modificar(usuario);
+		}else {
+			throw new FormatoDeEmailIncorrecto("Mail incorrecto o existente");
+		}
+		
+		
+		
+	}
+	private boolean verificarUsuarioExistente(String mail) {
+		Usuario resultado = this.servicioLoginDao.buscarUsuario(mail);
+		if (resultado != null && resultado.getEmail() != mail) {
+			return false;
+		}
+		return true;
 	}
 }

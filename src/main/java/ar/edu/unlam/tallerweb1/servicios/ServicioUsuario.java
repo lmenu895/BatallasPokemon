@@ -4,6 +4,7 @@ import java.util.List;
 
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
+import ar.edu.unlam.tallerweb1.modelo.RarezaPokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
 public interface ServicioUsuario {
@@ -19,4 +20,15 @@ public interface ServicioUsuario {
 	public List<Objeto> obtenerListaDeObjetos(Long attribute);
 
 	void sumarPuntos(Long idUsuario, Integer puntos);
+
+	Integer sumarpokeMonedas(RarezaPokemon rarezaPokemon, Usuario usuario);
+	
+	void sumarTiradasComunes(Usuario usuario);
+	
+	void sumarTiradasTotales(Usuario usuario);
+
+	void reiniciarTiradasComunes(Usuario usuario);
+	
+	void reiniciarTiradasTotales(Usuario usuario);
+
 }

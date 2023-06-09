@@ -28,16 +28,16 @@ public class ControladorAtaque {
 		this.servicioAtaque = servicioAtaque;
 	}
 	
-	@RequestMapping("/crear-ataque")
-	public ModelAndView crearAtaque(HttpServletRequest request) {
+	@RequestMapping("/crear-ataque") //se utiliza para asignar solicitudes web a clases de controlador específicas y/o métodos de controlador.
+	public ModelAndView crearAtaque(HttpServletRequest request) {//Proporciona acceso a los datos de las cabeceras HTTP, cookies, parámetros pasados por el usuario, etc, sin tener que parsear nosotros a mano los datos de formulario de la petición. {
 		
-		if (request.getSession().getAttribute("usuario") == null
+		if (request.getSession().getAttribute("usuario") == null //Si el usuario es null o no es admin te manda al home
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
 		}
-		ModelMap model = new ModelMap();
-		model.put("ataque", new Ataque());
-		return new ModelAndView("crear-ataque", model);
+		ModelMap model = new ModelMap(); //creamos el modelmap
+		model.put("ataque", new Ataque());// mandamos un ataque con el ataque vacio
+		return new ModelAndView("crear-ataque", model); //retornmos el modelo y la vista crear-ataque
 	}
 	
 	@RequestMapping(path = "/guardar-ataque", method = RequestMethod.POST)
@@ -47,15 +47,15 @@ public class ControladorAtaque {
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
 		}
-		ModelMap modelo = new ModelMap();
+		ModelMap modelo = new ModelMap();  //creamos el modelmap
 		
 		try {
-			this.servicioAtaque.guardarAtaque(datosAtaque);
+			this.servicioAtaque.guardarAtaque(datosAtaque);	 //Try del ataque a guardar
 			modelo.put("nombre", datosAtaque.getNombre());
 			return new ModelAndView("redirect:/lista-ataques");
 			
 		} catch (NombreExistenteException e) {
-			modelo.put("error", e.getMessage());
+			modelo.put("error", e.getMessage());				//catch de la exception si ya creamos ese ataque
 			return new ModelAndView("crear-ataque", modelo);
 		}
 		
@@ -67,10 +67,10 @@ public class ControladorAtaque {
 	public Boolean eliminarAtaque(@RequestParam("id") String id, HttpServletRequest request) throws PermisosInsuficientesException {
 		
 		if (request.getSession().getAttribute("usuario") == null
-				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
+				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {  //si no es admin no deja borrar
 			throw new PermisosInsuficientesException();
 		}
-		this.servicioAtaque.borrarAtaque(Long.parseLong(id));
+		this.servicioAtaque.borrarAtaque(Long.parseLong(id)); //borramos el ataque por ID
 		System.out.println(id);
 		return true;
 	}
@@ -83,7 +83,7 @@ public class ControladorAtaque {
 			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
-		model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
+		model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());  //creamos el modelo leponemos la lista de ataque y la retornamos
 		return new ModelAndView("lista-ataques", model);
 	}
 	
@@ -97,7 +97,7 @@ public class ControladorAtaque {
 		}
 		ModelMap model = new ModelMap();
 		model.put("ataque", this.servicioAtaque.buscarAtaque(id));//le pasamos el modelattribute y traemos el ataque a la vista
-		return new ModelAndView("modificar-ataque", model);
+		return new ModelAndView("modificar-ataque", model); 
 	}
 	
 	@RequestMapping(path = "/guardar-ataque-modificado", method = RequestMethod.POST)

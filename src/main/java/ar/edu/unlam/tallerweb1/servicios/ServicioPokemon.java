@@ -31,5 +31,9 @@ public interface ServicioPokemon {
 
 	List<Pokemon> crearEquipoCpu(HttpServletRequest request);
 
+	List<Pokemon> obtenerTodosLosPokemonsComunes();
+
+	Pokemon buscarPokemonString(String nombre);
+
 
 }

@@ -1,0 +1,54 @@
+/* HIDE RADIO */
+[type=radio] { 
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* IMAGE STYLES */
+[type=radio] + img {
+  cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=radio]:checked + img{
+	background-color: rgba(198, 198, 198, 0.55);
+  	border-radius:15px;
+}
+
+.marginArriba {
+	margin-top:2rem;
+}
+
+.tipoP {
+	border-radius:15px;
+	padding:0px 10px;
+}
+
+.fondo {
+	background-image: url("../images/starters.jpg");
+	background-size: 100%;
+	background-attachment: fixed;
+}
+
+.center-text {
+	text-align:center;
+	font-size: 2rem;
+}
+
+.formA {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.forms {
+	width:70%;
+	background-color: white;
+	margin: 5rem 1rem;
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
+	padding: 4rem;
+}
