@@ -13,30 +13,11 @@
     <title>Gachapon Resultado</title>
 </head>
 <body>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> 9a5119065880cdacee599089b135452dfa045187
     <div class="header">
         <a href="gachapon" class="gachaponLogo" ><img class="gachapon" src="images/togepi.png" alt="gachaLogo"></a>
     </div>
-=======
-		<h1>Tus monedas ${puntos}</h1>
-		<h1>Pokemon obtenido</h1>
-		${pokemon.nombre}
->>>>>>> 0df91bd (gacha terminado sin front2)
-=======
-    <div class="header">
-        <a href="gachapon" class="gachaponLogo" ><img class="gachapon" src="images/togepi.png" alt="gachaLogo"></a>
-    </div>
->>>>>>> f2f3795 (pitty y repetidos sin front)
-
-		<h1>Tus monedas ${puntos}</h1>
-		<h1>Pokemon obtenido</h1>
-		${pokemon.nombre}
-
+    
     <div class="resultado">
         <img class="pokeballArriba pokeball animation" src="images/pokeballArriba${monedas}.png" alt="arriba">
         <img class="pokemon animation" src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}" alt="pokemon">

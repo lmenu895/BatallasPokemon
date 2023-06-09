@@ -13,10 +13,8 @@ import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioGachapon;
-<<<<<<< HEAD
-=======
+
 import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
->>>>>>> 0df91bd (gacha terminado sin front2)
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 
@@ -28,19 +26,10 @@ public class ControladorGachapon {
 	private ServicioGachapon servicioGachapon;
 	private ServicioPokemon servicioPokemon;
 	
-	@Autowired
-<<<<<<< HEAD
-<<<<<<< HEAD
-	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) 
-	{
-=======
+	@Autowired	
 	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioUsuarioPokemon servicioUsuarioPokemon) {
 		this.servicioPokemon=servicioPokemon;	
->>>>>>> 0df91bd (gacha terminado sin front2)
-=======
-	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioUsuarioPokemon servicioUsuarioPokemon) {
-		this.servicioPokemon=servicioPokemon;	
->>>>>>> 9a5119065880cdacee599089b135452dfa045187
+
 		this.servicioUsuario=servicioUsuario;
 		this.servicioUsuarioPokemon=servicioUsuarioPokemon;
 		this.servicioGachapon=servicioGachapon;
@@ -73,21 +62,6 @@ public class ControladorGachapon {
 			model.put("puntos", usuario.getPuntos());
 			return new ModelAndView("gachapon", model);
 		}
-<<<<<<< HEAD
-		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas);
-		this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon));
-<<<<<<< HEAD
-<<<<<<< HEAD
-		model.put("monedas", request.getParameter("monedas"));
-=======
->>>>>>> 0df91bd (gacha terminado sin front2)
-=======
-
->>>>>>> 9a5119065880cdacee599089b135452dfa045187
-		model.put("puntos", usuario.getPuntos());
-		model.put("pokemon", pokemon);
-		return new ModelAndView("gachapon-resultado", model);
-=======
 		//repetidos
 		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas, usuario);
 		model.put("puntos", usuario.getPuntos());
@@ -96,7 +70,6 @@ public class ControladorGachapon {
 		if(this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon), id, pokemon.getId(), usuario, pokemon)) {
 			return new ModelAndView("gachapon-resultado", model);
 		}else {
-			
 			Integer pokemonedas= servicioUsuario.sumarpokeMonedas(pokemon.getRareza(), usuario);
 			String error = "Obtuviste " + pokemonedas + " Pokemonedas por pokemon repetido, tus pokeMonedas son: ";
 			model.put("repetido", error);
@@ -106,7 +79,6 @@ public class ControladorGachapon {
 		
 
 		
->>>>>>> f2f3795 (pitty y repetidos sin front)
 	}
 	
 	
