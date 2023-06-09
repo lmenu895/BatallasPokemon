@@ -20,6 +20,7 @@ import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 import ar.edu.unlam.tallerweb1.modelo.DatosLogin;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 
@@ -33,17 +34,19 @@ public class ControladorUsuario {
 	private ServicioUsuarioObjeto servicioUsuarioObjeto;
 
 	@Autowired
-	public ControladorUsuario(ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon, ServicioPokemon servicioPokemon, ServicioUsuarioObjeto servicioUsuarioObjeto) {
+	public ControladorUsuario(ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario,
+			ServicioUsuarioPokemon servicioUsuarioPokemon, ServicioPokemon servicioPokemon,
+			ServicioUsuarioObjeto servicioUsuarioObjeto) {
 		this.servicioObjeto = servicioObjeto;
 		this.servicioUsuario = servicioUsuario;
 		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
 		this.servicioPokemon = servicioPokemon;
 		this.servicioUsuarioObjeto = servicioUsuarioObjeto;
 	}
-	
+
 	@RequestMapping("lista-objetos")
 	public ModelAndView ObtenerObjetos(HttpServletRequest request) {
-		
+
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
@@ -55,59 +58,76 @@ public class ControladorUsuario {
 
 	@RequestMapping("elegir-equipo")
 	public ModelAndView elegirEquipo(HttpServletRequest request) {
-		
+
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
+		} else if (request.getSession().getAttribute("principiante") != null) {
+			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
-		model.put("listaPokemon", this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id")));
-		model.put("listaObjetos", this.servicioUsuario.obtenerListaDeObjetos((Long)request.getSession().getAttribute("id")));
+		model.put("listaPokemon",
+				this.servicioUsuario.obtenerListaDePokemons((Long) request.getSession().getAttribute("id")));
+		model.put("listaObjetos",
+				this.servicioUsuario.obtenerListaDeObjetos((Long) request.getSession().getAttribute("id")));
 		return new ModelAndView("elegir-equipo", model);
 	}
-	
-	
+
 	@RequestMapping(path = "guardar-equipo", method = RequestMethod.POST)
-	public ModelAndView guardarPokemon(@RequestParam(required=false, name="pokemonsLista")  String[] pokemonsTraidos , @RequestParam(required=false, name="objetosLista")  String[] objetosTraidos,  HttpServletRequest request) {
-		
+	public ModelAndView guardarPokemon(@RequestParam(required = false, name = "pokemonsLista") String[] pokemonsTraidos,
+			@RequestParam(required = false, name = "objetosLista") String[] objetosTraidos,
+			HttpServletRequest request) {
+
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
 		ModelMap model = new ModelMap();
-		Long id = (Long)request.getSession().getAttribute("id");
-		List <UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
-		List <Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemon(lista);
-		if(pokemonsTraidos == null || pokemonsTraidos.length != 3){
+		Long id = (Long) request.getSession().getAttribute("id");
+		List<UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
+		List<Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemon(lista);
+		if (pokemonsTraidos == null || pokemonsTraidos.length != 3) {
 			model.put("error", "Debe seleccionar 3 pokemons");
-			model.put("listaPokemon", this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id")));
-			model.put("listaObjetos", this.servicioUsuario.obtenerListaDeObjetos((Long)request.getSession().getAttribute("id")));
+			model.put("listaPokemon",
+					this.servicioUsuario.obtenerListaDePokemons((Long) request.getSession().getAttribute("id")));
+			model.put("listaObjetos",
+					this.servicioUsuario.obtenerListaDeObjetos((Long) request.getSession().getAttribute("id")));
 			return new ModelAndView("elegir-equipo", model);
 		}
-		if(objetosTraidos != null) {
-			List <UsuarioObjeto> listaO = this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto(id);
-			List <Objeto> objetos = this.servicioUsuarioObjeto.buscarObjeto(listaO);
+		if (objetosTraidos != null) {
+			List<UsuarioObjeto> listaO = this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto(id);
+			List<Objeto> objetos = this.servicioUsuarioObjeto.buscarObjeto(listaO);
 			objetos = this.servicioObjeto.buscarObjetoPorGrupo(objetosTraidos);
 			model.put("objetos", objetos);
 		}
 		pokemons = this.servicioPokemon.buscarPokemonPorGrupo(pokemonsTraidos);
 		model.put("equipo", pokemons);
 		return new ModelAndView("ver-equipos", model);
-		
+
 	}
-	
+
 	@RequestMapping("/datos-de-usuario")
 	public ModelAndView datosDeUsuario(HttpServletRequest request) {
+		if (request.getSession().getAttribute("usuario") == null) {
+			return new ModelAndView("redirect:/login");
+		}
 		String tipoDeRequest = request.getHeader("X-Requested-With");
 		ModelMap model = new ModelMap();
+		DatosLogin datosLogin = new DatosLogin();
+		datosLogin.setEmail(
+				this.servicioUsuario.buscarUsuario((long) request.getSession().getAttribute("id")).getEmail());
+		model.put("datosLogin", datosLogin);
 		if (tipoDeRequest == null || !tipoDeRequest.equals("XMLHttpRequest")) {
 			model.put("contenido", "datos-de-usuario");
 			return new ModelAndView("perfil-de-usuario", model);
 		} else {
-			return new ModelAndView("partial/datos-de-usuario");
+			return new ModelAndView("partial/datos-de-usuario", model);
 		}
 	}
-	
+
 	@RequestMapping("/historial-de-batallas")
 	public ModelAndView historialDeBatallas(HttpServletRequest request) {
+		if (request.getSession().getAttribute("usuario") == null) {
+			return new ModelAndView("redirect:/login");
+		}
 		String tipoDeRequest = request.getHeader("X-Requested-With");
 		ModelMap model = new ModelMap();
 		if (tipoDeRequest == null || !tipoDeRequest.equals("XMLHttpRequest")) {
@@ -117,9 +137,12 @@ public class ControladorUsuario {
 			return new ModelAndView("partial/historial-de-batallas");
 		}
 	}
-	
+
 	@RequestMapping("/lista-pokemons-usuario")
 	public ModelAndView listaPokemonsUsuario(HttpServletRequest request) {
+		if (request.getSession().getAttribute("usuario") == null) {
+			return new ModelAndView("redirect:/login");
+		}
 		String tipoDeRequest = request.getHeader("X-Requested-With");
 		ModelMap model = new ModelMap();
 		if (tipoDeRequest == null || !tipoDeRequest.equals("XMLHttpRequest")) {
@@ -129,7 +152,6 @@ public class ControladorUsuario {
 			return new ModelAndView("partial/lista-pokemons-usuario");
 		}
 	}
-	
 	@RequestMapping("/cambiar-contrasenia")
 	public ModelAndView irALogin(HttpServletRequest request) {
 		

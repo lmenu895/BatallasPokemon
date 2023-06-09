@@ -1,4 +1,5 @@
 <%@ include file="partial/header.jsp"%>
+<link href="css/style.css" rel="stylesheet">
 <title>Lista de ataques</title>
 
 <body class="fondo">

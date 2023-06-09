@@ -10,6 +10,10 @@ $(document).ready(function() {
 		$('#imgPerfil').prop('src', url);
 
 	})
+	
+	$(document).on('click', '.cambiar-mail', () => {
+		$('.cambiar-mail-dialog')[0].showModal();
+	});
 
 
 })

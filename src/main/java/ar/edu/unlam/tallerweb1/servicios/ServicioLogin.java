@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
-import ar.edu.unlam.tallerweb1.exceptions.ContraseñaCorta;
+import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
 import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -13,5 +13,5 @@ public interface ServicioLogin {
 	
 	Usuario consultarMail(String email);
 	
-	void guardarCliente(Usuario usuario) throws UsuarioExistenteException, CampoVacioException, ContraseñaCorta, FormatoDeEmailIncorrecto;
+	void guardarCliente(Usuario usuario) throws UsuarioExistenteException, CampoVacioException, ContraseniaCorta, FormatoDeEmailIncorrecto;
 }

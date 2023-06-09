@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
-import ar.edu.unlam.tallerweb1.exceptions.ContraseñaCorta;
+import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
 import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.*;
@@ -73,6 +73,9 @@ public class ControladorLogin {
 			request.getSession().setAttribute("esAdmin", usuarioBuscado.getEsAdmin());
 			request.getSession().setAttribute("id", usuarioBuscado.getId());
 			request.getSession().setAttribute("usuario", usuarioBuscado.getUsuario());
+			if (usuarioBuscado.getPrincipiante()) {
+				request.getSession().setAttribute("principiante", usuarioBuscado.getPrincipiante());
+			}
 			
 			if (usuarioBuscado.getEsAdmin()) {
 				return new ModelAndView("redirect:/admin");
@@ -104,7 +107,7 @@ public class ControladorLogin {
 		ModelMap model = new ModelMap();
 		try {
 			this.servicioLogin.guardarCliente(datosUsuario);
-		} catch (ContraseñaCorta | FormatoDeEmailIncorrecto |UsuarioExistenteException | CampoVacioException e) {
+		} catch (ContraseniaCorta | FormatoDeEmailIncorrecto |UsuarioExistenteException | CampoVacioException e) {
 			model.put("error", e.getMessage());
 			return model;
 		}

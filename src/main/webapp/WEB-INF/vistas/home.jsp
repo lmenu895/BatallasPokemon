@@ -27,17 +27,28 @@
 				<div class="fondo-usuario"></div>
 				<img class="pokeball" src="images/pokeballU.png" alt="pokeball">
 				<button class="textUser">${usuario.puntos}</button>
-				<button id="usuario" class="textUser">${usuario.usuario}</button>
+				<div class="username">
+					<a href="datos-de-usuario" id="usuario" class="textUser">${usuario.usuario}</a>
+					<div class="menu-usuario">
+						<a href="datos-de-usuario" class="datos-usuario">Mi perfil</a> <a
+							href="historial-de-batallas" class="historial-batallas">Historial
+							de batallas</a> <a href="lista-pokemons-usuario"
+							class="lista-pokemons">Mis pokemons</a> <a href="logout"
+							class="logoutButton">Logout</a>
+					</div>
+				</div>
 				<button class="textUser billetera">Billetera</button>
 			</div>
-			<button class="logoutButton">Logout</button>
 		</div>
 	</div>
-	
+
 	<div class="menus">
-		<div class="pok">
+		<div
+			class="pok  <c:if test="${sessionScope.principiante}">disabled</c:if>">
 			<img class="glaceon" src="images/glaceon.png" alt="glaceon">
-			<button class="batalla-texto">BATALLA</button>
+			<button class="batalla-texto"
+				<c:if test="${sessionScope.principiante}">disabled
+				title="Pruebe el GACHAPON para obtener sus primeros 3 pokemons y empezar a jugar!!!"</c:if>>BATALLA</button>
 		</div>
 		<div class="pok">
 			<img class="togepi" src="images/togepi.png" alt="togepi">

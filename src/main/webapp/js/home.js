@@ -2,37 +2,30 @@ $(document).ready(function() {
 
 	//Verifico si el raton está encima de usuario o logoutButton para no ocultar logoutButton
 	const isHover = () => {
-		if($("#usuario").is(':hover') || $(".logoutButton").is(':hover')){
+		if($("#usuario").is(':hover') || $(".menu-usuario").is(':hover')){
 			return true;
 		}
 	};
 
 	//El botón logoutButton aparece al pasar por encima del nombre de usuario
 	$("#usuario").hover(() => {
-		$(".logoutButton").show();
+		$(".menu-usuario").css('display', 'flex');
 	}, () => {
 		setTimeout(() => {
 			if (!isHover()) {
-				$(".logoutButton").hide();
+				$(".menu-usuario").hide();
 			}
 		}, 1000);
 	});
 
 	//Comportamiento del botón logoutButton
-	$(".logoutButton").mouseleave(function() {
+	$(".menu-usuario").mouseleave(function() {
 		setTimeout(() => {
 			if (!isHover()) {
 				$(this).hide();
 			}
 		}, 1000);
 	});
-
-	$(".logoutButton").click(() => {
-		window.location.href = "logout";
-	});
-
-});
-
 	
 	$(".batalla-texto").click(() => {
 		window.location.href = "elegir-equipo";
@@ -50,7 +43,4 @@ $(document).ready(function() {
 	$(".billetera").click(() => {
 		window.location.href = "registroBilletera";
 	});
-	
-	
-
-
+});
