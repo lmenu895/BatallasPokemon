@@ -5,9 +5,12 @@ $(document).ready(function() {
 		$('.pokemon').prop('width', width);
 	});
 <<<<<<< HEAD
+<<<<<<< HEAD
 });
 =======
 	
+=======
+>>>>>>> 9a5119065880cdacee599089b135452dfa045187
 	var img = $('.pokeballArriba').attr('src');
 	if (img == "images/pokeballArriba100.png") {
 		$(".pokeballAbajo").css('bottom', '40.2%')
@@ -21,6 +24,9 @@ $(document).ready(function() {
 	else if (img == "images/pokeballArriba10000.png") {
 		$(".pokeballAbajo").css('bottom', '40.4%')
 	}
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 9a5119065880cdacee599089b135452dfa045187
 });
 >>>>>>> f2f3795 (pitty y repetidos sin front)

@@ -26,8 +26,10 @@ public class ControladorGachapon {
 	private ServicioUsuario servicioUsuario;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	private ServicioGachapon servicioGachapon;
+	private ServicioPokemon servicioPokemon;
 	
 	@Autowired
+<<<<<<< HEAD
 <<<<<<< HEAD
 	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) 
 	{
@@ -35,6 +37,10 @@ public class ControladorGachapon {
 	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioUsuarioPokemon servicioUsuarioPokemon) {
 		this.servicioPokemon=servicioPokemon;	
 >>>>>>> 0df91bd (gacha terminado sin front2)
+=======
+	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioUsuarioPokemon servicioUsuarioPokemon) {
+		this.servicioPokemon=servicioPokemon;	
+>>>>>>> 9a5119065880cdacee599089b135452dfa045187
 		this.servicioUsuario=servicioUsuario;
 		this.servicioUsuarioPokemon=servicioUsuarioPokemon;
 		this.servicioGachapon=servicioGachapon;
@@ -71,9 +77,13 @@ public class ControladorGachapon {
 		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas);
 		this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon));
 <<<<<<< HEAD
+<<<<<<< HEAD
 		model.put("monedas", request.getParameter("monedas"));
 =======
 >>>>>>> 0df91bd (gacha terminado sin front2)
+=======
+
+>>>>>>> 9a5119065880cdacee599089b135452dfa045187
 		model.put("puntos", usuario.getPuntos());
 		model.put("pokemon", pokemon);
 		return new ModelAndView("gachapon-resultado", model);

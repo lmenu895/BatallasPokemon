@@ -24,6 +24,7 @@ public class ServicioUsuarioPokemonImpl implements ServicioUsuarioPokemon {
 	}
 	//repetidos
 	@Override
+<<<<<<< HEAD
 	public Boolean guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon, Long idUsuario, Long idPokemon, Usuario usuario, Pokemon pokemon) {
 		if(this.repositorioUsuarioPokemon.buscarUsuarioPokemon(idUsuario, idPokemon) == null) {
 			this.repositorioUsuarioPokemon.guardarUsuarioPokemon(usuarioPokemon);
@@ -31,6 +32,10 @@ public class ServicioUsuarioPokemonImpl implements ServicioUsuarioPokemon {
 		}
 		
 		return false;
+=======
+	public void guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon) {
+		this.repositorioUsuarioPokemon.guardarUsuarioPokemon(usuarioPokemon);
+>>>>>>> 9a5119065880cdacee599089b135452dfa045187
 		
 	}
 

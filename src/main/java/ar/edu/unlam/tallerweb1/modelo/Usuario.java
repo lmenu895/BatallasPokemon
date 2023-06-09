@@ -29,7 +29,12 @@ public class Usuario {
 <<<<<<< HEAD
 	private Boolean principiante = true;
 	private Integer puntos=1000;
+<<<<<<< HEAD
 	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contraseñas en la base de datos, no está implementado
+=======
+
+	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contraseï¿½as en la base de datos, no estï¿½ implementado
+>>>>>>> 9a5119065880cdacee599089b135452dfa045187
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 =======
 	private Integer puntos=1000;
