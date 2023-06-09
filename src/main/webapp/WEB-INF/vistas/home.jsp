@@ -37,7 +37,7 @@
 							class="logoutButton">Logout</a>
 					</div>
 				</div>
-				<button class="textUser billetera">Billetera</button>
+				<a href="mostrarBilletera">Billetera</a>
 			</div>
 		</div>
 	</div>
