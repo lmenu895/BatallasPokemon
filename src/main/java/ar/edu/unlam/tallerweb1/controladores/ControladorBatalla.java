@@ -46,10 +46,9 @@ public class ControladorBatalla {
 			@RequestParam(required = false) List<Long> pokemonsLista,
 			@RequestParam(required = false) String[] objetosLista) {
 
-		if (request.getSession().getAttribute("usuario") == null) {
+		if (request.getSession().getAttribute("usuario") == null
+				|| request.getSession().getAttribute("principiante") != null) {
 			return new ModelAndView("redirect:/login");
-		} else if (request.getSession().getAttribute("principiante") != null) {
-			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
 
@@ -95,7 +94,8 @@ public class ControladorBatalla {
 		DatosPokemonBatalla[] listaDatosPokemons = new Gson().fromJson(datosPokemonsJson, DatosPokemonBatalla[].class);
 		if (request.getSession().getAttribute("idsPokemonsCpu") != null) {
 			request.getSession().removeAttribute("idsPokemonsCpu");
-			this.servicioBatalla.finalBatalla(duracion, listaDatosPokemons, (Long) request.getSession().getAttribute("id"));
+			this.servicioBatalla.finalBatalla(duracion, listaDatosPokemons,
+					(Long) request.getSession().getAttribute("id"));
 		}
 	}
 }

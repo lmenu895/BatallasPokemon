@@ -59,10 +59,9 @@ public class ControladorUsuario {
 	@RequestMapping("elegir-equipo")
 	public ModelAndView elegirEquipo(HttpServletRequest request) {
 
-		if (request.getSession().getAttribute("usuario") == null) {
+		if (request.getSession().getAttribute("usuario") == null
+				|| request.getSession().getAttribute("principiante") != null) {
 			return new ModelAndView("redirect:/login");
-		} else if (request.getSession().getAttribute("principiante") != null) {
-			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
 		model.put("listaPokemon",
