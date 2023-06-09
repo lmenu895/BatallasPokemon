@@ -6,6 +6,7 @@ import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.*;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
+import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,10 +37,12 @@ public class ControladorLogin {
 	// paquete de los indicados en
 	// applicationContext.xml
 	private ServicioLogin servicioLogin;
+	private ServicioPokemon servicioPokemon;
 	private ServicioUsuario servicioUsuario;
 	
 	@Autowired
-	public ControladorLogin(ServicioLogin servicioLogin, ServicioUsuario servicioUsuario) {
+	public ControladorLogin(ServicioLogin servicioLogin, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon) {
+		this.servicioPokemon = servicioPokemon;
 		this.servicioLogin = servicioLogin;
 		this.servicioUsuario = servicioUsuario;
 	}
@@ -126,6 +131,13 @@ public class ControladorLogin {
 	public ModelAndView irAHome( HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null)
 			return new ModelAndView("redirect:/login");
+		List <Pokemon> lista = this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id"));
+		if(lista.size() == 0) {
+			ModelMap modelo = new ModelMap();
+			lista = this.servicioPokemon.obtenerTodosLosPokemonsComunes();
+			modelo.put("listaPokemonComunes", lista);
+			return new ModelAndView("iniciales", modelo);
+		}	
 		ModelMap model = new ModelMap();
 		model.put("usuario", servicioUsuario.buscarUsuario((Long)request.getSession().getAttribute("id")));
 		return new ModelAndView("home", model);

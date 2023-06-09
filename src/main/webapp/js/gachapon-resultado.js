@@ -5,6 +5,7 @@ $(document).ready(function() {
 		$('.pokemon').prop('width', width);
 	});
 });
+<<<<<<< HEAD
 
 	var img = $('.pokeballArriba').attr('src');
 	if (img == "images/pokeballArriba100.png") {
@@ -20,4 +21,6 @@ $(document).ready(function() {
 		$(".pokeballAbajo").css('bottom', '40.4%')
 	}
 
+=======
+>>>>>>> iniciales
 

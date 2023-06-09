@@ -80,6 +80,11 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 	public Pokemon buscarPokemon(String nombre) {
 		return this.repositorioPokemon.buscarPokemon(nombre);
 	}
+	
+	@Override
+	public Pokemon buscarPokemonString(String nombre) {
+		return this.repositorioPokemon.buscarPokemon(Long.parseLong(nombre));
+	}
 
 	@Override
 	public List<Pokemon> obtenerTodosLosPokemons() {
@@ -171,5 +176,10 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		InputStream inputStream = imagen.getInputStream();
 		Path filePath = uploadPath.resolve(fileName);
 		Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+	}
+
+	@Override
+	public List<Pokemon> obtenerTodosLosPokemonsComunes() {
+		return this.repositorioPokemon.obtenerPokemonsPorRareza(0);
 	}
 }
