@@ -28,7 +28,7 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 		Pokemon pokemon;
 		
 		switch (monedas) {
-			case 100: return pokemon = tirada(90, 100);
+			case 100: return pokemon = tirada(80, 95);
 				
 			case 500: return pokemon = tirada(60, 95);
 				
@@ -44,6 +44,7 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 		Pokemon pokemon;
 		Random random = new Random();
 		int numeroAleatorio = random.nextInt(101);
+		System.out.println(numeroAleatorio);
 		int comun= 0;
 		int raro= 1;
 		int epico=2;

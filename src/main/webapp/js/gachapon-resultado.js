@@ -5,4 +5,5 @@ $(document).ready(function() {
 		$('.pokemon').prop('width', width);
 		console.log('hoa')
 	});
+});
 
