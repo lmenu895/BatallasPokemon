@@ -3,11 +3,12 @@ package ar.edu.unlam.tallerweb1.servicios;
 import java.util.List;
 
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 
 public interface ServicioUsuarioPokemon {
 
-	void guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon);
+	Boolean guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon, Long idUsuario, Long idPokemon, Usuario usuario, Pokemon pokemon);
 
 	List<UsuarioPokemon> obtenerListaDeUsuarioPokemon(Long idUsuario);
 
@@ -16,4 +17,6 @@ public interface ServicioUsuarioPokemon {
 	void guardarEquipo(UsuarioPokemon usuarioPokemon);
 
 	List<Pokemon> buscarPokemon(List<UsuarioPokemon> lista);
+
+	void guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon);
 }
