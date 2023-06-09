@@ -21,7 +21,7 @@ public interface ServicioUsuario {
 
 	void sumarPuntos(Long idUsuario, Integer puntos);
 
-	void sumarpokeMonedas(RarezaPokemon rarezaPokemon, Usuario usuario);
+	Integer sumarpokeMonedas(RarezaPokemon rarezaPokemon, Usuario usuario);
 	
 	void sumarTiradasComunes(Usuario usuario);
 	

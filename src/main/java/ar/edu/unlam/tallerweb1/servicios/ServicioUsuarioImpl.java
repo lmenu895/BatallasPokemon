@@ -80,22 +80,23 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 	}
 	//repetidos
 	@Override
-	public void sumarpokeMonedas(RarezaPokemon rareza, Usuario usuario) {
+	public Integer sumarpokeMonedas(RarezaPokemon rareza, Usuario usuario) {
 		switch (rareza) {
 		case NORMAL:
 			usuario.setPokemonedas(usuario.getPokemonedas()+1);
 			this.repositorioUsuario.modificar(usuario);
-			break;
+			return 1;
 		case RARO:
 			usuario.setPokemonedas(usuario.getPokemonedas()+4);
 			this.repositorioUsuario.modificar(usuario);
-			break;
+			return 4;
 		case EPICO:
 			usuario.setPokemonedas(usuario.getPokemonedas()+10);
 			this.repositorioUsuario.modificar(usuario);
-			break;
-
+			return 10;
+			
 		}
+		return null;
 	}
 
 	@Override

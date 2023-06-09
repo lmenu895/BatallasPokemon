@@ -80,15 +80,15 @@ public class ControladorGachapon {
 =======
 		//repetidos
 		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas, usuario);
+		model.put("puntos", usuario.getPuntos());
+		model.put("pokemon", pokemon);
+		model.put("monedas", monedas);
 		if(this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon), id, pokemon.getId(), usuario, pokemon)) {
-			model.put("puntos", usuario.getPuntos());
-			model.put("pokemon", pokemon);
 			return new ModelAndView("gachapon-resultado", model);
 		}else {
-			String error = "Obtuviste Pokemonedas por repetido, tus pokeMonedas son: ";
-			servicioUsuario.sumarpokeMonedas(pokemon.getRareza(), usuario);
-			model.put("puntos", usuario.getPuntos());
-			model.put("pokemon", pokemon);
+			
+			Integer pokemonedas= servicioUsuario.sumarpokeMonedas(pokemon.getRareza(), usuario);
+			String error = "Obtuviste " + pokemonedas + " Pokemonedas por pokemon repetido, tus pokeMonedas son: ";
 			model.put("repetido", error);
 			model.put("pokemonedas", usuario.getPokemonedas());
 			return new ModelAndView("gachapon-resultado", model);

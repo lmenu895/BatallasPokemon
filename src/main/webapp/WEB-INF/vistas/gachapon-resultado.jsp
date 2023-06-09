@@ -34,9 +34,12 @@
         <img class="pokemon animation" src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}" alt="pokemon">
         <img class="pokeballAbajo pokeball animation" src="images/pokeballAbajo100.png" alt="abajo">
     </div>
-    <h1 class="congrats animation">¡Felicidades, ${pokemon.nombre}  es tu nuevo pokemon!</h1>
+    <c:if test="${empty repetido}">
+			<h1 class="congrats animation">¡Felicidades, ${pokemon.nombre}  es tu nuevo pokemon!</h1>
+		</c:if>
+    
     <c:if test="${not empty repetido}">
-			<span id="error">${repetido}  ${pokemonedas}</span>
+   			 <h1 class="congrats animation">${repetido}  ${pokemonedas}</h1>
 		</c:if>
 
 
