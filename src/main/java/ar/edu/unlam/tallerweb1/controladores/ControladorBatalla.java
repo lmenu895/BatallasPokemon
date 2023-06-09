@@ -48,6 +48,8 @@ public class ControladorBatalla {
 
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
+		} else if (request.getSession().getAttribute("principiante") != null) {
+			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
 

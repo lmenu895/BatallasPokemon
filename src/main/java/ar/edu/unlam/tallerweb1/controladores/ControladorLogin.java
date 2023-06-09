@@ -73,6 +73,9 @@ public class ControladorLogin {
 			request.getSession().setAttribute("esAdmin", usuarioBuscado.getEsAdmin());
 			request.getSession().setAttribute("id", usuarioBuscado.getId());
 			request.getSession().setAttribute("usuario", usuarioBuscado.getUsuario());
+			if (usuarioBuscado.getPrincipiante()) {
+				request.getSession().setAttribute("principiante", usuarioBuscado.getPrincipiante());
+			}
 			
 			if (usuarioBuscado.getEsAdmin()) {
 				return new ModelAndView("redirect:/admin");

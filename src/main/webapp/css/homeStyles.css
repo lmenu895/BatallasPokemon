@@ -50,32 +50,54 @@ a {
 	justify-content: flex-end;
 	align-items: center;
 	min-width: fit-content;
-	height: 4.5vh;
+	height: 35px;
 	margin-top: 2%;
 }
 
 .pokeball {
-	height: 95%;
+	position: relative;
+	height: 100%;
 	cursor: pointer;
-	margin-right: 3.5vmin;
+	left: 8px;
+}
+
+.username {
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+.username a {
+	text-decoration: none;
 }
 
 .textUser{
-	height: 95%;
+	height: 100%;
 	font-size: 1.2rem;
-	margin-right: 3.5vmin;
+	margin: 0 10px;
 	background: none;
 }
 
-.logoutButton {
+.menu-usuario {
+	position: absolute;
 	display: none;
-	position: relative;
+	flex-direction: column;
+	top: 29px;
+}
+
+.menu-usuario a {
 	font-size: 1.2rem;
-	border-radius: 0 0 15px 15px;
-	width: 55%;
+	text-align: center;
+	white-space: nowrap; 
+	padding: 5px 10px;
+	border-radius: 0;
 	min-height: 15%;
-	margin-top: 0;
 	background-color: rgba(198, 198, 198, 0.55);
+	z-index: 1;
+}
+
+.menu-usuario a:last-child {
+	border-radius: 0 0 15px 15px;
 }
 
 .fondo-usuario {
@@ -137,35 +159,14 @@ a {
 	z-index: 1;
 }
 
-/* 926 width */
-
-/* .glaceon {
-    position:relative;
-    width:10%;
-    bottom:33em;
-    left:25rem;
+.disabled {
+	opacity: 50%;
 }
 
-.togepi {
-    position:relative;
-    width:11%;
-    bottom:34rem;
-    left:46rem;
+.disabled button {
+	cursor: not-allowed;
 }
 
-.pokedex {
-    position:relative;
-    width:11%;
-    bottom:34rem;
-    left:26rem;
-}
-
-.fortnite{
-    position:relative;
-    width:7%;
-    bottom:33.2rem;
-    left:45rem;
-}*/
 button {
 	text-decoration:none;
 	background: none;

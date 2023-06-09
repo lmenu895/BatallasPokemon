@@ -61,7 +61,7 @@ public class ServicioLoginImpl implements ServicioLogin {
 			throw new CampoVacioException("Debe llenar todos los campos para registrarse");
 		}
 		if(usuarioNuevo.getPassword().length() < 8) {
-			throw new ContraseniaCorta("La contraseÃ±a debe ser de por lo menos 8 caracteres");
+			throw new ContraseniaCorta("La contraseña debe ser de por lo menos 8 caracteres");
 		}
 		if(!validarEmail(usuarioNuevo.getEmail())) {
 			throw new FormatoDeEmailIncorrecto("El formato de email es incorrecto");
