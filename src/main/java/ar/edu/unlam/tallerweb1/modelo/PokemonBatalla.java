@@ -1,13 +1,12 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 @Entity
 public class PokemonBatalla {
@@ -27,11 +26,9 @@ public class PokemonBatalla {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne
-	@Cascade(CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Pokemon pokemon;
-	@ManyToOne
-	@Cascade(CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Batalla batalla;
 	
 	private Boolean debilitado;

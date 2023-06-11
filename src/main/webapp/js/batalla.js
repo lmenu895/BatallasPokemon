@@ -639,7 +639,7 @@ $(document).ready(function() {
 		$(pokemonsCpu).each(function() {
 			var pokemon = {
 				id: this.id,
-				debilitado: this.debilitado,
+				debilitado: true,
 				entrenador: 'cpu'
 			};
 			datosPokemons.push(pokemon);

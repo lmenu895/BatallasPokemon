@@ -8,15 +8,20 @@ body {
 	background-position: 50%;
 }
 
+.botones-perfil {
+	margin-bottom: 20px;
+}
+
+/* || Estilos datos de usuario */
 .contenedor {
 	background-color: white;
 	border-style: solid;
 	border-color: beige;
 	border-radius: 10px;
 	padding: 30px;
-	
 }
-.perfil{
+
+.perfil {
 	height: 200px;
 	width: 200px;
 }
@@ -51,11 +56,36 @@ body {
 
 .boxOpciones {
 	border-style: solid;
-
 	height: 250px;
 	width: 200px;
 }
 
 #file {
 	display: none;
+}
+
+/* || Estilos del historial */
+.table-historial {
+	background: white;
+}
+
+.debilitado {
+	filter: brightness(0);
+}
+
+tbody {
+	display: block;
+	max-height: 75vh;
+	height: fit-content;
+	overflow-y: scroll;
+}
+
+thead, tbody tr {
+	display: table;
+	width: 100%;
+	table-layout: fixed; /* even columns width , fix width of table too*/
+}
+
+.table-text {
+	width: 17%;
 }
