@@ -14,9 +14,11 @@ body {
 	border-color: beige;
 	border-radius: 10px;
 	padding: 30px;
-	
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
 }
-.perfil{
+
+.perfil {
 	height: 200px;
 	width: 200px;
 }
@@ -26,23 +28,27 @@ body {
 	height: 200px;
 	width: 200px;
 	object-fit: cover;
+	padding-left: 20px;
+	padding-top: 15px;
 }
 
 .boxFoto {
 	align-items: center;
-	border-style: solid;
 	border-color: grey;
-	height: 250px;
-	width: 200px;
-	margin-bottom: 10px;
+	height: 220px;
+	width: 220px;
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
 }
 
 .boxCentro {
-	border-style: solid;
-	margin-left: 30px;
+	margin-left: 50px;
 	height: 500px;
 	width: 700px;
-	background-color: yellow;
+	background-color: #e6b81a;
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
+	padding: 1rem;
 }
 
 .containerBox {
@@ -51,11 +57,26 @@ body {
 
 .boxOpciones {
 	border-style: solid;
-
 	height: 250px;
 	width: 200px;
 }
 
 #file {
 	display: none;
+}
+.boton{
+	padding-top: 10px;
+}
+.pokemon {
+	position: relative;
+	width: 15%;
+	height: 50%;
+	cursor: pointer;
+	margin-left: 1%;
+	padding-right: 20px;
+	padding-bottom: 20px;
+}
+
+p{
+	padding-left: 20px;
 }
