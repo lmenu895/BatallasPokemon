@@ -85,38 +85,34 @@ public class ControladorBilletera {
 	}
 	
 	
-	@RequestMapping("/mostrarBilletera")
-	public ModelAndView mostrarBilletera(HttpServletRequest request) {
+	@RequestMapping(path= "/mostrarBilletera", method=RequestMethod.GET)
+	 public ModelAndView mostrarBilletera(HttpServletRequest request) {
+        ModelMap modelo = new ModelMap();
+        Long id = (Long) request.getSession().getAttribute("id");
+        Usuario usuario = servicioUsuario.buscarUsuario(id);
+        Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario);
 
-		ModelMap modelo = new ModelMap();
-		Long id = (Long) request.getSession().getAttribute("id");
-		Usuario usuario = servicioUsuario.buscarUsuario(id);
-		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario);
-		
-		try {
-			if(usuario != null) {
-				if(billetera != null) {
-					modelo.put("saldo", billetera.getSaldo());
-					modelo.put("cliente", usuario);
-					return new ModelAndView("miBilletera", modelo);		
-			
-				}else {
-			
-					modelo.put("mensaje", "Usted no posee una billetera. Por favor, genere una");
-				}
-				
-			}else {
-				
-				return new ModelAndView("redirect:/login");
-			}
-			
-			}catch(Exception e) {
-				modelo.put("billetera", billetera);
-				modelo.put("error", e.getMessage());				
-			}
-		
-		return new ModelAndView("redirect:/registroBilletera", modelo);
+        try {
+            if (usuario != null) {
+                if (billetera != null) {
+                    modelo.put("saldo", billetera.getSaldo());
+                    modelo.put("usuario", usuario);
+                    return new ModelAndView("mostrarBilletera",modelo);
+                } else {
+                	modelo.put("error", "Usted no posee una billetera. Por favor, genere una");
+                	return new ModelAndView("registroBilletera",modelo);
+                }
+            } else {
+            	return new ModelAndView("redirect:/login");
+            }
+        } catch (Exception e) {
+        	modelo.put("billetera", billetera);
+        	modelo.put("error", e.getMessage());
+        	return new ModelAndView("error",modelo);
+        }
 	}
+
+     
 	
 	@RequestMapping(path="/formularioSaldo", method=RequestMethod.GET)
 	public ModelAndView formularioSaldo(@ModelAttribute("billetera") Billetera billetera, HttpServletRequest request) {
