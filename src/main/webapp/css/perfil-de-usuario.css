@@ -8,6 +8,11 @@ body {
 	background-position: 50%;
 }
 
+.botones-perfil {
+	margin-bottom: 20px;
+}
+
+/* || Estilos datos de usuario */
 .contenedor {
 	background-color: white;
 	border-style: solid;
@@ -80,3 +85,30 @@ body {
 p{
 	padding-left: 20px;
 }
+
+/* || Estilos del historial */
+.table-historial {
+	background: white;
+}
+
+.debilitado {
+	filter: brightness(0);
+}
+
+tbody {
+	display: block;
+	max-height: 75vh;
+	height: fit-content;
+	overflow-y: scroll;
+}
+
+thead, tbody tr {
+	display: table;
+	width: 100%;
+	table-layout: fixed; /* even columns width , fix width of table too*/
+}
+
+.table-text {
+	width: 17%;
+}
+

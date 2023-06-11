@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,14 +19,18 @@ import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioObjeto;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
+import ar.edu.unlam.tallerweb1.servicios.ServicioBatalla;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
+import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
 import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
 import ar.edu.unlam.tallerweb1.exceptions.ContraseniaIncompatible;
 import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
+import ar.edu.unlam.tallerweb1.modelo.Batalla;
 import ar.edu.unlam.tallerweb1.modelo.DatosLogin;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
+import ar.edu.unlam.tallerweb1.modelo.PokemonBatalla;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 
@@ -38,17 +43,19 @@ public class ControladorUsuario {
 	private ServicioPokemon servicioPokemon;
 	private ServicioUsuarioObjeto servicioUsuarioObjeto;
 	private ServicioLogin servicioLogin;
+	private ServicioBatalla servicioBatalla;
 
 	@Autowired
 	public ControladorUsuario(ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario,
 			ServicioUsuarioPokemon servicioUsuarioPokemon, ServicioPokemon servicioPokemon,
-			ServicioUsuarioObjeto servicioUsuarioObjeto, ServicioLogin servicioLogin) {
+			ServicioUsuarioObjeto servicioUsuarioObjeto, ServicioLogin servicioLogin, ServicioBatalla servicioBatalla) {
 		this.servicioObjeto = servicioObjeto;
 		this.servicioUsuario = servicioUsuario;
 		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
 		this.servicioPokemon = servicioPokemon;
 		this.servicioUsuarioObjeto = servicioUsuarioObjeto;
 		this.servicioLogin = servicioLogin;
+		this.servicioBatalla = servicioBatalla;
 	}
 
 	@RequestMapping("lista-objetos")
@@ -66,10 +73,9 @@ public class ControladorUsuario {
 	@RequestMapping("elegir-equipo")
 	public ModelAndView elegirEquipo(HttpServletRequest request) {
 
-		if (request.getSession().getAttribute("usuario") == null) {
+		if (request.getSession().getAttribute("usuario") == null
+				|| request.getSession().getAttribute("principiante") != null) {
 			return new ModelAndView("redirect:/login");
-		} else if (request.getSession().getAttribute("principiante") != null) {
-			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
 		model.put("listaPokemon",
@@ -135,6 +141,14 @@ public class ControladorUsuario {
 		}
 		String tipoDeRequest = request.getHeader("X-Requested-With");
 		ModelMap model = new ModelMap();
+		List<Batalla> batallas = this.servicioBatalla
+				.obtenerBatallasUsuario((Long) request.getSession().getAttribute("id"));
+		List<PokemonBatalla> pokemonsBatalla = new ArrayList<>();
+		for (Batalla batalla : batallas) {
+			this.servicioBatalla.obtenerPokemonsBatalla(batalla);
+		}
+		model.put("batallas", batallas);
+		model.put("pokemonsBatalla", pokemonsBatalla);
 		if (tipoDeRequest == null || !tipoDeRequest.equals("XMLHttpRequest")) {
 			model.put("contenido", "historial-de-batallas");
 			return new ModelAndView("perfil-de-usuario", model);
@@ -157,25 +171,8 @@ public class ControladorUsuario {
 			return new ModelAndView("partial/lista-pokemons-usuario");
 		}
 	}
-	
-	@RequestMapping(path = "cambiar-contrasenia", method = RequestMethod.POST)
-	public ModelAndView cambiarContrasenia(@ModelAttribute DatosLogin datosLogin, HttpServletRequest request) {
-		if (request.getSession().getAttribute("usuario") == null) {
-			return new ModelAndView("redirect:/login");
-		}
-		ModelMap modelo = new ModelMap();
-		modelo.put("contenido", "datos-de-usuario");
-		try {
-			this.servicioLogin.cambiarContrasenia(datosLogin, (Long) request.getSession().getAttribute("id"));
-		} catch (ContraseniaCorta | ContraseniaIncompatible e) {
-			modelo.put("error", e.getMessage());
-			return new ModelAndView("perfil-de-usuario", modelo);
-		}
-		modelo.put("success", "Contraseña Actualizada");
-		return new ModelAndView("perfil-de-usuario", modelo);
-	}
-	
-	@RequestMapping("/cambiar-usuario")
+
+	@RequestMapping(path = "/cambiar-usuario", method = RequestMethod.POST)
 	public ModelAndView cambiarUsuario(@ModelAttribute DatosLogin datosLogin, HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
@@ -185,15 +182,15 @@ public class ControladorUsuario {
 		modelo.put("datosCambio", new DatosLogin());
 		try {
 			this.servicioLogin.cambiarUsuario(datosLogin, (Long) request.getSession().getAttribute("id"));
-		} catch (UsuarioExistenteException e) {
-			modelo.put("error", e.getMessage());
+		} catch (UsuarioExistenteException ex) {
+			modelo.put("error", ex.getMessage());
 			return new ModelAndView("perfil-de-usuario", modelo);
 		}
 		modelo.put("success", "Usuario Actualizado");
 		return new ModelAndView("perfil-de-usuario", modelo);
 	}
-	
-	@RequestMapping("/cambiar-mail")
+
+	@RequestMapping(path = "/cambiar-mail", method = RequestMethod.POST)
 	public ModelAndView cambiarMail(@ModelAttribute DatosLogin datosLogin, HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
@@ -203,45 +200,29 @@ public class ControladorUsuario {
 		modelo.put("datosCambio", new DatosLogin());
 		try {
 			this.servicioLogin.cambiarMail(datosLogin, (Long) request.getSession().getAttribute("id"));
-		} catch (UsuarioExistenteException | FormatoDeEmailIncorrecto e) {
-			modelo.put("error", e.getMessage());
+		} catch (UsuarioExistenteException | FormatoDeEmailIncorrecto ex) {
+			modelo.put("error", ex.getMessage());
 			return new ModelAndView("perfil-de-usuario", modelo);
 		}
 		modelo.put("success", "Mail Actualizado");
 		return new ModelAndView("perfil-de-usuario", modelo);
 	}
 
+	@RequestMapping(path = "/cambiar-contrasenia", method = RequestMethod.POST)
+	public ModelAndView cambiarContrasenia(@ModelAttribute DatosLogin datosLogin, HttpServletRequest request) {
+		if (request.getSession().getAttribute("usuario") == null) {
+			return new ModelAndView("redirect:/login");
+		}
+		ModelMap modelo = new ModelMap();
+		modelo.put("contenido", "datos-de-usuario");
+		try {
+			this.servicioLogin.cambiarContrasenia(datosLogin, (Long) request.getSession().getAttribute("id"));
+		} catch (ContraseniaCorta | ContraseniaIncompatible | CampoVacioException ex) {
+			modelo.put("error", ex.getMessage());
+			return new ModelAndView("perfil-de-usuario", modelo);
+		}
+		modelo.put("success", "Contraseña Actualizada");
+		return new ModelAndView("perfil-de-usuario", modelo);
+	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
