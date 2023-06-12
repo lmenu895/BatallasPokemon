@@ -133,4 +133,11 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		this.repositorioUsuario.modificar(usuario);
 		
 	}
+
+	@Override
+	public void sacarPrincipiante(Usuario usuario) {
+		usuario.setPrincipiante(false);
+		this.repositorioUsuario.modificar(usuario);
+		
+	}
 }

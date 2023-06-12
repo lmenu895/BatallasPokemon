@@ -24,11 +24,9 @@ public class ControladorGachapon {
 	private ServicioUsuario servicioUsuario;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	private ServicioGachapon servicioGachapon;
-	private ServicioPokemon servicioPokemon;
 	
 	@Autowired	
-	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioUsuarioPokemon servicioUsuarioPokemon) {
-		this.servicioPokemon=servicioPokemon;	
+	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) {
 
 		this.servicioUsuario=servicioUsuario;
 		this.servicioUsuarioPokemon=servicioUsuarioPokemon;

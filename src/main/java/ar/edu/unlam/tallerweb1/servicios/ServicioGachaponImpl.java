@@ -34,7 +34,15 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 	 @Override
 	    public Pokemon tiradaGachapon(Integer monedas, Usuario usuario) {
 	        Pokemon pokemon;
-
+	        if(usuario.getPrincipiante()) {
+	        	if(usuario.getPokemons().size() == 1) {
+	        		return pokemon = tiradaComun();
+	        	}
+	        	
+	        	this.servicioUsuario.sacarPrincipiante(usuario);
+	        	return pokemon = tiradaRaro();	
+	        }
+	        
 	        switch (monedas) {
 	            case 100: return pokemon = tirada(80, 95, usuario);
 
@@ -48,7 +56,23 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 	        return null;
 	    }
 
-	    private Pokemon tirada(Integer normal, Integer raroP, Usuario usuario) {
+		private Pokemon tiradaRaro() {
+			Pokemon pokemon;
+			 Random random = new Random();
+			 List<Pokemon> pokemonesFiltrados4= this.repositorioPokemon.obtenerPokemonsPorRareza(1);
+			 pokemon= pokemonesFiltrados4.get(random.nextInt(pokemonesFiltrados4.size()));
+	         return pokemon;
+		}
+
+		private Pokemon tiradaComun() {
+			 Pokemon pokemon;
+			 Random random = new Random();
+			 List<Pokemon> pokemonesFiltrados4= this.repositorioPokemon.obtenerPokemonsPorRareza(0);
+			 pokemon= pokemonesFiltrados4.get(random.nextInt(pokemonesFiltrados4.size()));
+	         return pokemon;
+		}
+
+		private Pokemon tirada(Integer normal, Integer raroP, Usuario usuario) {
 	        Pokemon pokemon;
 	        Random random = new Random();
 	        int numeroAleatorio = random.nextInt(101);
