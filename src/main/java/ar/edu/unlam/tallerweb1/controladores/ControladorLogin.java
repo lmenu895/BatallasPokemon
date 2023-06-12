@@ -81,6 +81,9 @@ public class ControladorLogin {
 			if (usuarioBuscado.getPrincipiante()) {
 				request.getSession().setAttribute("principiante", usuarioBuscado.getPrincipiante());
 			}
+			if (!usuarioBuscado.getPrincipiante()) {
+				request.getSession().setAttribute("principiante", usuarioBuscado.getPrincipiante());
+			}
 			
 			if (usuarioBuscado.getEsAdmin()) {
 				return new ModelAndView("redirect:/admin");

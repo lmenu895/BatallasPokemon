@@ -65,6 +65,9 @@ public class ControladorGachapon {
 		model.put("puntos", usuario.getPuntos());
 		model.put("pokemon", pokemon);
 		model.put("monedas", monedas);
+		if (!usuario.getPrincipiante()) {
+			request.getSession().setAttribute("principiante", usuario.getPrincipiante());
+		}
 		if(this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon), id, pokemon.getId(), usuario, pokemon)) {
 			return new ModelAndView("gachapon-resultado", model);
 		}else {
