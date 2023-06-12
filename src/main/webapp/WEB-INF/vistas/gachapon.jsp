@@ -32,7 +32,7 @@
 
 			<h3 class="puntosUser">Tus puntos ${puntos}</h3>
 		</div>
-		<c:if test="!${sessionScope.principiante}">
+		<c:if test="${!sessionScope.principiante}">
 			<div class="container">
 				<div class="center">
 					<img class="pokemon" id="pokeball" alt="pokemon"

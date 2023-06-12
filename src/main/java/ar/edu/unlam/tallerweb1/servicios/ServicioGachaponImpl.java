@@ -16,6 +16,7 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioPokemon;
 
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 
 
 @Service
@@ -24,19 +25,21 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 
 	private RepositorioPokemon repositorioPokemon;
 	private ServicioUsuario servicioUsuario;
+	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	 
 	 @Autowired
-	 public ServicioGachaponImpl(RepositorioPokemon repositorioPokemon, ServicioUsuario servicioUsuario) {
+	 public ServicioGachaponImpl(RepositorioPokemon repositorioPokemon, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) {
 		 this.repositorioPokemon= repositorioPokemon;
 		 this.servicioUsuario = servicioUsuario;
-	 }
+		 this.servicioUsuarioPokemon = servicioUsuarioPokemon;
+	}
 
 	 @Override
 	    public Pokemon tiradaGachapon(Integer monedas, Usuario usuario) {
 	        Pokemon pokemon;
 	        if(usuario.getPrincipiante()) {
 	        	if(usuario.getPokemons().size() == 1) {
-	        		return pokemon = tiradaComun();
+	        		return pokemon = tiradaComun(usuario);
 	        	}
 	        	
 	        	this.servicioUsuario.sacarPrincipiante(usuario);
@@ -56,6 +59,12 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 	        return null;
 	    }
 
+		private Pokemon pokemonRepetido(Usuario usuario) {
+			List<UsuarioPokemon> lista = usuario.getPokemons();
+    		List<Pokemon> pokemonUser = servicioUsuarioPokemon.buscarPokemon(lista);
+    		return pokemonUser.get(0);
+	}
+
 		private Pokemon tiradaRaro() {
 			Pokemon pokemon;
 			 Random random = new Random();
@@ -64,11 +73,12 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 	         return pokemon;
 		}
 
-		private Pokemon tiradaComun() {
+		private Pokemon tiradaComun(Usuario usuario) {
 			 Pokemon pokemon;
 			 Random random = new Random();
-			 List<Pokemon> pokemonesFiltrados4= this.repositorioPokemon.obtenerPokemonsPorRareza(0);
-			 pokemon= pokemonesFiltrados4.get(random.nextInt(pokemonesFiltrados4.size()));
+			 List<Pokemon> pokemonesFiltrados= this.repositorioPokemon.obtenerPokemonsPorRareza(0);
+			 pokemonesFiltrados.remove(pokemonRepetido(usuario));
+			 pokemon= pokemonesFiltrados.get(random.nextInt(pokemonesFiltrados.size()));
 	         return pokemon;
 		}
 
