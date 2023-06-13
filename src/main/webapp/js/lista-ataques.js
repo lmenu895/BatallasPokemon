@@ -1,6 +1,6 @@
 $(document).ready(function() { //Funcion principal de jquery
 
-	$(".borrar").click(function() { //Que pasa cuando le doy click a un objeto en la clase borrar
+	$(document).on('click', '.borrar',function() { //Que pasa cuando le doy click a un objeto en la clase borrar
 		if (confirm("¿Estás seguro de borrar el ataque?")) { //confirm -> tas seguro?
 			var id = $(this).val();
 			$.ajax({

@@ -622,8 +622,6 @@ $(document).ready(function() {
 			});
 		});
 	};
-	
-	$('.game-over')[0].showModal()
 
 	$(document).on('click', '.continuar', () => {
 		var duracion = new Date().getTime() - startTimer;
@@ -639,7 +637,7 @@ $(document).ready(function() {
 		$(pokemonsCpu).each(function() {
 			var pokemon = {
 				id: this.id,
-				debilitado: true,
+				debilitado: this.debilitado,
 				entrenador: 'cpu'
 			};
 			datosPokemons.push(pokemon);

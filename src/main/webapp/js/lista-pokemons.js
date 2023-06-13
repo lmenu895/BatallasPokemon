@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	$(".borrar").click(function() {
+	$(document).on('click', '.borrar', function() {
 		if (confirm("¿Estás seguro de borrar el pokemon?")) {
 			var idPokemon = this.value;
 			$.ajax({

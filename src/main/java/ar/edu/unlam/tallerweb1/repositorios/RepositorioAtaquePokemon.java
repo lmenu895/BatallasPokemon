@@ -13,5 +13,9 @@ public interface RepositorioAtaquePokemon {
 	void borrarAtaquePokemon(AtaquePokemon ataquePokemon);
 
 	void borrarAtaquePokemon(Long idAtaque, Long idPokemon);
+
+	List<AtaquePokemon> buscarAtaquesDesbloqueados(Long idPokemon);
+
+	List<AtaquePokemon> buscarAtaquesBloqueados(Long idPokemon);
 	
 }

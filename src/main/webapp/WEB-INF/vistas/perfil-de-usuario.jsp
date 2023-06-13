@@ -11,13 +11,13 @@
 	<div class="container">
 		<div class="botones-perfil">
 			<button
-				<c:if test="${contenido=='datos-de-usuario'}">class="activo"</c:if>
+				class="btn-perfil btn-datos<c:if test="${contenido=='datos-de-usuario'}"> activo</c:if>"
 				id="datosUsuario">Datos de usuario</button>
 			<button
-				<c:if test="${contenido=='historial-de-batallas'}">class="activo"</c:if>
+				class="btn-perfil btn-historial<c:if test="${contenido=='historial-de-batallas'}"> activo</c:if>"
 				id="historialBatallas">Historial de batallas</button>
 			<button
-				<c:if test="${contenido=='lista-pokemons-usuario'}">class="activo"</c:if>
+				class="btn-perfil btn-lista<c:if test="${contenido=='lista-pokemons-usuario'}"> activo</c:if>"
 				id="listaPokemons">Lista de pokemons</button>
 		</div>
 		<div class="contenido">

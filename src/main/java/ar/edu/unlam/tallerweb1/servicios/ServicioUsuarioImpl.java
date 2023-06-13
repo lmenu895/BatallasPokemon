@@ -117,20 +117,23 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		usuario.setCantTiradasTotales(0);
 		}
 		this.repositorioUsuario.modificar(usuario);
-		
 	}
 
 	@Override
 	public void reiniciarTiradasComunes(Usuario usuario) {
 		usuario.setCantTiradasComunes(0);
 		this.repositorioUsuario.modificar(usuario);
-		
 	}
 
 	@Override
 	public void reiniciarTiradasTotales(Usuario usuario) {
 		usuario.setCantTiradasTotales(0);
 		this.repositorioUsuario.modificar(usuario);
-		
+	}
+
+	@Override
+	public void sacarPrincipiante(Usuario usuario) {
+		usuario.setPrincipiante(false);
+		this.repositorioUsuario.modificar(usuario);
 	}
 }
