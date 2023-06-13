@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
-import ar.edu.unlam.tallerweb1.modelo.RarezaPokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioPokemon;

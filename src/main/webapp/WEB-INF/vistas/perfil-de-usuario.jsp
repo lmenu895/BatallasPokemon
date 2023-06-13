@@ -3,6 +3,11 @@
 <title>Perfil de usuario</title>
 </head>
 <body>
+
+	<div>
+		<a href="home"><img class="pokemon" alt="pokemon"
+			src="images/pokemonLogo.png"></a>
+	</div>
 	<div class="container">
 		<div class="botones-perfil">
 			<button

@@ -48,7 +48,7 @@
 			<img class="glaceon" src="images/glaceon.png" alt="glaceon">
 			<button class="batalla-texto"
 				<c:if test="${sessionScope.principiante}">disabled
-				title="Pruebe el GACHAPON para obtener sus primeros 3 pokemons y empezar a jugar!!!"</c:if>>BATALLA</button>
+				title="Pruebe el GACHAPON para obtener 2 pokemons más y empezar a jugar!!!"</c:if>>BATALLA</button>
 		</div>
 		<div class="pok">
 			<img class="togepi" src="images/togepi.png" alt="togepi">

@@ -24,11 +24,9 @@ public class ControladorGachapon {
 	private ServicioUsuario servicioUsuario;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	private ServicioGachapon servicioGachapon;
-	private ServicioPokemon servicioPokemon;
 	
 	@Autowired	
-	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioUsuarioPokemon servicioUsuarioPokemon) {
-		this.servicioPokemon=servicioPokemon;	
+	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) {
 
 		this.servicioUsuario=servicioUsuario;
 		this.servicioUsuarioPokemon=servicioUsuarioPokemon;
@@ -67,6 +65,9 @@ public class ControladorGachapon {
 		model.put("puntos", usuario.getPuntos());
 		model.put("pokemon", pokemon);
 		model.put("monedas", monedas);
+		if (!usuario.getPrincipiante()) {
+			request.getSession().removeAttribute("principiante");
+		}
 		if(this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon), id, pokemon.getId(), usuario, pokemon)) {
 			return new ModelAndView("gachapon-resultado", model);
 		}else {
@@ -76,12 +77,5 @@ public class ControladorGachapon {
 			model.put("pokemonedas", usuario.getPokemonedas());
 			return new ModelAndView("gachapon-resultado", model);
 		}
-		
-
-		
 	}
-	
-	
-	
-
 }
