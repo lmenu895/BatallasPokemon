@@ -41,3 +41,5 @@
 		for="switch">Ver pokemons debilitados</label>
 </div>
 <script type="text/javascript" src="js/historial-de-batallas.js"></script>
+
+

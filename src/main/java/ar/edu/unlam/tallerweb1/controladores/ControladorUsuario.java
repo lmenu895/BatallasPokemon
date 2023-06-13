@@ -167,13 +167,15 @@ public class ControladorUsuario {
 		String tipoDeRequest = request.getHeader("X-Requested-With");
 		ModelMap model = new ModelMap();
 		//////////////////////////////////////////////////////////////////////////
-
+		
+		model.put("lista", this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon((Long)request.getSession().getAttribute("id")));
+		
 		///////////////////////////////////////////////////////////////////////
 		if (tipoDeRequest == null || !tipoDeRequest.equals("XMLHttpRequest")) {
 			model.put("contenido", "lista-pokemons-usuario");
 			return new ModelAndView("perfil-de-usuario", model);
 		} else {
-			return new ModelAndView("partial/lista-pokemons-usuario");
+			return new ModelAndView("partial/lista-pokemons-usuario",model);
 		}
 	}
 
