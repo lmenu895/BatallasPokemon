@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+
 import ar.edu.unlam.tallerweb1.servicios.ServicioObjeto;
 import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
@@ -158,12 +160,15 @@ public class ControladorUsuario {
 	}
 
 	@RequestMapping("/lista-pokemons-usuario")
-	public ModelAndView listaPokemonsUsuario(HttpServletRequest request) {
+	public ModelAndView listaPokemonsUsuario(HttpServletRequest request, @RequestParam(required = false) List<Long> pokemonsLista) {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
 		String tipoDeRequest = request.getHeader("X-Requested-With");
 		ModelMap model = new ModelMap();
+		//////////////////////////////////////////////////////////////////////////
+
+		///////////////////////////////////////////////////////////////////////
 		if (tipoDeRequest == null || !tipoDeRequest.equals("XMLHttpRequest")) {
 			model.put("contenido", "lista-pokemons-usuario");
 			return new ModelAndView("perfil-de-usuario", model);
