@@ -1,23 +1,99 @@
-.activo {
-	color: red;
-}
-
 body {
 	padding: 40px;
 	background-image: url("../images/bijachu.jpg");
 	background-position: 50%;
 }
 
-.botones-perfil {
-	margin-bottom: 20px;
+.cargando {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.contenido {
+	border: solid 1px grey;
+	height: 800px;
+	background-color: white;
+}
+
+.btn-perfil {
+	--bkg: white;
+	background-color: white;
+	padding: 5px 10px;
+	position: relative;
+	border: solid 1px;
+	border-bottom: none;
+	border-radius: 10px 10px 0 0;
+	bottom: -1px;
+	transition: ease-in-out 0.3s;
+}
+
+.btn-datos {
+	--color: blue;
+	color: blue;
+	border-color: var(--color);
+}
+
+.btn-historial {
+	--color: green;
+	color: green;
+	border-color: var(--color);
+}
+
+.btn-lista{
+	--color: red;
+	color: red;
+	border-color: var(--color);
+}
+
+.activo {
+	--bkg: var(--color);
+	background-color: var(--color);
+	color: white;
+	z-index: 1;
+}
+
+.btn-perfil:hover {
+	--bkg: var(--color);
+	color: white;
+	background-color: var(--color);
+}
+
+.btn-perfil:before,
+.btn-perfil:after {
+    content: "";
+    position: absolute;
+    height: 10px;
+    width: 20px;
+    bottom: 0;
+    transition: ease-in-out 0.3s;
+}
+
+.btn-perfil:before {
+    left: -20px;
+    border-radius: 0 0 10px 0;
+    border-right: solid 1px;
+    border-color: inherit;
+    box-shadow: 10px 0 0 0 var(--bkg);
+}
+
+.btn-perfil:after {
+    right: -20px;
+    border-radius: 0 0 0 10px;
+    border-left: solid 1px;
+    border-color: inherit;
+    box-shadow: -10px 0 0 0 var(--bkg);
+    z-index: 1;
+}
+
+.btn-perfil:first-child:before {
+	all: unset;
 }
 
 /* || Estilos datos de usuario */
 .contenedor {
-	background-color: white;
-	border-style: solid;
-	border-color: beige;
-	border-radius: 10px;
 	padding: 30px;
 }
 
@@ -75,7 +151,7 @@ body {
 
 tbody {
 	display: block;
-	max-height: 75vh;
+	max-height: 700px;
 	height: fit-content;
 	overflow-y: scroll;
 }
@@ -88,4 +164,13 @@ thead, tbody tr {
 
 .table-text {
 	width: 17%;
+}
+
+.switch {
+	margin-left: 15px;
+}
+
+.switch input, .switch label {
+	user-select: none;
+	cursor: pointer;
 }

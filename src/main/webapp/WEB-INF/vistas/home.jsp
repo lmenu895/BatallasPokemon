@@ -44,7 +44,7 @@
 
 	<div class="menus">
 		<div
-			class="pok  <c:if test="${sessionScope.principiante}">disabled</c:if>">
+			class="pok<c:if test="${sessionScope.principiante}"> disabled</c:if>">
 			<img class="glaceon" src="images/glaceon.png" alt="glaceon">
 			<button class="batalla-texto"
 				<c:if test="${sessionScope.principiante}">disabled

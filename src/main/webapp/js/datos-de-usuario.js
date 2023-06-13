@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-	console.log("d");
-
 	$('#imgPerfil').click(function() {
 		$('#file').click();
 	})

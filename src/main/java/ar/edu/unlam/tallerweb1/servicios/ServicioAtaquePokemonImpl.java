@@ -27,15 +27,6 @@ public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 	}
 
 	@Override
-	public List<Ataque> obtenerListaDeAtaques(Long idPokemon) {
-		List<Ataque> ataques = new ArrayList<>();
-		for (AtaquePokemon ataque : this.repositorioAtaquePokemon.buscarAtaques(idPokemon)) {
-			ataques.add(ataque.getAtaque());
-		}
-		return ataques;
-	}
-
-	@Override
 	public void borrarAtaquePokemon(AtaquePokemon ataquePokemon) {
 		this.repositorioAtaquePokemon.borrarAtaquePokemon(ataquePokemon);
 	}
@@ -43,5 +34,32 @@ public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 	@Override
 	public void borrarAtaquePokemon(Long idAtaque, Long idPokemon) {
 		this.repositorioAtaquePokemon.borrarAtaquePokemon(idAtaque, idPokemon);
+	}
+
+	@Override
+	public List<Long> obtenetAtaquesDesbloqueados(Long idPokemon) {
+		List<Long> ataques = new ArrayList<>();
+		for (AtaquePokemon ataque : this.repositorioAtaquePokemon.buscarAtaquesDesbloqueados(idPokemon)) {
+			ataques.add(ataque.getAtaque().getId());
+		}
+		return ataques;
+	}
+
+	@Override
+	public List<Long> obtenetAtaquesBloqueados(Long idPokemon) {
+		List<Long> ataques = new ArrayList<>();
+		for (AtaquePokemon ataque : this.repositorioAtaquePokemon.buscarAtaquesBloqueados(idPokemon)) {
+			ataques.add(ataque.getAtaque().getId());
+		}
+		return ataques;
+	}
+
+	@Override
+	public List<Ataque> obtenerListaDeAtaques(Long idPokemon) {
+		List<Ataque> ataques = new ArrayList<>();
+		for (AtaquePokemon ataque : this.repositorioAtaquePokemon.buscarAtaques(idPokemon)) {
+			ataques.add(ataque.getAtaque());
+		}
+		return ataques;
 	}
 }

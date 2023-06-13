@@ -13,4 +13,8 @@ public interface ServicioAtaquePokemon {
 	void borrarAtaquePokemon(Long idAtaque, Long idPokemon);
 
 	List<Ataque> obtenerListaDeAtaques(Long idPokemon);
+
+	List<Long> obtenetAtaquesDesbloqueados(Long idPokemon);
+
+	List<Long> obtenetAtaquesBloqueados(Long idPokemon);
 }

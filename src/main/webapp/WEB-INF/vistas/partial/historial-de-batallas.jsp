@@ -35,3 +35,9 @@
 		</c:forEach>
 	</tbody>
 </table>
+<div class="form-check form-switch switch">
+	<input class="form-check-input" type="checkbox"
+		id="switch"> <label class="form-check-label"
+		for="switch">Ver pokemons debilitados</label>
+</div>
+<script type="text/javascript" src="js/historial-de-batallas.js"></script>

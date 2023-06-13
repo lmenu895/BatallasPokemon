@@ -153,7 +153,7 @@ public class ControladorUsuario {
 			model.put("contenido", "historial-de-batallas");
 			return new ModelAndView("perfil-de-usuario", model);
 		} else {
-			return new ModelAndView("partial/historial-de-batallas");
+			return new ModelAndView("partial/historial-de-batallas", model);
 		}
 	}
 

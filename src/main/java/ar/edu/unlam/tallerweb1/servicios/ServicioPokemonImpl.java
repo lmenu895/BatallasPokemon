@@ -11,6 +11,7 @@ import java.util.Random;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.dialect.Database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,34 +41,49 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 	}
 
 	@Override
-	public void guardarPokemon(Pokemon pokemon, List<Long> ataques, MultipartFile frente, MultipartFile dorso)
+	public void guardarPokemon(DatosPokemon datosPokemon)
 			throws IOException, NombreExistenteException, SpriteNoIngresadoException {
-		if (frente.isEmpty() | dorso.isEmpty()) {
+		if (datosPokemon.getImagenFrente().isEmpty() | datosPokemon.getImagenDorso().isEmpty()) {
 			throw new SpriteNoIngresadoException("No ha ingresado los dos sprites del pokemon");
 		}
-		this.validarPokemon(pokemon, frente, dorso, "");
+		Pokemon pokemon = new Pokemon();
+		this.validarPokemon(datosPokemon, pokemon);
 		this.repositorioPokemon.guardarPokemon(pokemon);
-		ataques.forEach(x -> this.servicioAtaquePokemon
-				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
+		datosPokemon.getAtaquesDesbloqueados().forEach(x -> this.servicioAtaquePokemon
+				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon, false)));
+		datosPokemon.getAtaquesBloqueados().forEach(x -> this.servicioAtaquePokemon
+				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon, true)));
 	}
 
 	@Override
-	public void modificarPokemon(Pokemon pokemon, List<Long> ataques, MultipartFile frente, MultipartFile dorso,
-			String nombreAnterior, List<Long> ataquesAprendidos) throws IOException, NombreExistenteException {
-		this.validarPokemon(pokemon, frente, dorso, nombreAnterior);
+	public void modificarPokemon(DatosPokemon datosPokemon, Long idPokemon)
+			throws IOException, NombreExistenteException {
+		Pokemon pokemon = this.buscarPokemon(idPokemon);
+		this.validarPokemon(datosPokemon, pokemon);
 		Long ataque;
-		for (Long aprendido : ataquesAprendidos) {
-			ataque = this.verificarAtaqueOlvidado(aprendido, ataques);
+		List<Long> ataquesDesbloqueados = datosPokemon.getAtaquesDesbloqueados();
+		List<Long> ataquesBloqueados = datosPokemon.getAtaquesBloqueados();
+		for (Long aprendido : this.servicioAtaquePokemon.obtenetAtaquesDesbloqueados(idPokemon)) {
+			ataque = this.verificarAtaqueOlvidado(aprendido, ataquesDesbloqueados);
 			if (ataque == null) {
 				this.servicioAtaquePokemon.borrarAtaquePokemon(aprendido, pokemon.getId());
 			} else {
-				ataques.remove(ataque);
+				ataquesDesbloqueados.remove(ataque);
+			}
+		}
+		for (Long aprendido : this.servicioAtaquePokemon.obtenetAtaquesBloqueados(idPokemon)) {
+			ataque = this.verificarAtaqueOlvidado(aprendido, ataquesBloqueados);
+			if (ataque == null) {
+				this.servicioAtaquePokemon.borrarAtaquePokemon(aprendido, pokemon.getId());
+			} else {
+				ataquesBloqueados.remove(ataque);
 			}
 		}
 		this.repositorioPokemon.modificarPokemon(pokemon);
-		ataques.forEach(x -> this.servicioAtaquePokemon
-				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon)));
-
+		ataquesDesbloqueados.forEach(x -> this.servicioAtaquePokemon
+				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon, false)));
+		ataquesBloqueados.forEach(x -> this.servicioAtaquePokemon
+				.guardarAtaque(new AtaquePokemon(this.servicioAtaque.buscarAtaque(x), pokemon, true)));
 	}
 
 	@Override
@@ -80,7 +96,7 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 	public Pokemon buscarPokemon(String nombre) {
 		return this.repositorioPokemon.buscarPokemon(nombre);
 	}
-	
+
 	@Override
 	public Pokemon buscarPokemonString(String nombre) {
 		return this.repositorioPokemon.buscarPokemon(Long.parseLong(nombre));
@@ -144,24 +160,28 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 		return null;
 	}
 
-	private void validarPokemon(Pokemon pokemon, MultipartFile frente, MultipartFile dorso, String nombreAnterior)
+	private void validarPokemon(DatosPokemon datosPokemon, Pokemon pokemon)
 			throws IOException, NombreExistenteException {
-		if (nombreAnterior.equals(pokemon.getNombre())
-				|| this.repositorioPokemon.buscarPokemon(pokemon.getNombre()) == null) {
+		if (pokemon.getNombre() != null && pokemon.getNombre().equals(datosPokemon.getNombre())
+				|| this.repositorioPokemon.buscarPokemon(datosPokemon.getNombre()) == null) {
 			try {
-				if (!frente.isEmpty()) {
-					this.guardarImagen(frente, pokemon.getNombre());
-					pokemon.setImagenFrente(frente.getOriginalFilename());
+				if (!datosPokemon.getImagenFrente().isEmpty()) {
+					this.guardarImagen(datosPokemon.getImagenFrente(), datosPokemon.getNombre());
+					pokemon.setImagenFrente(datosPokemon.getImagenFrente().getOriginalFilename());
 				}
-				if (!dorso.isEmpty()) {
-					this.guardarImagen(dorso, pokemon.getNombre());
-					pokemon.setImagenDorso(dorso.getOriginalFilename());
+				if (!datosPokemon.getImagenDorso().isEmpty()) {
+					this.guardarImagen(datosPokemon.getImagenDorso(), datosPokemon.getNombre());
+					pokemon.setImagenDorso(datosPokemon.getImagenDorso().getOriginalFilename());
 				}
+				pokemon.setNombre(datosPokemon.getNombre());
+				pokemon.setTipo(datosPokemon.getTipo());
+				pokemon.setRareza(datosPokemon.getRareza());
+				pokemon.setVida(datosPokemon.getVida());
+				pokemon.setVelocidad(datosPokemon.getVelocidad());
 			} catch (IOException ex) {
 				throw new IOException("No se pudo guardar los archivos");
 			}
 		} else {
-			pokemon.setNombre(nombreAnterior);
 			throw new NombreExistenteException("El nombre del pokemon ya existe");
 		}
 	}
