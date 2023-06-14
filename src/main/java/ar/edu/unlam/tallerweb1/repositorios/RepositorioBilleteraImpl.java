@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.unlam.tallerweb1.modelo.Billetera;
+import ar.edu.unlam.tallerweb1.modelo.Plan;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
 @Repository
@@ -53,6 +54,15 @@ public class RepositorioBilleteraImpl implements RepositorioBilletera{
 		 Double saldoActual = billetera.getSaldo() + monto;
 		 billetera.setSaldo(saldoActual);
 		 session.update(billetera);
+		
+	}
+
+	@Override
+	public void pagarPlan(Plan plan, Billetera billetera) {
+		final Session session = sessionFactory.getCurrentSession();
+		Double pago = billetera.getSaldo() - plan.getPrecio();
+		billetera.setSaldo(pago);
+		session.update(billetera);
 		
 	}
 
