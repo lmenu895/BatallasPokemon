@@ -58,8 +58,8 @@ public class ControladorPlan {
 		}
 		return new ModelAndView("redirect:/login");
 	}
-
-	@RequestMapping(path = "/asignarplan/{plan}", method = RequestMethod.GET)
+	
+	@RequestMapping(path = "asignarplan/{plan}", method = RequestMethod.GET)
 	public ModelAndView elegirPlan(@PathVariable("plan") Long idP, HttpServletRequest request) {
 
 		ModelMap modelo = new ModelMap();
@@ -70,7 +70,7 @@ public class ControladorPlan {
 		if (u1 != null) {
 			if (u1.getPlan() == null) {
 				if (billetera != null) {
-					if (billetera.getSaldo() > p1.getPrecio()) {
+					if (billetera.getSaldo() >= p1.getPrecio()) {
 						servicioPlan.asignarPlanAUsuario(u1, p1);
 						servicioBilletera.pagarPlan(p1, billetera);
 						modelo.put("usuario", u1);
@@ -78,10 +78,8 @@ public class ControladorPlan {
 						return new ModelAndView("redirect:/planAsignadoCorrectamente");
 					} else {
 						modelo.put("usuario", u1);
-						modelo.put("plan", p1);
-						modelo.put("fondoInsuficiente",
-								"No posee fondo suficiente para pagar el plan. Recargue dinero");
-						return new ModelAndView("planes", modelo);
+						modelo.put("billetera", billetera);
+						return new ModelAndView("ingresarSaldo", modelo);
 					}
 				} else {
 					modelo.put("usuario", u1);
