@@ -622,8 +622,6 @@ $(document).ready(function() {
 			});
 		});
 	};
-	
-	$('.game-over')[0].showModal()
 
 	$(document).on('click', '.continuar', () => {
 		var duracion = new Date().getTime() - startTimer;

@@ -23,13 +23,7 @@
 		<div class="contenido">
 			<jsp:include page="partial/${contenido}.jsp"></jsp:include>
 		</div>
-
-
-
-
 	</div>
 	<script type="text/javascript" src="js/perfil-de-usuario.js"></script>
-	<script type="text/javascript" src="js/home.js"></script>
-	<script type="text/javascript" src="js/datos-de-usuario.js"></script>
 </body>
 </html>

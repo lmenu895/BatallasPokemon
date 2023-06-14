@@ -1,11 +1,22 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.regex.Pattern;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
 import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
@@ -27,10 +38,12 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 public class ServicioLoginImpl implements ServicioLogin {
 
 	private RepositorioUsuario servicioLoginDao;
+	private ServletContext servletContext;
 
 	@Autowired
-	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao) {
+	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao, ServletContext servletContext) {
 		this.servicioLoginDao = servicioLoginDao;
+		this.servletContext = servletContext;
 	}
 
 	@Override
@@ -50,7 +63,8 @@ public class ServicioLoginImpl implements ServicioLogin {
 
 		checkearDatos(usuarioNuevo);
 
-		if (verificarUsuarioExistente(usuarioNuevo.getEmail()) && verificarUsuarioExistentePorNick(usuarioNuevo.getEmail())) {
+		if (verificarUsuarioExistente(usuarioNuevo.getEmail())
+				&& verificarUsuarioExistentePorNick(usuarioNuevo.getEmail())) {
 			this.servicioLoginDao.guardar(usuarioNuevo);
 		} else {
 			throw new UsuarioExistenteException("Ya existe un usuario con ese email o nombre de usuario");
@@ -75,17 +89,19 @@ public class ServicioLoginImpl implements ServicioLogin {
 			throw new ContraseniaIncompatible("La nueva contraseña es igual a la anterior");
 		}
 		usuario.setPassword(datosLogin.getPassword());
-		this.servicioLoginDao.modificar(usuario);
 	}
 
 	@Override
-	public void cambiarUsuario(DatosLogin datosLogin, Long idUsuario) throws UsuarioExistenteException {
+	public void cambiarUsuario(DatosLogin datosLogin, Long idUsuario)
+			throws UsuarioExistenteException, CampoVacioException {
+		if (datosLogin.getUsuario().isBlank()) {
+			throw new CampoVacioException("Debe ingresar un nombre de usuario");
+		}
 		if (!this.verificarUsuarioExistentePorNick(datosLogin.getUsuario())) {
 			throw new UsuarioExistenteException("Ya existe un usuario con ese nickname");
 		}
 		Usuario usuario = this.servicioLoginDao.buscarUsuario(idUsuario);
 		usuario.setUsuario(datosLogin.getUsuario());
-		this.servicioLoginDao.modificar(usuario);
 	}
 
 	@Override
@@ -100,7 +116,36 @@ public class ServicioLoginImpl implements ServicioLogin {
 		}
 		Usuario usuario = this.servicioLoginDao.buscarUsuario(idUsuario);
 		usuario.setEmail(datosLogin.getEmail());
-		this.servicioLoginDao.modificar(usuario);
+	}
+
+	@Override
+	public void cambiarFotoPerfil(MultipartFile fotoPerfil, Long idUsuario) throws IOException {
+		Usuario usuario = this.servicioLoginDao.buscarUsuario(idUsuario);
+		if (usuario.getFotoPerfil() != null && !usuario.getFotoPerfil().isBlank()) {
+			try {
+			    Files.delete(Paths.get(servletContext.getRealPath("") + "images/fotosPerfil/" + usuario.getFotoPerfil()));
+			} catch (NoSuchFileException ex) {
+			    System.err.println(ex);
+			}
+		}
+		guardarImagen(fotoPerfil);
+		usuario.setFotoPerfil(fotoPerfil.getOriginalFilename());
+	}
+
+	private void guardarImagen(MultipartFile imagen) throws IOException {
+		try {
+			String fileName = imagen.getOriginalFilename();
+			String uploadDir = servletContext.getRealPath("") + "images/fotosPerfil";
+			Path uploadPath = Paths.get(uploadDir);
+			if (!Files.exists(uploadPath)) {
+				Files.createDirectories(uploadPath);
+			}
+			InputStream inputStream = imagen.getInputStream();
+			Path filePath = uploadPath.resolve(fileName);
+			Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException ex) {
+			throw new IOException("No se pudo guardar el archivo");
+		}
 	}
 
 	private void checkearDatos(Usuario usuarioNuevo)

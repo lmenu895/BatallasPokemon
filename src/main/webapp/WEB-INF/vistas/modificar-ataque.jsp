@@ -1,4 +1,4 @@
-<%@ include file ="partial/header.jsp" %>>
+<%@ include file="partial/header.jsp"%>>
 <link href="css/style.css" rel="stylesheet">
 <title>Modificar Ataque</title>
 
@@ -12,7 +12,7 @@
 				<hr class="colorgraph">
 				<br>
 				<label>Nombre</label>
-				<form:input path="nombre" id="nombre" class="form-control"/>
+				<form:input path="nombre" id="nombre" class="form-control" />
 				<br>
 				<label>Tipo</label>
 				<form:select path="tipo">
@@ -33,19 +33,18 @@
 					<form:checkbox class="form-check-input" path="efecto" id="efecto" />
 					<br>
 				</div>
-				<form:hidden path="id"/>
+				<form:hidden path="id" />
 				<button id="btn-registrarme"
 					class="btn btn-lg btn-primary btn-block" Type="Submit">Modificar</button>
-					
-					<c:if test="${not empty error}">
-				<h4>
-					<span>${error}</span>
-				</h4>
-				<br>
-			</c:if>
+
+				<c:if test="${not empty error}">
+					<div class="alert alert-danger">
+						<strong>${error}</strong>
+					</div>
+				</c:if>
 			</form:form>
 
-			
+
 		</div>
 	</div>
 	<script src="js/bootstrap.min.js"></script>

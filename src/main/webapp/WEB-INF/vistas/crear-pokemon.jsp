@@ -8,10 +8,9 @@
 			<h3 class="form-signin-heading">Nuevo Pokemon</h3>
 			<hr class="colorgraph">
 			<c:if test="${not empty error}">
-				<h4>
-					<span style="color: red;">${error}</span>
-				</h4>
-				<br>
+				<div class="alert alert-danger">
+					<strong>${error}</strong>
+				</div>
 			</c:if>
 			<div class="form-group mb-3">
 				<form:label path="nombre">¿Cuál será el nombre del pokemon?</form:label>
@@ -58,7 +57,8 @@
 			<div class="form-group lista-ataques">
 				<c:forEach items="${listaAtaques}" var="ataque" varStatus="status">
 					<div class="form-check form-check-inline">
-						<label for="ataquesDesbloqueados${status.count}" class="form-check-label ataques-label">${ataque.nombre}</label>
+						<label for="ataquesDesbloqueados${status.count}"
+							class="form-check-label ataques-label">${ataque.nombre}</label>
 						<form:checkbox path="ataquesDesbloqueados"
 							class="form-check-input ataques" value="${ataque.id}" />
 					</div>
@@ -69,7 +69,8 @@
 			<div class="form-group lista-ataques">
 				<c:forEach items="${listaAtaques}" var="ataque" varStatus="status">
 					<div class="form-check form-check-inline">
-						<label for="ataquesBloqueados${status.count}" class="form-check-label ataques-label">${ataque.nombre}</label>
+						<label for="ataquesBloqueados${status.count}"
+							class="form-check-label ataques-label">${ataque.nombre}</label>
 						<form:checkbox path="ataquesBloqueados"
 							class="form-check-input ataques" value="${ataque.id}" />
 					</div>

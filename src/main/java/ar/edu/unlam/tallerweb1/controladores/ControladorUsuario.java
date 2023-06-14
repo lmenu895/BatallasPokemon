@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unlam.tallerweb1.servicios.ServicioObjeto;
@@ -31,6 +34,7 @@ import ar.edu.unlam.tallerweb1.modelo.DatosLogin;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.PokemonBatalla;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 
@@ -124,8 +128,8 @@ public class ControladorUsuario {
 		}
 		String tipoDeRequest = request.getHeader("X-Requested-With");
 		ModelMap model = new ModelMap();
-		DatosLogin datosLogin = new DatosLogin();
-		model.put("datosLogin", datosLogin);
+		model.put("datosLogin", new DatosLogin());
+		model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
 		if (tipoDeRequest == null || !tipoDeRequest.equals("XMLHttpRequest")) {
 			model.put("contenido", "datos-de-usuario");
 			return new ModelAndView("perfil-de-usuario", model);
@@ -177,17 +181,18 @@ public class ControladorUsuario {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
-		ModelMap modelo = new ModelMap();
-		modelo.put("contenido", "datos-de-usuario");
-		modelo.put("datosCambio", new DatosLogin());
+		ModelMap model = new ModelMap();
+		model.put("contenido", "datos-de-usuario");
 		try {
 			this.servicioLogin.cambiarUsuario(datosLogin, (Long) request.getSession().getAttribute("id"));
-		} catch (UsuarioExistenteException ex) {
-			modelo.put("error", ex.getMessage());
-			return new ModelAndView("perfil-de-usuario", modelo);
+		} catch (UsuarioExistenteException | CampoVacioException ex) {
+			model.put("error", ex.getMessage());
+			model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+			return new ModelAndView("perfil-de-usuario", model);
 		}
-		modelo.put("success", "Usuario Actualizado");
-		return new ModelAndView("perfil-de-usuario", modelo);
+		model.put("success", "Usuario Actualizado");
+		model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+		return new ModelAndView("perfil-de-usuario", model);
 	}
 
 	@RequestMapping(path = "/cambiar-mail", method = RequestMethod.POST)
@@ -195,17 +200,18 @@ public class ControladorUsuario {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
-		ModelMap modelo = new ModelMap();
-		modelo.put("contenido", "datos-de-usuario");
-		modelo.put("datosCambio", new DatosLogin());
+		ModelMap model = new ModelMap();
+		model.put("contenido", "datos-de-usuario");
 		try {
 			this.servicioLogin.cambiarMail(datosLogin, (Long) request.getSession().getAttribute("id"));
 		} catch (UsuarioExistenteException | FormatoDeEmailIncorrecto ex) {
-			modelo.put("error", ex.getMessage());
-			return new ModelAndView("perfil-de-usuario", modelo);
+			model.put("error", ex.getMessage());
+			model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+			return new ModelAndView("perfil-de-usuario", model);
 		}
-		modelo.put("success", "Mail Actualizado");
-		return new ModelAndView("perfil-de-usuario", modelo);
+		model.put("success", "Mail Actualizado");
+		model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+		return new ModelAndView("perfil-de-usuario", model);
 	}
 
 	@RequestMapping(path = "/cambiar-contrasenia", method = RequestMethod.POST)
@@ -213,16 +219,28 @@ public class ControladorUsuario {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
-		ModelMap modelo = new ModelMap();
-		modelo.put("contenido", "datos-de-usuario");
+		ModelMap model = new ModelMap();
+		model.put("contenido", "datos-de-usuario");
 		try {
 			this.servicioLogin.cambiarContrasenia(datosLogin, (Long) request.getSession().getAttribute("id"));
 		} catch (ContraseniaCorta | ContraseniaIncompatible | CampoVacioException ex) {
-			modelo.put("error", ex.getMessage());
-			return new ModelAndView("perfil-de-usuario", modelo);
+			model.put("error", ex.getMessage());
+			model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+			return new ModelAndView("perfil-de-usuario", model);
 		}
-		modelo.put("success", "Contraseña Actualizada");
-		return new ModelAndView("perfil-de-usuario", modelo);
+		model.put("success", "Contraseña Actualizada");
+		model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+		return new ModelAndView("perfil-de-usuario", model);
 	}
-
+	
+	@RequestMapping(path = "/cambiar-foto-perfil", method = RequestMethod.POST)
+	@ResponseBody
+	public Boolean cambiarFotoPerfil(@RequestParam MultipartFile fotoPerfil, HttpServletRequest request) {
+		try {
+			this.servicioLogin.cambiarFotoPerfil(fotoPerfil, (Long) request.getSession().getAttribute("id"));
+			return true;
+		} catch (IOException ex) {
+			return false;
+		}
+	}
 }

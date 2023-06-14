@@ -1,5 +1,9 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import java.io.IOException;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
 import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
 import ar.edu.unlam.tallerweb1.exceptions.ContraseniaIncompatible;
@@ -19,7 +23,9 @@ public interface ServicioLogin {
 
 	void cambiarContrasenia(DatosLogin datosLogin, Long idUsuario) throws ContraseniaCorta, ContraseniaIncompatible, CampoVacioException;
 
-	void cambiarUsuario(DatosLogin datosLogin, Long idUsuario) throws UsuarioExistenteException;
+	void cambiarUsuario(DatosLogin datosLogin, Long idUsuario) throws UsuarioExistenteException, CampoVacioException;
 
 	void cambiarMail(DatosLogin datosLogin, Long idUsuario) throws FormatoDeEmailIncorrecto, UsuarioExistenteException;
+
+	void cambiarFotoPerfil(MultipartFile fotoPerfil, Long idUsuario) throws IOException;
 }

@@ -2,29 +2,35 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="home">
-
-
 	<div class="contenedor">
-
 		<div class="containerBox">
-
-			<div class="boxFoto">
-				<div class="perfil">
-					<img id="imgPerfil" class="imagenPerfil"
-						src="images/perfilBlanco.jpg"> <br> <input type="file"
-						id="file" accept="image/*" />
-						<br>
-						<p>click en la imagen para cambiar la foto de perfil</p>
+			<form class="cambiar-foto-perfil" method="POST"
+				enctype="multipart/form-data">
+				<div class="boxFoto">
+					<div class="perfil">
+						<c:choose>
+							<c:when test="${not empty usuario.fotoPerfil}">
+								<img id="imgPerfil" class="imagenPerfil"
+									src="images/fotosPerfil/${usuario.fotoPerfil}">
+							</c:when>
+							<c:otherwise>
+								<img id="imgPerfil" class="imagenPerfil"
+									src="images/perfilBlanco.jpg">
+							</c:otherwise>
+						</c:choose>
+						<br> <input type="file" id="fotoPerfil" name="fotoPerfil"
+							accept="image/*" /> <br>
+						<span>Click en la imagen para cambiar la foto de perfil</span>
+					</div>
 				</div>
-			</div>
-
+			</form>
 			<div class="boxCentro">
 				<form:form action="cambiar-usuario" method="POST"
 					modelAttribute="datosLogin">
 					<div class="form-group">
 						<label for="usuario">Cambiar nombre de usuario:</label>
-						<form:input path="usuario" id="usuario" type="text"
-							class="form-control" />
+						<form:input path="usuario" placeholder="${usuario.usuario}"
+							id="usuario" type="text" class="form-control" value=" " />
 					</div>
 					<div class="boton">
 						<button type="submit" class="btn btn-primary ">Aceptar</button>
@@ -33,8 +39,8 @@
 				<form:form action="cambiar-mail" method="POST"
 					modelAttribute="datosLogin">
 					<label for="email">Cambiar correo electronico</label>
-					<form:input path="email" id="email" type="email"
-						class="form-control" />
+					<form:input path="email" placeholder="${usuario.email}" id="email"
+						type="email" class="form-control" />
 					<div class="boton">
 						<button type="submit" class="btn btn-primary ">Aceptar</button>
 					</div>
@@ -53,15 +59,14 @@
 				</form:form>
 				<br>
 				<c:if test="${not empty error}">
-					<h4>
-						<span id="error">${error}</span>
-					</h4>
-					<br>
+					<div class="alert alert-danger">
+						<strong id="error">${error}</strong>
+					</div>
 				</c:if>
 				<c:if test="${not empty success}">
-					<h4>
-						<span id="success">${success}</span>
-					</h4>
+					<div class="alert alert-success">
+						<strong id="success">${success}</strong>
+					</div>
 					<br>
 				</c:if>
 			</div>

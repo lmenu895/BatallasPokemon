@@ -1,4 +1,4 @@
-<%@ include file ="partial/header.jsp" %>
+<%@ include file="partial/header.jsp"%>
 <link href="css/style.css" rel="stylesheet">
 <title>Crear Ataque</title>
 
@@ -35,16 +35,15 @@
 				</div>
 				<button id="btn-registrarme"
 					class="btn btn-lg btn-primary btn-block" Type="Submit">Guardar</button>
-					
-					<c:if test="${not empty error}">
-				<h4>
-					<span>${error}</span>
-				</h4>
-				<br>
-			</c:if>
+
+				<c:if test="${not empty error}">
+					<div class="alert alert-danger">
+						<strong>${error}</strong>
+					</div>
+				</c:if>
 			</form:form>
 
-			
+
 		</div>
 	</div>
 	<script src="js/bootstrap.min.js"></script>

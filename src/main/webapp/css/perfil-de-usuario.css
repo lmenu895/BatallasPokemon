@@ -14,7 +14,7 @@ body {
 
 .contenido {
 	border: solid 1px grey;
-	height: 800px;
+	max-height: 690px;
 	background-color: white;
 }
 
@@ -100,21 +100,23 @@ body {
 }
 
 .perfil {
-	height: 200px;
-	width: 200px;
+	height: 190px;
+	width: 190px;
 }
 
 .imagenPerfil {
 	cursor: pointer;
-	height: 200px;
-	width: 200px;
+	height: 100%;
+	width: 100%;
+	border-radius: 1.5rem;
 	object-fit: cover;
-	padding-left: 20px;
-	padding-top: 15px;
 }
 
 .boxFoto {
+	display: flex;
 	align-items: center;
+	justify-content: center;
+	text-align: center;
 	border-color: grey;
 	height: 220px;
 	width: 220px;
@@ -142,7 +144,7 @@ body {
 	width: 200px;
 }
 
-#file {
+#fotoPerfil {
 	display: none;
 }
 .boton{
@@ -173,7 +175,7 @@ p{
 
 tbody {
 	display: block;
-	max-height: 700px;
+	max-height: 600px;
 	height: fit-content;
 	overflow-y: scroll;
 }

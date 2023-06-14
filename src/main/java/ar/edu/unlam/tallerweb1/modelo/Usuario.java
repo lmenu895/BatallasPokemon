@@ -25,6 +25,7 @@ public class Usuario {
 	private String usuario;
 	private String email;
 	private String password;
+	private String fotoPerfil;
 	private Boolean esAdmin = false;
 	private Boolean principiante = true;
 	private Integer puntos=300;
@@ -123,6 +124,12 @@ public class Usuario {
 	}
 	public void setCantTiradasTotales(Integer cantTiradasTotales) {
 		this.cantTiradasTotales = cantTiradasTotales;
+	}
+	public String getFotoPerfil() {
+		return fotoPerfil;
+	}
+	public void setFotoPerfil(String fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
 	}
 	
 }
