@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 // Clase que modela el concepto de Usuario, la anotacion @Entity le avisa a hibernate que esta clase es persistible
@@ -30,6 +31,9 @@ public class Usuario {
 	private Boolean principiante = true;
 	private Integer puntos=300;
 	private Integer pokemonedas=0;
+	
+	@ManyToOne
+	private Plan plan;
 	
 	//pitty
 	private Integer cantTiradasComunes=0;
@@ -131,5 +135,10 @@ public class Usuario {
 	public void setFotoPerfil(String fotoPerfil) {
 		this.fotoPerfil = fotoPerfil;
 	}
-	
+	public Plan getPlan() {
+		return plan;
+	}
+	public void setPlan(Plan plan) {
+		this.plan = plan;
+	}
 }

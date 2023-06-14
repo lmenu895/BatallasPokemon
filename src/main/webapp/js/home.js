@@ -39,8 +39,4 @@ $(document).ready(function() {
 	$(".pokedex-texto").click(() => {
 		window.location.href = "pokedex";
 	});
-	
-	$(".billetera").click(() => {
-		window.location.href = "registroBilletera";
-	});
 });

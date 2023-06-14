@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.edu.unlam.tallerweb1.modelo.Billetera;
+import ar.edu.unlam.tallerweb1.modelo.Plan;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioBilletera;
 
@@ -13,6 +14,7 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioBilletera;
 public class ServicioBilleteraImpl implements ServicioBilletera {
 
 	private RepositorioBilletera repositorioBilletera;
+	
 
 	@Autowired
 	public ServicioBilleteraImpl(RepositorioBilletera repositorioBilletera) {
@@ -49,6 +51,12 @@ public class ServicioBilleteraImpl implements ServicioBilletera {
 	public Billetera consultarBilleteraDeUsuario(Usuario usuario) {
 
 		return repositorioBilletera.consultarBilleteraDeUsuario(usuario);
+	}
+
+	@Override
+	public void pagarPlan(Plan plan, Billetera billetera) {
+		repositorioBilletera.pagarPlan(plan, billetera);
+		
 	}
 
 	

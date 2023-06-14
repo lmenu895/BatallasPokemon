@@ -31,7 +31,7 @@
 						<td><button class="borrar btn btn-danger"
 								value="${pokemon.id}">Borrar</button> <a
 							class="modificar btn btn-info text-light"
-							href="modificar-pokemon?id=${pokemon.id}">Modificar</a></td>
+							href="modificar-pokemon/${pokemon.id}">Modificar</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

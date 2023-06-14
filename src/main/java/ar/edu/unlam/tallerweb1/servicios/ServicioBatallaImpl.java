@@ -39,9 +39,9 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 	public void inicioBatalla(List<Long> pokemonsLista, String[] objetosLista)
 			throws PokemonsInsuficientesException, ExcesoDeObjetosException {
 		if (pokemonsLista == null || pokemonsLista.size() != 3) {
-			throw new PokemonsInsuficientesException("Debe seleccionar 3 pokï¿½mons");
+			throw new PokemonsInsuficientesException("Debe seleccionar 3 pokémons");
 		} else if (objetosLista != null && objetosLista.length > 3) {
-			throw new ExcesoDeObjetosException("Solo puede seleccionar un mï¿½ximo de 3 objetos");
+			throw new ExcesoDeObjetosException("Solo puede seleccionar un máximo de 3 objetos");
 		}
 	}
 

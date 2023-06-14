@@ -85,8 +85,8 @@ $(document).ready(function() {
 			$(this).prop("width", width);
 		});
 	});
-
-	$(window).on("load", () => {
+	
+	$(window).on('load', () => {
 		var width = $("#_frente").prop("width") * 2;
 		$("#_frente").prop("width", width);
 		width = $("#_dorso").prop("width") * 2;

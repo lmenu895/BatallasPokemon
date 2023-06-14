@@ -1,11 +1,12 @@
 <%@ include file="partial/header.jsp"%>
-<link href="css/style.css" rel="stylesheet">
+<link href="<c:url value="/css/style.css"/>" rel="stylesheet">
 <title>Modificar Pokemon</title>
 </head>
 <body class="fondo pokemon">
 	<div class="container d-flex justify-content-center align-items-center">
-		<form:form method="POST" class="form" modelAttribute="datosPokemon"
-			enctype="multipart/form-data">
+		<c:url value="/modificar-pokemon" var="formAction"/>
+		<form:form method="POST" action="${formAction}" class="form"
+			modelAttribute="datosPokemon" enctype="multipart/form-data">
 			<h3 class="form-signin-heading">${pokemon.nombre}</h3>
 			<hr class="colorgraph">
 			<c:if test="${not empty error}">
@@ -24,20 +25,22 @@
 				<div class="form-group mb-3">
 					<label for="imagenFrente">Ingrese un sprite de su pokemon
 						de frente</label>
-					<form:input path="imagenFrente" class="form-control" type="file" />
+					<form:input path="imagenFrente" accept="image/*"
+						class="form-control" type="file" />
 					<div id="verFrente" style="text-align: center;">
 						<img id='_frente' alt='frente'
-							src="images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}"
+							src="<c:url value="/images/sprites/${pokemon.nombre}/${pokemon.imagenFrente}"/>"
 							class='img-fluid mt-1 sprite'>
 					</div>
 				</div>
 				<div class="form-group mb-3">
 					<label for="imagenDorso">Ingrese un sprite de su pokemon de
 						espaldas</label>
-					<form:input path="imagenDorso" class="form-control" type="file" />
+					<form:input path="imagenDorso" accept="image/*"
+						class="form-control" type="file" />
 					<div id="verDorso" style="text-align: center;">
 						<img id='_dorso' alt='dorso'
-							src="images/sprites/${pokemon.nombre}/${pokemon.imagenDorso}"
+							src="<c:url value="/images/sprites/${pokemon.nombre}/${pokemon.imagenDorso}"/>"
 							class='img-fluid mt-1 sprite'>
 					</div>
 				</div>
@@ -104,6 +107,6 @@
 				class="btn btn-lg btn-primary btn-block mb-2" Type="Submit">Modificar</button>
 		</form:form>
 	</div>
-	<script type="text/javascript" src="js/validation.js"></script>
+	<script type="text/javascript" src="<c:url value="/js/validation.js"/>"></script>
 </body>
 </html>

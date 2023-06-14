@@ -22,7 +22,8 @@
 				<div class="form-group mb-3">
 					<label for="imagenFrente">Ingrese un sprite de su pokemon
 						de frente:</label>
-					<form:input path="imagenFrente" class="form-control" type="file" />
+					<form:input path="imagenFrente" accept="image/*"
+						class="form-control" type="file" />
 					<div id="verFrente" style="text-align: center;"></div>
 					<div class="valida-sprite-frente validation" style="display: none;">Se
 						necesita un sprite de frente del pokemon</div>
@@ -30,7 +31,8 @@
 				<div class="form-group mb-3">
 					<label for="imagenDorso">Ingrese un sprite de su pokemon de
 						espaldas:</label>
-					<form:input path="imagenDorso" class="form-control" type="file" />
+					<form:input path="imagenDorso" accept="image/*"
+						class="form-control" type="file" />
 					<div id="verDorso" style="text-align: center;"></div>
 					<div class="valida-sprite-dorso validation" style="display: none;">Se
 						necesita un sprite de espaldas del pokemon</div>

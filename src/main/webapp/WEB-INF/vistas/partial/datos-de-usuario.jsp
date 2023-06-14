@@ -19,8 +19,8 @@
 							</c:otherwise>
 						</c:choose>
 						<br> <input type="file" id="fotoPerfil" name="fotoPerfil"
-							accept="image/*" /> <br>
-						<span>Click en la imagen para cambiar la foto de perfil</span>
+							accept="image/*" /> <br> <span>Click en la imagen
+							para cambiar la foto de perfil</span>
 					</div>
 				</div>
 			</form>
@@ -30,7 +30,7 @@
 					<div class="form-group">
 						<label for="usuario">Cambiar nombre de usuario:</label>
 						<form:input path="usuario" placeholder="${usuario.usuario}"
-							id="usuario" type="text" class="form-control" value=" " />
+							id="usuario" accept="image/*" type="text" class="form-control" />
 					</div>
 					<div class="boton">
 						<button type="submit" class="btn btn-primary ">Aceptar</button>
