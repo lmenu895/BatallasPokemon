@@ -13,9 +13,14 @@
 		<button
 			<c:if test="${contenido=='lista-pokemons-usuario'}">class="activo"</c:if>
 			id="listaPokemons">Lista de pokemons</button>
+			
+		
 		<div class="contenido">
 			<jsp:include page="partial/${contenido}.jsp"></jsp:include>
 		</div>
+		
+		
+		
 
 
 
