@@ -1,6 +1,8 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +51,12 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 		Integer pokemonsDebilitadosUsuario = 0;
 		Integer pokemonsDebilitadosCpu = 0;
 		for (DatosPokemonBatalla dato : listaDatosPokemons) {
-			if (dato.getEntrenador().equals("usuario") && dato.getDebilitado()) {
-				pokemonsDebilitadosUsuario++;
-			} else if (dato.getEntrenador().equals("cpu") && dato.getDebilitado()) {
-				pokemonsDebilitadosCpu++;
+			if (dato.getDebilitado()) {
+				if (dato.getEntrenador().equals("usuario")) {
+					pokemonsDebilitadosUsuario++;
+				} else if (dato.getEntrenador().equals("cpu")) {
+					pokemonsDebilitadosCpu++;
+				}
 			}
 		}
 		if (pokemonsDebilitadosCpu == 3) {
@@ -62,7 +66,13 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 			this.servicioUsuario.sumarPuntos(idUsuario, 3);
 			guardarBatalla("Derrota", listaDatosPokemons, duracion, idUsuario);
 		}
-		guardarBatalla("Derrota", listaDatosPokemons, duracion, idUsuario);
+	}
+	
+	@Override
+	public List<Batalla> obtenerBatallasUsuario(Long idUsuario) {
+		List<Batalla> batallas = this.repositorioBatalla.obtenerBatallasUsuario(idUsuario);
+		Collections.reverse(batallas);
+		return batallas;
 	}
 
 	private void guardarBatalla(String resultado, DatosPokemonBatalla[] listaDatosPokemons, Long duracion,
@@ -79,5 +89,20 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 					.guardarPokemonBatalla(new PokemonBatalla(this.servicioPokemon.buscarPokemon(dato.getId()), batalla,
 							dato.getDebilitado(), dato.getEntrenador()));
 		}
+	}
+	
+	@Override
+	public void obtenerPokemonsBatalla(Batalla batalla) {
+		List<PokemonBatalla> pokemonsUsuario = new ArrayList<>();
+		List<PokemonBatalla> pokemonsCpu = new ArrayList<>();
+		for (PokemonBatalla pokemonBatalla : this.repositorioPokemonBatalla.obtenerPokemonsBatalla(batalla.getId())) {
+			if (pokemonBatalla.getEntrenador().equals("usuario")) {
+				pokemonsUsuario.add(pokemonBatalla);
+			} else if (pokemonBatalla.getEntrenador().equals("cpu")) {
+				pokemonsCpu.add(pokemonBatalla);
+			}
+		}
+		batalla.setPokemonsUsuario(pokemonsUsuario);
+		batalla.setPokemonsCpu(pokemonsCpu);
 	}
 }

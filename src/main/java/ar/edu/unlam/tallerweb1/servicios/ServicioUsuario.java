@@ -31,4 +31,6 @@ public interface ServicioUsuario {
 	
 	void reiniciarTiradasTotales(Usuario usuario);
 
+	void sacarPrincipiante(Usuario usuario);
+
 }

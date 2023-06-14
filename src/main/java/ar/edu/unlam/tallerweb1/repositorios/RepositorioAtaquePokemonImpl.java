@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.criteria.*;
@@ -57,5 +58,33 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 		cd.where(predicates);
 
 		session.createQuery(cd).executeUpdate();
+	}
+
+	@Override
+	public List<AtaquePokemon> buscarAtaquesDesbloqueados(Long idPokemon) {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<AtaquePokemon> cr = cb.createQuery(AtaquePokemon.class);
+		Root<AtaquePokemon> root = cr.from(AtaquePokemon.class);
+		Predicate[] predicates = new Predicate[2];
+		predicates[0] = cb.equal(root.get("pokemon"), idPokemon);
+		predicates[1] = cb.equal(root.get("bloqueado"), false);
+		cr.select(root).where(predicates);
+
+		return session.createQuery(cr).getResultList();
+	}
+
+	@Override
+	public List<AtaquePokemon> buscarAtaquesBloqueados(Long idPokemon) {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<AtaquePokemon> cr = cb.createQuery(AtaquePokemon.class);
+		Root<AtaquePokemon> root = cr.from(AtaquePokemon.class);
+		Predicate[] predicates = new Predicate[2];
+		predicates[0] = cb.equal(root.get("pokemon"), idPokemon);
+		predicates[1] = cb.equal(root.get("bloqueado"), true);
+		cr.select(root).where(predicates);
+
+		return session.createQuery(cr).getResultList();
 	}
 }

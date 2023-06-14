@@ -17,7 +17,7 @@ public interface ServicioLogin {
 	
 	void guardarCliente(Usuario usuario) throws UsuarioExistenteException, CampoVacioException, ContraseniaCorta, FormatoDeEmailIncorrecto;
 
-	void cambiarContrasenia(DatosLogin datosLogin, Long idUsuario) throws ContraseniaCorta, ContraseniaIncompatible;
+	void cambiarContrasenia(DatosLogin datosLogin, Long idUsuario) throws ContraseniaCorta, ContraseniaIncompatible, CampoVacioException;
 
 	void cambiarUsuario(DatosLogin datosLogin, Long idUsuario) throws UsuarioExistenteException;
 

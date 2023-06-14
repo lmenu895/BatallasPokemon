@@ -46,27 +46,23 @@ public class ControladorPokemon {
 			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
-		model.put("pokemon", new Pokemon());
+		model.put("datosPokemon", new DatosPokemon());
 		model.put("listaAtaques", obtenerListaDeAtaques());
 		return new ModelAndView("crear-pokemon", model);
 	}
 
 	@RequestMapping(path = "/crear-pokemon", method = RequestMethod.POST)
-	public ModelAndView crearPokemon(@ModelAttribute Pokemon pokemon, @RequestParam("ataquesLista") List<Long> ataquesLista,
-			@RequestParam MultipartFile frente, @RequestParam MultipartFile dorso, HttpServletRequest request) {
+	public ModelAndView crearPokemon(@ModelAttribute DatosPokemon datosPokemon, HttpServletRequest request) {
 
 		if (request.getSession().getAttribute("usuario") == null
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
 		}
 		try {
-			this.servicioPokemon.guardarPokemon(pokemon, ataquesLista, frente, dorso);
+			this.servicioPokemon.guardarPokemon(datosPokemon);
 			return new ModelAndView("redirect:/lista-pokemons");
 		} catch (IOException | NombreExistenteException | SpriteNoIngresadoException ex) {
 			ModelMap model = new ModelMap();
-			List<Ataque> ataquesSeleccionados = new ArrayList<>();
-			ataquesLista.forEach(x -> ataquesSeleccionados.add(this.servicioAtaque.buscarAtaque(x)));
-			pokemon.setAtaques(ataquesSeleccionados);
 			model.put("error", ex.getMessage());
 			model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
 			return new ModelAndView("crear-pokemon", model);
@@ -87,41 +83,37 @@ public class ControladorPokemon {
 
 	@RequestMapping("/modificar-pokemon")
 	public ModelAndView modificarPokemon(@RequestParam Long id, HttpServletRequest request) {
-		
+
 		if (request.getSession().getAttribute("usuario") == null
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
 		Pokemon pokemon = this.servicioPokemon.buscarPokemon(id);
-		pokemon.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(id));
+		DatosPokemon datosPokemon = new DatosPokemon();
+		datosPokemon.setAtaquesDesbloqueados(this.servicioAtaquePokemon.obtenetAtaquesDesbloqueados(pokemon.getId()));
+		datosPokemon.setAtaquesBloqueados(this.servicioAtaquePokemon.obtenetAtaquesBloqueados(pokemon.getId()));
 		model.put("pokemon", pokemon);
+		model.put("datosPokemon", datosPokemon);
 		model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
 		return new ModelAndView("modificar-pokemon", model);
 	}
 
 	@RequestMapping(path = "/modificar-pokemon", method = RequestMethod.POST)
-	public ModelAndView modificarPokemon(@ModelAttribute Pokemon pokemon, @RequestParam List<Long> ataquesLista,
-			@RequestParam MultipartFile frente, @RequestParam MultipartFile dorso, @RequestParam String nombreAnterior,
-			@RequestParam String frenteAnterior, @RequestParam String dorsoAnterior,
-			@RequestParam List<Long> ataquesAprendidos, HttpServletRequest request) {
+	public ModelAndView modificarPokemon(@ModelAttribute DatosPokemon datosPokemon, @RequestParam Long id,
+			HttpServletRequest request) {
 
 		if (request.getSession().getAttribute("usuario") == null
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
 		}
-		pokemon.setImagenFrente(frenteAnterior);
-		pokemon.setImagenDorso(dorsoAnterior);
 		try {
-			this.servicioPokemon.modificarPokemon(pokemon, ataquesLista, frente, dorso, nombreAnterior,
-					ataquesAprendidos);
+			this.servicioPokemon.modificarPokemon(datosPokemon, id);
 			return new ModelAndView("redirect:/lista-pokemons");
 		} catch (Exception ex) {
 			ModelMap model = new ModelMap();
-			List<Ataque> ataquesSeleccionados = new ArrayList<>();
-			ataquesLista.forEach(x -> ataquesSeleccionados.add(this.servicioAtaque.buscarAtaque(x)));
-			pokemon.setAtaques(ataquesSeleccionados);
-			model.put("error", ex);
+			model.put("pokemon", this.servicioPokemon.buscarPokemon(id));
+			model.put("error", ex.getMessage());
 			model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
 			return new ModelAndView("modificar-pokemon", model);
 		}

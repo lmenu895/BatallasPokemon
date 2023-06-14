@@ -124,3 +124,8 @@ body:before{
     background: rgba(135,206,250, 0.9);
     cursor:pointer;
 }
+
+.nestball {
+	width:400px;
+	margin:4rem;
+}

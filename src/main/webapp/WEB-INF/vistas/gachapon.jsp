@@ -32,18 +32,27 @@
 
 			<h3 class="puntosUser">Tus puntos ${puntos}</h3>
 		</div>
-
-		<div class="container">
-			<div class="center">
-				<img class="pokemon" id="pokeball" alt="pokemon"
-					src="images/Pokebola.png"> <img class="pokemon"
-					id="superball" alt="pokemon" src="images/superball.png"> <img
-					class="pokemon" id="ultraball" alt="pokemon"
-					src="images/ultraball.png"> <img class="pokemon"
-					id="masterball" alt="pokemon" src="images/master.png">
-
+		<c:if test="${!sessionScope.principiante}">
+			<div class="container">
+				<div class="center">
+					<img class="pokemon" id="pokeball" alt="pokemon"
+						src="images/Pokebola.png"> <img class="pokemon"
+						id="superball" alt="pokemon" src="images/superball.png"> <img
+						class="pokemon" id="ultraball" alt="pokemon"
+						src="images/ultraball.png"> <img class="pokemon"
+						id="masterball" alt="pokemon" src="images/master.png">
+				</div>
 			</div>
-		</div>
+		</c:if>
+		
+		<c:if test="${sessionScope.principiante}">
+			<div class="container">
+				<div class="centrar">
+					<img class="nestball"
+						id="nestball" alt="pokemon" src="images/nestball.png">
+				</div>
+			</div>
+		</c:if>
 
 		<form:form class="centrar" method="POST" action="gachapon-resultado">
 			<input class="boton-para-tirar" type="submit" name="monedas"

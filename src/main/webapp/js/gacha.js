@@ -50,6 +50,9 @@ setInterval(() => {
     else if (($("#masterball").css("opacity")) == 1){
       $("#tirar").val(10000);
     }
+    else if (($("#nestball").css("opacity")) == 1){
+      $("#tirar").val(150);
+    }
 
   })
 }, 1);

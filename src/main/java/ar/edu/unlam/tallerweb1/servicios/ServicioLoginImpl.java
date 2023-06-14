@@ -45,129 +45,99 @@ public class ServicioLoginImpl implements ServicioLogin {
 	}
 
 	@Override
-	public void guardarCliente(Usuario usuarioNuevo) throws UsuarioExistenteException, CampoVacioException, ContraseniaCorta, FormatoDeEmailIncorrecto {
-		
+	public void guardarCliente(Usuario usuarioNuevo)
+			throws UsuarioExistenteException, CampoVacioException, ContraseniaCorta, FormatoDeEmailIncorrecto {
+
 		checkearDatos(usuarioNuevo);
-		
-		if (verificarUsuarioExistente(usuarioNuevo) && verificarUsuarioExistentePorNick(usuarioNuevo)) {
+
+		if (verificarUsuarioExistente(usuarioNuevo.getEmail()) && verificarUsuarioExistentePorNick(usuarioNuevo.getEmail())) {
 			this.servicioLoginDao.guardar(usuarioNuevo);
-		} 
-		else {
+		} else {
 			throw new UsuarioExistenteException("Ya existe un usuario con ese email o nombre de usuario");
 		}
-	}
 
-	private void checkearDatos(Usuario usuarioNuevo) throws FormatoDeEmailIncorrecto, ContraseniaCorta, CampoVacioException {
-		
-		if (verificarCaposRequeridos(usuarioNuevo)) {
-			throw new CampoVacioException("Debe llenar todos los campos para registrarse");
-		}
-		if(usuarioNuevo.getPassword().length() < 8) {
-			throw new ContraseniaCorta("La contraseña debe ser de por lo menos 8 caracteres");
-		}
-		if(!validarEmail(usuarioNuevo.getEmail())) {
-			throw new FormatoDeEmailIncorrecto("El formato de email es incorrecto");
-		}
-		
-	}
-
-	// si da true no existe un usuario con ese email
-	private Boolean verificarUsuarioExistente(Usuario usuario) {
-		Usuario resultado = this.servicioLoginDao.buscarUsuario(usuario.getEmail());
-		if (resultado != null) {
-			return false;
-		}
-		return true;
-	}
-
-	// si da true no existe un usuario con ese nick
-	private Boolean verificarUsuarioExistentePorNick(Usuario usuario) {
-		Usuario resultado = this.servicioLoginDao.buscarUsuarioPorUsername(usuario.getUsuario());
-		if (resultado != null && resultado.getUsuario() != usuario.getUsuario()) {
-			return false;
-		}
-		return true;
-	}
-	
-	private Boolean verificarCaposRequeridos(Usuario usuario) {
-		if (usuario.getEmail().isBlank() || usuario.getUsuario().isBlank()
-				|| usuario.getPassword().isBlank()) {
-			return true;
-		}
-		return false;
-	}
-	
-	private static Boolean validarEmail(String email) {
-		
-		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + 
-		"[a-zA-Z0-9_+&*-]+)*@" + 
-		"(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-		
-		Pattern pattern = Pattern.compile(emailRegex);
-		if(pattern.matcher(email).matches()) {
-			return true;
-		}
-		return false;
-		
 	}
 
 	@Override
-	public void cambiarContrasenia(DatosLogin datosLogin, Long idUsuario) throws ContraseniaCorta, ContraseniaIncompatible {
-		Usuario usuario=this.servicioLoginDao.buscarUsuario(idUsuario);
-		if (usuario.getPassword().equals(datosLogin.getOldPassword()) && !usuario.getPassword().equals(datosLogin.getPassword())) {
-			if(datosLogin.getPassword().length() < 8) {
-				throw new ContraseniaCorta("La contraseña debe ser de por lo menos 8 caracteres");
-			}
-			
-			usuario.setPassword(datosLogin.getPassword());
-			this.servicioLoginDao.modificar(usuario);
-			
-		}else {
+	public void cambiarContrasenia(DatosLogin datosLogin, Long idUsuario)
+			throws ContraseniaCorta, ContraseniaIncompatible, CampoVacioException {
+		Usuario usuario = this.servicioLoginDao.buscarUsuario(idUsuario);
+		if (datosLogin.getPassword().isBlank() || datosLogin.getOldPassword().isBlank()) {
+			throw new CampoVacioException("Debe completar los 2 campos para cambiar la contraseña");
+		}
+		if (!usuario.getPassword().equals(datosLogin.getOldPassword())) {
+			throw new ContraseniaIncompatible("Contraseña antigua incorrecta");
+		}
+		if (datosLogin.getPassword().length() < 8) {
+			throw new ContraseniaCorta("La contraseña debe ser de por lo menos 8 caracteres");
+		}
+		if (usuario.getPassword().equals(datosLogin.getPassword())) {
 			throw new ContraseniaIncompatible("La nueva contraseña es igual a la anterior");
 		}
-		
+		usuario.setPassword(datosLogin.getPassword());
+		this.servicioLoginDao.modificar(usuario);
 	}
 
 	@Override
 	public void cambiarUsuario(DatosLogin datosLogin, Long idUsuario) throws UsuarioExistenteException {
-		if(this.verificarUsuarioExistentePorNick(datosLogin.getUsuario())) {
-			Usuario usuario=this.servicioLoginDao.buscarUsuario(idUsuario);
-			usuario.setUsuario(datosLogin.getUsuario());
-			this.servicioLoginDao.modificar(usuario);
-		}else {
-			throw new UsuarioExistenteException("El usuario ya existe");
+		if (!this.verificarUsuarioExistentePorNick(datosLogin.getUsuario())) {
+			throw new UsuarioExistenteException("Ya existe un usuario con ese nickname");
 		}
-		
-	}
-
-	private boolean verificarUsuarioExistentePorNick(String usuario) {
-		Usuario resultado = this.servicioLoginDao.buscarUsuarioPorUsername(usuario);
-		if (resultado != null && resultado.getUsuario() != usuario) {
-			return false;
-		}
-		return true;
+		Usuario usuario = this.servicioLoginDao.buscarUsuario(idUsuario);
+		usuario.setUsuario(datosLogin.getUsuario());
+		this.servicioLoginDao.modificar(usuario);
 	}
 
 	@Override
 	public void cambiarMail(DatosLogin datosLogin, Long idUsuario)
 			throws FormatoDeEmailIncorrecto, UsuarioExistenteException {
-		
-		if(validarEmail(datosLogin.getEmail()) && verificarUsuarioExistente(datosLogin.getEmail())) {
-			Usuario usuario=this.servicioLoginDao.buscarUsuario(idUsuario);
-			usuario.setEmail(datosLogin.getEmail());
-			this.servicioLoginDao.modificar(usuario);
-		}else {
-			throw new FormatoDeEmailIncorrecto("Mail incorrecto o existente");
+
+		if (!this.verificarUsuarioExistente(datosLogin.getEmail())) {
+			throw new UsuarioExistenteException("Ya existe un usuario con ese mail");
 		}
-		
-		
-		
+		if (!this.validarEmail(datosLogin.getEmail())) {
+			throw new FormatoDeEmailIncorrecto("El formato del mail es incorrecto");
+		}
+		Usuario usuario = this.servicioLoginDao.buscarUsuario(idUsuario);
+		usuario.setEmail(datosLogin.getEmail());
+		this.servicioLoginDao.modificar(usuario);
 	}
-	private boolean verificarUsuarioExistente(String mail) {
-		Usuario resultado = this.servicioLoginDao.buscarUsuario(mail);
-		if (resultado != null && resultado.getEmail() != mail) {
-			return false;
+
+	private void checkearDatos(Usuario usuarioNuevo)
+			throws FormatoDeEmailIncorrecto, ContraseniaCorta, CampoVacioException {
+
+		if (!this.verificarCaposRequeridos(usuarioNuevo)) {
+			throw new CampoVacioException("Debe llenar todos los campos para registrarse");
 		}
-		return true;
+		if (usuarioNuevo.getPassword().length() < 8) {
+			throw new ContraseniaCorta("La contrasea debe ser de por lo menos 8 caracteres");
+		}
+		if (!this.validarEmail(usuarioNuevo.getEmail())) {
+			throw new FormatoDeEmailIncorrecto("El formato de email es incorrecto");
+		}
+
+	}
+
+	private Boolean verificarUsuarioExistente(String mail) {
+		Usuario resultado = this.servicioLoginDao.buscarUsuario(mail);
+		return resultado != null ? false : true;
+	}
+
+	private Boolean verificarUsuarioExistentePorNick(String usuario) {
+		Usuario resultado = this.servicioLoginDao.buscarUsuarioPorUsername(usuario);
+		return resultado != null ? false : true;
+	}
+
+	private Boolean verificarCaposRequeridos(Usuario usuario) {
+		return usuario.getEmail().isBlank() || usuario.getUsuario().isBlank() || usuario.getPassword().isBlank() ? false
+				: true;
+	}
+
+	private Boolean validarEmail(String email) {
+
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+		Pattern pattern = Pattern.compile(emailRegex);
+		return pattern.matcher(email).matches() ? true : false;
 	}
 }

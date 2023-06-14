@@ -61,7 +61,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$("#frente").change(function() {
+	$("#imagenFrente").change(function() {
 		var url = URL.createObjectURL(this.files[0]);
 		$(".valida-sprite-frente").hide();
 		if ($("#_frente").lenght)
@@ -73,7 +73,7 @@ $(document).ready(function() {
 			$(this).prop("width", width);
 		});
 	});
-	$("#dorso").change(function() {
+	$("#imagenDorso").change(function() {
 		var url = URL.createObjectURL(this.files[0]);
 		$(".valida-sprite-dorso").hide();
 		if ($("#_dorso").lenght)

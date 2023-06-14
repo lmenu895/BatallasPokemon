@@ -1,11 +1,18 @@
 <%@ include file="partial/header.jsp"%>
+<link href="css/style.css" rel="stylesheet">
 <title>Crear Pokemon</title>
 <body class="pokemon">
 	<div class="container d-flex justify-content-center align-items-center">
-		<form:form method="POST" class="form" modelAttribute="pokemon"
+		<form:form method="POST" class="form" modelAttribute="datosPokemon"
 			enctype="multipart/form-data">
 			<h3 class="form-signin-heading">Nuevo Pokemon</h3>
 			<hr class="colorgraph">
+			<c:if test="${not empty error}">
+				<h4>
+					<span style="color: red;">${error}</span>
+				</h4>
+				<br>
+			</c:if>
 			<div class="form-group mb-3">
 				<form:label path="nombre">¿Cuál será el nombre del pokemon?</form:label>
 				<form:input path="nombre" id="nombre" class="form-control" />
@@ -14,17 +21,17 @@
 			</div>
 			<div class="mb-3" id="imagenes">
 				<div class="form-group mb-3">
-					<label for="frente">Ingrese un sprite de su pokemon de
-						frente:</label> <input class="form-control" type="file" name="frente"
-						id="frente" />
+					<label for="imagenFrente">Ingrese un sprite de su pokemon
+						de frente:</label>
+					<form:input path="imagenFrente" class="form-control" type="file" />
 					<div id="verFrente" style="text-align: center;"></div>
 					<div class="valida-sprite-frente validation" style="display: none;">Se
 						necesita un sprite de frente del pokemon</div>
 				</div>
 				<div class="form-group mb-3">
-					<label for="dorso">Ingrese un sprite de su pokemon de
-						espaldas:</label> <input class="form-control" type="file" name="dorso"
-						id="dorso" />
+					<label for="imagenDorso">Ingrese un sprite de su pokemon de
+						espaldas:</label>
+					<form:input path="imagenDorso" class="form-control" type="file" />
 					<div id="verDorso" style="text-align: center;"></div>
 					<div class="valida-sprite-dorso validation" style="display: none;">Se
 						necesita un sprite de espaldas del pokemon</div>
@@ -46,17 +53,25 @@
 				<div class="valida-select validation" style="display: none;">Seleccione
 					rareza</div>
 			</div>
-			<h3 class="fs-5 text">Seleccione qué ataques va a tener su
-				pokemon</h3>
+			<h3 class="fs-5 text">Seleccione qué ataques disponibles va a
+				tener su pokemon</h3>
 			<div class="form-group lista-ataques">
-				<c:forEach items="${listaAtaques}" var="ataque">
+				<c:forEach items="${listaAtaques}" var="ataque" varStatus="status">
 					<div class="form-check form-check-inline">
-						<label class="form-check-label ataques-label">${ataque.nombre}</label>
-						<input type="checkbox" class="form-check-input ataques"
-							<c:forEach items="${pokemon.ataques}" var="aprendido">
-								<c:if test="${ataque.id == aprendido.id}">checked="ckecked"</c:if>
-							</c:forEach>
-							name="ataquesLista" value="${ataque.id}" />
+						<label for="ataquesDesbloqueados${status.count}" class="form-check-label ataques-label">${ataque.nombre}</label>
+						<form:checkbox path="ataquesDesbloqueados"
+							class="form-check-input ataques" value="${ataque.id}" />
+					</div>
+				</c:forEach>
+			</div>
+			<h3 class="fs-5 text">Seleccione qué ataques bloqueados va a
+				tener su pokemon</h3>
+			<div class="form-group lista-ataques">
+				<c:forEach items="${listaAtaques}" var="ataque" varStatus="status">
+					<div class="form-check form-check-inline">
+						<label for="ataquesBloqueados${status.count}" class="form-check-label ataques-label">${ataque.nombre}</label>
+						<form:checkbox path="ataquesBloqueados"
+							class="form-check-input ataques" value="${ataque.id}" />
 					</div>
 				</c:forEach>
 			</div>
@@ -77,12 +92,6 @@
 			</div>
 			<button id="btn-registrarme"
 				class="btn btn-lg btn-primary btn-block mb-2" Type="Submit">Guardar</button>
-			<c:if test="${not empty error}">
-				<h4>
-					<span>${error}</span>
-				</h4>
-				<br>
-			</c:if>
 		</form:form>
 	</div>
 	<script type="text/javascript" src="js/validation.js"></script>

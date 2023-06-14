@@ -11,11 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ar.edu.unlam.tallerweb1.exceptions.NombreExistenteException;
 import ar.edu.unlam.tallerweb1.exceptions.SpriteNoIngresadoException;
+import ar.edu.unlam.tallerweb1.modelo.DatosPokemon;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 
 public interface ServicioPokemon {
 
-	void guardarPokemon(Pokemon pokemon, List<Long> ataques, MultipartFile frente, MultipartFile dorso) throws IOException, NombreExistenteException, SpriteNoIngresadoException;
+	void guardarPokemon(DatosPokemon datosPokemon) throws IOException, NombreExistenteException, SpriteNoIngresadoException;
 
 	Pokemon buscarPokemon(Long id);
 	
@@ -23,7 +24,7 @@ public interface ServicioPokemon {
 
 	List<Pokemon> obtenerTodosLosPokemons();
 
-	void modificarPokemon(Pokemon pokemon, List<Long> ataques, MultipartFile frente, MultipartFile dorso, String nombreAnterior, List<Long> ataquesAprendidos) throws IOException, NombreExistenteException, SpriteNoIngresadoException;;
+	void modificarPokemon(DatosPokemon datosPokemon, Long idPokemon) throws IOException, NombreExistenteException, SpriteNoIngresadoException;;
 
 	void borrarPokemon(Long id);
 
