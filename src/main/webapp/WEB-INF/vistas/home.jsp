@@ -37,7 +37,7 @@
 							class="logoutButton">Logout</a>
 					</div>
 				</div>
-				<a href="mostrarBilletera">Billetera</a>
+				<a href="mostrarBilletera">Mi Billetera</a>
 			</div>
 		</div>
 	</div>
