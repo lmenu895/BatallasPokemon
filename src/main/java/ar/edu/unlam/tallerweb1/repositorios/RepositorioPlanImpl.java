@@ -50,7 +50,7 @@ public class RepositorioPlanImpl implements RepositorioPlan {
 				.add(Restrictions.eq("id",usuario.getId()))
 				.uniqueResult();
 		         u1.setPlan(plan);
-		         u1.setPuntos(plan.getPuntos());
+		         u1.setPuntos(u1.getPuntos() + plan.getPuntos());
 		         
 		         
 	}

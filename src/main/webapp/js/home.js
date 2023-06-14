@@ -40,7 +40,16 @@ $(document).ready(function() {
 		window.location.href = "pokedex";
 	});
 	
-	$(".billetera").click(() => {
+	$(".saldo").click(() => {
+		window.location.href = "formularioSaldo";
+	});
+	
+	$(".crear").click(() => {
 		window.location.href = "registroBilletera";
 	});
+	
+	$(".pase").click(() => {
+		window.location.href = "planes";
+	});
+	
 });
