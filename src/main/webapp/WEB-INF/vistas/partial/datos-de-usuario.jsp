@@ -1,6 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<link href="<c:url value="/css/datos-de-usuario.css"/>" rel="stylesheet">
 <div class="home">
 	<div class="contenedor">
 		<div class="containerBox">
@@ -11,11 +11,11 @@
 						<c:choose>
 							<c:when test="${not empty usuario.fotoPerfil}">
 								<img id="imgPerfil" class="imagenPerfil"
-									src="images/fotosPerfil/${usuario.fotoPerfil}">
+									src="<c:url value="/images/fotosPerfil/${usuario.fotoPerfil}"/>">
 							</c:when>
 							<c:otherwise>
 								<img id="imgPerfil" class="imagenPerfil"
-									src="images/perfilBlanco.jpg">
+									src="<c:url value="/images/perfilBlanco.jpg"/>">
 							</c:otherwise>
 						</c:choose>
 						<br> <input type="file" id="fotoPerfil" name="fotoPerfil"
@@ -72,12 +72,10 @@
 			</div>
 
 		</div>
-
-
 	</div>
 </div>
 
-<script type="text/javascript" src="js/datos-de-usuario.js"></script>
+<script type="text/javascript" src="<c:url value="/js/datos-de-usuario.js"/>"></script>
 
 
 

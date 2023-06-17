@@ -14,7 +14,7 @@ $(document).ready(function() { //Funcion principal de jquery
 				}, */
 				success: function(resultado) { //Cuando termina de ejecutar, recibe el return del controller
 					if (resultado) {
-						$('#ataque' + id).remove(); //Id + value del boton
+						$(`#ataque${id}`).remove(); //Id + value del boton
 					}
 				}
 				/* error: function(error) {

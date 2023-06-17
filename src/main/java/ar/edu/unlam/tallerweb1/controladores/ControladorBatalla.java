@@ -30,15 +30,18 @@ public class ControladorBatalla {
 	private ServicioObjeto servicioObjeto;
 	private ServicioUsuario servicioUsuario;
 	private ServicioBatalla servicioBatalla;
+	private ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon;
 
 	@Autowired
 	public ControladorBatalla(ServicioPokemon servicioPokemon, ServicioAtaquePokemon servicioAtaquePokemon,
-			ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioBatalla servicioBatalla) {
+			ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioBatalla servicioBatalla,
+			ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon) {
 		this.servicioPokemon = servicioPokemon;
 		this.servicioAtaquePokemon = servicioAtaquePokemon;
 		this.servicioObjeto = servicioObjeto;
 		this.servicioUsuario = servicioUsuario;
 		this.servicioBatalla = servicioBatalla;
+		this.servicioUsuarioAtaquePokemon = servicioUsuarioAtaquePokemon;
 	}
 
 	@RequestMapping("/batalla")
@@ -56,7 +59,8 @@ public class ControladorBatalla {
 			this.servicioBatalla.inicioBatalla(pokemonsLista, objetosLista);
 			List<Pokemon> pokemonsUsuario = new ArrayList<>();
 			pokemonsLista.forEach(x -> pokemonsUsuario.add(this.servicioPokemon.buscarPokemon(x)));
-			pokemonsUsuario.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
+			pokemonsUsuario.forEach(x -> x.setAtaques(this.servicioUsuarioAtaquePokemon
+					.obtenerListaDeAtaquesActivos(x.getId(), (Long) request.getSession().getAttribute("id"))));
 			List<Pokemon> pokemonsCpu = this.servicioPokemon.crearEquipoCpu(request);
 			pokemonsCpu.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
 

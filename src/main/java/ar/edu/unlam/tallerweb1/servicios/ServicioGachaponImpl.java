@@ -61,7 +61,7 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 
 	private Pokemon pokemonRepetido(Usuario usuario) {
 		List<UsuarioPokemon> lista = usuario.getPokemons();
-		List<Pokemon> pokemonUser = servicioUsuarioPokemon.buscarPokemon(lista);
+		List<Pokemon> pokemonUser = servicioUsuarioPokemon.buscarPokemons(lista);
 		return pokemonUser.get(0);
 	}
 

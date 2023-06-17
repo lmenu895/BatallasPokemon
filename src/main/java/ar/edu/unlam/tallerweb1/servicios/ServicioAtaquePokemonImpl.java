@@ -16,6 +16,7 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioAtaquePokemon;
 public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 
 	private RepositorioAtaquePokemon repositorioAtaquePokemon;
+	
 	@Autowired
 	public ServicioAtaquePokemonImpl(RepositorioAtaquePokemon repositorioAtaquePokemon) {
 		this.repositorioAtaquePokemon = repositorioAtaquePokemon;
@@ -61,5 +62,10 @@ public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 			ataques.add(ataque.getAtaque());
 		}
 		return ataques;
+	}
+
+	@Override
+	public List<AtaquePokemon> obtenerListaDeAtaquesPokemon(Long idPokemon) {
+		return this.repositorioAtaquePokemon.buscarAtaques(idPokemon);
 	}
 }

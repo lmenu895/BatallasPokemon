@@ -48,7 +48,7 @@ public class ControladorUsuarioTest {
 		Long id = (long)1;
 		givenUsuarioPokemonYUsuarioPokemon();
 		List <UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
-		List <Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemon(lista);
+		List <Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemons(lista);
 		Integer pokemonsInList = 0;
 		for(Pokemon pokemon : pokemons){
 			pokemonsInList++;

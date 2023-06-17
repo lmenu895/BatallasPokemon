@@ -25,7 +25,7 @@ public interface ServicioLogin {
 
 	void cambiarUsuario(DatosLogin datosLogin, Long idUsuario) throws UsuarioExistenteException, CampoVacioException;
 
-	void cambiarMail(DatosLogin datosLogin, Long idUsuario) throws FormatoDeEmailIncorrecto, UsuarioExistenteException;
+	void cambiarMail(DatosLogin datosLogin, Long idUsuario) throws FormatoDeEmailIncorrecto, UsuarioExistenteException, CampoVacioException;
 
 	void cambiarFotoPerfil(MultipartFile fotoPerfil, Long idUsuario) throws IOException;
 }

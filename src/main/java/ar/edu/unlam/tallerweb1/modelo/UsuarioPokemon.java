@@ -21,8 +21,6 @@ public class UsuarioPokemon {
 	@ManyToOne
 	private Pokemon pokemon;
 	
-	
-	
 	public Long getId() {
 		return id;
 	}

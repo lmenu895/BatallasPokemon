@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.edu.unlam.tallerweb1.exceptions.PokemonNoObtenidoException;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
@@ -17,23 +18,32 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioPokemon;
 public class ServicioUsuarioPokemonImpl implements ServicioUsuarioPokemon {
 
 	private RepositorioUsuarioPokemon repositorioUsuarioPokemon;
+	private ServicioAtaquePokemon servicioAtaquePokemon;
+	private ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon;
+
 	@Autowired
-	public ServicioUsuarioPokemonImpl(RepositorioUsuarioPokemon repositorioUsuarioPokemon) {
+	public ServicioUsuarioPokemonImpl(RepositorioUsuarioPokemon repositorioUsuarioPokemon,
+			ServicioAtaquePokemon servicioAtaquePokemon, ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon) {
 		this.repositorioUsuarioPokemon = repositorioUsuarioPokemon;
+		this.servicioAtaquePokemon = servicioAtaquePokemon;
+		this.servicioUsuarioAtaquePokemon = servicioUsuarioAtaquePokemon;
 	}
-	//repetidos
+
+	// repetidos
 	@Override
-	public Boolean guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon, Long idUsuario, Long idPokemon, Usuario usuario, Pokemon pokemon) {
-		if(this.repositorioUsuarioPokemon.buscarUsuarioPokemon(idUsuario, idPokemon) == null) {
+	public Boolean guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon, Long idUsuario, Long idPokemon, Usuario usuario,
+			Pokemon pokemon) {
+		if (this.repositorioUsuarioPokemon.buscarUsuarioPokemon(idUsuario, idPokemon) == null) {
+			this.servicioAtaquePokemon.obtenerListaDeAtaquesPokemon(idPokemon)
+					.forEach(x -> this.servicioUsuarioAtaquePokemon.guardarAtaquePokemonUsuario(x, usuario));
 			this.repositorioUsuarioPokemon.guardarUsuarioPokemon(usuarioPokemon);
 			return true;
 		}
 		return false;
 	}
-		
+
 	public void guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon) {
 		this.repositorioUsuarioPokemon.guardarUsuarioPokemon(usuarioPokemon);
-		
 	}
 
 	@Override
@@ -54,11 +64,31 @@ public class ServicioUsuarioPokemonImpl implements ServicioUsuarioPokemon {
 	}
 
 	@Override
-	public List<Pokemon> buscarPokemon(List<UsuarioPokemon> lista) {
+	public List<Pokemon> buscarPokemons(List<UsuarioPokemon> lista) {
 		ArrayList<Pokemon> pokemons = new ArrayList<Pokemon>();
 		for (UsuarioPokemon pokemon : lista) {
 			pokemons.add(pokemon.getPokemon());
 		}
 		return pokemons;
+	}
+
+	@Override
+	public UsuarioPokemon buscarPokemonUsuario(Long idPokemon, Long idUsuario) throws PokemonNoObtenidoException {
+		UsuarioPokemon pokemonUsuario = this.repositorioUsuarioPokemon.buscarUsuarioPokemon(idUsuario, idPokemon);
+		if (pokemonUsuario != null) {
+			return pokemonUsuario;
+		} else {
+			throw new PokemonNoObtenidoException("El usuario no posee el pokemon buscado");
+		}
+	}
+
+	@Override
+	public Pokemon buscarPokemon(Long idPokemon, Long idUsuario) throws PokemonNoObtenidoException {
+		UsuarioPokemon pokemonUsuario = this.repositorioUsuarioPokemon.buscarUsuarioPokemon(idUsuario, idPokemon);
+		if (pokemonUsuario != null) {
+			return pokemonUsuario.getPokemon();
+		} else {
+			throw new PokemonNoObtenidoException("El usuario no posee el pokemon buscado");
+		}
 	}
 }

@@ -1,0 +1,62 @@
+.contenedor {
+	padding: 30px;
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
+}
+
+.perfil {
+	height: 190px;
+	width: 190px;
+}
+
+.imagenPerfil {
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+	border-radius: 1.5rem;
+	object-fit: cover;
+}
+
+.boxFoto {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	border-color: grey;
+	height: 220px;
+	width: 220px;
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
+}
+
+.boxCentro {
+	margin-left: 50px;
+	height: 500px;
+	width: 700px;
+	background-color: #e6b81a;
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
+	padding: 1rem;
+}
+
+.containerBox {
+	display: flex;
+}
+
+.boxOpciones {
+	border-style: solid;
+	height: 250px;
+	width: 200px;
+}
+
+#fotoPerfil {
+	display: none;
+}
+
+.boton{
+	padding-top: 10px;
+}
+
+p{
+	padding-left: 20px;
+}

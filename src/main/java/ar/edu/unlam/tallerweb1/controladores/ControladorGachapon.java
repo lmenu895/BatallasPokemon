@@ -14,64 +14,64 @@ import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioGachapon;
 
-import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 
 @Controller
 public class ControladorGachapon {
-	
+
 	private ServicioUsuario servicioUsuario;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	private ServicioGachapon servicioGachapon;
-	
-	@Autowired	
-	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon) {
+	@Autowired
+	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario,
+			ServicioUsuarioPokemon servicioUsuarioPokemon) {
 
-		this.servicioUsuario=servicioUsuario;
-		this.servicioUsuarioPokemon=servicioUsuarioPokemon;
-		this.servicioGachapon=servicioGachapon;
+		this.servicioUsuario = servicioUsuario;
+		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
+		this.servicioGachapon = servicioGachapon;
 	}
-	
+
 	@RequestMapping("/gachapon")
-	public ModelAndView gachapon( HttpServletRequest request) {
+	public ModelAndView gachapon(HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
-		Long id = (Long)request.getSession().getAttribute("id");
-		Usuario usuario= servicioUsuario.buscarUsuario(id);
+		Long id = (Long) request.getSession().getAttribute("id");
+		Usuario usuario = servicioUsuario.buscarUsuario(id);
 		ModelMap model = new ModelMap();
 		model.put("puntos", usuario.getPuntos());
 		return new ModelAndView("gachapon", model);
 	}
-	
-	@RequestMapping(path= "gachapon-resultado", method = RequestMethod.POST)
-	public ModelAndView gachaponResultado( HttpServletRequest request) {
+
+	@RequestMapping(path = "gachapon-resultado", method = RequestMethod.POST)
+	public ModelAndView gachaponResultado(HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
 		ModelMap model = new ModelMap();
-		Integer monedas=Integer.parseInt( request.getParameter("monedas") );
-		Long id = (Long)request.getSession().getAttribute("id");
-		Usuario usuario= servicioUsuario.buscarUsuario(id);
-		
-		if(!this.servicioUsuario.restarPuntos(monedas, usuario)) {
+		Integer monedas = Integer.parseInt(request.getParameter("monedas"));
+		Long id = (Long) request.getSession().getAttribute("id");
+		Usuario usuario = servicioUsuario.buscarUsuario(id);
+
+		if (!this.servicioUsuario.restarPuntos(monedas, usuario)) {
 			model.put("error", "Monedas Insuficientes");
 			model.put("puntos", usuario.getPuntos());
 			return new ModelAndView("gachapon", model);
 		}
-		//repetidos
-		Pokemon pokemon= this.servicioGachapon.tiradaGachapon(monedas, usuario);
+		// repetidos
+		Pokemon pokemon = this.servicioGachapon.tiradaGachapon(monedas, usuario);
 		model.put("puntos", usuario.getPuntos());
 		model.put("pokemon", pokemon);
 		model.put("monedas", monedas);
 		if (!usuario.getPrincipiante()) {
 			request.getSession().removeAttribute("principiante");
 		}
-		if(this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon), id, pokemon.getId(), usuario, pokemon)) {
+		if (this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon), id, pokemon.getId(),
+				usuario, pokemon)) {
 			return new ModelAndView("gachapon-resultado", model);
-		}else {
-			Integer pokemonedas= servicioUsuario.sumarpokeMonedas(pokemon.getRareza(), usuario);
+		} else {
+			Integer pokemonedas = servicioUsuario.sumarpokeMonedas(pokemon.getRareza(), usuario);
 			String error = "Obtuviste " + pokemonedas + " Pokemonedas por pokemon repetido, tus pokeMonedas son: ";
 			model.put("repetido", error);
 			model.put("pokemonedas", usuario.getPokemonedas());

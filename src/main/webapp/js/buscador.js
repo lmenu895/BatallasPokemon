@@ -18,7 +18,7 @@ function Buscador(claseBuscador, claseLimpiador, elementosBusqueda, containerRes
 				});
 				if (regexObjs.length > 0) {
 					for (var i = 0; i < regexObjs.length; i++) {
-						if (new RegExp('^' + regexObjs[i].regex + $(elemento).children(regexObjs[i].clase).html().toLowerCase() + '$')
+						if (new RegExp(`^${regexObjs[i].regex}${$(elemento).children(regexObjs[i].clase).html().toLowerCase()}$`)
 							.test(value.toLowerCase())) {
 							busqueda.push(elemento);
 						}
