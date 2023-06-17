@@ -1,0 +1,82 @@
+.btn-cancelar {
+	background-color: #EEEEEE !important;	
+	color: black !important;
+}
+
+.btn-cancelar:hover {
+	background-color: #D8D8D8 !important;	
+	color:black !important;
+}
+
+.pokemon {
+	background-image: url("../images/billetera-bg.jpg");
+	background-repeat:repeat;
+}
+
+.pokemon::before{
+	opacity:0.25;
+}
+
+.texto {
+	background-color: rgba(198, 198, 198, 0.95);
+	border-radius:15px;
+	padding:10px;
+}
+
+.pokemonLogo{
+	width:20vw;
+    padding:20px;
+    margin:0px 20px;
+    margin-top:40px;
+    background: rgba(135,206,250, 0.75);
+    border-radius: 15px;
+     border:1px solid black;
+}
+
+.error {
+	margin:15px 0px;
+}
+
+.container {
+	height: 60vh;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	flex-direction:column;
+	text-align: center;
+}
+
+.ingreso {
+	font-size:2rem;
+	padding:10px;
+}
+
+.label {
+	font-size:25px;
+	margin:10px 0px;
+}
+.numero{
+	margin:10px 0px;
+	font-size:20px;
+	border-radius:10px;
+	padding:5px;
+}
+
+.button {
+	padding:10px;
+	font-size:20px !important;
+	background-color: rgba(198, 198, 198, 0.95) !important;
+	color:black !important;
+	border-radius:15px;
+	border-color:black !important;
+}
+
+.recargar {
+	text-decoration:none;
+	font-size:20px;
+	color:black;
+}
+
+.mt {
+	margin-top:10px;
+}

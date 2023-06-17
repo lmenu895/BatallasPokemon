@@ -5,6 +5,7 @@ import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
 import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.*;
+import ar.edu.unlam.tallerweb1.servicios.ServicioBilletera;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
 import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
@@ -39,12 +40,14 @@ public class ControladorLogin {
 	private ServicioLogin servicioLogin;
 	private ServicioPokemon servicioPokemon;
 	private ServicioUsuario servicioUsuario;
+	private ServicioBilletera servicioBilletera;
 	
 	@Autowired
-	public ControladorLogin(ServicioLogin servicioLogin, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon) {
+	public ControladorLogin(ServicioLogin servicioLogin, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioBilletera servicioBilletera) {
 		this.servicioPokemon = servicioPokemon;
 		this.servicioLogin = servicioLogin;
 		this.servicioUsuario = servicioUsuario;
+		this.servicioBilletera = servicioBilletera;
 	}
 
 	// Este metodo escucha la URL localhost:8080/NOMBRE_APP/login si la misma es
@@ -137,8 +140,11 @@ public class ControladorLogin {
 			modelo.put("listaPokemonComunes", lista);
 			return new ModelAndView("iniciales", modelo);
 		}	
+		Usuario usuario = this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id"));
 		ModelMap model = new ModelMap();
-		model.put("usuario", servicioUsuario.buscarUsuario((Long)request.getSession().getAttribute("id")));
+		Billetera billetera = this.servicioBilletera.consultarBilleteraDeUsuario(usuario);
+		model.put("billetera", billetera);
+		model.put("usuario", usuario);
 		return new ModelAndView("home", model);
 	}
 

@@ -6,6 +6,7 @@ import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.RarezaPokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
 
 public interface ServicioUsuario {
 
@@ -16,8 +17,6 @@ public interface ServicioUsuario {
 	public List<Pokemon> obtenerListaDePokemons(Long idUsuario);
 
 	Boolean restarPuntos(Integer monedas, Usuario usuario);
-
-	public List<Objeto> obtenerListaDeObjetos(Long attribute);
 
 	void sumarPuntos(Long idUsuario, Integer puntos);
 

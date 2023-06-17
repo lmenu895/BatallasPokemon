@@ -37,7 +37,8 @@
 							class="logoutButton">Logout</a>
 					</div>
 				</div>
-				<a href="mostrarBilletera">Mi Billetera</a>
+				<c:if test="${empty billetera.saldo}"><button class="crear textUser">Crear Billetera</button></c:if>
+				<c:if test="${not empty billetera.saldo}"><button class="saldo textUser">$ ${billetera.saldo}</button></c:if>
 			</div>
 		</div>
 	</div>
