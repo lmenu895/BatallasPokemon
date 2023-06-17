@@ -21,6 +21,7 @@ import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.RarezaPokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 
@@ -77,11 +78,6 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		return true;
 	}
 
-	public List<Objeto> obtenerListaDeObjetos(Long idUsuario) {
-		List<Objeto> objetos = new ArrayList<>();
-		this.buscarUsuario(idUsuario).getObjetos().forEach(x -> objetos.add(x.getObjeto()));
-		return objetos;
-	}
 
 	@Override
 	public void sumarPuntos(Long idUsuario, Integer puntos) {

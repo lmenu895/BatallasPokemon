@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,10 +21,11 @@ public class UsuarioObjeto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne (fetch = FetchType.LAZY)
 	private Usuario usuario;
-	@ManyToOne
+	@ManyToOne 
 	private Objeto objeto;
+	private Integer cantidad;
 	
 	public Long getId() {
 		return id;
@@ -47,6 +49,14 @@ public class UsuarioObjeto {
 
 	public void setObjeto(Objeto objeto) {
 		this.objeto = objeto;
+	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
 	}
 
 

@@ -42,8 +42,8 @@ public class Usuario {
 	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contrase�as en la base de datos, no est� implementado
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<UsuarioPokemon> pokemons;
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-	private List<UsuarioObjeto> objetos;
+//	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+//	private List<UsuarioObjeto> objetos;
 	
 	
 	
@@ -88,12 +88,12 @@ public class Usuario {
 	public List<UsuarioPokemon> getPokemons() {
 		return pokemons;
 	}
-	public List<UsuarioObjeto> getObjetos() {
-		return objetos;
-	}
-	public void setObjetos(List<UsuarioObjeto> objetos) {
-		this.objetos = objetos;
-	}
+//	public List<UsuarioObjeto> getObjetos() {
+//		return objetos;
+//	}
+//	public void setObjetos(List<UsuarioObjeto> objetos) {
+//		this.objetos = objetos;
+//	}
 	public void setPokemons(List<UsuarioPokemon> pokemons) {
 		this.pokemons = pokemons;
 	}

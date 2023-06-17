@@ -86,9 +86,23 @@ public class ControladorUsuario {
 		ModelMap model = new ModelMap();
 		model.put("listaPokemon",
 				this.servicioUsuario.obtenerListaDePokemons((Long) request.getSession().getAttribute("id")));
-		model.put("listaObjetos",
-				this.servicioUsuario.obtenerListaDeObjetos((Long) request.getSession().getAttribute("id")));
+		model.put("listaUsuarioObjetos",
+				this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
 		return new ModelAndView("elegir-equipo", model);
+	}
+	
+	@RequestMapping("comprar-objetos")
+	public ModelAndView comprarObjetos(HttpServletRequest request) {
+
+		if (request.getSession().getAttribute("usuario") == null
+				|| request.getSession().getAttribute("principiante") != null) {
+			return new ModelAndView("redirect:/login");
+		}
+		ModelMap model = new ModelMap();
+		model.put("listaObjetos", this.servicioObjeto.listarObjetos() );
+		model.put("listaUsuarioObjetos",
+				this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
+		return new ModelAndView("comprar-objetos", model);
 	}
 
 	@RequestMapping(path = "guardar-equipo", method = RequestMethod.POST)
@@ -108,7 +122,7 @@ public class ControladorUsuario {
 			model.put("listaPokemon",
 					this.servicioUsuario.obtenerListaDePokemons((Long) request.getSession().getAttribute("id")));
 			model.put("listaObjetos",
-					this.servicioUsuario.obtenerListaDeObjetos((Long) request.getSession().getAttribute("id")));
+					this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
 			return new ModelAndView("elegir-equipo", model);
 		}
 		if (objetosTraidos != null) {

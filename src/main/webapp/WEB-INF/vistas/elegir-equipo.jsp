@@ -46,23 +46,24 @@
 				</div>
 
 				<div class="form">
-					<h3 class="form-signin-heading">Objetos</h3>
+					<h3 class="form-signin-heading">Objetos <a class="btn btn-primary " href="comprar-objetos">Comprar Objetos</a></h3> 
 					<h3 class="fs-5 text mb-3">Seleccione qué objetos va a llevar
 						(máximo 3)</h3>
 					<div
 						class="d-flex align-items-baseline justify-content-around flex-wrap"
 						style="width: 30vw">
-						<c:forEach items="${listaObjetos}" var="objeto">
+						<c:forEach items="${listaUsuarioObjetos}" var="usuarioObjeto">
 							<div class="d-flex flex-column align-items-center"
 								style="width: 33%;">
-								<img alt="${objeto.nombre}" class="img-fluid mb-2"
+								<img alt="${usuarioObjeto.objeto.nombre}" class="img-fluid mb-2"
 									style="max-height: 70px;"
-									src="images/sprites/Objetos/${objeto.imagen}">
+									src="images/sprites/Objetos/${usuarioObjeto.objeto.imagen}">
+									<span>Cantidad: ${usuarioObjeto.cantidad}</span>
 								<button type="button" style="width: 105px;"
 									class="btn btn-primary botonObjeto">Seleccionar</button>
-								<input type="hidden" name="objetosLista" value="${objeto.id}"
+								<input type="hidden" name="objetosLista" value="${usuarioObjeto.objeto.id}"
 									disabled />
-								<h4 class="nombre-objeto">${objeto.nombre}</h4>
+								<h4 class="nombre-objeto">${usuarioObjeto.objeto.nombre}</h4>
 							</div>
 						</c:forEach>
 					</div>
