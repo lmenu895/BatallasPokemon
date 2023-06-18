@@ -1,13 +1,9 @@
 .contenido {
-	border-color: green;
+	border-color: red;
 }
 
 .table-historial {
 	background: white;
-}
-
-.debilitado {
-	filter: brightness(0);
 }
 
 tbody {
@@ -25,13 +21,4 @@ thead, tbody tr {
 
 .table-text {
 	width: 17%;
-}
-
-.switch {
-	margin-left: 15px;
-}
-
-.switch input, .switch label {
-	user-select: none;
-	cursor: pointer;
 }

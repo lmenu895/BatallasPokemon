@@ -1,3 +1,5 @@
+import Buscador from './buscador.js';
+
 $(document).ready(function() {
 
 	$(document).on('click', '.botonPokemon', function() {

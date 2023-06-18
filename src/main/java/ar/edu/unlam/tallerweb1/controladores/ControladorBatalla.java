@@ -31,17 +31,19 @@ public class ControladorBatalla {
 	private ServicioUsuario servicioUsuario;
 	private ServicioBatalla servicioBatalla;
 	private ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon;
+	private ServicioUsuarioObjeto servicioUsuarioObjeto;
 
 	@Autowired
 	public ControladorBatalla(ServicioPokemon servicioPokemon, ServicioAtaquePokemon servicioAtaquePokemon,
 			ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioBatalla servicioBatalla,
-			ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon) {
+			ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon, ServicioUsuarioObjeto servicioUsuarioObjeto) {
 		this.servicioPokemon = servicioPokemon;
 		this.servicioAtaquePokemon = servicioAtaquePokemon;
 		this.servicioObjeto = servicioObjeto;
 		this.servicioUsuario = servicioUsuario;
 		this.servicioBatalla = servicioBatalla;
 		this.servicioUsuarioAtaquePokemon = servicioUsuarioAtaquePokemon;
+		this.servicioUsuarioObjeto = servicioUsuarioObjeto;
 	}
 
 	@RequestMapping("/batalla")
@@ -87,7 +89,7 @@ public class ControladorBatalla {
 		ModelMap model = new ModelMap();
 		model.put("error", message);
 		model.put("listaPokemon", this.servicioUsuario.obtenerListaDePokemons(idUsuario));
-		model.put("listaObjetos", this.servicioUsuario.obtenerListaDeObjetos(idUsuario));
+		model.put("listaObjetos", this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto(idUsuario));
 		return new ModelAndView("elegir-equipo", model);
 	}
 

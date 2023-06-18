@@ -93,7 +93,7 @@ public class ControladorUsuario {
 				this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
 		return new ModelAndView("elegir-equipo", model);
 	}
-	
+
 	@RequestMapping("comprar-objetos")
 	public ModelAndView comprarObjetos(HttpServletRequest request) {
 
@@ -102,10 +102,23 @@ public class ControladorUsuario {
 			return new ModelAndView("redirect:/login");
 		}
 		ModelMap model = new ModelMap();
-		model.put("listaObjetos", this.servicioObjeto.listarObjetos() );
+		model.put("listaObjetos", this.servicioObjeto.listarObjetos());
 		model.put("listaUsuarioObjetos",
 				this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
 		return new ModelAndView("comprar-objetos", model);
+	}
+
+	@RequestMapping(path = "comprar-objetos", method = RequestMethod.POST)
+	public ModelAndView comprarObjetos(@RequestParam List<Integer> cantidad, @RequestParam List<Long> idsObjetos,
+			HttpServletRequest request) {
+		if (request.getSession().getAttribute("usuario") == null
+				|| request.getSession().getAttribute("principiante") != null) {
+			return new ModelAndView("redirect:/login");
+		}
+		idsObjetos.forEach(
+				x -> System.out.println("Id objeto: " + x + " cantidad: " + cantidad.get(idsObjetos.indexOf(x))));
+		//lista.indexOf(objeto_de_la_lista) devuelve la posicion en la lista del objeto consultado
+		return null;
 	}
 
 	@RequestMapping(path = "guardar-equipo", method = RequestMethod.POST)
@@ -124,8 +137,8 @@ public class ControladorUsuario {
 			model.put("error", "Debe seleccionar 3 pokemons");
 			model.put("listaPokemon",
 					this.servicioUsuario.obtenerListaDePokemons((Long) request.getSession().getAttribute("id")));
-			model.put("listaObjetos",
-					this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
+			model.put("listaObjetos", this.servicioUsuarioObjeto
+					.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
 			return new ModelAndView("elegir-equipo", model);
 		}
 		if (objetosTraidos != null) {
@@ -160,7 +173,8 @@ public class ControladorUsuario {
 
 	@RequestMapping("/historial-de-batallas")
 	@ResponseBody
-	public ModelAndView historialDeBatallas(@RequestParam(required = false) Boolean ajaxRequest, HttpServletRequest request) {
+	public ModelAndView historialDeBatallas(@RequestParam(required = false) Boolean ajaxRequest,
+			HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
@@ -183,8 +197,8 @@ public class ControladorUsuario {
 
 	@RequestMapping("/lista-pokemons-usuario")
 	@ResponseBody
-	public ModelAndView listaPokemonsUsuario(@RequestParam(required = false) Boolean ajaxRequest, HttpServletRequest request,
-			@RequestParam(required = false) List<Long> pokemonsLista) {
+	public ModelAndView listaPokemonsUsuario(@RequestParam(required = false) Boolean ajaxRequest,
+			HttpServletRequest request, @RequestParam(required = false) List<Long> pokemonsLista) {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
@@ -205,7 +219,8 @@ public class ControladorUsuario {
 
 	@RequestMapping("/pokemon-usuario/{idPokemon}")
 	@ResponseBody
-	public ModelAndView verPokemonUsuario(@PathVariable Long idPokemon, @RequestParam(required = false) Boolean ajaxRequest, HttpServletRequest request) {
+	public ModelAndView verPokemonUsuario(@PathVariable Long idPokemon,
+			@RequestParam(required = false) Boolean ajaxRequest, HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}

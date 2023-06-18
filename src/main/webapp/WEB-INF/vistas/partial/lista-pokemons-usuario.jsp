@@ -1,7 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<link href="<c:url value="/css/historial-de-batallas.css"/>"
-	rel="stylesheet">
+<link href="<c:url value="/css/lista-pokemons-usuario.css"/>" rel="stylesheet">
 <table class="table table-historial">
 	<thead>
 		<tr class="text-center align-middle">
@@ -25,4 +24,7 @@
 		</c:forEach>
 	</tbody>
 </table>
+<script type="text/javascript">
+	document.title = "Lista de Pokemons";
+</script>
 

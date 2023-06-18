@@ -1,6 +1,8 @@
+import Buscador from './buscador.js';
+
 $(document).ready(function() { //Funcion principal de jquery
 
-	$(document).on('click', '.borrar',function() { //Que pasa cuando le doy click a un objeto en la clase borrar
+	$(document).on('click', '.borrar', function() { //Que pasa cuando le doy click a un objeto en la clase borrar
 		if (confirm("¿Estás seguro de borrar el ataque?")) { //confirm -> tas seguro?
 			var id = $(this).val();
 			$.ajax({
@@ -14,7 +16,9 @@ $(document).ready(function() { //Funcion principal de jquery
 				}, */
 				success: function(resultado) { //Cuando termina de ejecutar, recibe el return del controller
 					if (resultado) {
-						$(`#ataque${id}`).remove(); //Id + value del boton
+						var borrar = `#ataque${id}`;
+						$(borrar).remove(); //Id + value del boton
+						buscador.elementosBusqueda = buscador.elementosBusqueda.not(borrar);
 					}
 				}
 				/* error: function(error) {

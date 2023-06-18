@@ -1,3 +1,5 @@
+import Buscador from './buscador.js';
+
 $(document).ready(function() {
 
 	$(document).on('click', '.borrar', function() {
@@ -12,8 +14,10 @@ $(document).ready(function() {
 				//processData: false,
 				/*/beforeSend: function() {
 				},*/
-				success: (result) => {
-					$(`#pokemon${idPokemon}`).remove();
+				success: result => {
+					var borrar = `#pokemon${idPokemon}`;
+					$(borrar).remove();
+					buscador.elementosBusqueda = buscador.elementosBusqueda.not(borrar);
 					console.log("Pokemon borrado");
 				}
 				/*error: function(err){

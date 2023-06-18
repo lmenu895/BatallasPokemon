@@ -1,12 +1,14 @@
-function Buscador(claseBuscador, claseLimpiador, elementosBusqueda, containerResultado, claseBuscada) {
+export default class Buscador {
 
-	this.claseBuscador = $(claseBuscador);
-	this.claseLimpiador = $(claseLimpiador);
-	this.elementosBusqueda = $(elementosBusqueda);
-	this.containerResultado = $(containerResultado);
-	this.claseBuscada = claseBuscada;
+	constructor(claseBuscador, claseLimpiador, elementosBusqueda, containerResultado, claseBuscada) {
+		this.claseBuscador = $(claseBuscador);
+		this.claseLimpiador = $(claseLimpiador);
+		this.elementosBusqueda = $(elementosBusqueda);
+		this.containerResultado = $(containerResultado);
+		this.claseBuscada = claseBuscada;
+	}
 
-	this.buscar = (value, ...regexObjs) => {
+	buscar(value, ...regexObjs) {
 		if (value !== '') {
 			this.claseLimpiador.show();
 			var busqueda = [];
@@ -30,11 +32,12 @@ function Buscador(claseBuscador, claseLimpiador, elementosBusqueda, containerRes
 			this.containerResultado.html(this.elementosBusqueda);
 			this.claseLimpiador.hide();
 		}
-	};
-	this.limpiarBuscar = (llenarContainer) => {
+	}
+
+	limpiarBuscar(llenarContainer) {
 		llenarContainer ? this.containerResultado.html(this.elementosBusqueda) : this.containerResultado.html('');
 		this.claseBuscador.val('');
 		this.claseBuscador.focus();
 		this.claseLimpiador.hide();
 	}
-};
+}
