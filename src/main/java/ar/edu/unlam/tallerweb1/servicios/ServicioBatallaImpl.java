@@ -60,10 +60,10 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 			}
 		}
 		if (pokemonsDebilitadosCpu == 3) {
-			this.servicioUsuario.sumarPuntos(idUsuario, 10);
+			this.servicioUsuario.sumarPuntos(idUsuario, 20);
 			guardarBatalla("Victoria", listaDatosPokemons, duracion, idUsuario);
 		} else if (pokemonsDebilitadosUsuario == 3) {
-			this.servicioUsuario.sumarPuntos(idUsuario, 3);
+			this.servicioUsuario.sumarPuntos(idUsuario, 6);
 			guardarBatalla("Derrota", listaDatosPokemons, duracion, idUsuario);
 		}
 	}

@@ -7,25 +7,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.edu.unlam.tallerweb1.exceptions.PuntosInsuficientesException;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioObjeto;
 
 @Service("servicioUsuarioObjeto")
 @Transactional
-public class ServicioUsuarioObjetoImpl implements ServicioUsuarioObjeto{
+public class ServicioUsuarioObjetoImpl implements ServicioUsuarioObjeto {
 
-	private RepositorioUsuarioObjeto repositorioUsuarioObjeto;
-;
+	private RepositorioUsuarioObjeto repositorioUsuarioObjeto;;
+
 	@Autowired
 	public ServicioUsuarioObjetoImpl(RepositorioUsuarioObjeto repositorioUsuarioObjeto) {
 		this.repositorioUsuarioObjeto = repositorioUsuarioObjeto;
 	}
+
 	@Override
 	public List<UsuarioObjeto> obtenerListaDeUsuarioObjeto(Long idUsuario) {
 		return this.repositorioUsuarioObjeto.buscarObjeto(idUsuario);
 	}
-	
+
 	@Override
 	public List<Objeto> buscarObjeto(List<UsuarioObjeto> lista) {
 		ArrayList<Objeto> objetos = new ArrayList<Objeto>();
@@ -34,5 +37,12 @@ public class ServicioUsuarioObjetoImpl implements ServicioUsuarioObjeto{
 		}
 		return objetos;
 	}
-	
+
+	@Override
+	public void guardarUsuarioObjeto(UsuarioObjeto usuarioObjeto) {
+
+		this.repositorioUsuarioObjeto.guardar(usuarioObjeto);
+
+	}
+
 }

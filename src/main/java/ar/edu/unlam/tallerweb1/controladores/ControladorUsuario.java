@@ -31,6 +31,7 @@ import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
 import ar.edu.unlam.tallerweb1.exceptions.ContraseniaIncompatible;
 import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.PokemonNoObtenidoException;
+import ar.edu.unlam.tallerweb1.exceptions.PuntosInsuficientesException;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Batalla;
 import ar.edu.unlam.tallerweb1.modelo.DatosLogin;
@@ -59,7 +60,7 @@ public class ControladorUsuario {
 			ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon) {
 		this.servicioObjeto = servicioObjeto;
 		this.servicioUsuario = servicioUsuario;
-		this.servicioUsuarioPokemon =  servicioUsuarioPokemon;
+		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
 		this.servicioPokemon = servicioPokemon;
 		this.servicioUsuarioObjeto = servicioUsuarioObjeto;
 		this.servicioLogin = servicioLogin;
@@ -102,23 +103,31 @@ public class ControladorUsuario {
 			return new ModelAndView("redirect:/login");
 		}
 		ModelMap model = new ModelMap();
-		model.put("listaObjetos", this.servicioObjeto.listarObjetos());
+		model.put("puntosUsuario",
+				this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")).getPuntos());
 		model.put("listaUsuarioObjetos",
 				this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
 		return new ModelAndView("comprar-objetos", model);
 	}
 
 	@RequestMapping(path = "comprar-objetos", method = RequestMethod.POST)
-	public ModelAndView comprarObjetos(@RequestParam List<Integer> cantidad, @RequestParam List<Long> idsObjetos,
-			HttpServletRequest request) {
+	public ModelAndView comprarObjetos(@RequestParam List<Integer> cantidad, HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null
 				|| request.getSession().getAttribute("principiante") != null) {
 			return new ModelAndView("redirect:/login");
 		}
-		idsObjetos.forEach(
-				x -> System.out.println("Id objeto: " + x + " cantidad: " + cantidad.get(idsObjetos.indexOf(x))));
-		//lista.indexOf(objeto_de_la_lista) devuelve la posicion en la lista del objeto consultado
-		return null;
+		ModelMap model = new ModelMap();
+		try {
+			this.servicioUsuario.comprarObjetos((Long) request.getSession().getAttribute("id"), cantidad);
+		} catch (PuntosInsuficientesException e) {
+			model.put("error", e.getMessage());
+			model.put("puntosUsuario",
+					this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")).getPuntos());
+			model.put("listaUsuarioObjetos", this.servicioUsuarioObjeto
+					.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
+			return new ModelAndView("comprar-objetos", model);
+		}
+		return new ModelAndView("redirect:/elegir-equipo");
 	}
 
 	@RequestMapping(path = "guardar-equipo", method = RequestMethod.POST)

@@ -38,11 +38,13 @@ public class ServicioLoginImpl implements ServicioLogin {
 
 	private RepositorioUsuario servicioLoginDao;
 	private ServletContext servletContext;
+	private ServicioUsuario servicioUsuario;
 
 	@Autowired
-	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao, ServletContext servletContext) {
+	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao, ServletContext servletContext, ServicioUsuario servicioUsuario) {
 		this.servicioLoginDao = servicioLoginDao;
 		this.servletContext = servletContext;
+		this.servicioUsuario= servicioUsuario;
 	}
 
 	@Override
@@ -64,10 +66,14 @@ public class ServicioLoginImpl implements ServicioLogin {
 
 		if (verificarUsuarioExistente(usuarioNuevo.getEmail())
 				&& verificarUsuarioExistentePorNick(usuarioNuevo.getEmail())) {
+			this.servicioUsuario.asignarObjetos(usuarioNuevo);
 			this.servicioLoginDao.guardar(usuarioNuevo);
+			
 		} else {
 			throw new UsuarioExistenteException("Ya existe un usuario con ese email o nombre de usuario");
 		}
+		
+		
 
 	}
 

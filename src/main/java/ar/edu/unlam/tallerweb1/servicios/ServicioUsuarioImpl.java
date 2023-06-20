@@ -1,11 +1,14 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import ar.edu.unlam.tallerweb1.exceptions.PuntosInsuficientesException;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.RarezaPokemon;
@@ -21,13 +24,17 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 	private RepositorioUsuario repositorioUsuario;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	private ServicioPokemon servicioPokemon;
+	private ServicioObjeto servicioObjeto;
+	private ServicioUsuarioObjeto servicioUsuarioObjeto;
 
 	@Autowired
-	public ServicioUsuarioImpl(RepositorioUsuario repositorioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon,
-			ServicioPokemon servicioPokemon) {
+	public ServicioUsuarioImpl(RepositorioUsuario repositorioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon, ServicioObjeto servicioObjeto
+			, ServicioPokemon servicioPokemon, ServicioUsuarioObjeto servicioUsuarioObjeto) {
 		this.repositorioUsuario = repositorioUsuario;
 		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
 		this.servicioPokemon = servicioPokemon;
+		this.servicioObjeto = servicioObjeto;
+		this.servicioUsuarioObjeto = servicioUsuarioObjeto;
 	}
 
 	@Override
@@ -55,6 +62,33 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		List<Pokemon> pokemons = new ArrayList<>();
 		this.buscarUsuario(idUsuario).getPokemons().forEach(x -> pokemons.add(x.getPokemon()));
 		return pokemons;
+	}
+	
+	@Override
+	public void comprarObjetos(Long idUsuario, List<Integer> cantidad)
+			throws PuntosInsuficientesException {
+		Usuario usuario = this.buscarUsuario(idUsuario);
+		List<UsuarioObjeto> usuarioObjetoList = this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto(usuario.getId());
+		Integer puntosUsuario = usuario.getPuntos();
+		Integer cant;
+		for (UsuarioObjeto usuarioObjeto : usuarioObjetoList) {
+			cant = cantidad.get(usuarioObjetoList.indexOf(usuarioObjeto));
+			if (cant != null && cant != 0) {
+				puntosUsuario -= usuarioObjeto.getObjeto().getPrecio() * cant;
+			}
+		}
+		if (puntosUsuario < 0) {
+			throw new PuntosInsuficientesException("Puntos Insuficientes :(");
+		}
+		for (UsuarioObjeto usuarioObjeto : usuarioObjetoList) {
+			try {
+				usuarioObjeto.setCantidad(
+						usuarioObjeto.getCantidad() + cantidad.get(usuarioObjetoList.indexOf(usuarioObjeto)));
+			} catch (NullPointerException e) {
+				System.err.println(e);
+			}
+		}
+		usuario.setPuntos(puntosUsuario);
 	}
 
 	@Override
@@ -132,5 +166,19 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 	public void sacarPrincipiante(Usuario usuario) {
 		usuario.setPrincipiante(false);
 		this.repositorioUsuario.modificar(usuario);
+	}
+
+	@Override
+	public void asignarObjetos(Usuario usuarioNuevo) {
+		List<Objeto> objetos = this.servicioObjeto.listarObjetos();
+		for (Objeto objeto : objetos) {
+			UsuarioObjeto usuarioObjeto = new UsuarioObjeto();
+			usuarioObjeto.setCantidad(0);
+			usuarioObjeto.setObjeto(objeto);
+			usuarioObjeto.setUsuario(usuarioNuevo);
+			this.servicioUsuarioObjeto.guardarUsuarioObjeto(usuarioObjeto);
+		}
+		
+		 
 	}
 }
