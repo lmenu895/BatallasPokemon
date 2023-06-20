@@ -57,7 +57,7 @@ public class ControladorUsuario {
 			ServicioUsuarioObjeto servicioUsuarioObjeto, ServicioLogin servicioLogin, ServicioBatalla servicioBatalla) {
 		this.servicioObjeto = servicioObjeto;
 		this.servicioUsuario = servicioUsuario;
-		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
+		this.servicioUsuarioPokemon =  servicioUsuarioPokemon;
 		this.servicioPokemon = servicioPokemon;
 		this.servicioUsuarioObjeto = servicioUsuarioObjeto;
 		this.servicioLogin = servicioLogin;
