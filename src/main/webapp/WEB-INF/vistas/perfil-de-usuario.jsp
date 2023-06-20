@@ -1,12 +1,12 @@
 <%@ include file="partial/header.jsp"%>
-<link href="css/perfil-de-usuario.css" rel="stylesheet">
+<link href="<c:url value="/css/perfil-de-usuario.css"/>" rel="stylesheet">
 <title>Perfil de usuario</title>
 </head>
 <body>
 
 	<div>
-		<a href="home"><img class="pokemon" alt="pokemon"
-			src="images/pokemonLogo.png"></a>
+		<a href="<c:url value="/home"/>"><img class="pokemon-img" alt="pokemon"
+			src="<c:url value="/images/pokemonLogo.png"/>"></a>
 	</div>
 	<div class="container">
 		<div class="botones-perfil">
@@ -23,11 +23,10 @@
 		<div class="contenido">
 			<jsp:include page="partial/${contenido}.jsp"></jsp:include>
 		</div>
-
-
-
-
 	</div>
-	<script type="text/javascript" src="js/perfil-de-usuario.js"></script>
+	<script type="text/javascript">
+		var root = <c:url value="/"/>
+	</script>
+	<script type="text/javascript" src="<c:url value="/js/perfil-de-usuario.js"/>"></script>
 </body>
 </html>

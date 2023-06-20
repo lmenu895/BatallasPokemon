@@ -30,15 +30,20 @@ public class ControladorBatalla {
 	private ServicioObjeto servicioObjeto;
 	private ServicioUsuario servicioUsuario;
 	private ServicioBatalla servicioBatalla;
+	private ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon;
+	private ServicioUsuarioObjeto servicioUsuarioObjeto;
 
 	@Autowired
 	public ControladorBatalla(ServicioPokemon servicioPokemon, ServicioAtaquePokemon servicioAtaquePokemon,
-			ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioBatalla servicioBatalla) {
+			ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario, ServicioBatalla servicioBatalla,
+			ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon, ServicioUsuarioObjeto servicioUsuarioObjeto) {
 		this.servicioPokemon = servicioPokemon;
 		this.servicioAtaquePokemon = servicioAtaquePokemon;
 		this.servicioObjeto = servicioObjeto;
 		this.servicioUsuario = servicioUsuario;
 		this.servicioBatalla = servicioBatalla;
+		this.servicioUsuarioAtaquePokemon = servicioUsuarioAtaquePokemon;
+		this.servicioUsuarioObjeto = servicioUsuarioObjeto;
 	}
 
 	@RequestMapping("/batalla")
@@ -56,7 +61,8 @@ public class ControladorBatalla {
 			this.servicioBatalla.inicioBatalla(pokemonsLista, objetosLista);
 			List<Pokemon> pokemonsUsuario = new ArrayList<>();
 			pokemonsLista.forEach(x -> pokemonsUsuario.add(this.servicioPokemon.buscarPokemon(x)));
-			pokemonsUsuario.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
+			pokemonsUsuario.forEach(x -> x.setAtaques(this.servicioUsuarioAtaquePokemon
+					.obtenerListaDeAtaquesActivos(x.getId(), (Long) request.getSession().getAttribute("id"))));
 			List<Pokemon> pokemonsCpu = this.servicioPokemon.crearEquipoCpu(request);
 			pokemonsCpu.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
 
@@ -83,7 +89,7 @@ public class ControladorBatalla {
 		ModelMap model = new ModelMap();
 		model.put("error", message);
 		model.put("listaPokemon", this.servicioUsuario.obtenerListaDePokemons(idUsuario));
-		model.put("listaObjetos", this.servicioUsuario.obtenerListaDeObjetos(idUsuario));
+		model.put("listaObjetos", this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto(idUsuario));
 		return new ModelAndView("elegir-equipo", model);
 	}
 

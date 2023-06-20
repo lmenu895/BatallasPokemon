@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<link href="<c:url value="/css/historial-de-batallas.css"/>" rel="stylesheet">
 <table class="table table-historial">
 	<thead>
 		<tr class="text-center align-middle">
@@ -20,14 +21,14 @@
 						<img
 							class="img-pokemon<c:if test="${pokemonBatalla.debilitado}"> debilitado</c:if>"
 							alt="${pokemonBatalla.pokemon.nombre}"
-							src="images/sprites/${pokemonBatalla.pokemon.nombre}/${pokemonBatalla.pokemon.imagenFrente}">
+							src="<c:url value="/images/sprites/${pokemonBatalla.pokemon.nombre}/${pokemonBatalla.pokemon.imagenFrente}"/>">
 					</c:forEach></td>
 				<td><c:forEach items="${batalla.pokemonsCpu}"
 						var="pokemonBatalla">
 						<img
 							class="img-pokemon<c:if test="${pokemonBatalla.debilitado}"> debilitado</c:if>"
 							alt="${pokemonBatalla.pokemon.nombre}"
-							src="images/sprites/${pokemonBatalla.pokemon.nombre}/${pokemonBatalla.pokemon.imagenFrente}">
+							src="<c:url value="/images/sprites/${pokemonBatalla.pokemon.nombre}/${pokemonBatalla.pokemon.imagenFrente}"/>">
 					</c:forEach></td>
 				<td class="table-text">${batalla.duracion}</td>
 				<td class="table-text">${batalla.resultado}</td>
@@ -40,6 +41,6 @@
 		id="switch"> <label class="form-check-label"
 		for="switch">Ver pokemons debilitados</label>
 </div>
-<script type="text/javascript" src="js/historial-de-batallas.js"></script>
+<script type="text/javascript" src="<c:url value="/js/historial-de-batallas.js"/>"></script>
 
 

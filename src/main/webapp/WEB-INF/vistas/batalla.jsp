@@ -116,9 +116,9 @@
 
 
 	<script type="text/javascript">
-		var pokemonsUsuario = JSON.parse('${pokemonsUsuarioJson}');
-		var pokemonsCpu = JSON.parse('${pokemonsCpuJson}');
-		var objetosUsuario = JSON.parse('${objetosUsuarioJson}');
+		var pokemonsUsuario = JSON.parse(`${pokemonsUsuarioJson}`);
+		var pokemonsCpu = JSON.parse(`${pokemonsCpuJson}`);
+		var objetosUsuario = JSON.parse(`${objetosUsuarioJson}`);
 	</script>
 	<script type="text/javascript" src="js/batalla.js"></script>
 </body>

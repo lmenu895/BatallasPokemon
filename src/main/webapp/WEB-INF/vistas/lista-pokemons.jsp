@@ -37,7 +37,6 @@
 			</tbody>
 		</table>
 	</div>
-	<script type="text/javascript" src="js/buscador.js"></script>
-	<script type="text/javascript" src="js/lista-pokemons.js"></script>
+	<script type="module" src="js/lista-pokemons.js"></script>
 </body>
 </html>

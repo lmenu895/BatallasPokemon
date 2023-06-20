@@ -1,6 +1,5 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -106,8 +105,10 @@ public class ServicioLoginImpl implements ServicioLogin {
 
 	@Override
 	public void cambiarMail(DatosLogin datosLogin, Long idUsuario)
-			throws FormatoDeEmailIncorrecto, UsuarioExistenteException {
-
+			throws FormatoDeEmailIncorrecto, UsuarioExistenteException, CampoVacioException {
+		if (datosLogin.getEmail().isBlank()) {
+			throw new CampoVacioException("Debe ingresar un email");
+		}
 		if (!this.verificarUsuarioExistente(datosLogin.getEmail())) {
 			throw new UsuarioExistenteException("Ya existe un usuario con ese mail");
 		}
@@ -123,9 +124,10 @@ public class ServicioLoginImpl implements ServicioLogin {
 		Usuario usuario = this.servicioLoginDao.buscarUsuario(idUsuario);
 		if (usuario.getFotoPerfil() != null && !usuario.getFotoPerfil().isBlank()) {
 			try {
-			    Files.delete(Paths.get(servletContext.getRealPath("") + "images/fotosPerfil/" + usuario.getFotoPerfil()));
+				Files.delete(
+						Paths.get(servletContext.getRealPath("") + "images/fotosPerfil/" + usuario.getFotoPerfil()));
 			} catch (NoSuchFileException ex) {
-			    System.err.println(ex);
+				System.err.println(ex);
 			}
 		}
 		guardarImagen(fotoPerfil);

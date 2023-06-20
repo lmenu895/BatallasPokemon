@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+	document.title = "Datos de Usuario";
 	$(document).on('click', '#imgPerfil', function() {
 		$('#fotoPerfil').click();
 	});
@@ -23,10 +24,20 @@ $(document).ready(function() {
 			}*/
 		});
 	});
-
-	/*$(".boxCentro").css('filter', 'grayscale(1)')
-	$(".boxCentro").css('opacity', '0.7')
-	//$(".boxCentro").css('pointer-events', 'none')
-	$(".boxCentro").css('user-select', 'none')
-	$(".boxCentro *").prop('disabled', true)*/
+	
+	/*
+	$('.boxCentro').css({
+		filter: 'grayscale(1)',
+		opacity: 0.7,
+		'pointer-events': 'none',
+		'user-select': 'none'
+	});
+	document.querySelector('.boxCentro').style = `
+		filter: grayscale(1);
+		opacity: 0.7;
+		pointer-events: none;
+		user-select: none;
+	`;
+	*/
+	$(".boxCentro *").prop('disabled', true)
 });

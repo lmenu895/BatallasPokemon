@@ -84,8 +84,7 @@
 
 	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
-	<script type="text/javascript" src="js/buscador.js"></script>
-	<script type="text/javascript" src="js/elegir-equipo.js"></script>
+	<script type="module" src="js/elegir-equipo.js"></script>
 	<!-- 	<script type="text/javascript" src="js/validation.js"></script> -->
 </body>
 </html>

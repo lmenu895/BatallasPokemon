@@ -53,8 +53,8 @@ $(document).ready(function() {
 	//Coloco la vida de los pokemons en html porque sino hay que hacer un cast double to int en jsp
 	$('#vidaPkmnUsr').html(pokemonUsuario.vida);
 	$('#vidaPkmnCpu').html(pokemonCpu.vida);
-	$('#vidaMaximaPkmnUsr').html(' / ' + pokemonUsuario.vida);
-	$('#vidaMaximaPkmnCpu').html(' / ' + pokemonCpu.vida);
+	$('#vidaMaximaPkmnUsr').html(` / ${pokemonUsuario.vida}`);
+	$('#vidaMaximaPkmnCpu').html(` / ${pokemonCpu.vida}`);
 
 	$(document).on('click', '.suplentes', async function() {
 		desactivarBotones();
@@ -86,7 +86,7 @@ $(document).ready(function() {
 					pokemonUsuario.estados.envenenado = false;
 					quitarEstadosHtml();
 					removerObjeto();
-					await sleep(1, agregarAlHistorial, pokemonUsuario.nombre + ' ya no esta envenenado!');
+					await sleep(1, agregarAlHistorial, `${pokemonUsuario.nombre} ya no esta envenenado!`);
 					iniciarTurno();
 					return;
 				}
@@ -96,7 +96,7 @@ $(document).ready(function() {
 					pokemonUsuario.estados.quemado = false;
 					quitarEstadosHtml();
 					removerObjeto();
-					await sleep(1, agregarAlHistorial, pokemonUsuario.nombre + ' ya no esta quemado!');
+					await sleep(1, agregarAlHistorial, `${pokemonUsuario.nombre} ya no esta quemado!`);
 					iniciarTurno();
 					return;
 				}
@@ -106,7 +106,7 @@ $(document).ready(function() {
 					pokemonUsuario.estados.paralizado = false;
 					quitarEstadosHtml();
 					removerObjeto();
-					await sleep(1, agregarAlHistorial, pokemonUsuario.nombre + ' ya no esta paralizado!');
+					await sleep(1, agregarAlHistorial, `${pokemonUsuario.nombre} ya no esta paralizado!`);
 					iniciarTurno();
 					return;
 				}
@@ -115,7 +115,7 @@ $(document).ready(function() {
 				quitarEstadosHtml();
 				$(Object.keys(pokemonUsuario.estados)).each(function() { pokemonUsuario.estados[this] = false });
 				pokemonUsuario.vidaActual = pokemonUsuario.vida;
-				agregarAlHistorial('Has usado restaurar todo en ' + pokemonUsuario.nombre);
+				agregarAlHistorial(`Has usado restaurar todo en ${pokemonUsuario.nombre}`);
 				await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario, true);
 				removerObjeto();
 				iniciarTurno();
@@ -123,7 +123,7 @@ $(document).ready(function() {
 			case 'PLUS_400HP':
 				pokemonUsuario.vidaActual += 400;
 				if (pokemonUsuario.vidaActual > pokemonUsuario.vida) pokemonUsuario.vidaActual = pokemonUsuario.vida;
-				agregarAlHistorial('Has usado una superpocion en ' + pokemonUsuario.nombre);
+				agregarAlHistorial(`Has usado una superpocion en ${pokemonUsuario.nombre}`);
 				await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario, true);
 				removerObjeto();
 				iniciarTurno();
@@ -131,7 +131,7 @@ $(document).ready(function() {
 			case 'PLUS_200HP':
 				pokemonUsuario.vidaActual += 200;
 				if (pokemonUsuario.vidaActual > pokemonUsuario.vida) pokemonUsuario.vidaActual = pokemonUsuario.vida;
-				agregarAlHistorial('Has usado una pocion en ' + pokemonUsuario.nombre);
+				agregarAlHistorial(`Has usado una pocion en ${pokemonUsuario.nombre}`);
 				await moveProgressBar('#progressBarUsr', '#vidaPkmnUsr', pokemonUsuario, true);
 				removerObjeto();
 				iniciarTurno();
@@ -141,7 +141,7 @@ $(document).ready(function() {
 					this.potencia *= 1.25;
 				});
 				removerObjeto();
-				await sleep(1, agregarAlHistorial, pokemonUsuario.nombre + 'Ha subido el daño de ' + pokemonUsuario.nombre);
+				await sleep(1, agregarAlHistorial, `Ha subido el daño de ${pokemonUsuario.nombre}`);
 				iniciarTurno();
 				return;
 		}
@@ -192,7 +192,7 @@ $(document).ready(function() {
 		var paralizado = pokemonUsuario.estados.paralizado && getRandom(100) > 75 ? true : false;
 		var inmovil = pokemonUsuario.ataques[idAtaque].precataque < getRandom(100) ? true : false;
 		if (!paralizado) {
-			agregarAlHistorial('Utilizaste: ' + pokemonUsuario.ataques[idAtaque].nombre);
+			agregarAlHistorial(`Utilizaste: ${pokemonUsuario.ataques[idAtaque].nombre}`);
 			if (!inmovil) {
 				var eficaz;
 				var critico;
@@ -243,7 +243,7 @@ $(document).ready(function() {
 				}
 			} else {
 				await sleep(1);
-				return sleep(1, agregarAlHistorial, 'Tu ' + pokemonUsuario.nombre + ' ha fallado el ataque!');
+				return sleep(1, agregarAlHistorial, `Tu ${pokemonUsuario.nombre} ha fallado el ataque!`);
 			}
 		} else {
 			return sleep(1, agregarAlHistorial, 'Estas paralizado, no puedes atacar!');
@@ -258,7 +258,7 @@ $(document).ready(function() {
 		var paralizado = pokemonCpu.estados.paralizado && getRandom(100) > 75 ? true : false;
 		var inmovil = pokemonCpu.ataques[idAtaque].precataque < getRandom(100) ? true : false;
 		if (!paralizado) {
-			agregarAlHistorial('Ataque enemigo: ' + pokemonCpu.ataques[idAtaque].nombre, 'cpu');
+			agregarAlHistorial(`Ataque enemigo: ${pokemonCpu.ataques[idAtaque].nombre}`, 'cpu');
 			if (!inmovil) {
 				var eficaz;
 				var critico;
@@ -309,7 +309,7 @@ $(document).ready(function() {
 				}
 			} else {
 				await sleep(1);
-				return sleep(1, agregarAlHistorial, 'El ' + pokemonCpu.nombre + ' enemigo ha fallado el ataque!', 'cpu');
+				return sleep(1, agregarAlHistorial, `El ${pokemonCpu.nombre} enemigo ha fallado el ataque!`, 'cpu');
 			}
 		} else {
 			return sleep(1, agregarAlHistorial, 'Enemigo paralizado, no puede atacar!', 'cpu');
@@ -375,14 +375,14 @@ $(document).ready(function() {
 				pokemonCpu.estados.envenenado = true;
 				$('#estadoCpu').html('PSN');
 				$('#estadoCpu').css('background-color', 'purple');
-				agregarAlHistorial(pokemonCpu.nombre + ' se ha envenenado!');
+				agregarAlHistorial(`${pokemonCpu.nombre} se ha envenenado!`);
 				if (primero === undefined) primero = true;
 			}
 			else {
 				pokemonUsuario.estados.envenenado = true;
 				$('#estadoUsuario').html('PSN');
 				$('#estadoUsuario').css('background-color', 'purple');
-				agregarAlHistorial(pokemonUsuario.nombre + ' se ha envenenado!', 'cpu');
+				agregarAlHistorial(`${pokemonUsuario.nombre} se ha envenenado!`, 'cpu');
 				if (primero === undefined) primero = false;
 			}
 			await sleep(1);
@@ -396,13 +396,13 @@ $(document).ready(function() {
 				pokemonCpu.estados.paralizado = true;
 				$('#estadoCpu').html('PAR');
 				$('#estadoCpu').css('background-color', 'rgb(255, 225, 0)');
-				agregarAlHistorial(pokemonCpu.nombre + ' se ha paralizado!');
+				agregarAlHistorial(`${pokemonCpu.nombre} se ha paralizado!`);
 				pokemonCpu.velocidad *= 0.5;
 			} else {
 				pokemonUsuario.estados.paralizado = true;
 				$('#estadoUsuario').html('PAR');
 				$('#estadoUsuario').css('background-color', 'rgb(255, 225, 0)');
-				agregarAlHistorial(pokemonUsuario.nombre + ' se ha paralizado!', 'cpu');
+				agregarAlHistorial(`${pokemonUsuario.nombre} se ha paralizado!`, 'cpu');
 				pokemonUsuario.velocidad *= 0.5;
 			}
 			await sleep(1);
@@ -416,7 +416,7 @@ $(document).ready(function() {
 				pokemonCpu.estados.quemado = true;
 				$('#estadoCpu').html('BRN');
 				$('#estadoCpu').css('background-color', 'red');
-				agregarAlHistorial(pokemonCpu.nombre + ' se ha quemado!');
+				agregarAlHistorial(`${pokemonCpu.nombre} se ha quemado!`);
 				$(pokemonCpu.ataques).each(function() {
 					this.potencia *= 0.5;
 				});
@@ -425,7 +425,7 @@ $(document).ready(function() {
 				pokemonUsuario.estados.quemado = true;
 				$('#estadoUsuario').html('BRN');
 				$('#estadoUsuario').css('background-color', 'red');
-				agregarAlHistorial(pokemonUsuario.nombre + ' se ha quemado!', 'cpu');
+				agregarAlHistorial(`${pokemonUsuario.nombre} se ha quemado!`, 'cpu');
 				$(pokemonUsuario.ataques).each(function() {
 					this.potencia *= 0.5;
 				});
@@ -449,7 +449,7 @@ $(document).ready(function() {
 						resolve();
 					} else {
 						pokemon.width += 0.3;
-						elem.width(pokemon.width + '%');
+						elem.width(`${pokemon.width}%`);
 						vidaAnterior += pokemon.porcVida;
 						if (vidaAnterior < pokemon.vidaActual && vidaAnterior < pokemon.vida) $(idVida).html(parseInt(vidaAnterior));
 						else if (pokemon.vidaActual < pokemon.vida) $(idVida).html(parseInt(pokemon.vidaActual));
@@ -461,7 +461,7 @@ $(document).ready(function() {
 						resolve();
 					} else {
 						pokemon.width -= 0.3;
-						elem.width(pokemon.width + '%');
+						elem.width(`${pokemon.width}%`);
 						vidaAnterior -= pokemon.porcVida;
 						if (vidaAnterior > pokemon.vidaActual && vidaAnterior > 0) $(idVida).html(parseInt(vidaAnterior));
 						else if (pokemon.vidaActual > 0) $(idVida).html(parseInt(pokemon.vidaActual));
@@ -518,11 +518,11 @@ $(document).ready(function() {
 
 	const agregarAlHistorial = (texto, player) => {
 		var timer = new Date().getTime() - startTimer;
-		var time = ('0' + Math.floor(timer / 60000)).slice(-2) + ':' + ('0' + Math.floor((timer % 60000) / 1000)).slice(-2);
+		var time = `${`0${Math.floor(timer / 60000)}`.slice(-2)}:${`0${Math.floor((timer % 60000) / 1000)}`.slice(-2)}`;
 		if (player === 'cpu') {
-			$('.historial').prepend('<li style="color: red;">' + time + ' - ' + texto + '</li>');
+			$('.historial').prepend(`<li style="color: red;">${time} - ${texto}</li>`);
 		} else {
-			$('.historial').prepend('<li style="color: green;">' + time + ' - ' + texto + '</li>');
+			$('.historial').prepend(`<li style="color: green;">${time} - ${texto}</li>`);
 		}
 	};
 	const getRandom = rango => {
@@ -537,7 +537,7 @@ $(document).ready(function() {
 
 	const pokemonDebilitado = async objetivo => {
 		if (objetivo === 'cpu') {
-			agregarAlHistorial(pokemonCpu.nombre + ' enemigo ha sido debilitado!');
+			agregarAlHistorial(`${pokemonCpu.nombre} enemigo ha sido debilitado!`);
 			if (--pokemonsVivosCpu > 0) {
 				await cambiarPokemonCpu();
 			} else {
@@ -549,7 +549,7 @@ $(document).ready(function() {
 				ganador = 'user';
 			}
 		} else {
-			agregarAlHistorial('Tu ' + pokemonUsuario.nombre + ' ha sido debilitado!', 'cpu');
+			agregarAlHistorial(`Tu ${pokemonUsuario.nombre} ha sido debilitado!`, 'cpu');
 			if (--pokemonsVivosUsr > 0) {
 				$('.suplentes').each(function() {
 					if (this.value !== botonCambio.value && this.value !== '-1') $(this).prop('disabled', false);
@@ -572,20 +572,20 @@ $(document).ready(function() {
 		pokemonUsuario = pokemonsUsuario[boton.value];
 		await new Promise(resolve => {
 			$(spriteUsuario).fadeOut(1000, () => {
-				if (debilitado) agregarAlHistorial('Enviaste a ' + pokemonUsuario.nombre);
-				else agregarAlHistorial('Cambiaste a ' + pokemonUsuario.nombre);
+				if (debilitado) agregarAlHistorial(`Enviaste a ${pokemonUsuario.nombre}`);
+				else agregarAlHistorial(`Cambiaste a ${pokemonUsuario.nombre}`);
 				spriteUsuario = $('.img-usuario')[boton.value];
 				$('#nombrePkmnUsr').html(pokemonUsuario.nombre);
 				$('#vidaPkmnUsr').html(parseInt(pokemonUsuario.vidaActual));
-				$('#vidaMaximaPkmnUsr').html(' / ' + pokemonUsuario.vida);
-				$('#progressBarUsr').width(pokemonUsuario.width + '%');
+				$('#vidaMaximaPkmnUsr').html(` / ${pokemonUsuario.vida}`);
+				$('#progressBarUsr').width(`${pokemonUsuario.width}%`);
 				$('.ataques').each((i, iAtaque) => {
 					var ataque = pokemonUsuario.ataques[i];
 					$(iAtaque).html(ataque.nombre);
-					$(iAtaque).prop('title', 'Tipo: ' + ataque.tipo + ' | Potencia: ' + ataque.potencia +
-						'.0 | Precision: ' + ataque.precataque + '.0');
+					$(iAtaque).prop('title',
+						`Tipo: ${ataque.tipo} | Potencia: ${ataque.potencia}.0 | Precision: ${ataque.precataque}.0`);
 				});
-				$('.img-usuario').prop('title', 'Tipo: ' + pokemonUsuario.tipo);
+				$('.img-usuario').prop('title', `Tipo: ${pokemonUsuario.tipo}`);
 				if (pokemonUsuario.estados.envenenado) {
 					$('#estadoUsuario').html('PSN');
 					$('#estadoUsuario').css('background-color', 'purple');
@@ -609,15 +609,15 @@ $(document).ready(function() {
 		pokemonCpu = pokemonsCpu[++nextPokemonCpu];
 		await new Promise(resolve => {
 			$(spriteCpu).fadeOut(1000, () => {
-				agregarAlHistorial('El enemigo envio a ' + pokemonCpu.nombre, 'cpu');
+				agregarAlHistorial(`El enemigo envio a ${pokemonCpu.nombre}`, 'cpu');
 				spriteCpu = $('.img-cpu')[nextPokemonCpu];
 				$('#nombrePkmnCpu').html(pokemonCpu.nombre);
 				$('#vidaPkmnCpu').html(pokemonCpu.vidaActual);
-				$('#vidaMaximaPkmnCpu').html(' / ' + pokemonCpu.vida);
-				$('#progressBarCpu').width(pokemonCpu.width + '%');
+				$('#vidaMaximaPkmnCpu').html(` / ${pokemonCpu.vida}`);
+				$('#progressBarCpu').width(`${pokemonCpu.width}%`);
 				$('#estadoCpu').html('');
 				$('#estadoCpu').css('background-color', '');
-				$('.img-cpu').prop('title', 'Tipo: ' + pokemonCpu.tipo);
+				$('.img-cpu').prop('title', `Tipo: ${pokemonCpu.tipo}`);
 				$(spriteCpu).fadeIn(1000, resolve);
 			});
 		});
@@ -642,7 +642,7 @@ $(document).ready(function() {
 			};
 			datosPokemons.push(pokemon);
 		});
-		
+
 		$.ajax({
 			data: {
 				datosPokemons: JSON.stringify(datosPokemons),
@@ -725,7 +725,7 @@ $(document).ready(function() {
 		sonidoGolpe.volume = this.value * 0.008;
 		sonidoVictoria.volume = this.value * 0.004;
 		sonidoDerrota.volume = this.value * 0.008;
-		console.log("Volume set to ", this.value);
+		console.log(`Volume set to ${this.value}`);
 	});
 	$(window).click(() => { if (!$(reproducirDialog).is(':hover') && reproducirDialog.open) reproducirDialog.close() });
 	$('.reproducir').click(function() {

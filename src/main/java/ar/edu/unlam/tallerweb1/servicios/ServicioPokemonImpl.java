@@ -2,16 +2,13 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.hibernate.dialect.Database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -172,6 +169,10 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 				if (!datosPokemon.getImagenDorso().isEmpty()) {
 					this.guardarImagen(datosPokemon.getImagenDorso(), datosPokemon.getNombre());
 					pokemon.setImagenDorso(datosPokemon.getImagenDorso().getOriginalFilename());
+				}
+				if (pokemon.getNombre() != null && !pokemon.getNombre().equals(datosPokemon.getNombre())) {
+					Path spriteFolder = Paths.get(servletContext.getRealPath("") + "images/sprites/" + pokemon.getNombre());
+					Files.move(spriteFolder, spriteFolder.resolveSibling(datosPokemon.getNombre()));
 				}
 				pokemon.setNombre(datosPokemon.getNombre());
 				pokemon.setTipo(datosPokemon.getTipo());

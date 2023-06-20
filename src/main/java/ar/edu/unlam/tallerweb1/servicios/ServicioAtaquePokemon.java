@@ -17,4 +17,6 @@ public interface ServicioAtaquePokemon {
 	List<Long> obtenetAtaquesDesbloqueados(Long idPokemon);
 
 	List<Long> obtenetAtaquesBloqueados(Long idPokemon);
+
+	List<AtaquePokemon> obtenerListaDeAtaquesPokemon(Long idPokemon);
 }

@@ -9,58 +9,62 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class AtaquePokemon {
-
-	public AtaquePokemon(Ataque ataque, Pokemon pokemon, Boolean bloqueado) {
-		this.ataque = ataque;
+public class UsuarioAtaquePokemon {
+	
+	public UsuarioAtaquePokemon(Usuario usuario, Pokemon pokemon, Ataque ataque, Boolean bloqueado, Boolean activo) {
+		this.usuario = usuario;
 		this.pokemon = pokemon;
+		this.ataque = ataque;
 		this.bloqueado = bloqueado;
+		this.activo = activo;
 	}
-
-	public AtaquePokemon() {
-		// Default
+	
+	public UsuarioAtaquePokemon() {
+		//Default
 	}
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Usuario usuario;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Pokemon pokemon;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Ataque ataque;
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Pokemon pokemon;
+	
 	private Boolean bloqueado;
-
-	public Long getId() {
-		return id;
+	private Boolean activo;
+	
+	public Usuario getUsuario() {
+		return usuario;
 	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
-
-	public Ataque getAtaque() {
-		return ataque;
-	}
-
-	public void setAtaque(Ataque ataque) {
-		this.ataque = ataque;
-	}
-
 	public Pokemon getPokemon() {
 		return pokemon;
 	}
-
 	public void setPokemon(Pokemon pokemon) {
 		this.pokemon = pokemon;
 	}
-
+	public Ataque getAtaque() {
+		return ataque;
+	}
+	public void setAtaque(Ataque ataque) {
+		this.ataque = ataque;
+	}
 	public Boolean getBloqueado() {
 		return bloqueado;
 	}
-
 	public void setBloqueado(Boolean bloqueado) {
 		this.bloqueado = bloqueado;
 	}
-
+	public Boolean getActivo() {
+		return activo;
+	}
+	public void setActivo(Boolean activo) {
+		this.activo = activo;
+	}
 }

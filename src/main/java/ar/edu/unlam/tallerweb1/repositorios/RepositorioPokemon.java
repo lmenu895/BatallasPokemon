@@ -3,9 +3,6 @@ package ar.edu.unlam.tallerweb1.repositorios;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Query;
-import javax.persistence.*;
-
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 
 public interface RepositorioPokemon {

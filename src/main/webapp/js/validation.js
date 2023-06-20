@@ -38,7 +38,7 @@ $(document).ready(function() {
 		if (checked < 4) {
 			$(".valida-ataques").html("Seleccione mínimo 4 ataques");
 			if (checked > 0) {
-				$(".valida-ataques").html("Seleccione " + (4 - checked) + " ataques más")
+				$(".valida-ataques").html(`Seleccione ${4 - checked} ataques más`)
 			}
 			$(".valida-ataques").show();
 			e.preventDefault(e);
@@ -67,7 +67,7 @@ $(document).ready(function() {
 		if ($("#_frente").lenght)
 			$("#_frente").src = url;
 		else
-			$("#verFrente").html("<img id='_frente' alt='frente' src=" + url + " class='img-fluid mt-1 sprite'>");
+			$("#verFrente").html(`<img id='_frente' alt='frente' src='${url}' class='img-fluid mt-1 sprite'>`);
 		$("#_frente").on("load", function() {
 			var width = $(this).prop("width") * 2;
 			$(this).prop("width", width);
@@ -79,7 +79,7 @@ $(document).ready(function() {
 		if ($("#_dorso").lenght)
 			$("#_dorso").src = url;
 		else
-			$("#verDorso").html("<img id='_dorso' alt='dorso' src=" + url + " class='img-fluid mt-1 sprite'>");
+			$("#verDorso").html(`<img id='_dorso' alt='dorso' src='${url}' class='img-fluid mt-1 sprite'>`);
 		$("#_dorso").on("load", function() {
 			var width = $(this).prop("width") * 2;
 			$(this).prop("width", width);

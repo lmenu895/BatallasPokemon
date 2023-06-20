@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import java.util.List;
 
+import ar.edu.unlam.tallerweb1.exceptions.PokemonNoObtenidoException;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
@@ -16,7 +17,11 @@ public interface ServicioUsuarioPokemon {
 	
 	void guardarEquipo(UsuarioPokemon usuarioPokemon);
 
-	List<Pokemon> buscarPokemon(List<UsuarioPokemon> lista);
+	List<Pokemon> buscarPokemons(List<UsuarioPokemon> lista);
 
 	void guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon);
+
+	UsuarioPokemon buscarPokemonUsuario(Long idPokemon, Long idUsuario) throws PokemonNoObtenidoException;
+
+	Pokemon buscarPokemon(Long idPokemon, Long idUsuario) throws PokemonNoObtenidoException;
 }
