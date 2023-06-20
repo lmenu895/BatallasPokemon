@@ -68,7 +68,6 @@ public class ServicioLoginImpl implements ServicioLogin {
 		} else {
 			throw new UsuarioExistenteException("Ya existe un usuario con ese email o nombre de usuario");
 		}
-
 	}
 
 	@Override

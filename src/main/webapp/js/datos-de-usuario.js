@@ -38,6 +38,6 @@ $(document).ready(function() {
 		pointer-events: none;
 		user-select: none;
 	`;
-	*/
 	$(".boxCentro *").prop('disabled', true)
+	*/
 });
