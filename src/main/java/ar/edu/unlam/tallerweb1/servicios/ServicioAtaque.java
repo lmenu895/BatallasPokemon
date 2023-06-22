@@ -6,14 +6,14 @@ import ar.edu.unlam.tallerweb1.modelo.Ataque;
 
 public interface ServicioAtaque {
 	
-	List<Ataque> obtenerTodosLosAtaques();
+	List<Ataque> obtenerTodos();
 
-	Ataque buscarAtaque(Long id);
+	Ataque buscar(Long id);
 
-	void guardarAtaque(Ataque datosAtaque) throws NombreExistenteException;
+	void guardar(Ataque datosAtaque) throws NombreExistenteException;
 
-	void borrarAtaque(Long id);
+	void borrar(Long id);
 
-	void modificarAtaque(Ataque ataque);
+	void modificar(Ataque ataque);
 
 }

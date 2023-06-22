@@ -25,42 +25,45 @@ public class ControladorIniciales {
 	private ServicioUsuario servicioUsuario;
 	private ServicioPokemon servicioPokemon;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
-	
+
 	@Autowired
-	public ControladorIniciales(ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioUsuarioPokemon servicioUsuarioPokemon) {
+	public ControladorIniciales(ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon,
+			ServicioUsuarioPokemon servicioUsuarioPokemon) {
 		this.servicioUsuario = servicioUsuario;
 		this.servicioPokemon = servicioPokemon;
 		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
 	}
-	
+
 	@RequestMapping("iniciales")
 	public ModelAndView iniciales(HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
-		List <Pokemon> lista = this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id"));
-		if(lista.size() > 0) {
+		List<Pokemon> lista = this.servicioUsuario
+				.obtenerListaDePokemons((Long) request.getSession().getAttribute("id"));
+		if (lista.size() > 0) {
 			return new ModelAndView("redirect:/home");
-		}	
+		}
 		ModelMap model = new ModelMap();
-		lista = this.servicioPokemon.obtenerTodosLosPokemonsComunes();
+		lista = this.servicioPokemon.obtenerTodosLosComunes();
 		model.put("listaPokemonComunes", lista);
 		return new ModelAndView("iniciales", model);
 	}
-	
+
 	@RequestMapping(path = "guardar-inicial", method = RequestMethod.POST)
-	public ModelAndView guardarInicial(@RequestParam(required=true, name="pokemon") String pokemonElegido, HttpServletRequest request) {
+	public ModelAndView guardarInicial(@RequestParam(required = true, name = "pokemon") String pokemonElegido,
+			HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
-		Long id = (Long)request.getSession().getAttribute("id");
-		Usuario usuario= servicioUsuario.buscarUsuario(id);
-		Pokemon pokemon = servicioPokemon.buscarPokemonString(pokemonElegido);
-		this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon));
+		Long id = (Long) request.getSession().getAttribute("id");
+		Usuario usuario = servicioUsuario.buscar(id);
+		Pokemon pokemon = servicioPokemon.buscar(Long.parseLong(pokemonElegido));
+		this.servicioUsuarioPokemon
+				.guardarUsuarioPokemon(new UsuarioPokemon().withUsuario(usuario).withPokemon(pokemon));
 		ModelMap model = new ModelMap();
 		model.put("usuario", usuario);
 		return new ModelAndView("home", model);
-	}	
-	
-	
+	}
+
 }

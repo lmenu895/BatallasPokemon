@@ -35,7 +35,7 @@ public class ControladorBilletera {
 		ModelMap modelo = new ModelMap();
 		Billetera billetera = new Billetera();
 		Long id = (Long) request.getSession().getAttribute("id");
-		Usuario usuario = servicioUsuario.buscarUsuario(id);
+		Usuario usuario = servicioUsuario.buscar(id);
 		if(usuario != null) {
 			modelo.addAttribute("usuario", usuario);
 			billetera.setUsuario(usuario);
@@ -50,7 +50,7 @@ public class ControladorBilletera {
 	public ModelAndView procesarRegistro(@ModelAttribute("billetera") Billetera billetera, HttpServletRequest request) {
 		ModelMap modelo = new ModelMap();
 		Long id = (Long) request.getSession().getAttribute("id");
-		Usuario usuario = servicioUsuario.buscarUsuario(id);
+		Usuario usuario = servicioUsuario.buscar(id);
 		Billetera billeteraEncontrada = servicioBilletera.consultarBilleteraDeUsuario(usuario);
 		try {
 			if(usuario != null) {
@@ -118,7 +118,7 @@ public class ControladorBilletera {
 	public ModelAndView formularioSaldo(@ModelAttribute("billetera") Billetera billetera, HttpServletRequest request) {
 		ModelMap modelo = new ModelMap();
 		Long id = (Long) request.getSession().getAttribute("id");
-		Usuario usuario = servicioUsuario.buscarUsuario(id);
+		Usuario usuario = servicioUsuario.buscar(id);
 		billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario);
 		
 		try{
@@ -147,7 +147,7 @@ public class ControladorBilletera {
 									) {
 		ModelMap modelo = new ModelMap();
 		Long id = (Long) request.getSession().getAttribute("id");
-		Usuario usuario = servicioUsuario.buscarUsuario(id);
+		Usuario usuario = servicioUsuario.buscar(id);
 		billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario);
 		
 		try {
@@ -187,7 +187,7 @@ public class ControladorBilletera {
 	public ModelAndView mostrarVistaDeExito(HttpServletRequest request) {
 		ModelMap modelo = new ModelMap();
 		Long id = (Long) request.getSession().getAttribute("id");
-		Usuario usuario = servicioUsuario.buscarUsuario(id);
+		Usuario usuario = servicioUsuario.buscar(id);
 		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario);
 		
 		if(usuario != null) {

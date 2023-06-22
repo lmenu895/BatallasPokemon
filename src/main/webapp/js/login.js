@@ -26,7 +26,7 @@ $(document).ready(function() {
 		history.pushState(partialLogin, '', 'login');
 	});
 
-	$(window).bind("popstate", (e) => {
+	$(window).on("popstate", (e) => {
 		$(".container").html(e.originalEvent.state);
 	});
 

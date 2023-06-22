@@ -24,20 +24,4 @@ $(document).ready(function() {
 			}*/
 		});
 	});
-	
-	/*
-	$('.boxCentro').css({
-		filter: 'grayscale(1)',
-		opacity: 0.7,
-		'pointer-events': 'none',
-		'user-select': 'none'
-	});
-	document.querySelector('.boxCentro').style = `
-		filter: grayscale(1);
-		opacity: 0.7;
-		pointer-events: none;
-		user-select: none;
-	`;
-	$(".boxCentro *").prop('disabled', true)
-	*/
 });

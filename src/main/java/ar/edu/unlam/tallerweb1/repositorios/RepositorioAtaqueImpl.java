@@ -21,7 +21,7 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 	}
 
 	@Override
-	public List<Ataque> obtenerTodosLosAtaques() {
+	public List<Ataque> obtenerTodos() {
 		Session session = this.sessionFactory.getCurrentSession();
 		CriteriaQuery<Ataque> query = session.getCriteriaBuilder().createQuery(Ataque.class);
 		query.select(query.from(Ataque.class));
@@ -33,23 +33,23 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 	}
 
 	@Override
-	public Ataque buscarAtaque(Long id) {
+	public Ataque buscar(Long id) {
 		return this.sessionFactory.getCurrentSession().get(Ataque.class, id); // aca se le pide para buscar QUE CLASE es																		// y por que PARAMETRO BUSCAR
 	}
 
 	@Override
-	public void guardarAtaque(Ataque datosAtaque) {
+	public void guardar(Ataque datosAtaque) {
 		this.sessionFactory.getCurrentSession().save(datosAtaque);
 	}
 
 	@Override
-	public void borrarAtaque(Long id) {
+	public void borrar(Long id) {
 		Ataque ataque = this.sessionFactory.getCurrentSession().get(Ataque.class, id);
 		this.sessionFactory.getCurrentSession().delete(ataque);
 	}
 
 	@Override
-	public void modificarAtaque(Ataque ataque) {
+	public void modificar(Ataque ataque) {
 		System.out.println(ataque.getId());
 		this.sessionFactory.getCurrentSession().update(ataque);
 

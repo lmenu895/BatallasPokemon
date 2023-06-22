@@ -36,7 +36,7 @@ public class ControladorPlan {
 	public ModelAndView planes(HttpServletRequest request) {
 		ModelMap modelo = new ModelMap();
 		Long idUsuario = (Long) request.getSession().getAttribute("id");
-		Usuario u1 = servicioUsuario.buscarUsuario(idUsuario);
+		Usuario u1 = servicioUsuario.buscar(idUsuario);
 		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(u1);
 		if (u1 != null) {
 			if (u1.getPlan() == null) {
@@ -63,7 +63,7 @@ public class ControladorPlan {
 
 		ModelMap modelo = new ModelMap();
 		Long idUsuario = (Long) request.getSession().getAttribute("id");
-		Usuario u1 = servicioUsuario.buscarUsuario(idUsuario);
+		Usuario u1 = servicioUsuario.buscar(idUsuario);
 		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(u1);
 		Plan p1 = servicioPlan.consultarPlan(idP);
 		if (u1 != null) {
@@ -101,7 +101,7 @@ public class ControladorPlan {
 		ModelMap modelo = new ModelMap();
 		Long idUsuario = (Long) request.getSession().getAttribute("id");
 
-		Usuario u1 = servicioUsuario.buscarUsuario(idUsuario);
+		Usuario u1 = servicioUsuario.buscar(idUsuario);
 
 		if (u1 != null) {
 			modelo.put("usuario", u1);

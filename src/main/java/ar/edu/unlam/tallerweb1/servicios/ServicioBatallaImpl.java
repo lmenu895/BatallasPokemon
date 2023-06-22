@@ -60,10 +60,10 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 			}
 		}
 		if (pokemonsDebilitadosCpu == 3) {
-			this.servicioUsuario.sumarPuntos(idUsuario, 10);
+			this.servicioUsuario.sumarPuntos(idUsuario, 20);
 			guardarBatalla("Victoria", listaDatosPokemons, duracion, idUsuario);
 		} else if (pokemonsDebilitadosUsuario == 3) {
-			this.servicioUsuario.sumarPuntos(idUsuario, 3);
+			this.servicioUsuario.sumarPuntos(idUsuario, 6);
 			guardarBatalla("Derrota", listaDatosPokemons, duracion, idUsuario);
 		}
 	}
@@ -82,11 +82,11 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 		String duracionString = String.format("%02d:%02d", minutos, segundos);
 		//String fecha = new SimpleDateFormat("dd/MM/yy").format(Calendar.getInstance().getTime());
 		Batalla batalla = new Batalla(duracionString, Calendar.getInstance().getTime(), resultado,
-				this.servicioUsuario.buscarUsuario(idUsuario));
+				this.servicioUsuario.buscar(idUsuario));
 		this.repositorioBatalla.guardarBatalla(batalla);
 		for (DatosPokemonBatalla dato : listaDatosPokemons) {
 			this.repositorioPokemonBatalla
-					.guardarPokemonBatalla(new PokemonBatalla(this.servicioPokemon.buscarPokemon(dato.getId()), batalla,
+					.guardarPokemonBatalla(new PokemonBatalla(this.servicioPokemon.buscar(dato.getId()), batalla,
 							dato.getDebilitado(), dato.getEntrenador()));
 		}
 	}

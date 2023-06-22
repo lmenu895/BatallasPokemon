@@ -50,7 +50,7 @@ public class ControladorAtaque {
 		ModelMap modelo = new ModelMap();  //creamos el modelmap
 		
 		try {
-			this.servicioAtaque.guardarAtaque(datosAtaque);	 //Try del ataque a guardar
+			this.servicioAtaque.guardar(datosAtaque);	 //Try del ataque a guardar
 			modelo.put("nombre", datosAtaque.getNombre());
 			return new ModelAndView("redirect:/lista-ataques");
 			
@@ -70,7 +70,7 @@ public class ControladorAtaque {
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {  //si no es admin no deja borrar
 			throw new PermisosInsuficientesException();
 		}
-		this.servicioAtaque.borrarAtaque(Long.parseLong(id)); //borramos el ataque por ID
+		this.servicioAtaque.borrar(Long.parseLong(id)); //borramos el ataque por ID
 		System.out.println(id);
 		return true;
 	}
@@ -83,7 +83,7 @@ public class ControladorAtaque {
 			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
-		model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());  //creamos el modelo leponemos la lista de ataque y la retornamos
+		model.put("listaAtaques", this.servicioAtaque.obtenerTodos());  //creamos el modelo leponemos la lista de ataque y la retornamos
 		return new ModelAndView("lista-ataques", model);
 	}
 	
@@ -96,7 +96,7 @@ public class ControladorAtaque {
 			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
-		model.put("ataque", this.servicioAtaque.buscarAtaque(id));//le pasamos el modelattribute y traemos el ataque a la vista
+		model.put("ataque", this.servicioAtaque.buscar(id));//le pasamos el modelattribute y traemos el ataque a la vista
 		return new ModelAndView("modificar-ataque", model); 
 	}
 	
@@ -107,7 +107,7 @@ public class ControladorAtaque {
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			return new ModelAndView("redirect:/home");
 		}
-		this.servicioAtaque.modificarAtaque(datosAtaque);
+		this.servicioAtaque.modificar(datosAtaque);
 		return new ModelAndView("redirect:/lista-ataques");
 	}
 	

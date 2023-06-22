@@ -6,16 +6,18 @@ import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
 
 public interface RepositorioAtaquePokemon {
 
-	void guardarAtaque(AtaquePokemon ataques);
+	void guardar(AtaquePokemon ataques);
 
-	List<AtaquePokemon> buscarAtaques(Long id);
+	List<AtaquePokemon> buscar(Long id);
 
-	void borrarAtaquePokemon(AtaquePokemon ataquePokemon);
+	void borrar(AtaquePokemon ataquePokemon);
 
-	void borrarAtaquePokemon(Long idAtaque, Long idPokemon);
+	void borrar(Long idAtaque, Long idPokemon);
 
-	List<AtaquePokemon> buscarAtaquesDesbloqueados(Long idPokemon);
+	List<AtaquePokemon> buscarDesbloqueados(Long idPokemon);
 
-	List<AtaquePokemon> buscarAtaquesBloqueados(Long idPokemon);
+	List<AtaquePokemon> buscarBloqueados(Long idPokemon);
+
+	List<AtaquePokemon> obtenerTodos();
 	
 }

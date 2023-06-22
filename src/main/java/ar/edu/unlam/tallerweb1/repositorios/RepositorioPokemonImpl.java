@@ -22,13 +22,13 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 	}
 
 	@Override
-	public void guardarPokemon(Pokemon pokemon) {
+	public void guardar(Pokemon pokemon) {
 		this.sessionFactory.getCurrentSession().save(pokemon);
 	}
 
 	@Override
-	public Pokemon buscarPokemon(String nombre) {
-		Session session = sessionFactory.getCurrentSession();
+	public Pokemon buscar(String nombre) {
+		Session session = this.sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);
 		Root<Pokemon> root = cr.from(Pokemon.class);
@@ -42,13 +42,13 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 	}
 
 	@Override
-	public Pokemon buscarPokemon(Long id) {
+	public Pokemon buscar(Long id) {
 		return this.sessionFactory.getCurrentSession().get(Pokemon.class, id);
 	}
 
 	@Override
-	public List<Pokemon> obtenerTodosLosPokemons() {
-		Session session = sessionFactory.getCurrentSession();
+	public List<Pokemon> obtenerTodos() {
+		Session session = this.sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);
 		Root<Pokemon> root = cr.from(Pokemon.class);
@@ -60,8 +60,8 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 			return null;
 		}
 	}
-	public List<Pokemon> obtenerPokemonsPorRareza(int rareza) {
-	Session session = sessionFactory.getCurrentSession();
+	public List<Pokemon> obtenerPorRareza(int rareza) {
+	Session session = this.sessionFactory.getCurrentSession();
     CriteriaBuilder cb = session.getCriteriaBuilder();
     CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);
     Root<Pokemon> root = cr.from(Pokemon.class);
@@ -77,13 +77,13 @@ public class RepositorioPokemonImpl implements RepositorioPokemon {
 	}
 
 	@Override
-	public void borrarPokemon(Long id) {
-		this.sessionFactory.getCurrentSession().delete(this.buscarPokemon(id));
+	public void borrar(Long id) {
+		this.sessionFactory.getCurrentSession().delete(this.buscar(id));
 	}
 
 	@Override
 	public ArrayList<Pokemon> buscarPorRareza(int rareza) {
-		Session session = sessionFactory.getCurrentSession();
+		Session session = this.sessionFactory.getCurrentSession();
 	    CriteriaBuilder cb = session.getCriteriaBuilder();
 	    CriteriaQuery<Pokemon> cr = cb.createQuery(Pokemon.class);
 	    Root<Pokemon> root = cr.from(Pokemon.class);

@@ -23,6 +23,7 @@ public class ControladorGachapon {
 	private ServicioUsuario servicioUsuario;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	private ServicioGachapon servicioGachapon;
+
 	@Autowired
 	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario,
 			ServicioUsuarioPokemon servicioUsuarioPokemon) {
@@ -38,7 +39,7 @@ public class ControladorGachapon {
 			return new ModelAndView("redirect:/login");
 		}
 		Long id = (Long) request.getSession().getAttribute("id");
-		Usuario usuario = servicioUsuario.buscarUsuario(id);
+		Usuario usuario = servicioUsuario.buscar(id);
 		ModelMap model = new ModelMap();
 		model.put("puntos", usuario.getPuntos());
 		return new ModelAndView("gachapon", model);
@@ -52,7 +53,7 @@ public class ControladorGachapon {
 		ModelMap model = new ModelMap();
 		Integer monedas = Integer.parseInt(request.getParameter("monedas"));
 		Long id = (Long) request.getSession().getAttribute("id");
-		Usuario usuario = servicioUsuario.buscarUsuario(id);
+		Usuario usuario = servicioUsuario.buscar(id);
 
 		if (!this.servicioUsuario.restarPuntos(monedas, usuario)) {
 			model.put("error", "Monedas Insuficientes");
@@ -67,8 +68,9 @@ public class ControladorGachapon {
 		if (!usuario.getPrincipiante()) {
 			request.getSession().removeAttribute("principiante");
 		}
-		if (this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon), id, pokemon.getId(),
-				usuario, pokemon)) {
+		if (this.servicioUsuarioPokemon.guardarUsuarioPokemon(
+				new UsuarioPokemon().withUsuario(usuario).withPokemon(pokemon), id, pokemon.getId(), usuario,
+				pokemon)) {
 			return new ModelAndView("gachapon-resultado", model);
 		} else {
 			Integer pokemonedas = servicioUsuario.sumarpokeMonedas(pokemon.getRareza(), usuario);

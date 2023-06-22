@@ -14,25 +14,21 @@ import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 
 public interface ServicioPokemon {
 
-	void guardarPokemon(DatosPokemon datosPokemon) throws IOException, NombreExistenteException, SpriteNoIngresadoException;
+	void guardar(DatosPokemon datosPokemon) throws IOException, NombreExistenteException, SpriteNoIngresadoException;
 
-	Pokemon buscarPokemon(Long id);
+	Pokemon buscar(Long id);
 	
-	Pokemon buscarPokemon(String nombre);
+	Pokemon buscar(String nombre);
 
-	List<Pokemon> obtenerTodosLosPokemons();
+	List<Pokemon> obtenerTodos();
 
-	void modificarPokemon(DatosPokemon datosPokemon, Long idPokemon) throws IOException, NombreExistenteException, SpriteNoIngresadoException;;
+	void modificar(DatosPokemon datosPokemon, Long idPokemon) throws IOException, NombreExistenteException, SpriteNoIngresadoException;;
 
-	void borrarPokemon(Long id);
+	void borrar(Long id);
 
-	List<Pokemon> buscarPokemonPorGrupo(String[] pokemonsTraidos);
+	List<Pokemon> buscarPorGrupo(String[] pokemonsTraidos);
 
 	List<Pokemon> crearEquipoCpu(HttpServletRequest request);
 
-	List<Pokemon> obtenerTodosLosPokemonsComunes();
-
-	Pokemon buscarPokemonString(String nombre);
-
-
+	List<Pokemon> obtenerTodosLosComunes();
 }

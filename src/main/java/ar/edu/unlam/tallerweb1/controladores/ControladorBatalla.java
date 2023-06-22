@@ -60,9 +60,9 @@ public class ControladorBatalla {
 		try {
 			this.servicioBatalla.inicioBatalla(pokemonsLista, objetosLista);
 			List<Pokemon> pokemonsUsuario = new ArrayList<>();
-			pokemonsLista.forEach(x -> pokemonsUsuario.add(this.servicioPokemon.buscarPokemon(x)));
+			pokemonsLista.forEach(x -> pokemonsUsuario.add(this.servicioPokemon.buscar(x)));
 			pokemonsUsuario.forEach(x -> x.setAtaques(this.servicioUsuarioAtaquePokemon
-					.obtenerListaDeAtaquesActivos(x.getId(), (Long) request.getSession().getAttribute("id"))));
+					.obtenerListaDeActivos(x.getId(), (Long) request.getSession().getAttribute("id"))));
 			List<Pokemon> pokemonsCpu = this.servicioPokemon.crearEquipoCpu(request);
 			pokemonsCpu.forEach(x -> x.setAtaques(this.servicioAtaquePokemon.obtenerListaDeAtaques(x.getId())));
 

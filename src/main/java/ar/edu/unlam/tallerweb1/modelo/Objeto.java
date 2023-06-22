@@ -19,6 +19,8 @@ public class Objeto {
 	private EfectoObjeto efecto;
 	
 	private String imagen;
+	
+	private Integer precio;
 
 	public Long getId() {
 		return id;
@@ -58,5 +60,13 @@ public class Objeto {
 
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
+	}
+
+	public Integer getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(Integer precio) {
+		this.precio = precio;
 	}
 }

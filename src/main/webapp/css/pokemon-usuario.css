@@ -1,0 +1,67 @@
+.switch input, .switch label {
+	user-select: none;
+	cursor: pointer;
+}
+
+.pokemon {
+	padding: 20px;
+	max-height: 100%;
+	display: flex;
+}
+
+.card {
+	width: 20%;
+	height: 15rem;
+	margin: 10px 20px;
+}
+
+.ataques {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	width: 100%;
+}
+
+.data {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 10px;
+}
+
+.data h5, .data h4 {
+	text-align: center;
+}
+
+.data h4 {
+	font-weight: bold;
+	margin-top: 5px;
+}
+
+.sprite {
+	object-fit: contain;
+}
+
+.img-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	border-color: grey;
+	width: fit-content;
+	padding: 1rem;
+	border-radius: 2rem;
+	box-shadow: 1px 1px 5px black;
+}
+
+.pokeball {
+	width: 35px;
+}
+
+.bloqueado * *:not(#desbloquear, #desbloquear *) {
+	opacity: 0.3;
+}
+
+.puntos {
+	margin-top: 4rem;
+}

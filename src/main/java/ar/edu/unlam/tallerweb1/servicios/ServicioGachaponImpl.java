@@ -68,7 +68,7 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 	private Pokemon tiradaRaro() {
 		Pokemon pokemon;
 		Random random = new Random();
-		List<Pokemon> pokemonesFiltrados4 = this.repositorioPokemon.obtenerPokemonsPorRareza(1);
+		List<Pokemon> pokemonesFiltrados4 = this.repositorioPokemon.obtenerPorRareza(1);
 		pokemon = pokemonesFiltrados4.get(random.nextInt(pokemonesFiltrados4.size()));
 		return pokemon;
 	}
@@ -76,7 +76,7 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 	private Pokemon tiradaComun(Usuario usuario) {
 		Pokemon pokemon;
 		Random random = new Random();
-		List<Pokemon> pokemonesFiltrados = this.repositorioPokemon.obtenerPokemonsPorRareza(0);
+		List<Pokemon> pokemonesFiltrados = this.repositorioPokemon.obtenerPorRareza(0);
 		pokemonesFiltrados.remove(pokemonRepetido(usuario));
 		pokemon = pokemonesFiltrados.get(random.nextInt(pokemonesFiltrados.size()));
 		return pokemon;
@@ -92,14 +92,14 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 		int epico = 2;
 
 		if (numeroAleatorio <= normal && usuario.getCantTiradasComunes() < 9 && usuario.getCantTiradasTotales() < 29) {
-			List<Pokemon> pokemonesFiltrados4 = this.repositorioPokemon.obtenerPokemonsPorRareza(comun);
+			List<Pokemon> pokemonesFiltrados4 = this.repositorioPokemon.obtenerPorRareza(comun);
 			pokemon = pokemonesFiltrados4.get(random.nextInt(pokemonesFiltrados4.size()));
 			this.servicioUsuario.sumarTiradasComunes(usuario);
 			this.servicioUsuario.sumarTiradasTotales(usuario);
 			return pokemon;
 		}
 		if (numeroAleatorio > raroP || usuario.getCantTiradasTotales() == 29) {
-			List<Pokemon> pokemonesFiltrados4 = this.repositorioPokemon.obtenerPokemonsPorRareza(epico);
+			List<Pokemon> pokemonesFiltrados4 = this.repositorioPokemon.obtenerPorRareza(epico);
 			pokemon = pokemonesFiltrados4.get(random.nextInt(pokemonesFiltrados4.size()));
 			this.servicioUsuario.reiniciarTiradasComunes(usuario);
 			this.servicioUsuario.reiniciarTiradasTotales(usuario);
@@ -107,7 +107,7 @@ public class ServicioGachaponImpl implements ServicioGachapon {
 		}
 		if (numeroAleatorio > normal && numeroAleatorio <= raroP && usuario.getCantTiradasTotales() < 29
 				|| usuario.getCantTiradasComunes() == 9) {
-			List<Pokemon> pokemonesFiltrados4 = this.repositorioPokemon.obtenerPokemonsPorRareza(raro);
+			List<Pokemon> pokemonesFiltrados4 = this.repositorioPokemon.obtenerPorRareza(raro);
 			pokemon = pokemonesFiltrados4.get(random.nextInt(pokemonesFiltrados4.size()));
 			this.servicioUsuario.reiniciarTiradasComunes(usuario);
 			this.servicioUsuario.sumarTiradasTotales(usuario);

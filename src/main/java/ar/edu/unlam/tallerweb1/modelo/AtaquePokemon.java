@@ -11,26 +11,16 @@ import javax.persistence.ManyToOne;
 @Entity
 public class AtaquePokemon {
 
-	public AtaquePokemon(Ataque ataque, Pokemon pokemon, Boolean bloqueado) {
-		this.ataque = ataque;
-		this.pokemon = pokemon;
-		this.bloqueado = bloqueado;
-	}
-
-	public AtaquePokemon() {
-		// Default
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Ataque ataque;
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Pokemon pokemon;
 	private Boolean bloqueado;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -62,5 +52,19 @@ public class AtaquePokemon {
 	public void setBloqueado(Boolean bloqueado) {
 		this.bloqueado = bloqueado;
 	}
-
+	
+	public AtaquePokemon withAtaque(Ataque ataque) {
+		this.setAtaque(ataque);
+		return this;
+	}
+	
+	public AtaquePokemon withPokemon(Pokemon pokemon) {
+		this.setPokemon(pokemon);
+		return this;
+	}
+	
+	public AtaquePokemon withBloqueado(Boolean bloqueado) {
+		this.setBloqueado(bloqueado);
+		return this;
+	}
 }

@@ -58,12 +58,12 @@ public class ControladorPokemon {
 			return new ModelAndView("redirect:/home");
 		}
 		try {
-			this.servicioPokemon.guardarPokemon(datosPokemon);
+			this.servicioPokemon.guardar(datosPokemon);
 			return new ModelAndView("redirect:/lista-pokemons");
 		} catch (IOException | NombreExistenteException | SpriteNoIngresadoException ex) {
 			ModelMap model = new ModelMap();
 			model.put("error", ex.getMessage());
-			model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
+			model.put("listaAtaques", this.servicioAtaque.obtenerTodos());
 			return new ModelAndView("crear-pokemon", model);
 		}
 	}
@@ -76,7 +76,7 @@ public class ControladorPokemon {
 			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
-		model.put("listaPokemons", this.servicioPokemon.obtenerTodosLosPokemons());
+		model.put("listaPokemons", this.servicioPokemon.obtenerTodos());
 		return new ModelAndView("lista-pokemons", model);
 	}
 
@@ -88,13 +88,13 @@ public class ControladorPokemon {
 			return new ModelAndView("redirect:/home");
 		}
 		ModelMap model = new ModelMap();
-		Pokemon pokemon = this.servicioPokemon.buscarPokemon(id);
+		Pokemon pokemon = this.servicioPokemon.buscar(id);
 		DatosPokemon datosPokemon = new DatosPokemon();
-		datosPokemon.setAtaquesDesbloqueados(this.servicioAtaquePokemon.obtenetAtaquesDesbloqueados(pokemon.getId()));
-		datosPokemon.setAtaquesBloqueados(this.servicioAtaquePokemon.obtenetAtaquesBloqueados(pokemon.getId()));
+		datosPokemon.setAtaquesDesbloqueados(this.servicioAtaquePokemon.obtenetDesbloqueados(pokemon.getId()));
+		datosPokemon.setAtaquesBloqueados(this.servicioAtaquePokemon.obtenetBloqueados(pokemon.getId()));
 		model.put("pokemon", pokemon);
 		model.put("datosPokemon", datosPokemon);
-		model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
+		model.put("listaAtaques", this.servicioAtaque.obtenerTodos());
 		return new ModelAndView("modificar-pokemon", model);
 	}
 
@@ -107,13 +107,13 @@ public class ControladorPokemon {
 			return new ModelAndView("redirect:/home");
 		}
 		try {
-			this.servicioPokemon.modificarPokemon(datosPokemon, id);
+			this.servicioPokemon.modificar(datosPokemon, id);
 			return new ModelAndView("redirect:/lista-pokemons");
 		} catch (Exception ex) {
 			ModelMap model = new ModelMap();
-			model.put("pokemon", this.servicioPokemon.buscarPokemon(id));
+			model.put("pokemon", this.servicioPokemon.buscar(id));
 			model.put("error", ex.getMessage());
-			model.put("listaAtaques", this.servicioAtaque.obtenerTodosLosAtaques());
+			model.put("listaAtaques", this.servicioAtaque.obtenerTodos());
 			return new ModelAndView("modificar-pokemon", model);
 		}
 	}
@@ -127,10 +127,10 @@ public class ControladorPokemon {
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
 			throw new PermisosInsuficientesException();
 		}
-		this.servicioPokemon.borrarPokemon(Long.parseLong(id));
+		this.servicioPokemon.borrar(Long.parseLong(id));
 	}
 
 	public List<Ataque> obtenerListaDeAtaques() {
-		return this.servicioAtaque.obtenerTodosLosAtaques();
+		return this.servicioAtaque.obtenerTodos();
 	}
 }

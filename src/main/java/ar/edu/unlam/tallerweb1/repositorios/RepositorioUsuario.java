@@ -9,7 +9,7 @@ public interface RepositorioUsuario {
 	void guardar(Usuario usuario);
     Usuario buscarUsuario(String email);
 	void modificar(Usuario usuario);
-	Usuario buscarUsuario(Long id);
+	Usuario buscar(Long id);
 	Usuario buscarUsuarioPorUsername(String userName);
 	void modificarUsuario(Usuario usuario);
 }

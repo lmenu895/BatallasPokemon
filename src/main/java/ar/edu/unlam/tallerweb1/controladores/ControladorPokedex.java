@@ -35,9 +35,9 @@ public class ControladorPokedex {
 		}
 		ModelMap model = new ModelMap();
 		model.put("listaPokemonUsuario", this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id")));
-		model.put("listaPokemon", this.servicioPokemon.obtenerTodosLosPokemons());
+		model.put("listaPokemon", this.servicioPokemon.obtenerTodos());
 		model.put("pokemonsUsuarioJson", new Gson().toJson(this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id"))));
-		model.put("pokemonsListaJson", new Gson().toJson(this.servicioPokemon.obtenerTodosLosPokemons()));
+		model.put("pokemonsListaJson", new Gson().toJson(this.servicioPokemon.obtenerTodos()));
 		return new ModelAndView("pokedex", model);
 	}
 	

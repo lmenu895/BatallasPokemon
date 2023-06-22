@@ -22,40 +22,37 @@ public class ControladorUsuarioTest {
 	ServicioUsuarioPokemon servicioUsuarioPokemon = mock(ServicioUsuarioPokemon.class);
 	ServicioPokemon servicioPokemon = mock(ServicioPokemon.class);
 
-	
-	
 	@Test
 	public void queTraigaLaListaDePokemons() {
-		Long id = (long)1;
+		Long id = (long) 1;
 		givenUsuarioPokemonYUsuarioPokemon();
-		
+
 		List<Pokemon> pokemons = servicioUsuario.obtenerListaDePokemons(id);
 		assertThat(pokemons.size() == 3);
 	}
-	
+
 	@Test
 	public void queTraigaLaListaDeUsuarioPokemon() {
-		Long id = (long)1;
+		Long id = (long) 1;
 		givenUsuarioPokemonYUsuarioPokemon();
-		
-		
-		List <UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
+
+		List<UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
 		assertThat(lista.size() == 3);
 	}
-	
+
 	@Test
 	public void queLaListaDeUsuarioPokemonSoloPaseATenerLosPokemons() {
-		Long id = (long)1;
+		Long id = (long) 1;
 		givenUsuarioPokemonYUsuarioPokemon();
-		List <UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
-		List <Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemons(lista);
+		List<UsuarioPokemon> lista = this.servicioUsuarioPokemon.obtenerListaDeUsuarioPokemon(id);
+		List<Pokemon> pokemons = servicioUsuarioPokemon.buscarPokemons(lista);
 		Integer pokemonsInList = 0;
-		for(Pokemon pokemon : pokemons){
+		for (Pokemon pokemon : pokemons) {
 			pokemonsInList++;
 		}
 		assertThat(pokemonsInList == 3);
 	}
-	
+
 	@Test
 	public void queTengaQueSeleccionarTresPokemonsObligatoriamente() {
 		String[] pokemonsTraidos = new String[3];
@@ -66,12 +63,12 @@ public class ControladorUsuarioTest {
 		ModelAndView mav = calcularLengthDeLaLista(pokemonsTraidos);
 		assertEquals(mav.getViewName(), ("ver-equipos"));
 	}
-	
+
 	public ModelAndView calcularLengthDeLaLista(String[] pokemonsTraidos) {
 		ModelMap model = new ModelMap();
 		List<Pokemon> pokemons;
-		if(pokemonsTraidos.length == 3) {
-			pokemons = this.servicioPokemon.buscarPokemonPorGrupo(pokemonsTraidos);
+		if (pokemonsTraidos.length == 3) {
+			pokemons = this.servicioPokemon.buscarPorGrupo(pokemonsTraidos);
 			model.put("equipo", pokemons);
 			return new ModelAndView("ver-equipos", model);
 		}
@@ -79,24 +76,24 @@ public class ControladorUsuarioTest {
 	}
 
 	public void givenUsuarioPokemonYUsuarioPokemon() {
-		Long id = (long)1;
-		Long id2 = (long)2;
-		Long id3 = (long)3;
+		Long id = (long) 1;
+		Long id2 = (long) 2;
+		Long id3 = (long) 3;
 		Usuario usuario = new Usuario();
 		usuario.setId(id);
-		
+
 		Pokemon pokemon = new Pokemon();
 		Pokemon pokemon2 = new Pokemon();
 		Pokemon pokemon3 = new Pokemon();
 		pokemon.setId(id);
 		pokemon3.setId(id2);
 		pokemon2.setId(id3);
-		
-		UsuarioPokemon usuarioPokemon = new UsuarioPokemon(usuario, pokemon);
+
+		UsuarioPokemon usuarioPokemon = new UsuarioPokemon().withUsuario(usuario).withPokemon(pokemon);
 		usuarioPokemon.setId(id);
-		UsuarioPokemon usuarioPokemon2 = new UsuarioPokemon(usuario, pokemon2);
+		UsuarioPokemon usuarioPokemon2 = new UsuarioPokemon().withUsuario(usuario).withPokemon(pokemon2);
 		usuarioPokemon.setId(id2);
-		UsuarioPokemon usuarioPokemon3 = new UsuarioPokemon(usuario, pokemon3);
+		UsuarioPokemon usuarioPokemon3 = new UsuarioPokemon().withUsuario(usuario).withPokemon(pokemon3);
 		usuarioPokemon.setId(id3);
 	}
 

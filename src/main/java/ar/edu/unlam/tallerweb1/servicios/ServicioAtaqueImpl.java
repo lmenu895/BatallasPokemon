@@ -21,17 +21,17 @@ public class ServicioAtaqueImpl implements ServicioAtaque {
 	}
 	
 	@Override
-	public List<Ataque> obtenerTodosLosAtaques() {
-		return this.repositorioAtaque.obtenerTodosLosAtaques();
+	public List<Ataque> obtenerTodos() {
+		return this.repositorioAtaque.obtenerTodos();
 	}
 
 	@Override
-	public Ataque buscarAtaque(Long id) {
-		return this.repositorioAtaque.buscarAtaque(id);
+	public Ataque buscar(Long id) {
+		return this.repositorioAtaque.buscar(id);
 	}
 
 	@Override
-	public void guardarAtaque(Ataque datosAtaque) throws NombreExistenteException 
+	public void guardar(Ataque datosAtaque) throws NombreExistenteException 
 	{ 
 		if (datosAtaque.getNombre()=="") {
 			throw new NombreExistenteException ("El campo Nombre esta vacio");
@@ -49,18 +49,18 @@ public class ServicioAtaqueImpl implements ServicioAtaque {
 			throw new NombreExistenteException ("El campo Efecto esta vacio");
 		}
 		
-		this.repositorioAtaque.guardarAtaque(datosAtaque);
+		this.repositorioAtaque.guardar(datosAtaque);
 		
 	}
 
 	@Override
-	public void borrarAtaque(Long id) {
-		this.repositorioAtaque.borrarAtaque(id);
+	public void borrar(Long id) {
+		this.repositorioAtaque.borrar(id);
 	}
 
 	@Override
-	public void modificarAtaque(Ataque ataque) {
-		this.repositorioAtaque.modificarAtaque(ataque);
+	public void modificar(Ataque ataque) {
+		this.repositorioAtaque.modificar(ataque);
 		
 	}
 

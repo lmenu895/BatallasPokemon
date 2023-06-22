@@ -4,19 +4,22 @@ import java.util.List;
 
 import ar.edu.unlam.tallerweb1.modelo.Ataque;
 import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
+import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 
 public interface ServicioAtaquePokemon {
 	
-	void guardarAtaque(AtaquePokemon ataquePokemon);
+	void guardar(AtaquePokemon ataquePokemon);
 
-	void borrarAtaquePokemon(AtaquePokemon ataquePokemon);
-	void borrarAtaquePokemon(Long idAtaque, Long idPokemon);
+	void borrar(AtaquePokemon ataquePokemon);
+	void borrar(Long idAtaque, Long idPokemon);
 
 	List<Ataque> obtenerListaDeAtaques(Long idPokemon);
 
-	List<Long> obtenetAtaquesDesbloqueados(Long idPokemon);
+	List<Long> obtenetDesbloqueados(Long idPokemon);
 
-	List<Long> obtenetAtaquesBloqueados(Long idPokemon);
+	List<Long> obtenetBloqueados(Long idPokemon);
 
-	List<AtaquePokemon> obtenerListaDeAtaquesPokemon(Long idPokemon);
+	List<AtaquePokemon> obtenerLista(Long idPokemon);
+
+	List<AtaquePokemon> obtenerTodos();
 }

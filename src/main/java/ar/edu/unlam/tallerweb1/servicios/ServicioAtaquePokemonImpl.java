@@ -16,40 +16,39 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioAtaquePokemon;
 public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 
 	private RepositorioAtaquePokemon repositorioAtaquePokemon;
-	
 	@Autowired
 	public ServicioAtaquePokemonImpl(RepositorioAtaquePokemon repositorioAtaquePokemon) {
 		this.repositorioAtaquePokemon = repositorioAtaquePokemon;
 	}
 
 	@Override
-	public void guardarAtaque(AtaquePokemon ataquePokemon) {
-		this.repositorioAtaquePokemon.guardarAtaque(ataquePokemon);
+	public void guardar(AtaquePokemon ataquePokemon) {
+		this.repositorioAtaquePokemon.guardar(ataquePokemon);
 	}
 
 	@Override
-	public void borrarAtaquePokemon(AtaquePokemon ataquePokemon) {
-		this.repositorioAtaquePokemon.borrarAtaquePokemon(ataquePokemon);
+	public void borrar(AtaquePokemon ataquePokemon) {
+		this.repositorioAtaquePokemon.borrar(ataquePokemon);
 	}
 
 	@Override
-	public void borrarAtaquePokemon(Long idAtaque, Long idPokemon) {
-		this.repositorioAtaquePokemon.borrarAtaquePokemon(idAtaque, idPokemon);
+	public void borrar(Long idAtaque, Long idPokemon) {
+		this.repositorioAtaquePokemon.borrar(idAtaque, idPokemon);
 	}
 
 	@Override
-	public List<Long> obtenetAtaquesDesbloqueados(Long idPokemon) {
+	public List<Long> obtenetDesbloqueados(Long idPokemon) {
 		List<Long> ataques = new ArrayList<>();
-		for (AtaquePokemon ataque : this.repositorioAtaquePokemon.buscarAtaquesDesbloqueados(idPokemon)) {
+		for (AtaquePokemon ataque : this.repositorioAtaquePokemon.buscarDesbloqueados(idPokemon)) {
 			ataques.add(ataque.getAtaque().getId());
 		}
 		return ataques;
 	}
 
 	@Override
-	public List<Long> obtenetAtaquesBloqueados(Long idPokemon) {
+	public List<Long> obtenetBloqueados(Long idPokemon) {
 		List<Long> ataques = new ArrayList<>();
-		for (AtaquePokemon ataque : this.repositorioAtaquePokemon.buscarAtaquesBloqueados(idPokemon)) {
+		for (AtaquePokemon ataque : this.repositorioAtaquePokemon.buscarBloqueados(idPokemon)) {
 			ataques.add(ataque.getAtaque().getId());
 		}
 		return ataques;
@@ -58,14 +57,19 @@ public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 	@Override
 	public List<Ataque> obtenerListaDeAtaques(Long idPokemon) {
 		List<Ataque> ataques = new ArrayList<>();
-		for (AtaquePokemon ataque : this.repositorioAtaquePokemon.buscarAtaques(idPokemon)) {
+		for (AtaquePokemon ataque : this.repositorioAtaquePokemon.buscar(idPokemon)) {
 			ataques.add(ataque.getAtaque());
 		}
 		return ataques;
 	}
 
 	@Override
-	public List<AtaquePokemon> obtenerListaDeAtaquesPokemon(Long idPokemon) {
-		return this.repositorioAtaquePokemon.buscarAtaques(idPokemon);
+	public List<AtaquePokemon> obtenerLista(Long idPokemon) {
+		return this.repositorioAtaquePokemon.buscar(idPokemon);
+	}
+
+	@Override
+	public List<AtaquePokemon> obtenerTodos() {
+		return this.repositorioAtaquePokemon.obtenerTodos();
 	}
 }

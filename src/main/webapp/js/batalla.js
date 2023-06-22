@@ -325,11 +325,11 @@ $(document).ready(function() {
 			else if (comprobarDebilidad(atk.tipo, pokemonUsuario.tipo) === false) iAtaquesDebiles.push(i);
 			else iAtaquesNormales.push(i);
 		});
-		return iAtaquesNormales.length === 0 && iAtaquesDebiles.length === 0 || iAtaquesFuertes.length !== 0 && getRandom(10) <= 9
-			? iAtaquesFuertes[getRandom(iAtaquesFuertes.length) - 1]
-			: iAtaquesDebiles.length === 0 || iAtaquesNormales.length !== 0 && getRandom(10) <= 9
-				? iAtaquesNormales[getRandom(iAtaquesNormales.length) - 1]
-				: iAtaquesDebiles[getRandom(iAtaquesDebiles.length) - 1];
+		return iAtaquesNormales.length === 0 && iAtaquesDebiles.length === 0 || iAtaquesFuertes.length !== 0 && getRandom(10) <= 9 ?
+			iAtaquesFuertes[getRandom(iAtaquesFuertes.length) - 1] :
+			iAtaquesDebiles.length === 0 || iAtaquesNormales.length !== 0 && getRandom(10) <= 9 ?
+				iAtaquesNormales[getRandom(iAtaquesNormales.length) - 1] :
+				iAtaquesDebiles[getRandom(iAtaquesDebiles.length) - 1];
 	};
 
 	//Metodo que verifica si un pokemon se encuentra afectado por un efecto de estado
@@ -519,19 +519,16 @@ $(document).ready(function() {
 	const agregarAlHistorial = (texto, player) => {
 		var timer = new Date().getTime() - startTimer;
 		var time = `${`0${Math.floor(timer / 60000)}`.slice(-2)}:${`0${Math.floor((timer % 60000) / 1000)}`.slice(-2)}`;
-		if (player === 'cpu') {
-			$('.historial').prepend(`<li style="color: red;">${time} - ${texto}</li>`);
-		} else {
+		player === 'cpu' ?
+			$('.historial').prepend(`<li style="color: red;">${time} - ${texto}</li>`) :
 			$('.historial').prepend(`<li style="color: green;">${time} - ${texto}</li>`);
-		}
+
 	};
-	const getRandom = rango => {
-		return Math.floor(Math.random() * rango) + 1;
-	};
+	const getRandom = rango => Math.floor(Math.random() * rango) + 1;
 
 	const sleep = async (segundos, fn, ...args) => {
 		var delay = segundos * 1000;
-		if (fn !== undefined) fn(...args);
+		fn && fn(...args);
 		await new Promise(resolve => setTimeout(resolve, delay));
 	};
 
@@ -542,7 +539,7 @@ $(document).ready(function() {
 				await cambiarPokemonCpu();
 			} else {
 				var dialog = $('.game-over')[0];
-				if (!musica.paused) musica.pause();
+				!musica.paused && musica.pause();
 				sonidoVictoria.play();
 				$('.modalV').attr('src', "images/victoria.png");
 				dialog.showModal();
@@ -670,18 +667,17 @@ $(document).ready(function() {
 		ocultaMochila = '-' + $('.mochila').css('width');
 		$('.mochila').css('left', ocultaMochila);
 	});
-	$('#abrirMochila').click(() => {
+	$('#abrirMochila').click(() =>
 		oculto ? $('.mochila').animate({ left: 0 }, 600, () => oculto = false) :
-			$('.mochila').animate({ left: ocultaMochila }, 600, () => oculto = true);
-	});
+			$('.mochila').animate({ left: ocultaMochila }, 600, () => oculto = true)
+	);
 
-	$('#abrirMochila').hover(() => {
-		if (oculto) $('.mochila').animate({ left: 0 }, 600, () => oculto = false);
-	}, ocultarMochilaAuto);
+	$('#abrirMochila').hover(() => oculto && $('.mochila').animate({ left: 0 }, 600, () => oculto = false)
+		, () => ocultarMochilaAuto());
 
-	$('.mochila').mouseleave(ocultarMochilaAuto);
+	$('.mochila').mouseleave(() => ocultarMochilaAuto());
 
-	async function ocultarMochilaAuto() {
+	const ocultarMochilaAuto = async () => {
 		await sleep(1);
 		if (!$('.mochila').is(':hover') && !$('#abrirMochila').is(':hover') && !oculto) {
 			$('.mochila').animate({ left: ocultaMochila }, 600, () => oculto = true);
@@ -719,7 +715,7 @@ $(document).ready(function() {
 		reproducirDialog.close();
 		playPauseMusica();
 	});
-	$('.no').click(() => { reproducirDialog.close() });
+	$('.no').click(() => reproducirDialog.close());
 	$(slider).on('input', function() {
 		musica.volume = this.value * 0.002;
 		sonidoGolpe.volume = this.value * 0.008;
@@ -728,13 +724,11 @@ $(document).ready(function() {
 		console.log(`Volume set to ${this.value}`);
 	});
 	$(window).click(() => { if (!$(reproducirDialog).is(':hover') && reproducirDialog.open) reproducirDialog.close() });
-	$('.reproducir').click(function() {
-		playPauseMusica();
-	});
+	$('.reproducir').click(() => playPauseMusica());
 	$(document).keypress(e => {
 		if (e.key === 'p') {
 			playPauseMusica();
-			if (reproducirDialog.open) reproducirDialog.close();
+			reproducirDialog.open && reproducirDialog.close();
 		}
 	});
 

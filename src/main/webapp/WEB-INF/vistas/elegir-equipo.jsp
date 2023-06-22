@@ -59,8 +59,10 @@
 									style="max-height: 70px;"
 									src="images/sprites/Objetos/${usuarioObjeto.objeto.imagen}">
 									<span>Cantidad: ${usuarioObjeto.cantidad}</span>
-								<button type="button" style="width: 105px;"
-									class="btn btn-primary botonObjeto">Seleccionar</button>
+								<button type="button" style="width: 105px;" 
+									class="btn btn-primary botonObjeto" 
+									<c:if test="${usuarioObjeto.cantidad==0}">disabled</c:if>
+									>Seleccionar</button>
 								<input type="hidden" name="objetosLista" value="${usuarioObjeto.objeto.id}"
 									disabled />
 								<h4 class="nombre-objeto">${usuarioObjeto.objeto.nombre}</h4>

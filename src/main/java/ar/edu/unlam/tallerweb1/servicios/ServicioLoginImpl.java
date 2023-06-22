@@ -38,11 +38,13 @@ public class ServicioLoginImpl implements ServicioLogin {
 
 	private RepositorioUsuario servicioLoginDao;
 	private ServletContext servletContext;
+	private ServicioUsuario servicioUsuario;
 
 	@Autowired
-	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao, ServletContext servletContext) {
+	public ServicioLoginImpl(RepositorioUsuario servicioLoginDao, ServletContext servletContext, ServicioUsuario servicioUsuario) {
 		this.servicioLoginDao = servicioLoginDao;
 		this.servletContext = servletContext;
+		this.servicioUsuario= servicioUsuario;
 	}
 
 	@Override
@@ -64,7 +66,9 @@ public class ServicioLoginImpl implements ServicioLogin {
 
 		if (verificarUsuarioExistente(usuarioNuevo.getEmail())
 				&& verificarUsuarioExistentePorNick(usuarioNuevo.getEmail())) {
+			this.servicioUsuario.asignarObjetos(usuarioNuevo);
 			this.servicioLoginDao.guardar(usuarioNuevo);
+			
 		} else {
 			throw new UsuarioExistenteException("Ya existe un usuario con ese email o nombre de usuario");
 		}
@@ -73,7 +77,7 @@ public class ServicioLoginImpl implements ServicioLogin {
 	@Override
 	public void cambiarContrasenia(DatosLogin datosLogin, Long idUsuario)
 			throws ContraseniaCorta, ContraseniaIncompatible, CampoVacioException {
-		Usuario usuario = this.servicioLoginDao.buscarUsuario(idUsuario);
+		Usuario usuario = this.servicioLoginDao.buscar(idUsuario);
 		if (datosLogin.getPassword().isBlank() || datosLogin.getOldPassword().isBlank()) {
 			throw new CampoVacioException("Debe completar los 2 campos para cambiar la contraseña");
 		}
@@ -98,7 +102,7 @@ public class ServicioLoginImpl implements ServicioLogin {
 		if (!this.verificarUsuarioExistentePorNick(datosLogin.getUsuario())) {
 			throw new UsuarioExistenteException("Ya existe un usuario con ese nickname");
 		}
-		Usuario usuario = this.servicioLoginDao.buscarUsuario(idUsuario);
+		Usuario usuario = this.servicioLoginDao.buscar(idUsuario);
 		usuario.setUsuario(datosLogin.getUsuario());
 	}
 
@@ -114,13 +118,13 @@ public class ServicioLoginImpl implements ServicioLogin {
 		if (!this.validarEmail(datosLogin.getEmail())) {
 			throw new FormatoDeEmailIncorrecto("El formato del mail es incorrecto");
 		}
-		Usuario usuario = this.servicioLoginDao.buscarUsuario(idUsuario);
+		Usuario usuario = this.servicioLoginDao.buscar(idUsuario);
 		usuario.setEmail(datosLogin.getEmail());
 	}
 
 	@Override
 	public void cambiarFotoPerfil(MultipartFile fotoPerfil, Long idUsuario) throws IOException {
-		Usuario usuario = this.servicioLoginDao.buscarUsuario(idUsuario);
+		Usuario usuario = this.servicioLoginDao.buscar(idUsuario);
 		if (usuario.getFotoPerfil() != null && !usuario.getFotoPerfil().isBlank()) {
 			try {
 				Files.delete(

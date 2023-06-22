@@ -21,12 +21,12 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 	}
 
 	@Override
-	public void guardarAtaque(AtaquePokemon ataques) {
+	public void guardar(AtaquePokemon ataques) {
 		this.sessionFactory.getCurrentSession().save(ataques);
 	}
 
 	@Override
-	public List<AtaquePokemon> buscarAtaques(Long id) {
+	public List<AtaquePokemon> buscar(Long id) {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<AtaquePokemon> cr = cb.createQuery(AtaquePokemon.class);
@@ -42,12 +42,12 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 	}
 
 	@Override
-	public void borrarAtaquePokemon(AtaquePokemon ataquePokemon) {
+	public void borrar(AtaquePokemon ataquePokemon) {
 		this.sessionFactory.getCurrentSession().delete(ataquePokemon);
 	}
 
 	@Override
-	public void borrarAtaquePokemon(Long idAtaque, Long idPokemon) {
+	public void borrar(Long idAtaque, Long idPokemon) {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaDelete<AtaquePokemon> cd = cb.createCriteriaDelete(AtaquePokemon.class);
@@ -60,7 +60,7 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 	}
 
 	@Override
-	public List<AtaquePokemon> buscarAtaquesDesbloqueados(Long idPokemon) {
+	public List<AtaquePokemon> buscarDesbloqueados(Long idPokemon) {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<AtaquePokemon> cr = cb.createQuery(AtaquePokemon.class);
@@ -74,7 +74,7 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 	}
 
 	@Override
-	public List<AtaquePokemon> buscarAtaquesBloqueados(Long idPokemon) {
+	public List<AtaquePokemon> buscarBloqueados(Long idPokemon) {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<AtaquePokemon> cr = cb.createQuery(AtaquePokemon.class);
@@ -85,5 +85,10 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 		cr.select(root).where(predicates);
 
 		return session.createQuery(cr).getResultList();
+	}
+
+	@Override
+	public List<AtaquePokemon> obtenerTodos() {
+		return this.sessionFactory.getCurrentSession().createCriteria(AtaquePokemon.class).list();
 	}
 }

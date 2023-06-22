@@ -5,10 +5,10 @@ import ar.edu.unlam.tallerweb1.modelo.Ataque;
 
 public interface RepositorioAtaque {
 
-	List<Ataque> obtenerTodosLosAtaques();
-	Ataque buscarAtaque(Long id);
-	void guardarAtaque(Ataque datosAtaque);
-	void borrarAtaque(Long id);
-	void modificarAtaque(Ataque ataque);
+	List<Ataque> obtenerTodos();
+	Ataque buscar(Long id);
+	void guardar(Ataque datosAtaque);
+	void borrar(Long id);
+	void modificar(Ataque ataque);
 
 }

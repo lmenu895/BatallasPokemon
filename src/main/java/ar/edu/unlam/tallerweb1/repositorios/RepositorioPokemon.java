@@ -7,19 +7,19 @@ import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 
 public interface RepositorioPokemon {
 
-	void guardarPokemon(Pokemon pokemon);
+	void guardar(Pokemon pokemon);
 
-	Pokemon buscarPokemon(String nombre);
+	Pokemon buscar(String nombre);
 
-	Pokemon buscarPokemon(Long id);
+	Pokemon buscar(Long id);
 
-	List<Pokemon> obtenerTodosLosPokemons();
+	List<Pokemon> obtenerTodos();
 	
-	List<Pokemon> obtenerPokemonsPorRareza(int rareza);
+	List<Pokemon> obtenerPorRareza(int rareza);
 
 	void modificarPokemon(Pokemon pokemon);
 
-	void borrarPokemon(Long id);
+	void borrar(Long id);
 
 	ArrayList<Pokemon> buscarPorRareza(int rareza);
 	

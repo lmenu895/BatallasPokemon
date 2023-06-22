@@ -34,8 +34,8 @@ public class ServicioUsuarioPokemonImpl implements ServicioUsuarioPokemon {
 	public Boolean guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon, Long idUsuario, Long idPokemon, Usuario usuario,
 			Pokemon pokemon) {
 		if (this.repositorioUsuarioPokemon.buscarUsuarioPokemon(idUsuario, idPokemon) == null) {
-			this.servicioAtaquePokemon.obtenerListaDeAtaquesPokemon(idPokemon)
-					.forEach(x -> this.servicioUsuarioAtaquePokemon.guardarAtaquePokemonUsuario(x, usuario));
+			this.servicioAtaquePokemon.obtenerLista(idPokemon)
+					.forEach(x -> this.servicioUsuarioAtaquePokemon.guardar(x, usuario));
 			this.repositorioUsuarioPokemon.guardarUsuarioPokemon(usuarioPokemon);
 			return true;
 		}

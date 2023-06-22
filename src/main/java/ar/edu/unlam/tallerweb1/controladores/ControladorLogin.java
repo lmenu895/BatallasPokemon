@@ -136,11 +136,11 @@ public class ControladorLogin {
 		List <Pokemon> lista = this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id"));
 		if(lista.size() == 0) {
 			ModelMap modelo = new ModelMap();
-			lista = this.servicioPokemon.obtenerTodosLosPokemonsComunes();
+			lista = this.servicioPokemon.obtenerTodosLosComunes();
 			modelo.put("listaPokemonComunes", lista);
 			return new ModelAndView("iniciales", modelo);
 		}	
-		Usuario usuario = this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id"));
+		Usuario usuario = this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id"));
 		ModelMap model = new ModelMap();
 		Billetera billetera = this.servicioBilletera.consultarBilleteraDeUsuario(usuario);
 		model.put("billetera", billetera);

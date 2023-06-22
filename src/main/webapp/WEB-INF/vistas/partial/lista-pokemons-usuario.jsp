@@ -1,6 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<link href="<c:url value="/css/lista-pokemons-usuario.css"/>" rel="stylesheet">
+<link href="<c:url value="/css/lista-pokemons-usuario.css"/>"
+	rel="stylesheet">
 <table class="table table-historial">
 	<thead>
 		<tr class="text-center align-middle">
@@ -18,8 +19,10 @@
 					src="<c:url value="/images/sprites/${pokemonUsuario.pokemon.nombre}/${pokemonUsuario.pokemon.imagenFrente}"/>"></td>
 				<td><h4 class="nombre-pokemon vBuscado">${pokemonUsuario.pokemon.nombre}</h4></td>
 				<td class="vBuscado">${pokemonUsuario.pokemon.tipo}</td>
-				<td><button class="btn btn-primary detalles" id="detalles${pokemonUsuario.pokemon.id}"
-						value="${pokemonUsuario.pokemon.id}">Detalles</button></td>
+				<td><a
+					href="<c:url value="pokemon-usuario/${pokemonUsuario.pokemon.id}"/>"><button
+							class="btn btn-primary detalles"
+							value="${pokemonUsuario.pokemon.id}">Detalles</button></a></td>
 			</tr>
 		</c:forEach>
 	</tbody>

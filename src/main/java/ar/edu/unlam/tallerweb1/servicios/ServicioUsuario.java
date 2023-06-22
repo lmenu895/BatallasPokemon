@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import java.util.List;
 
+import ar.edu.unlam.tallerweb1.exceptions.PuntosInsuficientesException;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.RarezaPokemon;
@@ -12,7 +13,9 @@ public interface ServicioUsuario {
 
 	void guardarEquipo(String[] pokemons,Long id);
 
-	Usuario buscarUsuario(Long idUsuario);
+	Usuario buscar(Long idUsuario);
+	
+	void comprarObjetos(Long idUsuario, List<Integer> cantidad) throws PuntosInsuficientesException;
 	
 	public List<Pokemon> obtenerListaDePokemons(Long idUsuario);
 
@@ -31,4 +34,6 @@ public interface ServicioUsuario {
 	void reiniciarTiradasTotales(Usuario usuario);
 
 	void sacarPrincipiante(Usuario usuario);
+
+	void asignarObjetos(Usuario usuarioNuevo);
 }

@@ -4,26 +4,30 @@ $(document).ready(function() {
 	history.replaceState($('.activo').prop('id'), '', page);
 	var loading = `<div class='cargando'><img alt='cargando' src='${root}images/loading.gif'><h2>Cargando...</h2></div>`;
 
-	$(document).on('click', '#datosUsuario', function() {
+	$(document).on('click', '#datosUsuario', function(e) {
+		e.preventDefault();
 		if (!$(this).hasClass('activo')) {
 			changePageState('datos-de-usuario', this.id);
 			aplicarActivo(this);
 		}
 	});
-	$(document).on('click', '#historialBatallas', function() {
+	$(document).on('click', '#historialBatallas', function(e) {
+		e.preventDefault();
 		if (!$(this).hasClass('activo')) {
 			changePageState('historial-de-batallas', this.id);
 			aplicarActivo(this);
 		}
 	});
-	$(document).on('click', '#listaPokemons', function() {
+	$(document).on('click', '#listaPokemons', function(e) {
+		e.preventDefault();
 		if (!$(this).hasClass('activo')) {
 			changePageState('lista-pokemons-usuario', this.id);
 			aplicarActivo(this);
 		}
 	});
 
-	$(document).on('click', '.detalles', function() {
+	$(document).on('click', '.detalles', function(e) {
+		e.preventDefault();
 		$('.activo').removeClass('activo');
 		changePageState(`pokemon-usuario/${this.value}`, this.id);
 	});
@@ -33,7 +37,7 @@ $(document).ready(function() {
 		$(element).addClass('activo');
 	};
 
-	$(window).bind('popstate', e => {
+	$(window).on('popstate', e => {
 		var { pathname } = window.location;
 		$('.contenido').load(`${pathname}?ajaxRequest=true`);
 		$('.activo').removeClass('activo');

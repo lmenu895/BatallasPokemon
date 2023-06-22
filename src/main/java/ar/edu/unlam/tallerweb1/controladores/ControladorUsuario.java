@@ -30,7 +30,9 @@ import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
 import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
 import ar.edu.unlam.tallerweb1.exceptions.ContraseniaIncompatible;
 import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
+import ar.edu.unlam.tallerweb1.exceptions.LimiteDeAtaquesException;
 import ar.edu.unlam.tallerweb1.exceptions.PokemonNoObtenidoException;
+import ar.edu.unlam.tallerweb1.exceptions.PuntosInsuficientesException;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Batalla;
 import ar.edu.unlam.tallerweb1.modelo.DatosLogin;
@@ -102,23 +104,31 @@ public class ControladorUsuario {
 			return new ModelAndView("redirect:/login");
 		}
 		ModelMap model = new ModelMap();
-		model.put("listaObjetos", this.servicioObjeto.listarObjetos());
+		model.put("puntosUsuario",
+				this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")).getPuntos());
 		model.put("listaUsuarioObjetos",
 				this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
 		return new ModelAndView("comprar-objetos", model);
 	}
 
 	@RequestMapping(path = "comprar-objetos", method = RequestMethod.POST)
-	public ModelAndView comprarObjetos(@RequestParam List<Integer> cantidad, @RequestParam List<Long> idsObjetos,
-			HttpServletRequest request) {
+	public ModelAndView comprarObjetos(@RequestParam List<Integer> cantidad, HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null
 				|| request.getSession().getAttribute("principiante") != null) {
 			return new ModelAndView("redirect:/login");
 		}
-		idsObjetos.forEach(
-				x -> System.out.println("Id objeto: " + x + " cantidad: " + cantidad.get(idsObjetos.indexOf(x))));
-		//lista.indexOf(objeto_de_la_lista) devuelve la posicion en la lista del objeto consultado
-		return null;
+		ModelMap model = new ModelMap();
+		try {
+			this.servicioUsuario.comprarObjetos((Long) request.getSession().getAttribute("id"), cantidad);
+		} catch (PuntosInsuficientesException e) {
+			model.put("error", e.getMessage());
+			model.put("puntosUsuario",
+					this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")).getPuntos());
+			model.put("listaUsuarioObjetos", this.servicioUsuarioObjeto
+					.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
+			return new ModelAndView("comprar-objetos", model);
+		}
+		return new ModelAndView("redirect:/elegir-equipo");
 	}
 
 	@RequestMapping(path = "guardar-equipo", method = RequestMethod.POST)
@@ -147,7 +157,7 @@ public class ControladorUsuario {
 			objetos = this.servicioObjeto.buscarObjetoPorGrupo(objetosTraidos);
 			model.put("objetos", objetos);
 		}
-		pokemons = this.servicioPokemon.buscarPokemonPorGrupo(pokemonsTraidos);
+		pokemons = this.servicioPokemon.buscarPorGrupo(pokemonsTraidos);
 		model.put("equipo", pokemons);
 		return new ModelAndView("ver-equipos", model);
 
@@ -160,9 +170,10 @@ public class ControladorUsuario {
 		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
+
 		ModelMap model = new ModelMap();
 		model.put("datosLogin", new DatosLogin());
-		model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+		model.put("usuario", this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")));
 		if (ajaxRequest == null || !ajaxRequest) {
 			model.put("contenido", "datos-de-usuario");
 			return new ModelAndView("perfil-de-usuario", model);
@@ -229,8 +240,10 @@ public class ControladorUsuario {
 			Pokemon pokemon = this.servicioUsuarioPokemon.buscarPokemon(idPokemon,
 					(Long) request.getSession().getAttribute("id"));
 			model.put("pokemon", pokemon);
+			model.put("puntosUsuario",
+					this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")).getPuntos());
 			model.put("ataquesPokemon", this.servicioUsuarioAtaquePokemon
-					.obtenerAtaques((Long) request.getSession().getAttribute("id"), pokemon.getId()));
+					.obtenerLista((Long) request.getSession().getAttribute("id"), pokemon.getId()));
 		} catch (PokemonNoObtenidoException ex) {
 			model.put("error", ex.getMessage());
 		}
@@ -239,6 +252,36 @@ public class ControladorUsuario {
 			return new ModelAndView("perfil-de-usuario", model);
 		} else {
 			return new ModelAndView("partial/pokemon-usuario", model);
+		}
+	}
+
+	@RequestMapping(path = "/desbloquear-ataque", method = RequestMethod.POST)
+	@ResponseBody
+	public String desbloquearAtaque(@RequestParam Long idUAP, HttpServletRequest request) {
+		if (request.getSession().getAttribute("usuario") == null) {
+			return null;
+		}
+		try {
+			this.servicioUsuarioAtaquePokemon.desbloquear(idUAP);
+			return "exito";
+		} catch (PuntosInsuficientesException ex) {
+			return ex.getMessage();
+		}
+	}
+
+	@RequestMapping(path = "/activar-ataque", method = RequestMethod.POST)
+	@ResponseBody
+	public String activarAtaque(@RequestParam Long idUAP, @RequestParam Long idPokemon, @RequestParam String accion,
+			HttpServletRequest request) {
+		if (request.getSession().getAttribute("usuario") == null) {
+			return null;
+		}
+		try {
+			this.servicioUsuarioAtaquePokemon.activarDesactivar(idUAP, (Long) request.getSession().getAttribute("id"),
+					idPokemon, accion);
+			return "exito";
+		} catch (LimiteDeAtaquesException ex) {
+			return ex.getMessage();
 		}
 	}
 
@@ -253,11 +296,11 @@ public class ControladorUsuario {
 			this.servicioLogin.cambiarUsuario(datosLogin, (Long) request.getSession().getAttribute("id"));
 		} catch (UsuarioExistenteException | CampoVacioException ex) {
 			model.put("error", ex.getMessage());
-			model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+			model.put("usuario", this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")));
 			return new ModelAndView("perfil-de-usuario", model);
 		}
 		model.put("success", "Usuario Actualizado");
-		model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+		model.put("usuario", this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")));
 		return new ModelAndView("perfil-de-usuario", model);
 	}
 
@@ -272,11 +315,11 @@ public class ControladorUsuario {
 			this.servicioLogin.cambiarMail(datosLogin, (Long) request.getSession().getAttribute("id"));
 		} catch (UsuarioExistenteException | FormatoDeEmailIncorrecto | CampoVacioException ex) {
 			model.put("error", ex.getMessage());
-			model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+			model.put("usuario", this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")));
 			return new ModelAndView("perfil-de-usuario", model);
 		}
 		model.put("success", "Mail Actualizado");
-		model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+		model.put("usuario", this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")));
 		return new ModelAndView("perfil-de-usuario", model);
 	}
 
@@ -291,11 +334,11 @@ public class ControladorUsuario {
 			this.servicioLogin.cambiarContrasenia(datosLogin, (Long) request.getSession().getAttribute("id"));
 		} catch (ContraseniaCorta | ContraseniaIncompatible | CampoVacioException ex) {
 			model.put("error", ex.getMessage());
-			model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+			model.put("usuario", this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")));
 			return new ModelAndView("perfil-de-usuario", model);
 		}
 		model.put("success", "Contraseña Actualizada");
-		model.put("usuario", this.servicioUsuario.buscarUsuario((Long) request.getSession().getAttribute("id")));
+		model.put("usuario", this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")));
 		return new ModelAndView("perfil-de-usuario", model);
 	}
 

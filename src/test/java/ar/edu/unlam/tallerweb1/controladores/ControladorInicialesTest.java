@@ -17,31 +17,31 @@ import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 
 public class ControladorInicialesTest {
-	
+
 	ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
 	ServicioUsuarioPokemon servicioUsuarioPokemon = mock(ServicioUsuarioPokemon.class);
-	
+
 	@Test
 	public void queCheckeeQueSoloTengaUnPokemon() {
 		ModelAndView mav;
-		List <Pokemon> lista = new ArrayList<Pokemon>();
+		List<Pokemon> lista = new ArrayList<Pokemon>();
 		mav = new ModelAndView("iniciales");
-		if(lista.size() > 0) {
+		if (lista.size() > 0) {
 			mav = new ModelAndView("redirect:/home");
-		}	
+		}
 		assertEquals(mav.getViewName(), "iniciales");
 	}
-	
+
 	@Test
 	public void queSeLeAgregueElPokemonUnaVezQueLoElije() {
-		Long id = (long)1;
+		Long id = (long) 1;
 		Usuario usuario = new Usuario();
 		usuario.setId(id);
 		Pokemon pokemon = new Pokemon();
 		pokemon.setId(id);
-		this.servicioUsuarioPokemon.guardarUsuarioPokemon(new UsuarioPokemon(usuario, pokemon));
+		this.servicioUsuarioPokemon
+				.guardarUsuarioPokemon(new UsuarioPokemon().withUsuario(usuario).withPokemon(pokemon));
 		assertThat(this.servicioUsuario.obtenerListaDePokemons(id).size() == 1);
 	}
-	
 
 }
