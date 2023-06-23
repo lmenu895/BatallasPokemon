@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,21 +20,42 @@ public class UsuarioPlan {
 	@ManyToOne
 	private Plan plan;
 	
-	private Integer duracion;
+	
+	private LocalDate dia;
+	private LocalDate vencimiento;
 
 	public UsuarioPlan(Usuario usuario, Plan plan) {
 		this.usuario = usuario;
 		this.plan = plan;
+		this.dia = LocalDate.now();
+		this.vencimiento = LocalDate.now().plusMonths(1);
 	}
+	
 	
 	public UsuarioPlan() {}
 
+	
+	public LocalDate getVencimiento() {
+		return vencimiento;
+	}
+
+	public void setVencimiento(LocalDate vencimiento) {
+		this.vencimiento = vencimiento;
+	}
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public LocalDate getDia() {
+		return dia;
+	}
+
+	public void setDia(LocalDate dia) {
+		this.dia = dia;
 	}
 
 	public Usuario getUsuario() {

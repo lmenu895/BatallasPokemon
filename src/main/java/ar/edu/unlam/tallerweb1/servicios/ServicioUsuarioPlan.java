@@ -10,4 +10,6 @@ public interface ServicioUsuarioPlan {
 
 	void asignarPlanAUsuario(Usuario u1, Plan p1);
 	
+	void agregarTiradas(Usuario usuario, Double precio);
+	
 }

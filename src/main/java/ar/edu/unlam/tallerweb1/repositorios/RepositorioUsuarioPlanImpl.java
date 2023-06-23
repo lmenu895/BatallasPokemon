@@ -30,5 +30,17 @@ public class RepositorioUsuarioPlanImpl implements RepositorioUsuarioPlan{
 	public void asignarPlanAUsuario(Usuario usuario, Plan plan) {
 		this.sessionFactory.getCurrentSession().save(new UsuarioPlan(usuario, plan));
 	}
+
+	@Override
+	public void darDeBajaElPlan(Usuario usuario) {
+		UsuarioPlan plan = buscarPorUsuario(usuario.getId());
+		sessionFactory.getCurrentSession().delete(plan);
+		
+	}
+
+	@Override
+	public void modificar(UsuarioPlan usuarioPlan) {
+		this.sessionFactory.getCurrentSession().update(usuarioPlan);
+	}
 	
 }

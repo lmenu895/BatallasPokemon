@@ -36,4 +36,6 @@ public interface ServicioUsuario {
 	void sacarPrincipiante(Usuario usuario);
 
 	void asignarObjetos(Usuario usuarioNuevo);
+	
+	void modificar(Usuario usuario);
 }

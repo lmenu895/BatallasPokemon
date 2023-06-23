@@ -1,8 +1,12 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import java.time.LocalDate;
+
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +19,7 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioPlan;
 
 @Service("servicioUsuarioPlanImpl")
 @Transactional
+@EnableScheduling
 public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan{
 
 	private RepositorioUsuarioPlan repositorioUsuarioPlan;
@@ -34,8 +39,47 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan{
 	@Override
 	public void asignarPlanAUsuario(Usuario usuario, Plan plan) {
 		repositorioUsuarioPlan.asignarPlanAUsuario(usuario,plan);
+		darBeneficiosAUsuario(usuario, plan);
+	}
+
+	
+	
+	
+	private void darBeneficiosAUsuario(Usuario usuario, Plan plan) {
 		usuario.setPuntos(usuario.getPuntos() + plan.getPuntos());
-		repositorioUsuario.modificar(usuario);
+		Integer precio = (int) plan.getPrecio();
+		Double precioArg = plan.getPrecio();
+		switch(precio) {
+		case 50:
+			agregarTiradas(usuario, precioArg);
+		case 100: 	
+			agregarTiradas(usuario, precioArg);
+		}	
+	}
+	
+	@Override
+	public void agregarTiradas(Usuario usuario, Double precio) {
+		UsuarioPlan up = repositorioUsuarioPlan.buscarPorUsuario(usuario.getId());
+		LocalDate dia = up.getDia();
+		
+		//Si es el dia que lo compra y es el plan de 100 le da la master
+		if(dia.isEqual(LocalDate.now()) && precio == 100) {
+			usuario.setTiradaMasterball(usuario.getTiradaMasterball() + 1);
+		}
+		
+		//Si el dia es el mismo que hoy o el dia en el que entro es despues del dia guardado en el plan
+		//Le da la ultraball semanal
+		if(dia.isEqual(LocalDate.now()) || LocalDate.now().isAfter(dia)) {
+			usuario.setTiradaUltraball(usuario.getTiradaUltraball() + 1);
+			dia = LocalDate.now().plusWeeks(1);
+			up.setDia(dia);
+			repositorioUsuarioPlan.modificar(up);
+		}
+		
+		//si el dia es mayor o igual al vencimiento, doy de baja el plan
+		if (dia.isAfter(up.getVencimiento()) || dia.isEqual(up.getVencimiento())) {
+			repositorioUsuarioPlan.darDeBajaElPlan(usuario);	
+		}
 	}
 
 }

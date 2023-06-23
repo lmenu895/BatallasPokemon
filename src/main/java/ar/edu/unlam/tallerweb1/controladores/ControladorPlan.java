@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.controladores;
 import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -45,6 +46,7 @@ public class ControladorPlan {
 		Long idUsuario = (Long) request.getSession().getAttribute("id");
 		Usuario u1 = servicioUsuario.buscar(idUsuario);
 		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(u1);
+		System.out.println(servicioUsuarioPlan.buscarPlanPorUsuario(idUsuario).getPlan().getId());
 		if (u1 != null) {
 			if (servicioUsuarioPlan.buscarPlanPorUsuario(idUsuario) == null) {
 				if (billetera != null) {
@@ -53,7 +55,11 @@ public class ControladorPlan {
 					modelo.put("planes", servicioPlan.obtenerPlanes());
 
 					return new ModelAndView("planes", modelo);
-				} else {
+				} else if (servicioUsuarioPlan.buscarPlanPorUsuario(idUsuario).getPlan().getId() == 1){
+					modelo.put("billetera", billetera);
+					modelo.put("usuario", u1);
+					modelo.put("planes", servicioPlan.obtenerPlanes().get(1));
+				}else {
 					modelo.put("usuario", u1);
 					modelo.put("planes", servicioPlan.obtenerPlanes());
 					modelo.put("error", "Usted no posee billetera para pagar el plan. Por favor, genere una");
@@ -67,18 +73,18 @@ public class ControladorPlan {
 	
 	@RequestMapping(path = "asignarplan/{plan}", method = RequestMethod.GET)
 	public ModelAndView elegirPlan(@PathVariable("plan") Long idP, HttpServletRequest request) {
-
 		ModelMap modelo = new ModelMap();
 		Long idUsuario = (Long) request.getSession().getAttribute("id");
 		Usuario u1 = servicioUsuario.buscar(idUsuario);
 		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(u1);
 		Plan p1 = servicioPlan.consultarPlan(idP);
+		
 		if (u1 != null) {
-			
 				if (billetera != null) {
 					if (billetera.getSaldo() >= p1.getPrecio()) {
-						servicioUsuarioPlan.asignarPlanAUsuario(u1, p1);
 						servicioBilletera.pagarPlan(p1, billetera);
+						servicioUsuarioPlan.asignarPlanAUsuario(u1, p1);
+						servicioUsuario.modificar(u1);
 						modelo.put("usuario", u1);
 						modelo.put("plan", p1);
 						return new ModelAndView("redirect:/planAsignadoCorrectamente");
@@ -94,7 +100,7 @@ public class ControladorPlan {
 							"Usted no posee una billetera para pagar el plan. Por favor, genere una.");
 				}
 		}
-
+		
 		return new ModelAndView("redirect:/login");
 	}
 
