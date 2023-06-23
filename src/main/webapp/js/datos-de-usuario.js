@@ -1,6 +1,10 @@
 $(document).ready(function() {
+	
+	console.log(loadedScripts)
+	
+	if(loadedScripts.datosUsuario) return;
+	else loadedScripts['datosUsuario'] = true;
 
-	document.title = "Datos de Usuario";
 	$(document).on('click', '#imgPerfil', function() {
 		$('#fotoPerfil').click();
 	});

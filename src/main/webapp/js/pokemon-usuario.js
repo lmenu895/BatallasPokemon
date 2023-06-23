@@ -11,6 +11,9 @@ $(document).ready(() => {
 		});
 	}
 
+	if (loadedScripts.pokemonUsuario) return;
+	else loadedScripts['pokemonUsuario'] = true;
+	
 	$(document).on('click', '.desbloquear', function() {
 		if (confirm('Estás seguro de desbloquear el ataque? Te costará 80 puntos')) {
 			$.ajax({
@@ -53,4 +56,5 @@ $(document).ready(() => {
 			}
 		});
 	}
+
 });

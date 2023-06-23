@@ -43,6 +43,8 @@ public class ServicioUsuarioPokemonImpl implements ServicioUsuarioPokemon {
 	}
 
 	public void guardarUsuarioPokemon(UsuarioPokemon usuarioPokemon) {
+		this.servicioAtaquePokemon.obtenerLista(usuarioPokemon.getPokemon().getId())
+				.forEach(x -> this.servicioUsuarioAtaquePokemon.guardar(x, usuarioPokemon.getUsuario()));
 		this.repositorioUsuarioPokemon.guardarUsuarioPokemon(usuarioPokemon);
 	}
 

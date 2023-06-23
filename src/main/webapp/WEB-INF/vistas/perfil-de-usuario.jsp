@@ -24,9 +24,9 @@
 			<jsp:include page="partial/${contenido}.jsp"></jsp:include>
 		</div>
 	</div>
-	<script type="text/javascript">
+	<script>
 		var root = <c:url value="/"/>;
 	</script>
-	<script type="text/javascript" src="<c:url value="/js/perfil-de-usuario.js"/>"></script>
+	<script src="<c:url value="/js/perfil-de-usuario.js"/>"></script>
 </body>
 </html>

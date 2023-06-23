@@ -10,7 +10,7 @@ public class Pokemon {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(unique = true)
 	private String nombre;
 	private TipoPokemon tipo;
@@ -53,7 +53,7 @@ public class Pokemon {
 	public void setVida(Double vida) {
 		this.vida = vida;
 	}
-	
+
 	public String getImagenFrente() {
 		return imagenFrente;
 	}
@@ -92,5 +92,45 @@ public class Pokemon {
 
 	public void setRareza(RarezaPokemon rareza) {
 		this.rareza = rareza;
+	}
+
+	public Pokemon withNombre(String nombre) {
+		this.setNombre(nombre);
+		return this;
+	}
+
+	public Pokemon withTipo(TipoPokemon tipo) {
+		this.setTipo(tipo);
+		return this;
+	}
+
+	public Pokemon withRareza(RarezaPokemon rareza) {
+		this.setRareza(rareza);
+		return this;
+	}
+
+	public Pokemon withVida(Double vida) {
+		this.setVida(vida);
+		return this;
+	}
+
+	public Pokemon withVelocidad(Double velocidad) {
+		this.setVelocidad(velocidad);
+		return this;
+	}
+
+	public Pokemon withImagenFrente(String imagenFrente) {
+		this.setImagenFrente(imagenFrente);
+		return this;
+	}
+
+	public Pokemon withImagenDorso(String imagenDorso) {
+		this.setImagenDorso(imagenDorso);
+		return this;
+	}
+
+	public Pokemon withAtaques(List<Ataque> ataques) {
+		this.setAtaques(ataques);
+		return this;
 	}
 }

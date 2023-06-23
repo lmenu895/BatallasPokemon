@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<link href="<c:url value="/css/historial-de-batallas.css"/>" rel="stylesheet">
+<link href="<c:url value="/css/historial-de-batallas.css"/>"
+	rel="stylesheet">
 <table class="table table-historial">
 	<thead>
 		<tr class="text-center align-middle">
@@ -37,10 +38,12 @@
 	</tbody>
 </table>
 <div class="form-check form-switch switch">
-	<input class="form-check-input" type="checkbox"
-		id="switch"> <label class="form-check-label"
-		for="switch">Ver pokemons debilitados</label>
+	<input class="form-check-input" type="checkbox" id="switch"> <label
+		class="form-check-label" for="switch">Ver pokemons debilitados</label>
 </div>
-<script type="text/javascript" src="<c:url value="/js/historial-de-batallas.js"/>"></script>
+<script>
+	document.title = 'Historial de batallas';
+</script>
+<script src="<c:url value="/js/historial-de-batallas.js"/>"></script>
 
 

@@ -61,13 +61,13 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 		}
 		if (pokemonsDebilitadosCpu == 3) {
 			this.servicioUsuario.sumarPuntos(idUsuario, 20);
-			guardarBatalla("Victoria", listaDatosPokemons, duracion, idUsuario);
+			guardar("Victoria", listaDatosPokemons, duracion, idUsuario);
 		} else if (pokemonsDebilitadosUsuario == 3) {
 			this.servicioUsuario.sumarPuntos(idUsuario, 6);
-			guardarBatalla("Derrota", listaDatosPokemons, duracion, idUsuario);
+			guardar("Derrota", listaDatosPokemons, duracion, idUsuario);
 		}
 	}
-	
+
 	@Override
 	public List<Batalla> obtenerBatallasUsuario(Long idUsuario) {
 		List<Batalla> batallas = this.repositorioBatalla.obtenerBatallasUsuario(idUsuario);
@@ -75,22 +75,23 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 		return batallas;
 	}
 
-	private void guardarBatalla(String resultado, DatosPokemonBatalla[] listaDatosPokemons, Long duracion,
+	private void guardar(String resultado, DatosPokemonBatalla[] listaDatosPokemons, Long duracion,
 			Long idUsuario) {
 		Long minutos = (long) Math.floor(duracion / 60000);
 		Long segundos = (long) Math.floor((duracion % 60000) / 1000);
 		String duracionString = String.format("%02d:%02d", minutos, segundos);
-		//String fecha = new SimpleDateFormat("dd/MM/yy").format(Calendar.getInstance().getTime());
-		Batalla batalla = new Batalla(duracionString, Calendar.getInstance().getTime(), resultado,
-				this.servicioUsuario.buscar(idUsuario));
-		this.repositorioBatalla.guardarBatalla(batalla);
+		// String fecha = new
+		// SimpleDateFormat("dd/MM/yy").format(Calendar.getInstance().getTime());
+		Batalla batalla = new Batalla().withDuracion(duracionString).withFecha(Calendar.getInstance().getTime())
+				.withResultado(resultado).withUsuario(this.servicioUsuario.buscar(idUsuario));
+		this.repositorioBatalla.guardar(batalla);
 		for (DatosPokemonBatalla dato : listaDatosPokemons) {
-			this.repositorioPokemonBatalla
-					.guardarPokemonBatalla(new PokemonBatalla(this.servicioPokemon.buscar(dato.getId()), batalla,
-							dato.getDebilitado(), dato.getEntrenador()));
+			this.repositorioPokemonBatalla.guardarPokemonBatalla(
+					new PokemonBatalla().withPokemon(this.servicioPokemon.buscar(idUsuario)).withBatalla(batalla)
+							.withDebilitado(dato.getDebilitado()).withEntrenador(dato.getEntrenador()));
 		}
 	}
-	
+
 	@Override
 	public void obtenerPokemonsBatalla(Batalla batalla) {
 		List<PokemonBatalla> pokemonsUsuario = new ArrayList<>();
@@ -102,7 +103,6 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 				pokemonsCpu.add(pokemonBatalla);
 			}
 		}
-		batalla.setPokemonsUsuario(pokemonsUsuario);
-		batalla.setPokemonsCpu(pokemonsCpu);
+		batalla.withPokemonsUsuario(pokemonsUsuario).withPokemonsCpu(pokemonsCpu);
 	}
 }

@@ -15,17 +15,6 @@ import javax.persistence.Transient;
 @Entity
 public class Batalla {
 
-	public Batalla(String duracion, Date fecha, String resultado, Usuario usuario) {
-		this.duracion = duracion;
-		this.fecha = fecha;
-		this.resultado = resultado;
-		this.usuario = usuario;
-	}
-
-	public Batalla() {
-		// Default
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -94,5 +83,35 @@ public class Batalla {
 
 	public void setPokemonsCpu(List<PokemonBatalla> pokemonsCpu) {
 		this.pokemonsCpu = pokemonsCpu;
+	}
+
+	public Batalla withDuracion(String duracion) {
+		this.setDuracion(duracion);
+		return this;
+	}
+
+	public Batalla withFecha(Date fecha) {
+		this.setFecha(fecha);
+		return this;
+	}
+
+	public Batalla withResultado(String resultado) {
+		this.setResultado(resultado);
+		return this;
+	}
+
+	public Batalla withUsuario(Usuario usuario) {
+		this.setUsuario(usuario);
+		return this;
+	}
+
+	public Batalla withPokemonsUsuario(List<PokemonBatalla> pokemonsUsuario) {
+		this.setPokemonsUsuario(pokemonsUsuario);
+		return this;
+	}
+
+	public Batalla withPokemonsCpu(List<PokemonBatalla> pokemonsCpu) {
+		this.setPokemonsCpu(pokemonsCpu);
+		return this;
 	}
 }

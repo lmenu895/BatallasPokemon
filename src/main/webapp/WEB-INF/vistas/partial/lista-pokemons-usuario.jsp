@@ -27,7 +27,7 @@
 		</c:forEach>
 	</tbody>
 </table>
-<script type="text/javascript">
-	document.title = "Lista de Pokemons";
+<script>
+	document.title = 'Lista de Pokemons';
 </script>
 

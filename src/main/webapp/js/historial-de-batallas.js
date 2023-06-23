@@ -1,6 +1,8 @@
 $(document).ready(function() {
+	
+	if(loadedScripts.historial) return;
+	else loadedScripts['historial'] = true;
 
-	document.title = "Historial de batallas";
 	$(document).on('change', '#switch', function() {
 		if (this.checked) {
 			$('.debilitado').css('filter', 'brightness(1)');

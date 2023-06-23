@@ -75,7 +75,9 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="<c:url value="/js/datos-de-usuario.js"/>"></script>
-
+<script>
+	document.title = 'Datos de Usuario';
+</script>
+<script src="<c:url value="/js/datos-de-usuario.js"/>"></script>
 
 

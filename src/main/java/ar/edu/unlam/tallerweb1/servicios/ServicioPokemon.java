@@ -31,4 +31,6 @@ public interface ServicioPokemon {
 	List<Pokemon> crearEquipoCpu(HttpServletRequest request);
 
 	List<Pokemon> obtenerTodosLosComunes();
+	
+	//void prueba();
 }

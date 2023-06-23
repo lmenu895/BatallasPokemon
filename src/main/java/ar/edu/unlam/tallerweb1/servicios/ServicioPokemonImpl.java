@@ -10,6 +10,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +22,7 @@ import ar.edu.unlam.tallerweb1.modelo.*;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioPokemon;
 
 @Service("servicioPokemon")
+@EnableScheduling
 @Transactional
 public class ServicioPokemonImpl implements ServicioPokemon {
 
@@ -53,8 +56,7 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 	}
 
 	@Override
-	public void modificar(DatosPokemon datosPokemon, Long idPokemon)
-			throws IOException, NombreExistenteException {
+	public void modificar(DatosPokemon datosPokemon, Long idPokemon) throws IOException, NombreExistenteException {
 		Pokemon pokemon = this.buscar(idPokemon);
 		this.validarPokemon(datosPokemon, pokemon);
 		Long ataque;
@@ -141,6 +143,13 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 	}
 
 	// Funciones privadas para utilizar dentro de la clase
+	
+	
+	//@Scheduled(cron = "*/10 * * * * *")
+	//@Override
+	//public void prueba() {
+	//	System.err.println("paso un minuto");
+	//}
 
 	private Long verificarAtaqueOlvidado(Long aprendido, List<Long> ataques) {
 		for (Long ataque : ataques) {
@@ -158,22 +167,20 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 			try {
 				if (!datosPokemon.getImagenFrente().isEmpty()) {
 					this.guardarImagen(datosPokemon.getImagenFrente(), datosPokemon.getNombre());
-					pokemon.setImagenFrente(datosPokemon.getImagenFrente().getOriginalFilename());
+					pokemon.withImagenFrente(datosPokemon.getImagenFrente().getOriginalFilename());
 				}
 				if (!datosPokemon.getImagenDorso().isEmpty()) {
 					this.guardarImagen(datosPokemon.getImagenDorso(), datosPokemon.getNombre());
-					pokemon.setImagenDorso(datosPokemon.getImagenDorso().getOriginalFilename());
+					pokemon.withImagenDorso(datosPokemon.getImagenDorso().getOriginalFilename());
 				}
 				if (pokemon.getNombre() != null && !pokemon.getNombre().equals(datosPokemon.getNombre())) {
 					Path spriteFolder = Paths
 							.get(servletContext.getRealPath("") + "images/sprites/" + pokemon.getNombre());
 					Files.move(spriteFolder, spriteFolder.resolveSibling(datosPokemon.getNombre()));
 				}
-				pokemon.setNombre(datosPokemon.getNombre());
-				pokemon.setTipo(datosPokemon.getTipo());
-				pokemon.setRareza(datosPokemon.getRareza());
-				pokemon.setVida(datosPokemon.getVida());
-				pokemon.setVelocidad(datosPokemon.getVelocidad());
+				pokemon.withNombre(datosPokemon.getNombre()).withTipo(datosPokemon.getTipo())
+						.withRareza(datosPokemon.getRareza()).withVida(datosPokemon.getVida())
+						.withVelocidad(datosPokemon.getVelocidad());
 			} catch (IOException ex) {
 				throw new IOException("No se pudo guardar los archivos");
 			}

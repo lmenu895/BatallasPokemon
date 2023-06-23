@@ -1,3 +1,5 @@
+var loadedScripts = {};
+
 $(document).ready(function() {
 	
 	var page = $('#error').length || $('#success').length ? 'datos-de-usuario' : null;
@@ -39,7 +41,9 @@ $(document).ready(function() {
 
 	$(window).on('popstate', e => {
 		var { pathname } = window.location;
-		$('.contenido').load(`${pathname}?ajaxRequest=true`);
+		$('.contenido').load(`${pathname}?ajaxRequest=true`, () => {
+			e.originalEvent.state === 'detalles' && resizeSprite();
+		});
 		$('.activo').removeClass('activo');
 		$(`#${e.originalEvent.state}`).addClass('activo');
 	});

@@ -38,8 +38,20 @@ public class RepositorioUsuarioAtaquePokemonImpl implements RepositorioUsuarioAt
 
 	@Override
 	public List<UsuarioAtaquePokemon> obtenerAtaques(Long idUsuario, Long idPokemon) {
-		return this.sessionFactory.getCurrentSession().createCriteria(UsuarioAtaquePokemon.class)
-				.add(Restrictions.eq("usuario.id", idUsuario)).add(Restrictions.eq("pokemon.id", idPokemon)).list();
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder cb = session.getCriteriaBuilder();
+		CriteriaQuery<UsuarioAtaquePokemon> cr = cb.createQuery(UsuarioAtaquePokemon.class);
+		Root<UsuarioAtaquePokemon> root = cr.from(UsuarioAtaquePokemon.class);
+		Predicate[] predicates = { cb.equal(root.get("usuario"), idUsuario), cb.equal(root.get("pokemon"), idPokemon) };
+		cr.select(root).where(predicates);
+
+		return session.createQuery(cr).getResultList();
+		/*
+		 * return
+		 * this.sessionFactory.getCurrentSession().createCriteria(UsuarioAtaquePokemon.
+		 * class) .add(Restrictions.eq("usuario.id",
+		 * idUsuario)).add(Restrictions.eq("pokemon.id", idPokemon)).list();
+		 */
 	}
 
 	@Override

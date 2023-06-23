@@ -34,11 +34,6 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 		cr.select(root).where(cb.equal(root.get("pokemon"), id));
 
 		return session.createQuery(cr).getResultList();
-		/*
-		 * return
-		 * this.sessionFactory.getCurrentSession().createCriteria(AtaquePokemon.class)
-		 * .add(Restrictions.eq("pokemon.id", id)).list();
-		 */
 	}
 
 	@Override
@@ -52,8 +47,7 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaDelete<AtaquePokemon> cd = cb.createCriteriaDelete(AtaquePokemon.class);
 		Root<AtaquePokemon> root = cd.from(AtaquePokemon.class);
-		Predicate[] predicates = new Predicate[] { cb.equal(root.get("ataque"), idAtaque),
-				cb.equal(root.get("pokemon"), idPokemon) };
+		Predicate[] predicates = { cb.equal(root.get("ataque"), idAtaque), cb.equal(root.get("pokemon"), idPokemon) };
 		cd.where(predicates);
 
 		session.createQuery(cd).executeUpdate();
@@ -65,9 +59,7 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<AtaquePokemon> cr = cb.createQuery(AtaquePokemon.class);
 		Root<AtaquePokemon> root = cr.from(AtaquePokemon.class);
-		Predicate[] predicates = new Predicate[2];
-		predicates[0] = cb.equal(root.get("pokemon"), idPokemon);
-		predicates[1] = cb.equal(root.get("bloqueado"), false);
+		Predicate[] predicates = { cb.equal(root.get("pokemon"), idPokemon), cb.equal(root.get("bloqueado"), false) };
 		cr.select(root).where(predicates);
 
 		return session.createQuery(cr).getResultList();
@@ -79,9 +71,7 @@ public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<AtaquePokemon> cr = cb.createQuery(AtaquePokemon.class);
 		Root<AtaquePokemon> root = cr.from(AtaquePokemon.class);
-		Predicate[] predicates = new Predicate[2];
-		predicates[0] = cb.equal(root.get("pokemon"), idPokemon);
-		predicates[1] = cb.equal(root.get("bloqueado"), true);
+		Predicate[] predicates = { cb.equal(root.get("pokemon"), idPokemon), cb.equal(root.get("bloqueado"), true) };
 		cr.select(root).where(predicates);
 
 		return session.createQuery(cr).getResultList();

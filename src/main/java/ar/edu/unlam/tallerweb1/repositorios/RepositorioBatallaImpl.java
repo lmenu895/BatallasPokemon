@@ -20,7 +20,7 @@ public class RepositorioBatallaImpl implements RepositorioBatalla {
 	}
 
 	@Override
-	public void guardarBatalla(Batalla batalla) {
+	public void guardar(Batalla batalla) {
 		this.sessionFactory.getCurrentSession().save(batalla);
 	}
 
