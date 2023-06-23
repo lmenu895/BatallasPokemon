@@ -29,14 +29,6 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioPlan;
 			this.repositorioPlan = repositorioPlan;
 		}
 
-	
-
-		@Override
-		public void asignarPlanAUsuario(Usuario usuario, Plan plan) {
-			repositorioPlan.asignarPlanAUsuario(usuario,plan);
-			
-		}
-
 		@Override
 		public void darDeBajaPlan(Long id) {
 			repositorioPlan.darDeBajaPlan(id);

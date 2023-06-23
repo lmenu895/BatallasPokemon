@@ -29,8 +29,6 @@ public class RepositorioUsuarioPlanImpl implements RepositorioUsuarioPlan{
 	@Override
 	public void asignarPlanAUsuario(Usuario usuario, Plan plan) {
 		this.sessionFactory.getCurrentSession().save(new UsuarioPlan(usuario, plan));
-		usuario.setPuntos(usuario.getPuntos() + plan.getPuntos());
-		this.sessionFactory.getCurrentSession().update(usuario);
 	}
 	
 }
