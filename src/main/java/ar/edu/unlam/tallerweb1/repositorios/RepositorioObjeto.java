@@ -8,7 +8,7 @@ public interface RepositorioObjeto {
 
 	List<Objeto> listarObjetos();
 
-	Objeto buscarObjeto(Long id);
+	Objeto buscar(Long id);
 	
 	
 

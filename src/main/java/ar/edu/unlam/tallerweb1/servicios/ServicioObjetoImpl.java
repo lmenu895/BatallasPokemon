@@ -29,11 +29,11 @@ public class ServicioObjetoImpl implements ServicioObjeto {
 	}
 
 	@Override
-	public List<Objeto> buscarObjetoPorGrupo(String[] objetosTraidos) {
+	public List<Objeto> buscarObjetoPorGrupo(List<Long> objetosTraidos) {
 		List<Objeto> objetos = new ArrayList<Objeto>();
 
-		for (String objeto : objetosTraidos) {
-			objetos.add(this.repositorioObjeto.buscarObjeto(Long.parseLong(objeto)));
+		for (Long idObjeto : objetosTraidos) {
+			objetos.add(this.repositorioObjeto.buscar(idObjeto));
 		}
 		return objetos;	
 	}

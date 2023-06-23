@@ -35,11 +35,11 @@ public class RepositorioBilleteraImpl implements RepositorioBilletera{
 
 	
 	@Override
-	public Billetera consultarBilleteraDeUsuario(Usuario usuario) {
+	public Billetera consultarBilleteraDeUsuario(Long idUsuario) {
 		final Session session = sessionFactory.getCurrentSession();
 		return (Billetera) session.createCriteria(Billetera.class)
 				.createAlias("usuario", "usuarioBuscado")
-				.add(Restrictions.eq("usuarioBuscado.id", usuario.getId()))
+				.add(Restrictions.eq("usuarioBuscado.id", idUsuario))
 				.uniqueResult();
 	}
 
@@ -63,7 +63,6 @@ public class RepositorioBilleteraImpl implements RepositorioBilletera{
 		Double pago = billetera.getSaldo() - plan.getPrecio();
 		billetera.setSaldo(pago);
 		session.update(billetera);
-		
 	}
 
 }

@@ -26,7 +26,7 @@ public class ServicioUsuarioObjetoImpl implements ServicioUsuarioObjeto {
 
 	@Override
 	public List<UsuarioObjeto> obtenerListaDeUsuarioObjeto(Long idUsuario) {
-		return this.repositorioUsuarioObjeto.buscarObjeto(idUsuario);
+		return this.repositorioUsuarioObjeto.buscarObjetos(idUsuario);
 	}
 
 	@Override

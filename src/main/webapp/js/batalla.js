@@ -8,6 +8,7 @@ $(document).ready(function() {
 	var pokemonsVivosCpu = 3;
 	var nextPokemonCpu = 0;
 	var ganador;
+	var objetosUtilizados = [];
 	var startTimer = new Date().getTime();
 
 	const TABLA_DE_TIPOS_ATAQUES = {
@@ -80,6 +81,7 @@ $(document).ready(function() {
 			objetosUsuario[this.value] = null;
 			$(this).remove();
 		};
+		objetosUtilizados.push(objetosUsuario[this.value].efecto);
 		switch (objetosUsuario[this.value].efecto) {
 			case 'ANTI_VENENO':
 				if (pokemonUsuario.estados.envenenado) {
@@ -643,11 +645,12 @@ $(document).ready(function() {
 		$.ajax({
 			data: {
 				datosPokemons: JSON.stringify(datosPokemons),
-				duracion: duracion
+				duracion,
+				objetosUtilizados: JSON.stringify(objetosUtilizados)
 			},
 			type: 'POST',
 			url: 'final-batalla',
-			success: (result) => {
+			success: result => {
 				window.location.href = 'home';
 			}
 		});

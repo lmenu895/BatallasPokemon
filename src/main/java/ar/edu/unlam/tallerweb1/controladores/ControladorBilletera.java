@@ -51,7 +51,7 @@ public class ControladorBilletera {
 		ModelMap modelo = new ModelMap();
 		Long id = (Long) request.getSession().getAttribute("id");
 		Usuario usuario = servicioUsuario.buscar(id);
-		Billetera billeteraEncontrada = servicioBilletera.consultarBilleteraDeUsuario(usuario);
+		Billetera billeteraEncontrada = servicioBilletera.consultarBilleteraDeUsuario(usuario.getId());
 		try {
 			if(usuario != null) {
 				if(billeteraEncontrada == null) {
@@ -119,7 +119,7 @@ public class ControladorBilletera {
 		ModelMap modelo = new ModelMap();
 		Long id = (Long) request.getSession().getAttribute("id");
 		Usuario usuario = servicioUsuario.buscar(id);
-		billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario);
+		billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario.getId());
 		
 		try{
 			if(usuario != null) {
@@ -148,7 +148,7 @@ public class ControladorBilletera {
 		ModelMap modelo = new ModelMap();
 		Long id = (Long) request.getSession().getAttribute("id");
 		Usuario usuario = servicioUsuario.buscar(id);
-		billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario);
+		billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario.getId());
 		
 		try {
 			if(usuario != null) {
@@ -188,7 +188,7 @@ public class ControladorBilletera {
 		ModelMap modelo = new ModelMap();
 		Long id = (Long) request.getSession().getAttribute("id");
 		Usuario usuario = servicioUsuario.buscar(id);
-		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario);
+		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(usuario.getId());
 		
 		if(usuario != null) {
 		modelo.put("billetera", billetera);

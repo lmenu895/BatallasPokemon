@@ -133,7 +133,7 @@ public class ControladorUsuario {
 
 	@RequestMapping(path = "guardar-equipo", method = RequestMethod.POST)
 	public ModelAndView guardarPokemon(@RequestParam(required = false, name = "pokemonsLista") String[] pokemonsTraidos,
-			@RequestParam(required = false, name = "objetosLista") String[] objetosTraidos,
+			@RequestParam(required = false, name = "objetosLista") List<Long> objetosTraidos,
 			HttpServletRequest request) {
 
 		if (request.getSession().getAttribute("usuario") == null) {

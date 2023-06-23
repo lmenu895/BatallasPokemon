@@ -20,13 +20,6 @@ public class UsuarioPlan {
 	
 	private Integer duracion;
 
-	public UsuarioPlan(Usuario usuario, Plan plan) {
-		this.usuario = usuario;
-		this.plan = plan;
-	}
-	
-	public UsuarioPlan() {}
-
 	public Long getId() {
 		return id;
 	}
@@ -49,6 +42,27 @@ public class UsuarioPlan {
 
 	public void setPlan(Plan plan) {
 		this.plan = plan;
+	}
+
+	public Integer getDuracion() {
+		return duracion;
+	}
+
+	public void setDuracion(Integer duracion) {
+		this.duracion = duracion;
+	}
+	
+	public UsuarioPlan withPlan(Plan plan) {
+		this.setPlan(plan);
+		return this;
+	}
+	public UsuarioPlan withUsuario(Usuario usuario) {
+		this.setUsuario(usuario);
+		return this;
+	}
+	public UsuarioPlan withDuracion(Integer duracion) {
+		this.setDuracion(duracion);
+		return this;
 	}
 
 }

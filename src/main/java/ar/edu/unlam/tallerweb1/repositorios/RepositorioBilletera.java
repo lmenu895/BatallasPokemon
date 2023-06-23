@@ -10,7 +10,7 @@ public interface RepositorioBilletera {
 	
 	Billetera buscarBilleteraPorId(Long id);
 	
-	Billetera consultarBilleteraDeUsuario(Usuario usuario);
+	Billetera consultarBilleteraDeUsuario(Long idUsuario);
 	
 	Double consultarSaldo(Billetera saldo);
 	

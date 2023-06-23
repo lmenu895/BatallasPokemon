@@ -12,6 +12,6 @@ public interface ServicioObjeto {
 
 	List<Objeto> listarObjetos();
 
-	List<Objeto> buscarObjetoPorGrupo(String[] objetosTraidos);
+	List<Objeto> buscarObjetoPorGrupo(List<Long> objetosLista);
 
 }

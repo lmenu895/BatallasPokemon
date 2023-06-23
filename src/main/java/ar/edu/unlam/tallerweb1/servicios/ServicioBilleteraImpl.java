@@ -43,27 +43,17 @@ public class ServicioBilleteraImpl implements ServicioBilletera {
 
 	@Override
 	public void registrarBilletera(Billetera billetera) {
-		if (repositorioBilletera.consultarBilleteraDeUsuario(billetera.getUsuario()) == null)
+		if (repositorioBilletera.consultarBilleteraDeUsuario(billetera.getUsuario().getId()) == null)
 			repositorioBilletera.registrarBilletera(billetera);
 	}
 
 	@Override
-	public Billetera consultarBilleteraDeUsuario(Usuario usuario) {
-
-		return repositorioBilletera.consultarBilleteraDeUsuario(usuario);
+	public Billetera consultarBilleteraDeUsuario(Long idUsuario) {
+		return repositorioBilletera.consultarBilleteraDeUsuario(idUsuario);
 	}
 
 	@Override
 	public void pagarPlan(Plan plan, Billetera billetera) {
 		repositorioBilletera.pagarPlan(plan, billetera);
-		
 	}
-
-	
-
-	
-
-
-
-
 }

@@ -30,7 +30,7 @@ public class RepositorioObjetoImpl implements RepositorioObjeto {
 
 
 	@Override
-	public Objeto buscarObjeto(Long id) {
+	public Objeto buscar(Long id) {
 		return this.sessionFactory.getCurrentSession().get(Objeto.class, id);
 	}
 

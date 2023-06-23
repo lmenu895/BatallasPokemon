@@ -10,6 +10,8 @@ public interface RepositorioUsuarioPlan {
 
 	void asignarPlanAUsuario(Usuario usuario, Plan plan);
 
+	void guardar(UsuarioPlan usuarioPlan);
+
 	
 	
 }

@@ -38,11 +38,9 @@ public class Usuario {
 	private Integer cantTiradasComunes=0;
 	private Integer cantTiradasTotales=0;
 
-	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contraseï¿½as en la base de datos, no estï¿½ implementado
+	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contraseñas en la base de datos, no está implementado
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<UsuarioPokemon> pokemons;
-//	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-//	private List<UsuarioObjeto> objetos;
 	
 	
 	public Long getId() {
@@ -85,15 +83,11 @@ public class Usuario {
 	public List<UsuarioPokemon> getPokemons() {
 		return pokemons;
 	}
-//	public List<UsuarioObjeto> getObjetos() {
-//		return objetos;
-//	}
-//	public void setObjetos(List<UsuarioObjeto> objetos) {
-//		this.objetos = objetos;
-//	}
+
 	public void setPokemons(List<UsuarioPokemon> pokemons) {
 		this.pokemons = pokemons;
 	}
+	
 	public Integer getPuntos() {
 		return puntos;
 	}

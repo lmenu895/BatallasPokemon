@@ -10,12 +10,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlam.tallerweb1.exceptions.ExcesoDeObjetosException;
+import ar.edu.unlam.tallerweb1.exceptions.ObjetosInsuficientesException;
 import ar.edu.unlam.tallerweb1.exceptions.PokemonsInsuficientesException;
 import ar.edu.unlam.tallerweb1.modelo.Batalla;
 import ar.edu.unlam.tallerweb1.modelo.DatosPokemonBatalla;
 import ar.edu.unlam.tallerweb1.modelo.PokemonBatalla;
+import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioBatalla;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioPokemonBatalla;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioObjeto;
 
 @Service("servicioBatalla")
 @Transactional
@@ -25,28 +28,41 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 	private ServicioPokemon servicioPokemon;
 	private RepositorioBatalla repositorioBatalla;
 	private RepositorioPokemonBatalla repositorioPokemonBatalla;
+	private RepositorioUsuarioObjeto repositorioUsuarioObjeto;
 
 	@Autowired
 	public ServicioBatallaImpl(ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon,
-			RepositorioBatalla repositorioBatalla, RepositorioPokemonBatalla repositorioPokemonBatalla) {
+			RepositorioBatalla repositorioBatalla, RepositorioUsuarioObjeto repositorioUsuarioObjeto,
+			RepositorioPokemonBatalla repositorioPokemonBatalla) {
 		this.servicioUsuario = servicioUsuario;
 		this.servicioPokemon = servicioPokemon;
 		this.repositorioBatalla = repositorioBatalla;
 		this.repositorioPokemonBatalla = repositorioPokemonBatalla;
+		this.repositorioUsuarioObjeto = repositorioUsuarioObjeto;
 	}
 
 	@Override
-	public void inicioBatalla(List<Long> pokemonsLista, String[] objetosLista)
-			throws PokemonsInsuficientesException, ExcesoDeObjetosException {
+	public void inicioBatalla(List<Long> pokemonsLista, List<Long> objetosLista, Long idUsuario)
+			throws PokemonsInsuficientesException, ExcesoDeObjetosException, ObjetosInsuficientesException {
 		if (pokemonsLista == null || pokemonsLista.size() != 3) {
 			throw new PokemonsInsuficientesException("Debe seleccionar 3 pokémons");
-		} else if (objetosLista != null && objetosLista.length > 3) {
+		}
+		if (objetosLista != null && objetosLista.size() > 3) {
 			throw new ExcesoDeObjetosException("Solo puede seleccionar un máximo de 3 objetos");
+		}
+		if (objetosLista != null) {
+			for (Long idObjeto : objetosLista) {
+				if (this.repositorioUsuarioObjeto.buscar(idObjeto, idUsuario).getCantidad() <= 0) {
+					throw new ObjetosInsuficientesException(
+							"No posees el/los objetos que intentas llevar a la batalla");
+				}
+			}
 		}
 	}
 
 	@Override
-	public void finalBatalla(Long duracion, DatosPokemonBatalla[] listaDatosPokemons, Long idUsuario) {
+	public void finalBatalla(Long duracion, DatosPokemonBatalla[] listaDatosPokemons, Long idUsuario,
+			String[] objetosUtilizados) {
 
 		Integer pokemonsDebilitadosUsuario = 0;
 		Integer pokemonsDebilitadosCpu = 0;
@@ -66,6 +82,14 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 			this.servicioUsuario.sumarPuntos(idUsuario, 6);
 			guardar("Derrota", listaDatosPokemons, duracion, idUsuario);
 		}
+		if (objetosUtilizados != null) {
+			List<UsuarioObjeto> listaUsuarioObjeto = this.repositorioUsuarioObjeto.buscarObjetos(idUsuario);
+			for (String efecto : objetosUtilizados) {
+				UsuarioObjeto uo = listaUsuarioObjeto.stream()
+						.filter(x -> x.getObjeto().getEfecto().name().equals(efecto)).findFirst().get();
+				uo.setCantidad(uo.getCantidad() - 1);
+			}
+		}
 	}
 
 	@Override
@@ -75,8 +99,7 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 		return batallas;
 	}
 
-	private void guardar(String resultado, DatosPokemonBatalla[] listaDatosPokemons, Long duracion,
-			Long idUsuario) {
+	private void guardar(String resultado, DatosPokemonBatalla[] listaDatosPokemons, Long duracion, Long idUsuario) {
 		Long minutos = (long) Math.floor(duracion / 60000);
 		Long segundos = (long) Math.floor((duracion % 60000) / 1000);
 		String duracionString = String.format("%02d:%02d", minutos, segundos);

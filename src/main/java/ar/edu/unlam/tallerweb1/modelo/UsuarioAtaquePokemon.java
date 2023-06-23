@@ -17,7 +17,7 @@ public class UsuarioAtaquePokemon {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Usuario usuario;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Pokemon pokemon;
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private Ataque ataque;

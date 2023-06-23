@@ -1,4 +1,5 @@
 package ar.edu.unlam.tallerweb1.controladores;
+
 import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.unlam.tallerweb1.exceptions.SaldoInsuficienteException;
+import ar.edu.unlam.tallerweb1.exceptions.UsuarioSinBilleteraException;
 import ar.edu.unlam.tallerweb1.modelo.Billetera;
 import ar.edu.unlam.tallerweb1.modelo.Plan;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -41,10 +44,14 @@ public class ControladorPlan {
 
 	@RequestMapping(path = "/planes", method = RequestMethod.GET)
 	public ModelAndView planes(HttpServletRequest request) {
+		if (request.getSession().getAttribute("usuario") == null) {
+			return new ModelAndView("redirect:/login");
+		}
+
 		ModelMap modelo = new ModelMap();
 		Long idUsuario = (Long) request.getSession().getAttribute("id");
 		Usuario u1 = servicioUsuario.buscar(idUsuario);
-		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(u1);
+		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(u1.getId());
 		if (u1 != null) {
 			if (servicioUsuarioPlan.buscarPlanPorUsuario(idUsuario) == null) {
 				if (billetera != null) {
@@ -64,38 +71,25 @@ public class ControladorPlan {
 		}
 		return new ModelAndView("redirect:/login");
 	}
-	
+
 	@RequestMapping(path = "asignarplan/{plan}", method = RequestMethod.GET)
 	public ModelAndView elegirPlan(@PathVariable("plan") Long idP, HttpServletRequest request) {
-
-		ModelMap modelo = new ModelMap();
-		Long idUsuario = (Long) request.getSession().getAttribute("id");
-		Usuario u1 = servicioUsuario.buscar(idUsuario);
-		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(u1);
-		Plan p1 = servicioPlan.consultarPlan(idP);
-		if (u1 != null) {
-			
-				if (billetera != null) {
-					if (billetera.getSaldo() >= p1.getPrecio()) {
-						servicioUsuarioPlan.asignarPlanAUsuario(u1, p1);
-						servicioBilletera.pagarPlan(p1, billetera);
-						modelo.put("usuario", u1);
-						modelo.put("plan", p1);
-						return new ModelAndView("redirect:/planAsignadoCorrectamente");
-					} else {
-						modelo.put("usuario", u1);
-						modelo.put("billetera", billetera);
-						return new ModelAndView("redirect:/formularioSaldo", modelo);
-					}
-				} else {
-					modelo.put("usuario", u1);
-					modelo.put("plan", p1);
-					modelo.put("mensajeSinBilletera",
-							"Usted no posee una billetera para pagar el plan. Por favor, genere una.");
-				}
+		if (request.getSession().getAttribute("usuario") == null) {
+			return new ModelAndView("redirect:/login");
 		}
 
-		return new ModelAndView("redirect:/login");
+		ModelMap modelo = new ModelMap();
+		try {
+			this.servicioUsuarioPlan.asignarPlan(idP, (Long) request.getSession().getAttribute("id"));
+			return new ModelAndView("redirect:/planAsignadoCorrectamente");
+		} catch (UsuarioSinBilleteraException ex) {
+			modelo.put("usuario", this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")));
+			modelo.put("planes", servicioPlan.obtenerPlanes());
+			modelo.put("error", ex.getMessage());
+			return new ModelAndView("registroBilletera", modelo);
+		} catch (SaldoInsuficienteException ex) {
+			return new ModelAndView("redirect:/formularioSaldo");
+		}
 	}
 
 	@RequestMapping(path = "/planAsignadoCorrectamente", method = RequestMethod.GET)
@@ -115,9 +109,9 @@ public class ControladorPlan {
 			return new ModelAndView("redirect:/login");
 		}
 	}
-	
+
 	@Scheduled(cron = " 0 0 0 1 * *")
-	private void checkPlan( ) {
+	private void checkPlan() {
 		LocalDateTime now = LocalDateTime.now();
 		System.out.println(now);
 	}

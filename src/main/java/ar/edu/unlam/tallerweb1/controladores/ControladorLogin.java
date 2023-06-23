@@ -54,10 +54,10 @@ public class ControladorLogin {
 	// invocada por metodo http GET
 	@RequestMapping("/login")
 	public ModelAndView irALogin(HttpServletRequest request) {
-
 		if (request.getSession().getAttribute("usuario") != null) {
 			return new ModelAndView("redirect:/home");
 		}
+		
 		ModelMap modelo = new ModelMap();
 		modelo.put("datosLogin", new DatosLogin());
 		return new ModelAndView("login", modelo);
@@ -142,7 +142,7 @@ public class ControladorLogin {
 		}	
 		Usuario usuario = this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id"));
 		ModelMap model = new ModelMap();
-		Billetera billetera = this.servicioBilletera.consultarBilleteraDeUsuario(usuario);
+		Billetera billetera = this.servicioBilletera.consultarBilleteraDeUsuario(usuario.getId());
 		model.put("billetera", billetera);
 		model.put("usuario", usuario);
 		return new ModelAndView("home", model);
