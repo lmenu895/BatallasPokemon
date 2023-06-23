@@ -46,7 +46,6 @@ public class ControladorPlan {
 		Long idUsuario = (Long) request.getSession().getAttribute("id");
 		Usuario u1 = servicioUsuario.buscar(idUsuario);
 		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(u1);
-		System.out.println(servicioUsuarioPlan.buscarPlanPorUsuario(idUsuario).getPlan().getId());
 		if (u1 != null) {
 			if (servicioUsuarioPlan.buscarPlanPorUsuario(idUsuario) == null) {
 				if (billetera != null) {
@@ -55,10 +54,6 @@ public class ControladorPlan {
 					modelo.put("planes", servicioPlan.obtenerPlanes());
 
 					return new ModelAndView("planes", modelo);
-				} else if (servicioUsuarioPlan.buscarPlanPorUsuario(idUsuario).getPlan().getId() == 1){
-					modelo.put("billetera", billetera);
-					modelo.put("usuario", u1);
-					modelo.put("planes", servicioPlan.obtenerPlanes().get(1));
 				}else {
 					modelo.put("usuario", u1);
 					modelo.put("planes", servicioPlan.obtenerPlanes());

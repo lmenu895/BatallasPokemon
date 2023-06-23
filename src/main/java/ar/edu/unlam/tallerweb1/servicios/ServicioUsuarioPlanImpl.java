@@ -49,13 +49,9 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan{
 		usuario.setPuntos(usuario.getPuntos() + plan.getPuntos());
 		Integer precio = (int) plan.getPrecio();
 		Double precioArg = plan.getPrecio();
-		switch(precio) {
-		case 50:
-			agregarTiradas(usuario, precioArg);
-		case 100: 	
-			agregarTiradas(usuario, precioArg);
-		}	
-	}
+			agregarTiradas(usuario, precioArg); 	
+	}	
+	
 	
 	@Override
 	public void agregarTiradas(Usuario usuario, Double precio) {
