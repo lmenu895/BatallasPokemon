@@ -32,6 +32,8 @@
 					<th scope="col">Nombre</th>
 					<th scope="col">Precio</th>
 					<th scope="col">Puntos</th>
+					<th scope="col">Multiplicador</th>
+					<th scope="col">Beneficios</th>
 					<th scope="col"></th>
 				</tr>
 			</thead>
@@ -41,6 +43,8 @@
 						<td>${plan.nombre}</td>
 						<td>$${plan.precio}</td>
 						<td>${plan.puntos}</td>
+						<td>${plan.multiplicador}</td>
+						<td>${plan.beneficios}</td>
 						<td>
 							<c:if test ="${empty error}">
 							  <a class="btn btn-primary" href="asignarplan/${plan.id}" role="button">Pagar</a>

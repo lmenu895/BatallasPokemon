@@ -49,12 +49,11 @@ public class RepositorioPlanImpl implements RepositorioPlan {
 		Usuario u1= (Usuario) session.createCriteria(Usuario.class)
 				.add(Restrictions.eq("id",usuario.getId()))
 				.uniqueResult();
-		         u1.setPlan(plan);
+//		         u1.setPlan(plan);
 		         u1.setPuntos(u1.getPuntos() + plan.getPuntos());
-		         
-		         
+		         session.update(u1);	         
 	}
 		
-	}
+}
 
 

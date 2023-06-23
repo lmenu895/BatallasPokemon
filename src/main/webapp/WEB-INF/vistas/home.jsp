@@ -61,7 +61,7 @@
 		</div>
 		<div class="pok">
 			<img class="fortnite" src="images/fortnite.png" alt="pase de batalla">
-			<button class="pase">PASE DE BATALLA</button>
+			<button class="pase">PLANES</button>
 		</div>
 	</div>
 	<!-- Placed at the end of the document so the pages load faster -->

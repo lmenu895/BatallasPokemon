@@ -29,11 +29,10 @@ public class Usuario {
 	private String fotoPerfil;
 	private Boolean esAdmin = false;
 	private Boolean principiante = true;
-	private Integer puntos=300;
+	private int puntos=300;
 	private Integer pokemonedas=0;
-	
-	@ManyToOne
-	private Plan plan;
+	private Integer tiradaUltraball;
+	private Integer tiradaMasterball;
 	
 	//pitty
 	private Integer cantTiradasComunes=0;
@@ -133,10 +132,21 @@ public class Usuario {
 	public void setFotoPerfil(String fotoPerfil) {
 		this.fotoPerfil = fotoPerfil;
 	}
-	public Plan getPlan() {
-		return plan;
+	public Integer getTiradaUltraball() {
+		return tiradaUltraball;
 	}
-	public void setPlan(Plan plan) {
-		this.plan = plan;
+	public void setTiradaUltraball(Integer tiradaUltraball) {
+		this.tiradaUltraball = tiradaUltraball;
 	}
+	public Integer getTiradaMasterball() {
+		return tiradaMasterball;
+	}
+	public void setTiradaMasterball(Integer tiradaMasterball) {
+		this.tiradaMasterball = tiradaMasterball;
+	}
+	
+	
+	
+	
 }
+
