@@ -3,13 +3,24 @@
 <title>Comprar Objetos</title>
 </head>
 <body>
-	<div class="container">
-		<form method="POST">
-			<div class="d-inline-flex flex-column mb-2">
+	<div>
+		<a href="<c:url value="/home"/>"><img class="pokemon-img"
+			alt="pokemon" src="<c:url value="/images/pokemonLogo.png"/>"></a>
+	</div>
+	<div class="container ">
+		<form method="POST" class="objetos">
+			<div
+				class="d-flex align-items-baseline justify-content-around flex-wrap">
 				<c:forEach items="${listaUsuarioObjetos}" var="usuarioObjeto">
-					<div class="form-control">
-						<label for="${usuarioObjeto.objeto.nombre}">${usuarioObjeto.objeto.nombre}</label>
-						<span>Tienes: ${usuarioObjeto.cantidad}</span>
+					<div class="d-flex flex-column align-items-center"
+						style="width: 33%;">
+						<label style="text-transform: uppercase;"
+							for="${usuarioObjeto.objeto.nombre}">${usuarioObjeto.objeto.nombre}</label>
+						<br> <img alt="${usuarioObjeto.objeto.nombre}"
+							class="img-fluid mb-2" style="max-height: 70px;"
+							src="images/sprites/Objetos/${usuarioObjeto.objeto.imagen}">
+						<br> <span>Tienes: ${usuarioObjeto.cantidad}</span>
+
 						<div>
 							Precio: <span class="precio">${usuarioObjeto.objeto.precio}
 							</span> puntos

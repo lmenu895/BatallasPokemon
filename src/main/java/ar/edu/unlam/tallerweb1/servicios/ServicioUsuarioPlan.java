@@ -14,4 +14,6 @@ public interface ServicioUsuarioPlan {
 
 	void asignarPlan(Long idPlan, Long idUsuario) throws UsuarioSinBilleteraException, SaldoInsuficienteException;
 	
+	void agregarTiradas(Usuario usuario, Double precio);
+	
 }

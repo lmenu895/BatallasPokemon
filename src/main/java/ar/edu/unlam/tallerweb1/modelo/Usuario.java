@@ -29,14 +29,14 @@ public class Usuario {
 	private String fotoPerfil;
 	private Boolean esAdmin = false;
 	private Boolean principiante = true;
-	private int puntos=300;
-	private Integer pokemonedas=0;
-	private Integer tiradaUltraball;
-	private Integer tiradaMasterball;
+	private int puntos = 300;
+	private Integer pokemonedas = 0;
+	private Integer tiradaUltraball = 0;
+	private Integer tiradaMasterball = 0;
 	
 	//pitty
-	private Integer cantTiradasComunes=0;
-	private Integer cantTiradasTotales=0;
+	private Integer cantTiradasComunes = 0;
+	private Integer cantTiradasTotales = 0;
 
 	private byte[] salt; //Sirve para guardar hashes seguros en lugar de contraseñas en la base de datos, no está implementado
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario", cascade = CascadeType.ALL)

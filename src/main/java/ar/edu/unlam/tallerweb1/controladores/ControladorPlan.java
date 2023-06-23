@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.controladores;
 import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -60,7 +61,7 @@ public class ControladorPlan {
 					modelo.put("planes", servicioPlan.obtenerPlanes());
 
 					return new ModelAndView("planes", modelo);
-				} else {
+				}else {
 					modelo.put("usuario", u1);
 					modelo.put("planes", servicioPlan.obtenerPlanes());
 					modelo.put("error", "Usted no posee billetera para pagar el plan. Por favor, genere una");

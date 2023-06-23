@@ -58,6 +58,11 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 	public Usuario buscar(Long idUsuario) {
 		return this.repositorioUsuario.buscar(idUsuario);
 	}
+	
+	@Override
+	public void modificar(Usuario usuario) {
+		this.repositorioUsuario.modificar(usuario);
+	}
 
 	@Override
 	public List<Pokemon> obtenerListaDePokemons(Long idUsuario) {
