@@ -14,7 +14,10 @@ public class Plan {
     private String nombre;
     private double precio;
     private int puntos;
-
+    private double multiplicador;
+    private String beneficios; 
+    
+    
     public Plan() {
     }
     public String getNombre() {
@@ -51,4 +54,19 @@ public class Plan {
     public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
+	public double getMultiplicador() {
+		return multiplicador;
+	}
+	public void setMultiplicador(double multiplicador) {
+		this.multiplicador = multiplicador;
+	}
+	public String getBeneficios() {
+		return beneficios;
+	}
+	public void setBeneficios(String beneficios) {
+		this.beneficios = beneficios;
+	}
+    
+    
+    
 }

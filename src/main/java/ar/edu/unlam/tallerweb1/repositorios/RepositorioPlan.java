@@ -13,6 +13,5 @@ public interface RepositorioPlan {
 
 	public Plan consultarPlan(Long id);
 	
-	void asignarPlanAUsuario(Usuario usuario, Plan plan);
 
 }

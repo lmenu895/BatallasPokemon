@@ -7,8 +7,6 @@ import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
 public interface ServicioPlan {
 
-	
-	public void asignarPlanAUsuario(Usuario usuario, Plan plan);
 
 	public void darDeBajaPlan(Long id);
 

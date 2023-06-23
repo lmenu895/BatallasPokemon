@@ -1,8 +1,11 @@
 package ar.edu.unlam.tallerweb1.controladores;
+import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,20 +19,24 @@ import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioBilletera;
 import ar.edu.unlam.tallerweb1.servicios.ServicioPlan;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
+import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPlan;
 
 @Controller
+@EnableScheduling
 public class ControladorPlan {
 
 	private ServicioPlan servicioPlan;
 	private ServicioUsuario servicioUsuario;
 	private ServicioBilletera servicioBilletera;
+	private ServicioUsuarioPlan servicioUsuarioPlan;
 
 	@Autowired
 	public ControladorPlan(ServicioPlan servicioPlan, ServicioUsuario servicioUsuario,
-			ServicioBilletera servicioBilletera) {
+			ServicioBilletera servicioBilletera, ServicioUsuarioPlan servicioUsuarioPlan) {
 		this.servicioPlan = servicioPlan;
 		this.servicioUsuario = servicioUsuario;
 		this.servicioBilletera = servicioBilletera;
+		this.servicioUsuarioPlan = servicioUsuarioPlan;
 	}
 
 	@RequestMapping(path = "/planes", method = RequestMethod.GET)
@@ -39,7 +46,7 @@ public class ControladorPlan {
 		Usuario u1 = servicioUsuario.buscar(idUsuario);
 		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(u1);
 		if (u1 != null) {
-			if (u1.getPlan() == null) {
+			if (servicioUsuarioPlan.buscarPlanPorUsuario(idUsuario) == null) {
 				if (billetera != null) {
 					modelo.put("billetera", billetera);
 					modelo.put("usuario", u1);
@@ -67,10 +74,10 @@ public class ControladorPlan {
 		Billetera billetera = servicioBilletera.consultarBilleteraDeUsuario(u1);
 		Plan p1 = servicioPlan.consultarPlan(idP);
 		if (u1 != null) {
-			if (u1.getPlan() == null) {
+			
 				if (billetera != null) {
 					if (billetera.getSaldo() >= p1.getPrecio()) {
-						servicioPlan.asignarPlanAUsuario(u1, p1);
+						servicioUsuarioPlan.asignarPlanAUsuario(u1, p1);
 						servicioBilletera.pagarPlan(p1, billetera);
 						modelo.put("usuario", u1);
 						modelo.put("plan", p1);
@@ -78,7 +85,7 @@ public class ControladorPlan {
 					} else {
 						modelo.put("usuario", u1);
 						modelo.put("billetera", billetera);
-						return new ModelAndView("ingresarSaldo", modelo);
+						return new ModelAndView("redirect:/formularioSaldo", modelo);
 					}
 				} else {
 					modelo.put("usuario", u1);
@@ -86,10 +93,6 @@ public class ControladorPlan {
 					modelo.put("mensajeSinBilletera",
 							"Usted no posee una billetera para pagar el plan. Por favor, genere una.");
 				}
-			} else {
-				modelo.put("mensajeTienePlan", "Usted ya posee un plan");
-				return new ModelAndView("planes", modelo);
-			}
 		}
 
 		return new ModelAndView("redirect:/login");
@@ -111,6 +114,12 @@ public class ControladorPlan {
 
 			return new ModelAndView("redirect:/login");
 		}
+	}
+	
+	@Scheduled(cron = " 0 0 0 1 * *")
+	private void checkPlan( ) {
+		LocalDateTime now = LocalDateTime.now();
+		System.out.println(now);
 	}
 
 }
