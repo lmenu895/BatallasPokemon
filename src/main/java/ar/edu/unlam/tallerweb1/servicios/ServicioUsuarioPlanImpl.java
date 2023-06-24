@@ -1,9 +1,11 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,18 +45,33 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 	}
 
 	@Override
-	public void asignarPlanAUsuario(Usuario usuario, Plan plan) {
-		repositorioUsuarioPlan.asignarPlanAUsuario(usuario, plan);
-		darBeneficiosAUsuario(usuario, plan);
-	}
-
-	private void darBeneficiosAUsuario(Usuario usuario, Plan plan) {
+	public void asignarPlan(Long idPlan, Long idUsuario)
+			throws UsuarioSinBilleteraException, SaldoInsuficienteException {
+		Billetera billetera = this.repositorioBilletera.consultarBilleteraDeUsuario(idUsuario);
+		Plan plan = this.repositorioPlan.consultarPlan(idPlan);
+		Usuario usuario = this.repositorioUsuario.buscar(idUsuario);
+		if (billetera == null) {
+			throw new UsuarioSinBilleteraException("El usuario no posee una billetera creada");
+		}
+		if (billetera.getSaldo() < plan.getPrecio()) {
+			throw new SaldoInsuficienteException("No posee el saldo suficiente para adquirir el plan");
+		}
+		this.repositorioUsuarioPlan.guardar(new UsuarioPlan().withPlan(plan).withUsuario(usuario));
+		billetera.setSaldo(billetera.getSaldo() - plan.getPrecio());
 		usuario.setPuntos(usuario.getPuntos() + plan.getPuntos());
-		Integer precio = (int) plan.getPrecio();
-		Double precioArg = plan.getPrecio();
-		agregarTiradas(usuario, precioArg);
+		agregar();
 	}
-
+	
+	@Override
+	@Scheduled (cron = "0 0 * * * *")
+	public void agregar() {
+		List <UsuarioPlan> lista = repositorioUsuarioPlan.traerTodos();
+		for(UsuarioPlan up : lista) {
+			agregarTiradas(up.getUsuario(), up.getPlan().getPrecio());
+		}
+		
+	}
+	
 	@Override
 	public void agregarTiradas(Usuario usuario, Double precio) {
 		UsuarioPlan up = repositorioUsuarioPlan.buscarPorUsuario(usuario.getId());
@@ -81,20 +98,4 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 		}
 	}
 
-	@Override
-	public void asignarPlan(Long idPlan, Long idUsuario)
-			throws UsuarioSinBilleteraException, SaldoInsuficienteException {
-		Billetera billetera = this.repositorioBilletera.consultarBilleteraDeUsuario(idUsuario);
-		Plan plan = this.repositorioPlan.consultarPlan(idPlan);
-		Usuario usuario = this.repositorioUsuario.buscar(idUsuario);
-		if (billetera == null) {
-			throw new UsuarioSinBilleteraException("El usuario no posee una billetera creada");
-		}
-		if (billetera.getSaldo() < plan.getPrecio()) {
-			throw new SaldoInsuficienteException("No posee el saldo suficiente para adquirir el plan");
-		}
-		this.repositorioUsuarioPlan.guardar(new UsuarioPlan().withPlan(plan).withUsuario(usuario));
-		billetera.setSaldo(billetera.getSaldo() - plan.getPrecio());
-		darBeneficiosAUsuario(usuario, plan);
-	}
 }

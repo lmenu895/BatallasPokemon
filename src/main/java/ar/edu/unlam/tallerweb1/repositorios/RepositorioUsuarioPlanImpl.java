@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import ar.edu.unlam.tallerweb1.modelo.Plan;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPlan;
+import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 
 @Repository("repositorioUsuarioPlan")
 public class RepositorioUsuarioPlanImpl implements RepositorioUsuarioPlan {
@@ -44,6 +47,12 @@ public class RepositorioUsuarioPlanImpl implements RepositorioUsuarioPlan {
 	@Override
 	public void modificar(UsuarioPlan usuarioPlan) {
 		this.sessionFactory.getCurrentSession().update(usuarioPlan);
+	}
+
+	@Override
+	public List<UsuarioPlan> traerTodos() {
+		return (List<UsuarioPlan>) this.sessionFactory.getCurrentSession()
+				.createCriteria(UsuarioPlan.class).list();
 	}
 
 }

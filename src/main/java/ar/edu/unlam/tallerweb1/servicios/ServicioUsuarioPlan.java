@@ -10,10 +10,9 @@ public interface ServicioUsuarioPlan {
 
 	UsuarioPlan buscarPlanPorUsuario(Long idUsuario);
 
-	void asignarPlanAUsuario(Usuario u1, Plan p1);
-
 	void asignarPlan(Long idPlan, Long idUsuario) throws UsuarioSinBilleteraException, SaldoInsuficienteException;
 	
 	void agregarTiradas(Usuario usuario, Double precio);
-	
+
+	void agregar();
 }

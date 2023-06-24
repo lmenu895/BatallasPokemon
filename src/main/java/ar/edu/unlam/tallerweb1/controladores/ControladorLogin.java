@@ -43,15 +43,13 @@ public class ControladorLogin {
 	private ServicioPokemon servicioPokemon;
 	private ServicioUsuario servicioUsuario;
 	private ServicioBilletera servicioBilletera;
-	private ServicioUsuarioPlan servicioUsuarioPlan;
 	
 	@Autowired
-	public ControladorLogin(ServicioLogin servicioLogin, ServicioUsuarioPlan servicioUsuarioPlan, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioBilletera servicioBilletera) {
+	public ControladorLogin(ServicioLogin servicioLogin, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioBilletera servicioBilletera) {
 		this.servicioPokemon = servicioPokemon;
 		this.servicioLogin = servicioLogin;
 		this.servicioUsuario = servicioUsuario;
 		this.servicioBilletera = servicioBilletera;
-		this.servicioUsuarioPlan = servicioUsuarioPlan;
 	}
 
 	// Este metodo escucha la URL localhost:8080/NOMBRE_APP/login si la misma es
@@ -147,10 +145,6 @@ public class ControladorLogin {
 		Usuario usuario = this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id"));
 		ModelMap model = new ModelMap();
 		Billetera billetera = this.servicioBilletera.consultarBilleteraDeUsuario(usuario.getId());
-		if(servicioUsuarioPlan.buscarPlanPorUsuario(usuario.getId()) != null) {
-			this.servicioUsuarioPlan.agregarTiradas(usuario, this.servicioUsuarioPlan.buscarPlanPorUsuario(usuario.getId()).getPlan().getPrecio());
-			this.servicioUsuario.modificar(usuario);
-		}
 		model.put("billetera", billetera);
 		model.put("usuario", usuario);
 		return new ModelAndView("home", model);

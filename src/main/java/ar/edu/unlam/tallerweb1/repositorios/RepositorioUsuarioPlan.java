@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
+import java.util.List;
+
 import ar.edu.unlam.tallerweb1.modelo.Plan;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPlan;
@@ -15,5 +17,7 @@ public interface RepositorioUsuarioPlan {
 	void darDeBajaElPlan(Usuario usuario);
 
 	void modificar(UsuarioPlan usuarioPlan);
+
+	List<UsuarioPlan> traerTodos();
 
 }
