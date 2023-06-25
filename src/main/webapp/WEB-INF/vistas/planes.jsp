@@ -14,6 +14,7 @@
 	crossorigin="anonymous">
 <title>Lista de planes</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<script src="https://sdk.mercadopago.com/js/v2"></script>
 </head>
 <body class="pokemon">
 	
@@ -48,6 +49,7 @@
 						<td>
 							<c:if test ="${empty error}">
 							  <a class="btn btn-primary" href="asignarplan/${plan.id}" role="button">Pagar</a>
+							   <a href="${preferencia.initPoint}"/>Pagar con tarjeta</a>
 							</c:if>
 						</td>
 					</tr>
@@ -84,6 +86,8 @@
 
 			</div>
 		</c:if>
-	
+	<script>
+    const mp = new MercadoPago("TEST-2ece52b9-ceeb-422b-9567-db39520d605f");
+
 </body>
 </html>
