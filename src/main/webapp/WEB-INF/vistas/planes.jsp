@@ -14,19 +14,26 @@
 	crossorigin="anonymous">
 <title>Lista de planes</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+
 </head>
 <body class="pokemon">
-	
+
 	<div class="header d-flex justify-content-center align-items-center">
-         <a href="home"><img class="pokemonLogo" src="images/pokemonLogo.png" alt="pokemonLogo"></a>
-     </div>
+		<a href="home"><img class="pokemonLogo"
+			src="images/pokemonLogo.png" alt="pokemonLogo"></a>
+	</div>
 
 	<div class="container mt-3">
-		<h1 class="texto">  Hola ${usuario.usuario}, que plan queres elegir?</h1>
+		<h1 class="texto">Hola ${usuario.usuario}, que plan queres
+			elegir?</h1>
 		<c:if test="${not empty billetera }">
-			<h3 class="texto">  Tu saldo es: $${billetera.saldo}</h3> <a class="texto recargar" href="formularioSaldo">Recargar billetera</a>
+			<h3 class="texto">Tu saldo es: $${billetera.saldo}</h3>
+			<a class="texto recargar" href="formularioSaldo">Recargar
+				billetera</a>
 		</c:if>
-		<table class="table table-dark table-borderless table-striped text-center align-middle table-hover mt">
+		<table
+			class="table table-dark table-borderless table-striped text-center align-middle table-hover mt">
 			<thead>
 				<tr>
 					<th scope="col">Nombre</th>
@@ -45,11 +52,10 @@
 						<td>${plan.puntos}</td>
 						<td>${plan.multiplicador}</td>
 						<td>${plan.beneficios}</td>
-						<td>
-							<c:if test ="${empty error}">
-							  <a class="btn btn-primary" href="asignarplan/${plan.id}" role="button">Pagar</a>
-							</c:if>
-						</td>
+						<td><c:if test="${empty error}">
+								<a class="btn btn-primary" href="generarPago/${plan.id}"
+									role="button">Pagar</a>
+							</c:if></td>
 					</tr>
 				</c:forEach>
 
@@ -57,33 +63,37 @@
 		</table>
 
 	</div>
-		<c:if test="${not empty mensajeExito}">
-			<div class="alert alert-success" role="alert">
-				<h6>${mensajeExito}</h6>
+	<c:if test="${not empty mensajeExito}">
+		<div class="alert alert-success" role="alert">
+			<h6>${mensajeExito}</h6>
 
-			</div>
-		</c:if>
+		</div>
+	</c:if>
 
-		<c:if test="${not empty mensajeTienePlan}">
-			<div class="alert alert-danger" role="alert">
-				<h6>${mensajeTienePlan}</h6>
+	<c:if test="${not empty mensajeTienePlan}">
+		<div class="alert alert-danger" role="alert">
+			<h6>${mensajeTienePlan}</h6>
 
-			</div>
-		</c:if>
-		
-		<c:if test="${not empty mensaje}">
-			<div class="alert alert-danger" role="alert">
-				<h6>${mensaje} <a href="registroBilletera"> aqui.</a></h6>
+		</div>
+	</c:if>
 
-			</div>
-		</c:if>
-		
-		<c:if test="${not empty fondoInsuficiente}">
-			<div class="alert alert-danger" role="alert">
-				<h6>${fondoInsuficiente} <a href="formularioSaldo"> aqui.</a></h6>
+	<c:if test="${not empty mensaje}">
+		<div class="alert alert-danger" role="alert">
+			<h6>${mensaje}
+				<a href="registroBilletera"> aqui.</a>
+			</h6>
 
-			</div>
-		</c:if>
-	
-</body>
+		</div>
+	</c:if>
+
+	<c:if test="${not empty fondoInsuficiente}">
+		<div class="alert alert-danger" role="alert">
+			<h6>${fondoInsuficiente}
+				<a href="formularioSaldo"> aqui.</a>
+			</h6>
+
+		</div>
+	</c:if>
+
+	</body>
 </html>
