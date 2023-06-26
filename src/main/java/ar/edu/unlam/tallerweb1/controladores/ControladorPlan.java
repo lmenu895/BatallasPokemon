@@ -151,7 +151,6 @@ public class ControladorPlan {
 
 	@RequestMapping(path = "/planAsignadoCorrectamente/{planId}", method = RequestMethod.GET)
 	public ModelAndView planAsignadoCorrectamente(@PathVariable Long planId, HttpServletRequest request) {
-
 		ModelMap modelo = new ModelMap();
 		Long idUsuario = (Long) request.getSession().getAttribute("id");
 
