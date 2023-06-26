@@ -24,7 +24,6 @@
 	<div class="container" style="text-align: center;">
 		<h1 class="texto">Billetera generada exitosamente!</h1>
 		<h2 class="texto">Su saldo es: ${billetera.saldo} </h2>
-		<button class="saldo btn btn-primary mt-3 ingreso">Ingresar dinero</button>
 	</div>
 	
 	<script type="text/javascript" src="js/home.js"></script>

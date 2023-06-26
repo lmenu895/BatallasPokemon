@@ -99,6 +99,10 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 
 	@Override
 	public Boolean restarPuntos(Integer monedas, Usuario usuario) {
+		if(checkearTokens(usuario, monedas)) {
+			repositorioUsuario.modificar(usuario);
+			return true;
+		}
 		if (monedas > usuario.getPuntos()) {
 			return false;
 		}
@@ -106,7 +110,7 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		repositorioUsuario.modificar(usuario);
 		return true;
 	}
-
+	
 	@Override
 	public void sumarPuntos(Long idUsuario, Integer puntos) {
 		Usuario user = this.repositorioUsuario.buscar(idUsuario);
@@ -184,4 +188,17 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 			this.servicioUsuarioObjeto.guardarUsuarioObjeto(usuarioObjeto);
 		}
 	}
+	
+	private boolean checkearTokens(Usuario usuario, Integer monedas) {
+		if(usuario.getTiradaUltraball() > 0 && monedas == 1000) {
+			usuario.setTiradaUltraball(usuario.getTiradaUltraball() - 1);
+			return true;
+		}
+		else if(usuario.getTiradaMasterball() > 0 && monedas == 10000) {
+			usuario.setTiradaUltraball(usuario.getTiradaMasterball() - 1);
+			return true;
+		}
+		return false;
+	}
+
 }

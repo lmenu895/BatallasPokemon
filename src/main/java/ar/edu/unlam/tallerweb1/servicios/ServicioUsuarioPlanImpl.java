@@ -47,17 +47,17 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 	@Override
 	public void asignarPlan(Long idPlan, Long idUsuario)
 			throws UsuarioSinBilleteraException, SaldoInsuficienteException {
-		Billetera billetera = this.repositorioBilletera.consultarBilleteraDeUsuario(idUsuario);
+//		Billetera billetera = this.repositorioBilletera.consultarBilleteraDeUsuario(idUsuario);
 		Plan plan = this.repositorioPlan.consultarPlan(idPlan);
 		Usuario usuario = this.repositorioUsuario.buscar(idUsuario);
-		if (billetera == null) {
-			throw new UsuarioSinBilleteraException("El usuario no posee una billetera creada");
-		}
-		if (billetera.getSaldo() < plan.getPrecio()) {
-			throw new SaldoInsuficienteException("No posee el saldo suficiente para adquirir el plan");
-		}
+//		if (billetera == null) {
+//			throw new UsuarioSinBilleteraException("El usuario no posee una billetera creada");
+//		}
+//		if (billetera.getSaldo() < plan.getPrecio()) {
+//			throw new SaldoInsuficienteException("No posee el saldo suficiente para adquirir el plan");
+//		}
 		this.repositorioUsuarioPlan.guardar(new UsuarioPlan().withPlan(plan).withUsuario(usuario));
-		billetera.setSaldo(billetera.getSaldo() - plan.getPrecio());
+//		billetera.setSaldo(billetera.getSaldo() - plan.getPrecio());
 		usuario.setPuntos(usuario.getPuntos() + plan.getPuntos());
 		agregar();
 	}

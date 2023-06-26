@@ -120,36 +120,41 @@ public class ControladorPlan {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		try {
+			this.servicioUsuarioPlan.asignarPlan(planId, (Long) request.getSession().getAttribute("id"));
+		} catch (UsuarioSinBilleteraException | SaldoInsuficienteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return new ModelAndView("redirect:" + response.getInitPoint());
 	}
 
-	@RequestMapping(path = "asignarplan/{plan}", method = RequestMethod.GET)
-	public ModelAndView elegirPlan(@PathVariable("plan") Long idP, HttpServletRequest request) throws MPException, MPApiException {
-		if (request.getSession().getAttribute("usuario") == null) {
-			return new ModelAndView("redirect:/login");
-		}
-
-		ModelMap modelo = new ModelMap();
-		Plan plan = servicioPlan.consultarPlan(idP);
-	
-		
-		try {
-			this.servicioUsuarioPlan.asignarPlan(idP, (Long) request.getSession().getAttribute("id"));
-			return new ModelAndView("redirect:/planAsignadoCorrectamente");
-		} catch (UsuarioSinBilleteraException ex) {
-			modelo.put("usuario", this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")));
-			modelo.put("planes", servicioPlan.obtenerPlanes());
-			modelo.put("error", ex.getMessage());
-			return new ModelAndView("registroBilletera", modelo);
-		} catch (SaldoInsuficienteException ex) {
-			return new ModelAndView("redirect:/formularioSaldo");
-		}
-	}
+//	@RequestMapping(path = "asignarplan/{plan}", method = RequestMethod.GET)
+//	public ModelAndView elegirPlan(@PathVariable("plan") Long idP, HttpServletRequest request) throws MPException, MPApiException {
+//		if (request.getSession().getAttribute("usuario") == null) {
+//			return new ModelAndView("redirect:/login");
+//		}
+//
+//		ModelMap modelo = new ModelMap();
+//		Plan plan = servicioPlan.consultarPlan(idP);
+//	
+//		
+//		try {
+//			this.servicioUsuarioPlan.asignarPlan(idP, (Long) request.getSession().getAttribute("id"));
+//			return new ModelAndView("redirect:/planAsignadoCorrectamente");
+//		} catch (UsuarioSinBilleteraException ex) {
+//			modelo.put("usuario", this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")));
+//			modelo.put("planes", servicioPlan.obtenerPlanes());
+//			modelo.put("error", ex.getMessage());
+//			return new ModelAndView("registroBilletera", modelo);
+//		} catch (SaldoInsuficienteException ex) {
+//			return new ModelAndView("redirect:/formularioSaldo");
+//		}
+//	}
 
 	@RequestMapping(path = "/planAsignadoCorrectamente", method = RequestMethod.GET)
 	public ModelAndView planAsignadoCorrectamente(HttpServletRequest request) {
-
+		
 		ModelMap modelo = new ModelMap();
 		Long idUsuario = (Long) request.getSession().getAttribute("id");
 

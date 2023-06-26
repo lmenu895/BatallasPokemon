@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.unlam.tallerweb1.modelo.Plan;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioGachapon;
 
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
+import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPlan;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 
 @Controller
@@ -23,14 +25,16 @@ public class ControladorGachapon {
 	private ServicioUsuario servicioUsuario;
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	private ServicioGachapon servicioGachapon;
+	private ServicioUsuarioPlan servicioUsuarioPlan;
 
 	@Autowired
 	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario,
-			ServicioUsuarioPokemon servicioUsuarioPokemon) {
+			ServicioUsuarioPokemon servicioUsuarioPokemon, ServicioUsuarioPlan servicioUsuarioPlan) {
 
 		this.servicioUsuario = servicioUsuario;
 		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
 		this.servicioGachapon = servicioGachapon;
+		this.servicioUsuarioPlan = servicioUsuarioPlan;
 	}
 
 	@RequestMapping("/gachapon")
@@ -41,7 +45,12 @@ public class ControladorGachapon {
 		Long id = (Long) request.getSession().getAttribute("id");
 		Usuario usuario = servicioUsuario.buscar(id);
 		ModelMap model = new ModelMap();
-		model.put("puntos", usuario.getPuntos());
+		if (servicioUsuarioPlan.buscarPlanPorUsuario(id) != null) {
+			Plan plan = servicioUsuarioPlan.buscarPlanPorUsuario(id).getPlan();
+			model.put("plan", plan);
+		}
+		model.put("tiradas", 30 - usuario.getCantTiradasTotales());
+		model.put("usuario", usuario);
 		return new ModelAndView("gachapon", model);
 	}
 
