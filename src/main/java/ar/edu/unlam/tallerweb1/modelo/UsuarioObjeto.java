@@ -10,23 +10,16 @@ import javax.persistence.ManyToOne;
 @Entity
 public class UsuarioObjeto {
 
-	public UsuarioObjeto(Objeto objeto, Usuario usuario) {
-		this.objeto = objeto;
-		this.usuario = usuario;
-	}
-
-	public UsuarioObjeto() {}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne (fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuario;
-	@ManyToOne 
+	@ManyToOne
 	private Objeto objeto;
 	private Integer cantidad = 0;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -59,6 +52,18 @@ public class UsuarioObjeto {
 		this.cantidad = cantidad;
 	}
 
+	public UsuarioObjeto withUsuario(Usuario usuario) {
+		this.setUsuario(usuario);
+		return this;
+	}
 
+	public UsuarioObjeto withObjeto(Objeto objeto) {
+		this.setObjeto(objeto);
+		return this;
+	}
 
+	public UsuarioObjeto withCantidad(Integer cantidad) {
+		this.setCantidad(cantidad);
+		return this;
+	}
 }

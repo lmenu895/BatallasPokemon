@@ -3,8 +3,6 @@ package ar.edu.unlam.tallerweb1.controladores;
 import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.unlam.tallerweb1.exceptions.SaldoInsuficienteException;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioSinBilleteraException;
 import ar.edu.unlam.tallerweb1.modelo.Billetera;
-import ar.edu.unlam.tallerweb1.modelo.Plan;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioBilletera;
 import ar.edu.unlam.tallerweb1.servicios.ServicioPlan;

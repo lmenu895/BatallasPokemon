@@ -1,7 +1,6 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlam.tallerweb1.exceptions.PuntosInsuficientesException;
-import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.RarezaPokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
-import ar.edu.unlam.tallerweb1.modelo.UsuarioAtaquePokemon;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
@@ -58,7 +55,7 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 	public Usuario buscar(Long idUsuario) {
 		return this.repositorioUsuario.buscar(idUsuario);
 	}
-	
+
 	@Override
 	public void modificar(Usuario usuario) {
 		this.repositorioUsuario.modificar(usuario);
@@ -177,10 +174,7 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 	public void asignarObjetos(Usuario usuarioNuevo) {
 		List<Objeto> objetos = this.servicioObjeto.listarObjetos();
 		for (Objeto objeto : objetos) {
-			UsuarioObjeto usuarioObjeto = new UsuarioObjeto();
-			usuarioObjeto.setCantidad(0);
-			usuarioObjeto.setObjeto(objeto);
-			usuarioObjeto.setUsuario(usuarioNuevo);
+			UsuarioObjeto usuarioObjeto = new UsuarioObjeto().withUsuario(usuarioNuevo).withObjeto(objeto);
 			this.servicioUsuarioObjeto.guardarUsuarioObjeto(usuarioObjeto);
 		}
 	}

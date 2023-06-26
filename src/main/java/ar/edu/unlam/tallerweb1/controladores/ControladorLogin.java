@@ -24,7 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Validated
 @Controller
@@ -44,9 +43,10 @@ public class ControladorLogin {
 	private ServicioUsuario servicioUsuario;
 	private ServicioBilletera servicioBilletera;
 	private ServicioUsuarioPlan servicioUsuarioPlan;
-	
+
 	@Autowired
-	public ControladorLogin(ServicioLogin servicioLogin, ServicioUsuarioPlan servicioUsuarioPlan, ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioBilletera servicioBilletera) {
+	public ControladorLogin(ServicioLogin servicioLogin, ServicioUsuarioPlan servicioUsuarioPlan,
+			ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon, ServicioBilletera servicioBilletera) {
 		this.servicioPokemon = servicioPokemon;
 		this.servicioLogin = servicioLogin;
 		this.servicioUsuario = servicioUsuario;
@@ -61,7 +61,7 @@ public class ControladorLogin {
 		if (request.getSession().getAttribute("usuario") != null) {
 			return new ModelAndView("redirect:/home");
 		}
-		
+
 		ModelMap modelo = new ModelMap();
 		modelo.put("datosLogin", new DatosLogin());
 		return new ModelAndView("login", modelo);
@@ -118,7 +118,7 @@ public class ControladorLogin {
 		ModelMap model = new ModelMap();
 		try {
 			this.servicioLogin.guardarCliente(datosUsuario);
-		} catch (ContraseniaCorta | FormatoDeEmailIncorrecto |UsuarioExistenteException | CampoVacioException e) {
+		} catch (ContraseniaCorta | FormatoDeEmailIncorrecto | UsuarioExistenteException | CampoVacioException e) {
 			model.put("error", e.getMessage());
 			return model;
 		}
@@ -134,21 +134,23 @@ public class ControladorLogin {
 
 	// Escucha la URL /home por GET, y redirige a una vista.
 	@RequestMapping(path = "/home", method = RequestMethod.GET)
-	public ModelAndView irAHome( HttpServletRequest request) {
+	public ModelAndView irAHome(HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null)
 			return new ModelAndView("redirect:/login");
-		List <Pokemon> lista = this.servicioUsuario.obtenerListaDePokemons((Long)request.getSession().getAttribute("id"));
-		if(lista.size() == 0) {
+		List<Pokemon> lista = this.servicioUsuario
+				.obtenerListaDePokemons((Long) request.getSession().getAttribute("id"));
+		if (lista.size() == 0) {
 			ModelMap modelo = new ModelMap();
 			lista = this.servicioPokemon.obtenerTodosLosComunes();
 			modelo.put("listaPokemonComunes", lista);
 			return new ModelAndView("iniciales", modelo);
-		}	
+		}
 		Usuario usuario = this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id"));
 		ModelMap model = new ModelMap();
 		Billetera billetera = this.servicioBilletera.consultarBilleteraDeUsuario(usuario.getId());
-		if(servicioUsuarioPlan.buscarPlanPorUsuario(usuario.getId()) != null) {
-			this.servicioUsuarioPlan.agregarTiradas(usuario, this.servicioUsuarioPlan.buscarPlanPorUsuario(usuario.getId()).getPlan().getPrecio());
+		if (servicioUsuarioPlan.buscarPlanPorUsuario(usuario.getId()) != null) {
+			this.servicioUsuarioPlan.agregarTiradas(usuario,
+					this.servicioUsuarioPlan.buscarPlanPorUsuario(usuario.getId()).getPlan().getPrecio());
 			this.servicioUsuario.modificar(usuario);
 		}
 		model.put("billetera", billetera);

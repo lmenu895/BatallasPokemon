@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.edu.unlam.tallerweb1.exceptions.PuntosInsuficientesException;
 import ar.edu.unlam.tallerweb1.modelo.Objeto;
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioObjeto;
 

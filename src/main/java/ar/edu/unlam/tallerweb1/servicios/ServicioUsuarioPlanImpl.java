@@ -42,15 +42,9 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 		return this.repositorioUsuarioPlan.buscarPorUsuario(idUsuario);
 	}
 
-	@Override
-	public void asignarPlanAUsuario(Usuario usuario, Plan plan) {
-		repositorioUsuarioPlan.asignarPlanAUsuario(usuario, plan);
-		darBeneficiosAUsuario(usuario, plan);
-	}
-
 	private void darBeneficiosAUsuario(Usuario usuario, Plan plan) {
 		usuario.setPuntos(usuario.getPuntos() + plan.getPuntos());
-		Integer precio = (int) plan.getPrecio();
+		//Integer precio = (int) plan.getPrecio();
 		Double precioArg = plan.getPrecio();
 		agregarTiradas(usuario, precioArg);
 	}

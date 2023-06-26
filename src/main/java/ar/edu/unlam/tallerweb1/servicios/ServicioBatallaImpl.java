@@ -110,7 +110,7 @@ public class ServicioBatallaImpl implements ServicioBatalla {
 		this.repositorioBatalla.guardar(batalla);
 		for (DatosPokemonBatalla dato : listaDatosPokemons) {
 			this.repositorioPokemonBatalla.guardarPokemonBatalla(
-					new PokemonBatalla().withPokemon(this.servicioPokemon.buscar(idUsuario)).withBatalla(batalla)
+					new PokemonBatalla().withPokemon(this.servicioPokemon.buscar(dato.getId())).withBatalla(batalla)
 							.withDebilitado(dato.getDebilitado()).withEntrenador(dato.getEntrenador()));
 		}
 	}

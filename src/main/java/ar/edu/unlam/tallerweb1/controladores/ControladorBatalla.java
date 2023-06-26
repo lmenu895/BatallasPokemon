@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
-import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
 import ar.edu.unlam.tallerweb1.exceptions.ExcesoDeObjetosException;
 import ar.edu.unlam.tallerweb1.exceptions.ObjetosInsuficientesException;
 import ar.edu.unlam.tallerweb1.exceptions.PokemonsInsuficientesException;

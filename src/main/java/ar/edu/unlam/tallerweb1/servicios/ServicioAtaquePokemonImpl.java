@@ -2,6 +2,8 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioAtaquePokemon;
 public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 
 	private RepositorioAtaquePokemon repositorioAtaquePokemon;
+
 	@Autowired
 	public ServicioAtaquePokemonImpl(RepositorioAtaquePokemon repositorioAtaquePokemon) {
 		this.repositorioAtaquePokemon = repositorioAtaquePokemon;
@@ -56,9 +59,14 @@ public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 
 	@Override
 	public List<Ataque> obtenerListaDeAtaques(Long idPokemon) {
+		Random random = new Random();
+		List<Ataque> listaAtaques = this.repositorioAtaquePokemon.buscar(idPokemon).stream().map(x -> x.getAtaque())
+				.collect(Collectors.toList());
 		List<Ataque> ataques = new ArrayList<>();
-		for (AtaquePokemon ataque : this.repositorioAtaquePokemon.buscar(idPokemon)) {
-			ataques.add(ataque.getAtaque());
+		while (ataques.size() < 4) {
+			int i = random.nextInt(listaAtaques.size());
+			ataques.add(listaAtaques.get(i));
+			listaAtaques.remove(i);
 		}
 		return ataques;
 	}

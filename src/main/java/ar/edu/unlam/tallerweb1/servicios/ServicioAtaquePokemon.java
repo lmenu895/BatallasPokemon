@@ -4,7 +4,6 @@ import java.util.List;
 
 import ar.edu.unlam.tallerweb1.modelo.Ataque;
 import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
-import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 
 public interface ServicioAtaquePokemon {
 	
