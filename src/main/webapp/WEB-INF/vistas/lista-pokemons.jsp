@@ -1,8 +1,13 @@
 <%@ include file="partial/header.jsp"%>
 <link href="css/style.css" rel="stylesheet">
+<link href="css/elegir-equipo.css" rel="stylesheet">
 <title>Lista de Pokemons</title>
 </head>
 <body class="pokemon">
+	<div>
+		<a href="<c:url value="/home"/>"><img class="pokemon-img"
+			alt="pokemon" src="<c:url value="/images/pokemonLogo.png"/>"></a>
+	</div>
 	<div class="container">
 		<a class="boton-nuevo btn btn-success mt-5" href="crear-pokemon">Nuevo
 			Pokemon</a>

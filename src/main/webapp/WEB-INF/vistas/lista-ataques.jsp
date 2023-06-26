@@ -1,8 +1,13 @@
 <%@ include file="partial/header.jsp"%>
 <link href="css/style.css" rel="stylesheet">
+<link href="css/elegir-equipo.css" rel="stylesheet">
 <title>Lista de ataques</title>
 
 <body class="fondo">
+	<div>
+		<a href="<c:url value="/home"/>"><img class="pokemon-img"
+			alt="pokemon" src="<c:url value="/images/pokemonLogo.png"/>"></a>
+	</div>
 	<div class="container">
 		<button class="boton-nuevo btn btn-success mt-5">Nuevo Ataque</button>
 		<div class="buscador">

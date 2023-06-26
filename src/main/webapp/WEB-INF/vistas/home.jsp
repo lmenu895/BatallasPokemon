@@ -28,7 +28,10 @@
 				<img class="pokeball" src="images/pokeballU.png" alt="pokeball">
 				<button class="textUser">${usuario.puntos}</button>
 				<div class="username">
-					<a href="datos-de-usuario" id="usuario" class="textUser">${usuario.usuario}</a>
+					<a 
+					<c:if test="${usuario.esAdmin}">href="admin"</c:if>
+					<c:if test="${not usuario.esAdmin}">href="datos-de-usuario"</c:if>
+					 id="usuario" class="textUser">${usuario.usuario}</a>
 					<div class="menu-usuario">
 						<a href="datos-de-usuario" class="datos-usuario">Mi perfil</a> <a
 							href="historial-de-batallas" class="historial-batallas">Historial

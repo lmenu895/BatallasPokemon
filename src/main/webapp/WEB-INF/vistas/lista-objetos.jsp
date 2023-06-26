@@ -14,8 +14,13 @@
 <title>Lista de Objetos</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 <link href="css/objetos.css" rel="stylesheet">
+<link href="css/elegir-equipo.css" rel="stylesheet">
 </head>
 <body class="fondo">
+	<div>
+		<a href="<c:url value="/home"/>"><img class="pokemon-img"
+			alt="pokemon" src="<c:url value="/images/pokemonLogo.png"/>"></a>
+	</div>
 	<div class="tabla">
 		<table class="table table-dark  form">
 			<thead>

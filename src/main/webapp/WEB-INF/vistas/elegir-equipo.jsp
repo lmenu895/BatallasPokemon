@@ -9,10 +9,15 @@
 <meta charset="utf-8">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
+<link href="css/elegir-equipo.css" rel="stylesheet">
 <title>Elegir Equipo</title>
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body class="pokemon">
+	<div>
+		<a href="<c:url value="/home"/>"><img class="pokemon-img"
+			alt="pokemon" src="<c:url value="/images/pokemonLogo.png"/>"></a>
+	</div>
 	<div class="container d-flex">
 		<form:form action="batalla" method="POST" modelAttribute="pokemon"
 			enctype="multipart/form-data">
