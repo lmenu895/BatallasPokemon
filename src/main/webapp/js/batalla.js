@@ -78,10 +78,10 @@ $(document).ready(function() {
 			$('#estadoUsuario').css('background-color', '');
 		};
 		const removerObjeto = () => {
+			objetosUtilizados.push(objetosUsuario[this.value].efecto);
 			objetosUsuario[this.value] = null;
 			$(this).remove();
 		};
-		objetosUtilizados.push(objetosUsuario[this.value].efecto);
 		switch (objetosUsuario[this.value].efecto) {
 			case 'ANTI_VENENO':
 				if (pokemonUsuario.estados.envenenado) {

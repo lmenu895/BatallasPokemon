@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	
   $(".slider").slick({
     infinite: true,
     slidesToShow: 1,
@@ -34,7 +35,7 @@ $('.center').slick({
     }
   ]
 });
-
+	
 setInterval(() => {
   $(function() {
 
@@ -57,3 +58,11 @@ setInterval(() => {
   })
 }, 1);
 
+
+			function openModal() {
+		  document.getElementById("myModal").style.display = "block"; // Muestra el modal
+		}
+		
+		function closeModal() {
+		  document.getElementById("myModal").style.display = "none"; // Oculta el modal
+		}
