@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mercadopago.MercadoPagoConfig;
@@ -23,13 +24,16 @@ import com.mercadopago.client.preference.PreferenceItemRequest;
 import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
+import com.mercadopago.resources.payment.Payment;
 import com.mercadopago.resources.preference.Preference;
 
-import ar.edu.unlam.tallerweb1.exceptions.SaldoInsuficienteException;
-import ar.edu.unlam.tallerweb1.exceptions.UsuarioSinBilleteraException;
+import ar.edu.unlam.tallerweb1.exceptions.PagoExistenteException;
+import ar.edu.unlam.tallerweb1.exceptions.PagoNoAprobadoException;
+import ar.edu.unlam.tallerweb1.exceptions.PlanInexistenteException;
 import ar.edu.unlam.tallerweb1.modelo.Plan;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPlan;
+import ar.edu.unlam.tallerweb1.servicios.ServicioPago;
 import ar.edu.unlam.tallerweb1.servicios.ServicioPlan;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPlan;
@@ -41,13 +45,15 @@ public class ControladorPlan {
 	private ServicioPlan servicioPlan;
 	private ServicioUsuario servicioUsuario;
 	private ServicioUsuarioPlan servicioUsuarioPlan;
+	private ServicioPago servicioPago;
 
 	@Autowired
 	public ControladorPlan(ServicioPlan servicioPlan, ServicioUsuario servicioUsuario,
-			ServicioUsuarioPlan servicioUsuarioPlan) {
+			ServicioUsuarioPlan servicioUsuarioPlan, ServicioPago servicioPago) {
 		this.servicioPlan = servicioPlan;
 		this.servicioUsuario = servicioUsuario;
 		this.servicioUsuarioPlan = servicioUsuarioPlan;
+		this.servicioPago = servicioPago;
 	}
 
 	@RequestMapping(path = "/planes", method = RequestMethod.GET)
@@ -83,10 +89,10 @@ public class ControladorPlan {
 		List<PreferenceItemRequest> items = new ArrayList<>();
 		items.add(item);
 		PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-				.success("http://localhost:8080/batallas-pokemons/planAsignadoCorrectamente/" + planId + "/")
-				.failure("http://localhost:8080/batallas-pokemons/planAsignadoCorrectamente/")
-				.pending("http://localhost:8080/batallas-pokemons/planAsignadoCorrectamente/").build();
-		PreferenceRequest prefRequest = PreferenceRequest.builder().items(items).backUrls(backUrls).build();
+				.success("http://localhost:8080/batallas-pokemons/asignar-plan?planId=" + planId)
+				.failure("http://localhost:8080/batallas-pokemons/planes").build();
+		PreferenceRequest prefRequest = PreferenceRequest.builder().autoReturn("approved").binaryMode(true).items(items)
+				.backUrls(backUrls).build();
 		Preference response = null;
 		try {
 			response = client.create(prefRequest);
@@ -126,19 +132,24 @@ public class ControladorPlan {
 			return new ModelAndView("redirect:/login");
 		}
 		Plan plan = servicioPlan.consultarPlan(planId);
+		try {
+			this.servicioUsuarioPlan.verificarPlanBasico((Long) request.getSession().getAttribute("id"));
+		} catch (PlanInexistenteException e) {
+			return new ModelAndView("redirect:/planes");
+		}
 		Double precio = plan.getPrecio() * 0.3;
 		MercadoPagoConfig.setAccessToken("TEST-4273752139461683-062512-21434a011fdba96b368ddb48a0a2f168-164214839");
 		PreferenceClient client = new PreferenceClient();
-		// Crea un Ã­tem en la preferencia
+		// Crea un ítem en la preferencia
 		PreferenceItemRequest item = PreferenceItemRequest.builder().title(plan.getNombre()).quantity(1)
 				.unitPrice(new BigDecimal(precio)).build();
 		List<PreferenceItemRequest> items = new ArrayList<>();
 		items.add(item);
 		PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-				.success("http://localhost:8080/batallas-pokemons/planAsignadoCorrectamente/" + planId + "/")
-				.failure("http://localhost:8080/batallas-pokemons/planAsignadoCorrectamente/")
-				.pending("http://localhost:8080/batallas-pokemons/planAsignadoCorrectamente/").build();
-		PreferenceRequest prefRequest = PreferenceRequest.builder().items(items).backUrls(backUrls).build();
+				.success("http://localhost:8080/batallas-pokemons/asignar-plan?planId=" + planId + "&mejorar=true")
+				.failure("http://localhost:8080/batallas-pokemons/planes").build();
+		PreferenceRequest prefRequest = PreferenceRequest.builder().autoReturn("approved").binaryMode(true).items(items)
+				.backUrls(backUrls).build();
 		Preference response = null;
 		try {
 			response = client.create(prefRequest);
@@ -149,29 +160,24 @@ public class ControladorPlan {
 		return new ModelAndView("redirect:" + response.getInitPoint());
 	}
 
-	@RequestMapping(path = "/planAsignadoCorrectamente/{planId}", method = RequestMethod.GET)
-	public ModelAndView planAsignadoCorrectamente(@PathVariable Long planId, HttpServletRequest request) {
-
-		ModelMap modelo = new ModelMap();
-		Long idUsuario = (Long) request.getSession().getAttribute("id");
-
-		Usuario u1 = servicioUsuario.buscar(idUsuario);
-
-		try {
-			this.servicioUsuarioPlan.asignarPlan(planId, (Long) request.getSession().getAttribute("id"));
-		} catch (UsuarioSinBilleteraException | SaldoInsuficienteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		if (u1 != null) {
-			modelo.put("usuario", u1);
-
-			return new ModelAndView("planAsignado", modelo);
-		} else {
-
+	@RequestMapping(path = "/asignar-plan", method = RequestMethod.GET)
+	public ModelAndView asignarPlan(@RequestParam Long planId, @RequestParam(required = false) Boolean mejorar,
+			@RequestParam Long payment_id, HttpServletRequest request) {
+		if (request.getSession().getAttribute("usuario") == null) {
 			return new ModelAndView("redirect:/login");
 		}
+		try {
+			if (mejorar != null && mejorar) {
+				this.servicioUsuarioPlan.verificarPlanBasico((Long) request.getSession().getAttribute("id"));
+			}
+			Payment payment = this.servicioPago.verificarPago(payment_id);
+			this.servicioUsuarioPlan.asignarPlan(planId, (Long) request.getSession().getAttribute("id"));
+			this.servicioPago.guardar(payment, (Long) request.getSession().getAttribute("id"));
+		} catch (MPException | MPApiException | PagoExistenteException | PlanInexistenteException
+				| PagoNoAprobadoException ex) {
+			return new ModelAndView("redirect:/planes");
+		}
+		return new ModelAndView("redirect:/planes");
 	}
 
 	@Scheduled(cron = " 0 0 0 1 * *")

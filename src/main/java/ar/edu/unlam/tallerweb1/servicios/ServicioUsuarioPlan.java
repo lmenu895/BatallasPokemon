@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import ar.edu.unlam.tallerweb1.exceptions.PlanInexistenteException;
 import ar.edu.unlam.tallerweb1.exceptions.SaldoInsuficienteException;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioSinBilleteraException;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -9,9 +10,11 @@ public interface ServicioUsuarioPlan {
 
 	UsuarioPlan buscarPlanPorUsuario(Long idUsuario);
 
-	void asignarPlan(Long idPlan, Long idUsuario) throws UsuarioSinBilleteraException, SaldoInsuficienteException;
+	void asignarPlan(Long idPlan, Long idUsuario);
 	
-	void agregarTiradas(Usuario usuario, Double precio);
+	void agregarTiradas(UsuarioPlan up);
 
 	void agregar();
+
+	void verificarPlanBasico(Long idUsuario) throws PlanInexistenteException;
 }
