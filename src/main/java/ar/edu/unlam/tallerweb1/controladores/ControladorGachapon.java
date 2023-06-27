@@ -66,7 +66,8 @@ public class ControladorGachapon {
 
 		if (!this.servicioUsuario.restarPuntos(monedas, usuario)) {
 			model.put("error", "Monedas Insuficientes");
-			model.put("puntos", usuario.getPuntos());
+			model.put("tiradas", 30 - usuario.getCantTiradasTotales());
+			model.put("usuario", usuario);
 			return new ModelAndView("gachapon", model);
 		}
 		// repetidos
