@@ -13,4 +13,6 @@ public interface ServicioPago {
 
 	void guardar(Payment payment, Long idUsuario);
 
+	Double calcularPrecioMejoraPremium(Double precioOriginal, Long idUsuario);
+
 }

@@ -13,8 +13,10 @@ import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.RarezaPokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioObjeto;
+import ar.edu.unlam.tallerweb1.modelo.UsuarioPlan;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
+import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioPlan;
 
 @Service("servicioUsuario")
 @Transactional
@@ -25,16 +27,18 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 	private ServicioPokemon servicioPokemon;
 	private ServicioObjeto servicioObjeto;
 	private ServicioUsuarioObjeto servicioUsuarioObjeto;
+	private RepositorioUsuarioPlan repositorioUsuarioPlan;
 
 	@Autowired
 	public ServicioUsuarioImpl(RepositorioUsuario repositorioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon,
-			ServicioObjeto servicioObjeto, ServicioPokemon servicioPokemon,
-			ServicioUsuarioObjeto servicioUsuarioObjeto) {
+			ServicioObjeto servicioObjeto, ServicioPokemon servicioPokemon, ServicioUsuarioObjeto servicioUsuarioObjeto,
+			RepositorioUsuarioPlan repositorioUsuarioPlan) {
 		this.repositorioUsuario = repositorioUsuario;
 		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
 		this.servicioPokemon = servicioPokemon;
 		this.servicioObjeto = servicioObjeto;
 		this.servicioUsuarioObjeto = servicioUsuarioObjeto;
+		this.repositorioUsuarioPlan = repositorioUsuarioPlan;
 	}
 
 	@Override
@@ -96,7 +100,7 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 
 	@Override
 	public Boolean restarPuntos(Integer monedas, Usuario usuario) {
-		if(checkearTokens(usuario, monedas)) {
+		if (checkearTokens(usuario, monedas)) {
 			repositorioUsuario.modificar(usuario);
 			return true;
 		}
@@ -107,12 +111,16 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		repositorioUsuario.modificar(usuario);
 		return true;
 	}
-	
+
 	@Override
 	public void sumarPuntos(Long idUsuario, Integer puntos) {
-		Usuario user = this.repositorioUsuario.buscar(idUsuario);
-		user.setPuntos(user.getPuntos() + puntos);
-		this.repositorioUsuario.modificar(user);
+		UsuarioPlan up = this.repositorioUsuarioPlan.buscarPorUsuario(idUsuario);
+		if (up != null) {
+			up.getUsuario().setPuntos(up.getUsuario().getPuntos() + (int) (puntos * up.getPlan().getMultiplicador()));
+		} else {
+			Usuario usuario = this.repositorioUsuario.buscar(idUsuario);
+			usuario.setPuntos(usuario.getPuntos() + puntos);
+		}
 	}
 
 	// repetidos
@@ -182,13 +190,12 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 			this.servicioUsuarioObjeto.guardarUsuarioObjeto(usuarioObjeto);
 		}
 	}
-	
+
 	private boolean checkearTokens(Usuario usuario, Integer monedas) {
-		if(usuario.getTiradaUltraball() > 0 && monedas == 1000) {
+		if (usuario.getTiradaUltraball() > 0 && monedas == 1000) {
 			usuario.setTiradaUltraball(usuario.getTiradaUltraball() - 1);
 			return true;
-		}
-		else if(usuario.getTiradaMasterball() > 0 && monedas == 10000) {
+		} else if (usuario.getTiradaMasterball() > 0 && monedas == 10000) {
 			usuario.setTiradaUltraball(usuario.getTiradaMasterball() - 1);
 			return true;
 		}

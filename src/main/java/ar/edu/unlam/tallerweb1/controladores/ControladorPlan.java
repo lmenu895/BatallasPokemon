@@ -137,7 +137,10 @@ public class ControladorPlan {
 		} catch (PlanInexistenteException e) {
 			return new ModelAndView("redirect:/planes");
 		}
-		Double precio = plan.getPrecio() * 0.3;
+		Double precio = this.servicioPago.calcularPrecioMejoraPremium(plan.getPrecio(),
+				(Long) request.getSession().getAttribute("id"));
+		//Double precio = plan.getPrecio() * 0.3;
+		System.err.println(precio);
 		MercadoPagoConfig.setAccessToken("TEST-4273752139461683-062512-21434a011fdba96b368ddb48a0a2f168-164214839");
 		PreferenceClient client = new PreferenceClient();
 		// Crea un ítem en la preferencia

@@ -93,8 +93,8 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 			up.setDia(dia);
 		}
 
-		// si el dia es mayor o igual al vencimiento, doy de baja el plan
-		if (dia.isAfter(up.getVencimiento()) || dia.isEqual(up.getVencimiento())) {
+		// Si estamos en el día del vencimiento o más adelante, doy de baja el plan
+		if (LocalDate.now().isEqual(up.getVencimiento()) || LocalDate.now().isAfter(up.getVencimiento())) {
 			repositorioUsuarioPlan.darDeBajaElPlan(up);
 		}
 	}
