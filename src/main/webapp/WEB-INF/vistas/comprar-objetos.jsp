@@ -3,11 +3,11 @@
 <title>Comprar Objetos</title>
 </head>
 <body>
-	<div>
+	<div style="position: absolute; width: 100%;">
 		<a href="<c:url value="/home"/>"><img class="pokemon-img"
 			alt="pokemon" src="<c:url value="/images/pokemonLogo.png"/>"></a>
 	</div>
-	<div class="container ">
+	<div class="container">
 		<form method="POST" class="objetos">
 			<div
 				class="d-flex align-items-baseline justify-content-around flex-wrap">

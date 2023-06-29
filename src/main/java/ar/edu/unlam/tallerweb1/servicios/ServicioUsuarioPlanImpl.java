@@ -43,26 +43,17 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 
 	@Override
 	public void asignarPlan(Long idPlan, Long idUsuario) {
-//		Billetera billetera = this.repositorioBilletera.consultarBilleteraDeUsuario(idUsuario);
-//		Reviso si el usuario ya tiene el plan basico para borrarlo y que se le asigne solo el premium
 		Plan plan = this.repositorioPlan.consultarPlan(idPlan);
 		Usuario usuario = this.repositorioUsuario.buscar(idUsuario);
-		UsuarioPlan up = this.repositorioUsuarioPlan.buscarPorUsuario(idUsuario);
-		if (up != null && up.getPlan().getNombre().equals("Basico")) {
-			this.repositorioUsuarioPlan.darDeBajaElPlan(up);
-		}
-//		if (billetera == null) {
-//			throw new UsuarioSinBilleteraException("El usuario no posee una billetera creada");
-//		}
-//		if (billetera.getSaldo() < plan.getPrecio()) {
-//			throw new SaldoInsuficienteException("No posee el saldo suficiente para adquirir el plan");
-//		}
-		up = new UsuarioPlan().withPlan(plan).withUsuario(usuario);
-		this.repositorioUsuarioPlan.guardar(up);
-//		billetera.setSaldo(billetera.getSaldo() - plan.getPrecio());
+		UsuarioPlan oldUp = this.repositorioUsuarioPlan.buscarPorUsuario(idUsuario);
+		UsuarioPlan newUp = new UsuarioPlan().withPlan(plan).withUsuario(usuario);
+		this.repositorioUsuarioPlan.guardar(newUp);
 		usuario.setPuntos(usuario.getPuntos() + plan.getPuntos());
-		// Integer precio = (int) plan.getPrecio();
-		agregarTiradas(up);
+		agregarTiradas(newUp);
+		if (oldUp != null && oldUp.getPlan().getNombre().equals("Basico")) {
+			usuario.setPuntos(usuario.getPuntos() - oldUp.getPlan().getPuntos());
+			this.repositorioUsuarioPlan.darDeBajaElPlan(oldUp);
+		}
 	}
 
 	@Override
@@ -72,7 +63,6 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 		for (UsuarioPlan up : lista) {
 			agregarTiradas(up);
 		}
-
 	}
 
 	@Override

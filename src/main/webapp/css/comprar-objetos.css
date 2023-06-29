@@ -1,11 +1,12 @@
 .objetos {
 	background-color: white;
-	margin: 4rem auto;
+	margin: 1rem auto;
 	border-radius: 2rem;
 	box-shadow: 1px 1px 5px black;
 	padding: 4rem;
 	max-width: 800px;
 }
+
  body{
  	background-image: url("../images/pokemonCenter3.jpg");
  	background-size:contain;

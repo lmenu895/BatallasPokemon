@@ -14,7 +14,7 @@
 <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 </head>
 <body class="pokemon">
-	<div>
+	<div style="position: absolute; width: 100%; margin-top: 1rem; z-index: -1;">
 		<a href="<c:url value="/home"/>"><img class="pokemon-img"
 			alt="pokemon" src="<c:url value="/images/pokemonLogo.png"/>"></a>
 	</div>
