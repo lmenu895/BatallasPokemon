@@ -7,16 +7,21 @@
 	max-width: 800px;
 }
 
- body{
- 	background-image: url("../images/pokemonCenter3.jpg");
- 	background-size:contain;
- }
+body {
+	background-image: url("../images/pokemonCenter3.jpg");
+	background-size: contain;
+}
+
 .pokemon-img {
 	position: relative;
-	width: 15%;
-	height: 50%;
+	width: 100%;
 	cursor: pointer;
 	margin-left: 1%;
 	padding-right: 20px;
 	padding-bottom: 20px;
+}
+
+.logo-to-home {
+	position: absolute;
+	width: 15%;
 }

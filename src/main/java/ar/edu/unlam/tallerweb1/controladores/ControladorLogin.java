@@ -5,6 +5,7 @@ import ar.edu.unlam.tallerweb1.exceptions.ContraseniaCorta;
 import ar.edu.unlam.tallerweb1.exceptions.FormatoDeEmailIncorrecto;
 import ar.edu.unlam.tallerweb1.exceptions.UsuarioExistenteException;
 import ar.edu.unlam.tallerweb1.modelo.*;
+import ar.edu.unlam.tallerweb1.servicios.ServicioAgregarAtaques;
 import ar.edu.unlam.tallerweb1.servicios.ServicioBilletera;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
 import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 @Validated
@@ -40,6 +42,8 @@ public class ControladorLogin {
 	private ServicioPokemon servicioPokemon;
 	private ServicioUsuario servicioUsuario;
 	private ServicioBilletera servicioBilletera;
+	@Inject
+	private ServicioAgregarAtaques servicioAgregarAtaques;
 
 	@Autowired
 	public ControladorLogin(ServicioLogin servicioLogin, ServicioUsuario servicioUsuario,
@@ -144,6 +148,7 @@ public class ControladorLogin {
 		Usuario usuario = this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id"));
 		ModelMap model = new ModelMap();
 		Billetera billetera = this.servicioBilletera.consultarBilleteraDeUsuario(usuario.getId());
+		this.servicioAgregarAtaques.agregar((Long) request.getSession().getAttribute("id"));
 		model.put("billetera", billetera);
 		model.put("usuario", usuario);
 		return new ModelAndView("home", model);

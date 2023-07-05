@@ -2,9 +2,9 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import java.time.LocalDate;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mercadopago.client.payment.PaymentClient;
@@ -15,7 +15,6 @@ import com.mercadopago.resources.payment.Payment;
 import ar.edu.unlam.tallerweb1.exceptions.PagoExistenteException;
 import ar.edu.unlam.tallerweb1.exceptions.PagoNoAprobadoException;
 import ar.edu.unlam.tallerweb1.modelo.Pago;
-import ar.edu.unlam.tallerweb1.modelo.UsuarioPlan;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioPago;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuario;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioPlan;
@@ -24,17 +23,12 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioPlan;
 @Transactional
 public class ServicioPagoImpl implements ServicioPago {
 
+	@Inject
 	private RepositorioPago repositorioPago;
+	@Inject
 	private RepositorioUsuario repositorioUsuario;
+	@Inject
 	private RepositorioUsuarioPlan repositorioUsuarioPlan;
-
-	@Autowired
-	public ServicioPagoImpl(RepositorioPago repositorioPago, RepositorioUsuario repositorioUsuario,
-			RepositorioUsuarioPlan repositorioUsuarioPlan) {
-		this.repositorioPago = repositorioPago;
-		this.repositorioUsuario = repositorioUsuario;
-		this.repositorioUsuarioPlan = repositorioUsuarioPlan;
-	}
 
 	@Override
 	public Payment verificarPago(Long payment_id)

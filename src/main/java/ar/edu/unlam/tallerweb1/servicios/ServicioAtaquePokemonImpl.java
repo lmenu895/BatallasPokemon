@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,12 +18,8 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioAtaquePokemon;
 @Transactional
 public class ServicioAtaquePokemonImpl implements ServicioAtaquePokemon {
 
+	@Inject
 	private RepositorioAtaquePokemon repositorioAtaquePokemon;
-
-	@Autowired
-	public ServicioAtaquePokemonImpl(RepositorioAtaquePokemon repositorioAtaquePokemon) {
-		this.repositorioAtaquePokemon = repositorioAtaquePokemon;
-	}
 
 	@Override
 	public void guardar(AtaquePokemon ataquePokemon) {

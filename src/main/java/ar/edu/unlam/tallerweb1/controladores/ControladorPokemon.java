@@ -3,9 +3,9 @@ package ar.edu.unlam.tallerweb1.controladores;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,17 +25,12 @@ import ar.edu.unlam.tallerweb1.servicios.*;
 @Controller
 public class ControladorPokemon {
 
+	@Inject
 	private ServicioPokemon servicioPokemon;
+	@Inject
 	private ServicioAtaque servicioAtaque;
+	@Inject
 	private ServicioAtaquePokemon servicioAtaquePokemon;
-
-	@Autowired
-	public ControladorPokemon(ServicioPokemon servicioPokemon, ServicioAtaque servicioAtaque,
-			ServicioAtaquePokemon servicioAtaquePokemon) {
-		this.servicioPokemon = servicioPokemon;
-		this.servicioAtaque = servicioAtaque;
-		this.servicioAtaquePokemon = servicioAtaquePokemon;
-	}
 
 	@RequestMapping("/crear-pokemon")
 	public ModelAndView crearPokemon(HttpServletRequest request) {

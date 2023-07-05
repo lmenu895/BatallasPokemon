@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,12 +22,8 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioAtaquePokemon;
 @Transactional
 public class ServicioUsuarioAtaquePokemonImpl implements ServicioUsuarioAtaquePokemon {
 
+	@Inject
 	private RepositorioUsuarioAtaquePokemon repositorioUsuarioAtaquePokemon;
-
-	@Autowired
-	public ServicioUsuarioAtaquePokemonImpl(RepositorioUsuarioAtaquePokemon repositorioUsuarioAtaquePokemon) {
-		this.repositorioUsuarioAtaquePokemon = repositorioUsuarioAtaquePokemon;
-	}
 
 	@Override
 	public List<UsuarioAtaquePokemon> obtenerLista(Long idUsuario, Long idPokemon) {

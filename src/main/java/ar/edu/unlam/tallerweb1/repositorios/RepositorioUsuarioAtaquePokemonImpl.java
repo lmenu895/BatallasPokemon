@@ -1,40 +1,24 @@
 package ar.edu.unlam.tallerweb1.repositorios;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
+import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projection;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ar.edu.unlam.tallerweb1.modelo.Ataque;
-import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
-import ar.edu.unlam.tallerweb1.modelo.Pokemon;
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioAtaquePokemon;
 
 @Repository("repositorioUsuarioAtaquePokemon")
 public class RepositorioUsuarioAtaquePokemonImpl implements RepositorioUsuarioAtaquePokemon {
 
+	@Inject
 	private SessionFactory sessionFactory;
-
-	@Autowired
-	public RepositorioUsuarioAtaquePokemonImpl(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	@Override
 	public List<UsuarioAtaquePokemon> obtenerAtaques(Long idUsuario, Long idPokemon) {

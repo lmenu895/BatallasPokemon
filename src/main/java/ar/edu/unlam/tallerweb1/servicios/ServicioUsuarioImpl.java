@@ -3,7 +3,8 @@ package ar.edu.unlam.tallerweb1.servicios;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,24 +23,18 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioPlan;
 @Transactional
 public class ServicioUsuarioImpl implements ServicioUsuario {
 
+	@Inject
 	private RepositorioUsuario repositorioUsuario;
-	private ServicioUsuarioPokemon servicioUsuarioPokemon;
-	private ServicioPokemon servicioPokemon;
-	private ServicioObjeto servicioObjeto;
-	private ServicioUsuarioObjeto servicioUsuarioObjeto;
+	@Inject
 	private RepositorioUsuarioPlan repositorioUsuarioPlan;
-
-	@Autowired
-	public ServicioUsuarioImpl(RepositorioUsuario repositorioUsuario, ServicioUsuarioPokemon servicioUsuarioPokemon,
-			ServicioObjeto servicioObjeto, ServicioPokemon servicioPokemon, ServicioUsuarioObjeto servicioUsuarioObjeto,
-			RepositorioUsuarioPlan repositorioUsuarioPlan) {
-		this.repositorioUsuario = repositorioUsuario;
-		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
-		this.servicioPokemon = servicioPokemon;
-		this.servicioObjeto = servicioObjeto;
-		this.servicioUsuarioObjeto = servicioUsuarioObjeto;
-		this.repositorioUsuarioPlan = repositorioUsuarioPlan;
-	}
+	@Inject
+	private ServicioUsuarioPokemon servicioUsuarioPokemon;
+	@Inject
+	private ServicioPokemon servicioPokemon;
+	@Inject
+	private ServicioObjeto servicioObjeto;
+	@Inject
+	private ServicioUsuarioObjeto servicioUsuarioObjeto;
 
 	@Override
 	public void guardarEquipo(String[] pokemons, Long idUsuario) {

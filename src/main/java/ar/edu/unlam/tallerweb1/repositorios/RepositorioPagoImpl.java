@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.repositorios;
 
 import java.time.LocalDateTime;
 
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,20 +11,15 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.unlam.tallerweb1.modelo.Pago;
-import ar.edu.unlam.tallerweb1.modelo.UsuarioAtaquePokemon;
 
 @Repository
 public class RepositorioPagoImpl implements RepositorioPago {
+	
+	@Inject
 	private SessionFactory sessionFactory;
-
-	@Autowired
-	public RepositorioPagoImpl(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	@Override
 	public Pago buscar(Long idPago, LocalDateTime localDateTime) {

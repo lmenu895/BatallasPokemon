@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,29 +45,22 @@ import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 @Controller
 public class ControladorUsuario {
 
+	@Inject
 	private ServicioObjeto servicioObjeto;
+	@Inject
 	private ServicioUsuario servicioUsuario;
+	@Inject
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
+	@Inject
 	private ServicioPokemon servicioPokemon;
+	@Inject
 	private ServicioUsuarioObjeto servicioUsuarioObjeto;
+	@Inject
 	private ServicioLogin servicioLogin;
+	@Inject
 	private ServicioBatalla servicioBatalla;
+	@Inject
 	private ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon;
-
-	@Autowired
-	public ControladorUsuario(ServicioObjeto servicioObjeto, ServicioUsuario servicioUsuario,
-			ServicioUsuarioPokemon servicioUsuarioPokemon, ServicioPokemon servicioPokemon,
-			ServicioUsuarioObjeto servicioUsuarioObjeto, ServicioLogin servicioLogin, ServicioBatalla servicioBatalla,
-			ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon) {
-		this.servicioObjeto = servicioObjeto;
-		this.servicioUsuario = servicioUsuario;
-		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
-		this.servicioPokemon = servicioPokemon;
-		this.servicioUsuarioObjeto = servicioUsuarioObjeto;
-		this.servicioLogin = servicioLogin;
-		this.servicioBatalla = servicioBatalla;
-		this.servicioUsuarioAtaquePokemon = servicioUsuarioAtaquePokemon;
-	}
 
 	@RequestMapping("lista-objetos")
 	public ModelAndView ObtenerObjetos(HttpServletRequest request) {
