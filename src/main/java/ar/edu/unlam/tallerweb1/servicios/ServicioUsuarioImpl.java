@@ -66,7 +66,7 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		this.buscar(idUsuario).getPokemons().forEach(x -> pokemons.add(x.getPokemon()));
 		return pokemons;
 	}
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Override
 	public void comprarObjetos(Long idUsuario, List<Integer> cantidad) throws PuntosInsuficientesException {
 		Usuario usuario = this.buscar(idUsuario);

@@ -88,7 +88,7 @@ public class ControladorUsuario {
 				this.servicioUsuarioObjeto.obtenerListaDeUsuarioObjeto((Long) request.getSession().getAttribute("id")));
 		return new ModelAndView("elegir-equipo", model);
 	}
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
 	@RequestMapping("comprar-objetos")
 	public ModelAndView comprarObjetos(HttpServletRequest request) {
 
@@ -123,7 +123,7 @@ public class ControladorUsuario {
 		}
 		return new ModelAndView("redirect:/elegir-equipo");
 	}
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	@RequestMapping(path = "guardar-equipo", method = RequestMethod.POST)
 	public ModelAndView guardarPokemon(@RequestParam(required = false, name = "pokemonsLista") String[] pokemonsTraidos,
 			@RequestParam(required = false, name = "objetosLista") List<Long> objetosTraidos,
@@ -209,7 +209,7 @@ public class ControladorUsuario {
 		ModelMap model = new ModelMap();
 		//////////////////////////////////////////////////////////////////////////
 
-		model.put("lista", this.servicioUsuarioPokemon
+		model.put("lista", this.servicioUsuarioPokemon	//Simplemente le agregamos al modelo la lista de los pokemon que tiene EL iD USUARIO
 				.obtenerListaDeUsuarioPokemon((Long) request.getSession().getAttribute("id")));
 
 		///////////////////////////////////////////////////////////////////////
