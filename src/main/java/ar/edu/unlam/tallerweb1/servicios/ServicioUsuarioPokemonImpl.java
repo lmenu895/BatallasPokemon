@@ -52,6 +52,10 @@ public class ServicioUsuarioPokemonImpl implements ServicioUsuarioPokemon {
 	public List<UsuarioPokemon> obtenerListaDeUsuarioPokemon(Long idUsuario) {
 		return this.repositorioUsuarioPokemon.buscarPokemon(idUsuario);
 	}
+	@Override
+	public List<Pokemon> obtenerListaDePokemonSinPokemonUsuario(Long idUsuario) {
+		return this.repositorioUsuarioPokemon.getPokemonSinUsuarioPokemon(idUsuario);
+	}
 
 	@Override
 	public void borrarUsuarioDeUnPokemon(Long idUsuario) {

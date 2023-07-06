@@ -16,6 +16,8 @@ public interface RepositorioUsuarioPokemon {
 
 	Pokemon buscarPokemonPorId(Long idPokemon);
 
+	List<Pokemon> getPokemonSinUsuarioPokemon(long idUsuario);
+
 	
 	
 

@@ -24,4 +24,6 @@ public interface ServicioUsuarioPokemon {
 	UsuarioPokemon buscarPokemonUsuario(Long idPokemon, Long idUsuario) throws PokemonNoObtenidoException;
 
 	Pokemon buscarPokemon(Long idPokemon, Long idUsuario) throws PokemonNoObtenidoException;
+
+	List<Pokemon> obtenerListaDePokemonSinPokemonUsuario(Long idUsuario);
 }

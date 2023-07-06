@@ -31,7 +31,7 @@
 					</div>
 				</c:forEach>
 			</div>
-			<input class="btn btn-warning btn-lg d-block" type="submit">Comprar</input>
+			<button class="btn btn-warning btn-lg d-block" type="submit">Comprar</button>
 			<div>
 				Estás gastando: <span id="total">0</span> puntos
 			</div>

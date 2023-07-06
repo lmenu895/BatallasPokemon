@@ -36,4 +36,6 @@ public interface ServicioUsuario {
 	void asignarObjetos(Usuario usuarioNuevo);
 	
 	void modificar(Usuario usuario);
+
+	Boolean restarPokemonedas(Pokemon pokemon, Usuario usuario);
 }

@@ -14,7 +14,7 @@ import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioGachapon;
-
+import ar.edu.unlam.tallerweb1.servicios.ServicioPokemon;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPlan;
 import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
@@ -26,15 +26,17 @@ public class ControladorGachapon {
 	private ServicioUsuarioPokemon servicioUsuarioPokemon;
 	private ServicioGachapon servicioGachapon;
 	private ServicioUsuarioPlan servicioUsuarioPlan;
+	private ServicioPokemon servicioPokemon;
 
 	@Autowired
 	public ControladorGachapon(ServicioGachapon servicioGachapon, ServicioUsuario servicioUsuario,
-			ServicioUsuarioPokemon servicioUsuarioPokemon, ServicioUsuarioPlan servicioUsuarioPlan) {
+			ServicioUsuarioPokemon servicioUsuarioPokemon, ServicioUsuarioPlan servicioUsuarioPlan, ServicioPokemon servicioPokemon) {
 
 		this.servicioUsuario = servicioUsuario;
 		this.servicioUsuarioPokemon = servicioUsuarioPokemon;
 		this.servicioGachapon = servicioGachapon;
 		this.servicioUsuarioPlan = servicioUsuarioPlan;
+		this.servicioPokemon = servicioPokemon;
 	}
 
 	@RequestMapping("/gachapon")
@@ -51,6 +53,44 @@ public class ControladorGachapon {
 		}
 		model.put("tiradas", 30 - usuario.getCantTiradasTotales());
 		model.put("usuario", usuario);
+		model.put("pokemons", this.servicioUsuarioPokemon.obtenerListaDePokemonSinPokemonUsuario(usuario.getId()));
+		
+		return new ModelAndView("gachapon", model);
+	}
+	@RequestMapping(path="/gachapon-comprar", method = RequestMethod.POST )
+	public ModelAndView gachaponTienda(HttpServletRequest request) {
+		if (request.getSession().getAttribute("usuario") == null) {
+			return new ModelAndView("redirect:/login");
+		}
+		if(request.getParameter("idPokemon") == null) {
+			return new ModelAndView("redirect:/home");
+		}
+		Long idPokemon = Long.parseLong(request.getParameter("idPokemon"));
+		Long id = (Long) request.getSession().getAttribute("id");
+		Usuario usuario = servicioUsuario.buscar(id);
+		Pokemon pokemon = this.servicioPokemon.buscar(idPokemon);
+		ModelMap model = new ModelMap();
+		if (servicioUsuarioPlan.buscarPlanPorUsuario(id) != null) {
+			Plan plan = servicioUsuarioPlan.buscarPlanPorUsuario(id).getPlan();
+			model.put("plan", plan);
+		}
+		if (!this.servicioUsuario.restarPokemonedas(pokemon,usuario)) {
+			model.put("errorPokemonedas", "Pokemonedas Insuficientes");
+			model.put("tiradas", 30 - usuario.getCantTiradasTotales());
+			model.put("usuario", usuario);
+			model.put("pokemons", this.servicioUsuarioPokemon.obtenerListaDePokemonSinPokemonUsuario(usuario.getId()));
+			return new ModelAndView("gachapon", model);
+		} else {
+			this.servicioUsuarioPokemon.guardarUsuarioPokemon(
+					new UsuarioPokemon().withUsuario(usuario).withPokemon(pokemon), id, pokemon.getId(), usuario, pokemon);
+			model.put("comprado", "Compraste a " + pokemon.getNombre());
+		}
+		
+		model.put("tiradas", 30 - usuario.getCantTiradasTotales());
+		model.put("usuario", usuario);
+		model.put("pokemons", this.servicioUsuarioPokemon.obtenerListaDePokemonSinPokemonUsuario(usuario.getId()));
+		
+		
 		return new ModelAndView("gachapon", model);
 	}
 
@@ -65,9 +105,10 @@ public class ControladorGachapon {
 		Usuario usuario = servicioUsuario.buscar(id);
 
 		if (!this.servicioUsuario.restarPuntos(monedas, usuario)) {
-			model.put("error", "Monedas Insuficientes");
+			model.put("error", "Puntos Insuficientes");
 			model.put("tiradas", 30 - usuario.getCantTiradasTotales());
 			model.put("usuario", usuario);
+			model.put("pokemons", this.servicioUsuarioPokemon.obtenerListaDePokemonSinPokemonUsuario(usuario.getId()));
 			return new ModelAndView("gachapon", model);
 		}
 		// repetidos

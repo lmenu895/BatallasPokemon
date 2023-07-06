@@ -202,4 +202,30 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		return false;
 	}
 
+	@Override
+	public Boolean restarPokemonedas(Pokemon pokemon, Usuario usuario) {
+		RarezaPokemon rareza= pokemon.getRareza();
+		switch (rareza) {
+		case NORMAL:
+			if(usuario.getPokemonedas()>=10) {
+			usuario.setPokemonedas(usuario.getPokemonedas() - 10);
+			this.repositorioUsuario.modificar(usuario);
+			return true;
+			}
+		case RARO:
+			if(usuario.getPokemonedas()>=30) {
+				usuario.setPokemonedas(usuario.getPokemonedas() - 30);
+				this.repositorioUsuario.modificar(usuario);
+				return true;
+				}
+		case EPICO:
+			if(usuario.getPokemonedas()>=50) {
+				usuario.setPokemonedas(usuario.getPokemonedas() - 50);
+				this.repositorioUsuario.modificar(usuario);
+				return true;
+				}
+		}
+		return false;
+	}
+
 }

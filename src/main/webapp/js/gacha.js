@@ -66,3 +66,10 @@ setInterval(() => {
 		function closeModal() {
 		  document.getElementById("myModal").style.display = "none"; // Oculta el modal
 		}
+		function openModal2() {
+		  document.getElementById("myModal2").style.display = "block"; // Muestra el modal
+		}
+		
+		function closeModal2() {
+		  document.getElementById("myModal2").style.display = "none"; // Oculta el modal
+		}
