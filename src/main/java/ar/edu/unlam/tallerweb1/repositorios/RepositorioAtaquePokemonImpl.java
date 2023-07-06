@@ -2,10 +2,10 @@ package ar.edu.unlam.tallerweb1.repositorios;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.criteria.*;
 
 import org.hibernate.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
@@ -13,12 +13,8 @@ import ar.edu.unlam.tallerweb1.modelo.AtaquePokemon;
 @Repository("repositorioAtaquePokemon")
 public class RepositorioAtaquePokemonImpl implements RepositorioAtaquePokemon {
 
+	@Inject
 	private SessionFactory sessionFactory;
-
-	@Autowired
-	public RepositorioAtaquePokemonImpl(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	@Override
 	public void guardar(AtaquePokemon ataques) {

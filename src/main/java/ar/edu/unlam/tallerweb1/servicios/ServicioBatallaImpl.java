@@ -5,7 +5,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,22 +25,16 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioObjeto;
 @Transactional
 public class ServicioBatallaImpl implements ServicioBatalla {
 
-	private ServicioUsuario servicioUsuario;
-	private ServicioPokemon servicioPokemon;
+	@Inject
 	private RepositorioBatalla repositorioBatalla;
+	@Inject
 	private RepositorioPokemonBatalla repositorioPokemonBatalla;
+	@Inject
 	private RepositorioUsuarioObjeto repositorioUsuarioObjeto;
-
-	@Autowired
-	public ServicioBatallaImpl(ServicioUsuario servicioUsuario, ServicioPokemon servicioPokemon,
-			RepositorioBatalla repositorioBatalla, RepositorioUsuarioObjeto repositorioUsuarioObjeto,
-			RepositorioPokemonBatalla repositorioPokemonBatalla) {
-		this.servicioUsuario = servicioUsuario;
-		this.servicioPokemon = servicioPokemon;
-		this.repositorioBatalla = repositorioBatalla;
-		this.repositorioPokemonBatalla = repositorioPokemonBatalla;
-		this.repositorioUsuarioObjeto = repositorioUsuarioObjeto;
-	}
+	@Inject
+	private ServicioUsuario servicioUsuario;
+	@Inject
+	private ServicioPokemon servicioPokemon;
 
 	@Override
 	public void inicioBatalla(List<Long> pokemonsLista, List<Long> objetosLista, Long idUsuario)

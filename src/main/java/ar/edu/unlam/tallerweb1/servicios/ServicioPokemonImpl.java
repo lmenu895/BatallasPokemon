@@ -6,12 +6,12 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,19 +26,14 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioPokemon;
 @Transactional
 public class ServicioPokemonImpl implements ServicioPokemon {
 
+	@Inject
 	private RepositorioPokemon repositorioPokemon;
+	@Inject
 	private ServicioAtaquePokemon servicioAtaquePokemon;
+	@Inject
 	private ServicioAtaque servicioAtaque;
+	@Inject
 	private ServletContext servletContext;
-
-	@Autowired
-	public ServicioPokemonImpl(RepositorioPokemon repositorioPokemon, ServicioAtaquePokemon servicioAtaquePokemon,
-			ServicioAtaque servicioAtaque, ServletContext servletContext) {
-		this.repositorioPokemon = repositorioPokemon;
-		this.servicioAtaquePokemon = servicioAtaquePokemon;
-		this.servicioAtaque = servicioAtaque;
-		this.servletContext = servletContext;
-	}
 
 	@Override
 	public void guardar(DatosPokemon datosPokemon)

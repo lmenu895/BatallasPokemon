@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlam.tallerweb1.exceptions.PlanInexistenteException;
-import ar.edu.unlam.tallerweb1.exceptions.SaldoInsuficienteException;
-import ar.edu.unlam.tallerweb1.exceptions.UsuarioSinBilleteraException;
 import ar.edu.unlam.tallerweb1.modelo.Plan;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPlan;

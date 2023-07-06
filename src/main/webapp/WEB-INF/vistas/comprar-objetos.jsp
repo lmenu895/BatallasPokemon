@@ -3,7 +3,7 @@
 <title>Comprar Objetos</title>
 </head>
 <body>
-	<div style="position: absolute; width: 100%;">
+	<div class="logo-to-home">
 		<a href="<c:url value="/home"/>"><img class="pokemon-img"
 			alt="pokemon" src="<c:url value="/images/pokemonLogo.png"/>"></a>
 	</div>

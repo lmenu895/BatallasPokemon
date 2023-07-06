@@ -3,7 +3,8 @@ package ar.edu.unlam.tallerweb1.servicios;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,17 +18,12 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioPokemon;
 @Transactional
 public class ServicioUsuarioPokemonImpl implements ServicioUsuarioPokemon {
 
+	@Inject
 	private RepositorioUsuarioPokemon repositorioUsuarioPokemon;
+	@Inject
 	private ServicioAtaquePokemon servicioAtaquePokemon;
+	@Inject
 	private ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon;
-
-	@Autowired
-	public ServicioUsuarioPokemonImpl(RepositorioUsuarioPokemon repositorioUsuarioPokemon,
-			ServicioAtaquePokemon servicioAtaquePokemon, ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon) {
-		this.repositorioUsuarioPokemon = repositorioUsuarioPokemon;
-		this.servicioAtaquePokemon = servicioAtaquePokemon;
-		this.servicioUsuarioAtaquePokemon = servicioUsuarioAtaquePokemon;
-	}
 
 	// repetidos
 	@Override

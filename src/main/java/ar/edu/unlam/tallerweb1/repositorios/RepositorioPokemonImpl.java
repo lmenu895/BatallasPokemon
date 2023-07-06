@@ -3,10 +3,10 @@ package ar.edu.unlam.tallerweb1.repositorios;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.criteria.*;
 
 import org.hibernate.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.unlam.tallerweb1.modelo.Pokemon;
@@ -14,12 +14,8 @@ import ar.edu.unlam.tallerweb1.modelo.Pokemon;
 @Repository("repositorioPokemon")
 public class RepositorioPokemonImpl implements RepositorioPokemon {
 
+	@Inject
 	private SessionFactory sessionFactory;
-
-	@Autowired
-	public RepositorioPokemonImpl(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	@Override
 	public void guardar(Pokemon pokemon) {
