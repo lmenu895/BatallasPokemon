@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,16 +26,22 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioObjeto;
 @Transactional
 public class ServicioBatallaImpl implements ServicioBatalla {
 
-	@Inject
 	private RepositorioBatalla repositorioBatalla;
+	private RepositorioUsuarioObjeto repositorioUsuarioObjeto;
+	
 	@Inject
 	private RepositorioPokemonBatalla repositorioPokemonBatalla;
-	@Inject
-	private RepositorioUsuarioObjeto repositorioUsuarioObjeto;
 	@Inject
 	private ServicioUsuario servicioUsuario;
 	@Inject
 	private ServicioPokemon servicioPokemon;
+
+	@Autowired
+	public ServicioBatallaImpl(RepositorioBatalla repositorioBatalla,
+			RepositorioUsuarioObjeto repositorioUsuarioObjeto) {
+		this.repositorioBatalla = repositorioBatalla;
+		this.repositorioUsuarioObjeto = repositorioUsuarioObjeto;
+	}
 
 	@Override
 	public void inicioBatalla(List<Long> pokemonsLista, List<Long> objetosLista, Long idUsuario)

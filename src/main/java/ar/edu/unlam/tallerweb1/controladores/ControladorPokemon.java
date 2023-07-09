@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
 import ar.edu.unlam.tallerweb1.exceptions.NombreExistenteException;
 import ar.edu.unlam.tallerweb1.exceptions.PermisosInsuficientesException;
 import ar.edu.unlam.tallerweb1.exceptions.SpriteNoIngresadoException;
@@ -25,12 +27,17 @@ import ar.edu.unlam.tallerweb1.servicios.*;
 @Controller
 public class ControladorPokemon {
 
-	@Inject
 	private ServicioPokemon servicioPokemon;
-	@Inject
 	private ServicioAtaque servicioAtaque;
+	
 	@Inject
 	private ServicioAtaquePokemon servicioAtaquePokemon;
+
+	@Autowired
+	public ControladorPokemon(ServicioPokemon servicioPokemon, ServicioAtaque servicioAtaque) {
+		this.servicioPokemon = servicioPokemon;
+		this.servicioAtaque = servicioAtaque;
+	}
 
 	@RequestMapping("/crear-pokemon")
 	public ModelAndView crearPokemon(HttpServletRequest request) {
@@ -55,7 +62,7 @@ public class ControladorPokemon {
 		try {
 			this.servicioPokemon.guardar(datosPokemon);
 			return new ModelAndView("redirect:/lista-pokemons");
-		} catch (IOException | NombreExistenteException | SpriteNoIngresadoException ex) {
+		} catch (IOException | NombreExistenteException | SpriteNoIngresadoException | CampoVacioException ex) {
 			ModelMap model = new ModelMap();
 			model.put("error", ex.getMessage());
 			model.put("listaAtaques", this.servicioAtaque.obtenerTodos());

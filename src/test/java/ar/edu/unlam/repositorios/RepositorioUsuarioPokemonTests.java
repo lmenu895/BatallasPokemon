@@ -40,9 +40,5 @@ public class RepositorioUsuarioPokemonTests {
 		
 		UsuarioPokemon usuariopokemonbuscado= repoUsuarioPokemon.buscarUsuarioPokemon(idUsuario, idPokemon);
 		assertNotNull(usuariopokemonbuscado);
-		
-		
-
 	}
-
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,21 +28,27 @@ import ar.edu.unlam.tallerweb1.servicios.*;
 @Controller
 public class ControladorBatalla {
 
-	@Inject
+	private ServicioBatalla servicioBatalla;
 	private ServicioPokemon servicioPokemon;
+	private ServicioObjeto servicioObjeto;
+
 	@Inject
 	private ServicioAtaquePokemon servicioAtaquePokemon;
 	@Inject
-	private ServicioObjeto servicioObjeto;
-	@Inject
 	private ServicioUsuario servicioUsuario;
-	@Inject
-	private ServicioBatalla servicioBatalla;
 	@Inject
 	private ServicioUsuarioAtaquePokemon servicioUsuarioAtaquePokemon;
 	@Inject
 	private ServicioUsuarioObjeto servicioUsuarioObjeto;
-	
+
+	@Autowired
+	public ControladorBatalla(ServicioBatalla servicioBatalla, ServicioPokemon servicioPokemon,
+			ServicioObjeto servicioObjeto) {
+		this.servicioBatalla = servicioBatalla;
+		this.servicioPokemon = servicioPokemon;
+		this.servicioObjeto = servicioObjeto;
+	}
+
 	@RequestMapping("/batalla")
 	public ModelAndView iniciarBatalla(HttpServletRequest request,
 			@RequestParam(required = false) List<Long> pokemonsLista,

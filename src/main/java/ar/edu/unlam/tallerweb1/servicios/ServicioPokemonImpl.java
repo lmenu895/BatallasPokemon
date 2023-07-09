@@ -11,11 +11,13 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import ar.edu.unlam.tallerweb1.exceptions.CampoVacioException;
 import ar.edu.unlam.tallerweb1.exceptions.NombreExistenteException;
 import ar.edu.unlam.tallerweb1.exceptions.SpriteNoIngresadoException;
 import ar.edu.unlam.tallerweb1.modelo.*;
@@ -26,21 +28,27 @@ import ar.edu.unlam.tallerweb1.repositorios.RepositorioPokemon;
 @Transactional
 public class ServicioPokemonImpl implements ServicioPokemon {
 
-	@Inject
 	private RepositorioPokemon repositorioPokemon;
+	private ServletContext servletContext;
+	
 	@Inject
 	private ServicioAtaquePokemon servicioAtaquePokemon;
 	@Inject
 	private ServicioAtaque servicioAtaque;
-	@Inject
-	private ServletContext servletContext;
 
+	@Autowired
+	public ServicioPokemonImpl(RepositorioPokemon repositorioPokemon, ServletContext servletContext) {
+		this.repositorioPokemon = repositorioPokemon;
+		this.servletContext = servletContext;
+	}
+	
 	@Override
 	public void guardar(DatosPokemon datosPokemon)
-			throws IOException, NombreExistenteException, SpriteNoIngresadoException {
+			throws IOException, NombreExistenteException, SpriteNoIngresadoException, CampoVacioException {
 		if (datosPokemon.getImagenFrente().isEmpty() | datosPokemon.getImagenDorso().isEmpty()) {
 			throw new SpriteNoIngresadoException("No ha ingresado los dos sprites del pokemon");
 		}
+		this.validarCampos(datosPokemon);
 		Pokemon pokemon = new Pokemon();
 		this.validarPokemon(datosPokemon, pokemon);
 		this.repositorioPokemon.guardar(pokemon);
@@ -145,6 +153,24 @@ public class ServicioPokemonImpl implements ServicioPokemon {
 	//public void prueba() {
 	//	System.err.println("paso un minuto");
 	//}
+	
+	private void validarCampos(DatosPokemon datosPokemon) throws CampoVacioException {
+		if(datosPokemon.getNombre().isBlank()) {
+			throw new CampoVacioException("Ingrese un nombre para el pokemon");
+		}
+		if(datosPokemon.getRareza() == null) {
+			throw new CampoVacioException("Seleccione una rareza para el pokemon");
+		}
+		if(datosPokemon.getTipo() == null) {
+			throw new CampoVacioException("Seleccione un tipo para el pokemon");
+		}
+		if(datosPokemon.getVelocidad() == null || datosPokemon.getVelocidad() < 1) {
+			throw new CampoVacioException("Ingrese la velocidad del pokemon");
+		}
+		if(datosPokemon.getVida() == null || datosPokemon.getVida() < 1) {
+			throw new CampoVacioException("Ingrese la vida del pokemon");
+		}
+	}
 
 	private Long verificarAtaqueOlvidado(Long aprendido, List<Long> ataques) {
 		for (Long ataque : ataques) {
