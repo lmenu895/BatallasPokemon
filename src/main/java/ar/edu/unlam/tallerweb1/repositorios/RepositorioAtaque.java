@@ -10,5 +10,6 @@ public interface RepositorioAtaque {
 	void guardar(Ataque datosAtaque);
 	void borrar(Long id);
 	void modificar(Ataque ataque);
+	Ataque buscar(String nombre);
 
 }

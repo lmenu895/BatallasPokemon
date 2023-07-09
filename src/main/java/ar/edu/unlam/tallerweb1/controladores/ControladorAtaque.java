@@ -41,7 +41,7 @@ public class ControladorAtaque {
 	}
 	
 	@RequestMapping(path = "/guardar-ataque", method = RequestMethod.POST)
-	public ModelAndView confirmarRegistro(@ModelAttribute("ataque") Ataque datosAtaque, HttpServletRequest request) throws NombreExistenteException {
+	public ModelAndView confirmarRegistro(@ModelAttribute("ataque") Ataque datosAtaque, HttpServletRequest request) {
 		
 		if (request.getSession().getAttribute("usuario") == null
 				|| !(Boolean) request.getSession().getAttribute("esAdmin")) {
@@ -54,7 +54,7 @@ public class ControladorAtaque {
 			modelo.put("nombre", datosAtaque.getNombre());
 			return new ModelAndView("redirect:/lista-ataques");
 			
-		} catch (NombreExistenteException e) {
+		} catch (NombreExistenteException | CampoVacioException e) {
 			modelo.put("error", e.getMessage());				//catch de la exception si ya creamos ese ataque
 			return new ModelAndView("crear-ataque", modelo);
 		}

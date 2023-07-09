@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.criteria.*;
 
 import org.hibernate.*;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -53,6 +54,12 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 		System.out.println(ataque.getId());
 		this.sessionFactory.getCurrentSession().update(ataque);
 
+	}
+
+	@Override
+	public Ataque buscar(String nombre) {
+		// TODO Auto-generated method stub
+		return (Ataque)this.sessionFactory.getCurrentSession().createCriteria(Ataque.class).add(Restrictions.eq("nombre", nombre));
 	}
 
 }
