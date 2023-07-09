@@ -3,7 +3,7 @@
 <title>Lista de ataques</title>
 
 <body class="fondo">
-	<div style="position: absolute; width: 100%; margin-top: 1rem;">
+	<div class="logo-to-home">
 		<a href="<c:url value="/home"/>"><img class="pokemon-img"
 			alt="pokemon" src="<c:url value="/images/pokemonLogo.png"/>"></a>
 	</div>
