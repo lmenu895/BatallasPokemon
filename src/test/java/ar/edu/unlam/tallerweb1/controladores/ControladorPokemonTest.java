@@ -10,7 +10,7 @@ import ar.edu.unlam.tallerweb1.modelo.TipoPokemon;
 public class ControladorPokemonTest {
 
 	@Test
-	public void crearPokemon() {
+	public void siElNombreDelPokemonYaExisteLaCreacionFalla() {
 		String nombre = "Charizard";
 		TipoPokemon tipo = TipoPokemon.FUEGO;
 		Double vida = 2000.0;
