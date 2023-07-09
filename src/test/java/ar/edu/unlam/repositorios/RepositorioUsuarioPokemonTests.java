@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.servicios;
+package ar.edu.unlam.repositorios;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
@@ -16,6 +16,7 @@ import ar.edu.unlam.tallerweb1.controladores.ControladorLogin;
 import ar.edu.unlam.tallerweb1.modelo.TipoPokemon;
 import ar.edu.unlam.tallerweb1.modelo.UsuarioPokemon;
 import ar.edu.unlam.tallerweb1.repositorios.RepositorioUsuarioPokemon;
+import ar.edu.unlam.tallerweb1.servicios.ServicioUsuarioPokemon;
 import junit.framework.Assert;
 
 public class RepositorioUsuarioPokemonTests {

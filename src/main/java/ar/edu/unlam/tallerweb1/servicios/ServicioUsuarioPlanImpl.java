@@ -68,7 +68,7 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 		LocalDate dia = up.getDia();
 
 		// Si es el dia que lo compra y es el plan de 100 le da la master
-		if (dia.isEqual(LocalDate.now()) && up.getPlan().getPrecio() == 100) {
+		if (dia.isEqual(LocalDate.now()) && up.getPlan().getNombre() == "Premium") {
 			up.getUsuario().setTiradaMasterball(up.getUsuario().getTiradaMasterball() + 1);
 		}
 
@@ -81,7 +81,7 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 			up.setDia(dia);
 		}
 
-		// Si estamos en el día del vencimiento o más adelante, doy de baja el plan
+		// Si estamos en el dï¿½a del vencimiento o mï¿½s adelante, doy de baja el plan
 		if (LocalDate.now().isEqual(up.getVencimiento()) || LocalDate.now().isAfter(up.getVencimiento())) {
 			repositorioUsuarioPlan.darDeBajaElPlan(up);
 		}
@@ -91,7 +91,7 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 	public void verificarPlanBasico(Long idUsuario) throws PlanInexistenteException {
 		UsuarioPlan up = this.repositorioUsuarioPlan.buscarPorUsuario(idUsuario);
 		if (up == null || !up.getPlan().getNombre().equals("Basico")) {
-			throw new PlanInexistenteException("El usuario no tiene contratado el plan básico");
+			throw new PlanInexistenteException("El usuario no tiene contratado el plan bï¿½sico");
 		}
 	}
 
