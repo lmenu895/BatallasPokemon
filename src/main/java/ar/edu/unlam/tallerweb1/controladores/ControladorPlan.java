@@ -103,29 +103,6 @@ public class ControladorPlan {
 		return new ModelAndView("redirect:" + response.getInitPoint());
 	}
 
-//	@RequestMapping(path = "asignarplan/{plan}", method = RequestMethod.GET)
-//	public ModelAndView elegirPlan(@PathVariable("plan") Long idP, HttpServletRequest request) throws MPException, MPApiException {
-//		if (request.getSession().getAttribute("usuario") == null) {
-//			return new ModelAndView("redirect:/login");
-//		}
-//
-//		ModelMap modelo = new ModelMap();
-//		Plan plan = servicioPlan.consultarPlan(idP);
-//	
-//		
-//		try {
-//			this.servicioUsuarioPlan.asignarPlan(idP, (Long) request.getSession().getAttribute("id"));
-//			return new ModelAndView("redirect:/planAsignadoCorrectamente");
-//		} catch (UsuarioSinBilleteraException ex) {
-//			modelo.put("usuario", this.servicioUsuario.buscar((Long) request.getSession().getAttribute("id")));
-//			modelo.put("planes", servicioPlan.obtenerPlanes());
-//			modelo.put("error", ex.getMessage());
-//			return new ModelAndView("registroBilletera", modelo);
-//		} catch (SaldoInsuficienteException ex) {
-//			return new ModelAndView("redirect:/formularioSaldo");
-//		}
-//	}
-
 	@RequestMapping("/mejorar-plan/{planId}")
 	public ModelAndView mejorarPlan(@PathVariable Long planId, HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null) {
