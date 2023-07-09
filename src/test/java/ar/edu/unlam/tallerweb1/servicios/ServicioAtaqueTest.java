@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,7 +20,7 @@ public class ServicioAtaqueTest {
 	private ServicioAtaqueImpl servicioAtaque = new ServicioAtaqueImpl(repositorioAtaque);
 	
 	@Test (expected = CampoVacioException.class) 
-	public void queNoSePuedanDejarCamposVacios() throws NombreExistenteException, CampoVacioException {
+	public void queNoSePuedanDejarUnCampoVacio() throws NombreExistenteException, CampoVacioException {
 		
 		Ataque ataque = new Ataque(); 
 		ataque.setNombre("");
@@ -30,8 +31,6 @@ public class ServicioAtaqueTest {
 		ataque.setEfecto(false);
 		
 		servicioAtaque.guardar(ataque);
-		
-		
 	}
 	
 	@Test (expected = NombreExistenteException.class) 
@@ -45,19 +44,8 @@ public class ServicioAtaqueTest {
 		ataque.setPp(10.0);
 		ataque.setEfecto(false);
 		
-		Ataque ataque2 = new Ataque(); 
-		ataque2.setNombre("Surf");
-		ataque2.setTipo(TipoPokemon.AGUA);
-		ataque2.setPotencia(90.0);
-		ataque2.setPrecataque(100.0);
-		ataque2.setPp(10.0);
-		ataque2.setEfecto(false);
-		
-		when(repositorioAtaque.buscar(ataque2.getNombre())).thenReturn(ataque);
-		servicioAtaque.guardar(ataque2);
-		
-		
+		when(repositorioAtaque.buscar(ataque.getNombre())).thenReturn(new Ataque());
+		servicioAtaque.guardar(ataque);
 	}
-
-
+	
 }

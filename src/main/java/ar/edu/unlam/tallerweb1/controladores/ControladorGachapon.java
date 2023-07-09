@@ -57,6 +57,7 @@ public class ControladorGachapon {
 		
 		return new ModelAndView("gachapon", model);
 	}
+	
 	@RequestMapping(path="/gachapon-comprar", method = RequestMethod.POST )
 	public ModelAndView gachaponTienda(HttpServletRequest request) {
 		if (request.getSession().getAttribute("usuario") == null) {
