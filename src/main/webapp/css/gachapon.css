@@ -168,3 +168,23 @@ body:before{
 .margenBoton {
 	margin-left:50px !important;
 }
+
+.buscador {
+	position: relative;
+	margin: 1rem auto 0 auto;
+}
+
+.clear {
+	position: absolute;
+	top: 20%;
+	right: 1%;
+	display: none;
+	cursor: pointer;
+	font-weight: bold;
+	user-select: none;
+	padding: 0 10px;
+	color: cornflowerblue;
+	/*border: solid cornflowerblue;
+	border-radius: 50%;*/
+	line-height: normal;
+}

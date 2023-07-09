@@ -83,7 +83,7 @@ public class ControladorPlan {
 
 		MercadoPagoConfig.setAccessToken("TEST-4273752139461683-062512-21434a011fdba96b368ddb48a0a2f168-164214839");
 		PreferenceClient client = new PreferenceClient();
-		// Crea un Ã­tem en la preferencia
+		// Crea un ítem en la preferencia
 		PreferenceItemRequest item = PreferenceItemRequest.builder().title(plan.getNombre()).quantity(1)
 				.unitPrice(new BigDecimal(plan.getPrecio())).build();
 		List<PreferenceItemRequest> items = new ArrayList<>();
@@ -139,8 +139,6 @@ public class ControladorPlan {
 		}
 		Double precio = this.servicioPago.calcularPrecioMejoraPremium(plan.getPrecio(),
 				(Long) request.getSession().getAttribute("id"));
-		//Double precio = plan.getPrecio() * 0.3;
-		System.err.println(precio);
 		MercadoPagoConfig.setAccessToken("TEST-4273752139461683-062512-21434a011fdba96b368ddb48a0a2f168-164214839");
 		PreferenceClient client = new PreferenceClient();
 		// Crea un ítem en la preferencia
