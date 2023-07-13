@@ -16,7 +16,7 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 
 	private SessionFactory sessionFactory;
 
-	@Autowired //inyeccion de dependencias
+	@Autowired // inyeccion de dependencias
 	public RepositorioAtaqueImpl(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
@@ -35,7 +35,8 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 
 	@Override
 	public Ataque buscar(Long id) {
-		return this.sessionFactory.getCurrentSession().get(Ataque.class, id); // aca se le pide para buscar QUE CLASE es																		// y por que PARAMETRO BUSCAR
+		return this.sessionFactory.getCurrentSession().get(Ataque.class, id); // aca se le pide para buscar QUE CLASE es
+																				// // y por que PARAMETRO BUSCAR
 	}
 
 	@Override
@@ -58,8 +59,7 @@ public class RepositorioAtaqueImpl implements RepositorioAtaque {
 
 	@Override
 	public Ataque buscar(String nombre) {
-		// TODO Auto-generated method stub
-		return (Ataque)this.sessionFactory.getCurrentSession().createCriteria(Ataque.class).add(Restrictions.eq("nombre", nombre));
+		return (Ataque) this.sessionFactory.getCurrentSession().createCriteria(Ataque.class)
+				.add(Restrictions.eq("nombre", nombre)).uniqueResult();
 	}
-
 }
