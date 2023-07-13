@@ -157,11 +157,4 @@ public class ControladorPlan {
 		}
 		return new ModelAndView("redirect:/planes");
 	}
-
-	@Scheduled(cron = " 0 0 0 1 * *")
-	private void checkPlan() {
-		LocalDateTime now = LocalDateTime.now();
-		System.out.println(now);
-	}
-
 }

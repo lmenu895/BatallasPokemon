@@ -1,0 +1,58 @@
+CREATE DATABASE  IF NOT EXISTS `batallaspokemons` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `batallaspokemons`;
+-- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
+--
+-- Host: localhost    Database: batallaspokemons
+-- ------------------------------------------------------
+-- Server version	8.0.24
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `usuariopokemon`
+--
+
+DROP TABLE IF EXISTS `usuariopokemon`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuariopokemon` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `pokemon_id` bigint DEFAULT NULL,
+  `usuario_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK44wylt6ht7hu71jmrd22oifv` (`usuario_id`),
+  KEY `FKr1hy3q1s5t3du5bl5b9di82bl` (`pokemon_id`),
+  CONSTRAINT `FK44wylt6ht7hu71jmrd22oifv` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FKr1hy3q1s5t3du5bl5b9di82bl` FOREIGN KEY (`pokemon_id`) REFERENCES `pokemon` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=178 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuariopokemon`
+--
+
+LOCK TABLES `usuariopokemon` WRITE;
+/*!40000 ALTER TABLE `usuariopokemon` DISABLE KEYS */;
+INSERT INTO `usuariopokemon` VALUES (95,1,1),(96,2,1),(97,3,1),(98,4,1),(99,5,1),(100,6,1),(101,7,1),(102,8,1),(103,9,1),(104,10,1),(105,11,1),(106,12,1),(107,13,1),(108,14,1),(109,15,1),(110,16,1),(111,17,1),(112,18,1),(113,19,1),(114,20,1),(115,21,1),(116,22,1),(117,23,1),(118,24,1),(119,25,1),(120,26,1),(121,27,1),(122,28,1),(123,29,1),(124,30,1),(125,31,1),(126,32,1),(127,33,1),(128,34,1),(129,35,1),(130,36,1),(131,37,1),(132,38,1),(133,39,1),(134,40,1),(135,41,1),(136,42,1),(137,43,1),(138,44,1),(139,45,1),(140,46,1),(141,47,1),(142,48,1),(143,49,1),(144,50,1),(145,51,1),(146,52,1),(147,53,1),(148,54,1),(149,55,1),(150,56,1),(151,57,1),(152,58,1),(153,59,1),(154,60,1),(155,61,1),(156,62,1),(157,63,1),(172,8,0),(173,21,0),(174,27,0);
+/*!40000 ALTER TABLE `usuariopokemon` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-07-12 23:33:58

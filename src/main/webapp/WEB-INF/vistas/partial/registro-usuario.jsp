@@ -16,7 +16,7 @@
 			class="form-control" />
 		<br>
 		<button id="btn-registrarme" class="btn btn-lg btn-primary btn-block"
-			Type="button">Registrarme</button>
+			Type="submit">Registrarme</button>
 		<button id="login" class="btn btn-primary btn-block mt-2"
 			type="button" style="display: block;">Volver al login</button>
 	</form:form>

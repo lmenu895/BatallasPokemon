@@ -50,7 +50,11 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 		agregarTiradas(newUp);
 		if (oldUp != null && oldUp.getPlan().getNombre().equals("Basico")) {
 			usuario.setPuntos(usuario.getPuntos() - oldUp.getPlan().getPuntos());
+			usuario.setTiradaUltraball(usuario.getTiradaUltraball() - 1);
 			this.repositorioUsuarioPlan.darDeBajaElPlan(oldUp);
+		}
+		if (newUp.getPlan().getNombre().equals("Premium")) {
+			newUp.getUsuario().setTiradaMasterball(newUp.getUsuario().getTiradaMasterball() + 1);
 		}
 	}
 
@@ -66,12 +70,7 @@ public class ServicioUsuarioPlanImpl implements ServicioUsuarioPlan {
 	@Override
 	public void agregarTiradas(UsuarioPlan up) {
 		LocalDate dia = up.getDia();
-
-		// Si es el dia que lo compra y es el plan de 100 le da la master
-		if (dia.isEqual(LocalDate.now()) && up.getPlan().getNombre() == "Premium") {
-			up.getUsuario().setTiradaMasterball(up.getUsuario().getTiradaMasterball() + 1);
-		}
-
+		
 		// Si el dia es el mismo que hoy o el dia en el que entro es despues del dia
 		// guardado en el plan
 		// Le da la ultraball semanal

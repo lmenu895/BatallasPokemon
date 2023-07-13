@@ -32,7 +32,8 @@ $(document).ready(function() {
 
 	//Submit del formulario de registro y redirección a login en caso de éxito
 	var working = false;
-	$(".container").on("click", "#btn-registrarme", function() {
+	$(".container").on("click", "#btn-registrarme", function(e) {
+		e.preventDefault();
 		if (!working) {
 			working = true;
 			$.ajax({
