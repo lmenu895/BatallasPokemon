@@ -186,12 +186,12 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
 		}
 	}
 
-	private boolean checkearTokens(Usuario usuario, Integer monedas) {
+	private Boolean checkearTokens(Usuario usuario, Integer monedas) {
 		if (usuario.getTiradaUltraball() > 0 && monedas == 1000) {
 			usuario.setTiradaUltraball(usuario.getTiradaUltraball() - 1);
 			return true;
 		} else if (usuario.getTiradaMasterball() > 0 && monedas == 10000) {
-			usuario.setTiradaUltraball(usuario.getTiradaMasterball() - 1);
+			usuario.setTiradaMasterball(usuario.getTiradaMasterball() - 1);
 			return true;
 		}
 		return false;
