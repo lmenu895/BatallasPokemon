@@ -26,7 +26,6 @@
 			<div class="userProfile">
 				<div class="fondo-usuario"></div>
 				<img class="pokeball" src="images/pokeballU.png" alt="pokeball">
-				<button class="textUser">${usuario.puntos}</button>
 				<div class="username">
 					<a 
 					<c:if test="${usuario.esAdmin}">href="admin"</c:if>
@@ -40,8 +39,9 @@
 							class="logoutButton">Logout</a>
 					</div>
 				</div>
-				<c:if test="${empty billetera.saldo}"><button class="crear textUser">Crear Billetera</button></c:if>
-				<c:if test="${not empty billetera.saldo}"><button class="saldo textUser">$ ${billetera.saldo}</button></c:if>
+				<button class="textUser">${usuario.puntos}</button>
+				<%-- <c:if test="${empty billetera.saldo}"><button class="crear textUser">Crear Billetera</button></c:if>
+				<c:if test="${not empty billetera.saldo}"><button class="saldo textUser">$ ${billetera.saldo}</button></c:if> --%>
 			</div>
 		</div>
 	</div>
