@@ -10,6 +10,7 @@
 			<input type="hidden" class="activo" value="${pokemon.id}">
 			<h4>${pokemon.nombre}</h4>
 			<h5>${pokemon.tipo}</h5>
+			<h5 class="text-info">${pokemon.rareza}</h5>
 		</div>
 		<div class="puntos">
 			<img class="pokeball" src="<c:url value="/images/pokeballU.png"/>"
