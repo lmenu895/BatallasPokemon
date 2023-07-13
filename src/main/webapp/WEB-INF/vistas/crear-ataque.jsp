@@ -25,8 +25,8 @@
 				<label>Precision</label>
 				<form:input path="precataque" id="precataque" class="form-control" />
 				<br>
-				<label>Pp's</label>
-				<form:input path="pp" id="pp" class="form-control" />
+				<label style="display: none;">Pp's</label>
+				<form:input type="hidden" path="pp" id="pp" value="1" class="form-control" />
 				<br>
 				<div class="form-check">
 					<label class="form-check-label">Efecto</label>
